@@ -1,4 +1,4 @@
-package com.realdolmen.sportclub.common.controller;
+package com.realdolmen.sportclub.backend.controller;
 
 import com.realdolmen.sportclub.common.entity.Sportclub;
 import com.realdolmen.sportclub.common.repository.SportclubRepository;

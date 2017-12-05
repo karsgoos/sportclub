@@ -1,4 +1,4 @@
-package com.realdolmen.sportclub.common;
+package com.realdolmen.sportclub.backend;
 
 import com.realdolmen.sportclub.common.entity.Sportclub;
 import com.realdolmen.sportclub.common.repository.SportclubRepository;
@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
 public class Application {
 
     @Autowired
-    private SportclubRepository sportclubRepository;
+    SportclubRepository sportclubRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
