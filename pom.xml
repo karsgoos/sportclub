@@ -34,7 +34,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>opleidingenbeheer.Application</mainClass>
+                    <mainClass>sportclub.Application</mainClass>
                 </configuration>
             </plugin>
         </plugins>
