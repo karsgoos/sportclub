@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.realdolmen.sportclub")
-@EntityScan(basePackages = "com.realdolmen.sportclub.entity")
+//@EnableJpaRepositories(basePackages = "com.realdolmen.sportclub")
+//@EntityScan(basePackages = "com.realdolmen.sportclub.entity")
 @ComponentScan(basePackages = "com.realdolmen.sportclub")
 public class DatabaseConfig {
 

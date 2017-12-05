@@ -17,25 +17,19 @@
         <!-- SPORTCLUB DEPENDENCIES -->
         <dependency>
             <groupId>com.realdolmen</groupId>
-            <artifactId>sportclub-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.realdolmen</groupId>
-            <artifactId>sportclub-user-management</artifactId>
-            <version>${sportclub.version}</version>
+            <artifactId>sportclub-album</artifactId>
         </dependency>
         <dependency>
             <groupId>com.realdolmen</groupId>
             <artifactId>sportclub-communication-batch</artifactId>
-            <version>${sportclub.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.realdolmen</groupId>
-            <artifactId>sportclub-payment</artifactId>
         </dependency>
         <dependency>
             <groupId>com.realdolmen</groupId>
             <artifactId>sportclub-events</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.realdolmen</groupId>
+            <artifactId>sportclub-payment</artifactId>
         </dependency>
         <dependency>
             <groupId>com.realdolmen</groupId>
@@ -47,7 +41,7 @@
         </dependency>
         <dependency>
             <groupId>com.realdolmen</groupId>
-            <artifactId>sportclub-album</artifactId>
+            <artifactId>sportclub-user-management</artifactId>
         </dependency>
 
         <!-- OTHER DEPENDENCIES-->
