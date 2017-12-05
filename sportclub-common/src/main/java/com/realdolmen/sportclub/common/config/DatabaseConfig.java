@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 
 @Configuration
+@Profile("!local")
 //@EnableJpaRepositories(basePackages = "com.realdolmen.sportclub")
 //@EntityScan(basePackages = "com.realdolmen.sportclub.entity")
 @ComponentScan(basePackages = "com.realdolmen.sportclub")
@@ -19,7 +20,6 @@ public class DatabaseConfig {
 
     @Bean
     @Primary
-    @Profile("!local")
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();

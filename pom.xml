@@ -38,17 +38,17 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
+            <!--<dependency>
                 <groupId>com.realdolmen</groupId>
                 <artifactId>sportclub-album</artifactId>
                 <version>${sportclub.version}</version>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>com.realdolmen</groupId>
                 <artifactId>sportclub-common</artifactId>
                 <version>${sportclub.version}</version>
             </dependency>
-            <dependency>
+            <!--<dependency>
                 <groupId>com.realdolmen</groupId>
                 <artifactId>sportclub-communication-batch</artifactId>
                 <version>${sportclub.version}</version>
@@ -77,7 +77,7 @@
                 <groupId>com.realdolmen</groupId>
                 <artifactId>sportclub-user-management</artifactId>
                 <version>${sportclub.version}</version>
-            </dependency>
+            </dependency>-->
         </dependencies>
     </dependencyManagement>
 </project>
