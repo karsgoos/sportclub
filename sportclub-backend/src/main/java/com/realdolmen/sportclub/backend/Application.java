@@ -10,11 +10,14 @@ import org.springframework.context.annotation.ComponentScan;
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication
-@ComponentScan("com.realdolmen.sportclub")
 public class Application {
 
+    private final SportclubRepository sportclubRepository;
+
     @Autowired
-    SportclubRepository sportclubRepository;
+    public Application(SportclubRepository sportclubRepository) {
+        this.sportclubRepository = sportclubRepository;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
