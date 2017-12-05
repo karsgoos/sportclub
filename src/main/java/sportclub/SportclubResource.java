@@ -1,24 +1,25 @@
 package sportclub;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/sportclub")
 public class SportclubResource {
 
+    private final SportclubRepository sportclubRepository;
+
+    @Autowired
+    public SportclubResource(SportclubRepository sportclubRepository) {
+        this.sportclubRepository = sportclubRepository;
+    }
+
     @GetMapping
-    public List<String> getAlleSportClubs() {
-        return Arrays.asList(
-                "Sportclub A",
-                "Sportclub B",
-                "Sportclub C",
-                "Sportclub D",
-                "Sportclub E"
-        );
+    public List<Sportclub> getAlleSportClubs() {
+        return sportclubRepository.findAll();
     }
 }
