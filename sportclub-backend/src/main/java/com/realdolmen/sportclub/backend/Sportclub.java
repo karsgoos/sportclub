@@ -1,4 +1,4 @@
-package sportclub;
+package com.realdolmen.sportclub.backend;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

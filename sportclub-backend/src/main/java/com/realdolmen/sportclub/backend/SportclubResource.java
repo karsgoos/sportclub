@@ -1,4 +1,4 @@
-package sportclub;
+package com.realdolmen.sportclub.backend;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
