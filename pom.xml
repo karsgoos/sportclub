@@ -7,6 +7,7 @@
     <groupId>com.realdolmen</groupId>
     <artifactId>sportclub</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -25,6 +26,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <sportclub.version>${project.version}</sportclub.version>
     </properties>
 
     <dependencies>
@@ -41,16 +43,13 @@
             <artifactId>postgresql</artifactId>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>com.realdolmen.sportclub.backend.Application</mainClass>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-common</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
