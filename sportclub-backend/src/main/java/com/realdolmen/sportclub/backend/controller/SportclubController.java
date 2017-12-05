@@ -1,7 +1,7 @@
 package com.realdolmen.sportclub.backend.controller;
 
 import com.realdolmen.sportclub.common.entity.Sportclub;
-import com.realdolmen.sportclub.common.repository.SportclubRepository;
+import com.realdolmen.sportclub.backend.SportclubRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
