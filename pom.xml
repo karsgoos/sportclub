@@ -20,6 +20,13 @@
         <module>sportclub-common</module>
         <module>sportclub-backend</module>
         <module>sportclub-frontend</module>
+        <module>sportclub-user-management</module>
+        <module>sportclub-communication-batch</module>
+        <module>sportclub-payment</module>
+        <module>sportclub-points</module>
+        <module>sportclub-album</module>
+        <module>sportclub-events</module>
+        <module>sportclub-template</module>
     </modules>
 
     <properties>
@@ -34,6 +41,41 @@
             <dependency>
                 <groupId>com.realdolmen</groupId>
                 <artifactId>sportclub-common</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-user-management</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-communication-batch</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-payment</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-events</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-points</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-template</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-album</artifactId>
                 <version>${sportclub.version}</version>
             </dependency>
         </dependencies>

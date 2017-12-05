@@ -14,10 +14,43 @@
     </parent>
 
     <dependencies>
+        <!-- SPORTCLUB DEPENDENCIES -->
         <dependency>
             <groupId>com.realdolmen</groupId>
             <artifactId>sportclub-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.realdolmen</groupId>
+            <artifactId>sportclub-user-management</artifactId>
+            <version>${sportclub.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.realdolmen</groupId>
+            <artifactId>sportclub-communication-batch</artifactId>
+            <version>${sportclub.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.realdolmen</groupId>
+            <artifactId>sportclub-payment</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.realdolmen</groupId>
+            <artifactId>sportclub-events</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.realdolmen</groupId>
+            <artifactId>sportclub-points</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.realdolmen</groupId>
+            <artifactId>sportclub-template</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.realdolmen</groupId>
+            <artifactId>sportclub-album</artifactId>
+        </dependency>
+
+        <!-- OTHER DEPENDENCIES-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
