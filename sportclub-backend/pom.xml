@@ -15,7 +15,7 @@
 
     <dependencies>
         <!-- SPORTCLUB DEPENDENCIES -->
-        <dependency>
+        <!--<dependency>
             <groupId>com.realdolmen</groupId>
             <artifactId>sportclub-album</artifactId>
         </dependency>
@@ -42,6 +42,10 @@
         <dependency>
             <groupId>com.realdolmen</groupId>
             <artifactId>sportclub-user-management</artifactId>
+        </dependency>-->
+        <dependency>
+            <groupId>com.realdolmen</groupId>
+            <artifactId>sportclub-common</artifactId>
         </dependency>
 
         <!-- OTHER DEPENDENCIES-->
