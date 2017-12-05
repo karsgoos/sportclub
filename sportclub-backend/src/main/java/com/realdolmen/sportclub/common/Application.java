@@ -1,5 +1,7 @@
-package com.realdolmen.sportclub.backend;
+package com.realdolmen.sportclub.common;
 
+import com.realdolmen.sportclub.common.entity.Sportclub;
+import com.realdolmen.sportclub.common.repository.SportclubRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

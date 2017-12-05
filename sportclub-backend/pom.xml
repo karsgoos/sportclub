@@ -26,7 +26,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.realdolmen.sportclub.backend.Application</mainClass>
+                    <mainClass>com.realdolmen.sportclub.common.Application</mainClass>
                 </configuration>
             </plugin>
         </plugins>

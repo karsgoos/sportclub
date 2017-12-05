@@ -1,4 +1,4 @@
-package com.realdolmen.sportclub.backend;
+package com.realdolmen.sportclub.common.config;
 
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
