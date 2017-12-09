@@ -1,0 +1,15 @@
+<!-- This is the root container where it al starts :-) -->
+<h1>Welcome to R-Sportclub</h1>
+
+<div id="header"> <!-- Here you can make a header / menu / .... -->
+  <nav>
+    <a routerLink="/user-management" routerLinkActive="active">User Management</a>
+    <a routerLink="/events" routerLinkActive="active">Events</a>
+  </nav>
+</div>
+
+<div id="content">
+  <!-- Using the routes defined in app-routing.module.ts the router-outlet will show te component for the selected path. -->
+  <router-outlet></router-outlet>
+</div>
+

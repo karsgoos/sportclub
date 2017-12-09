@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.realdolmen</groupId>
+    <artifactId>sportclub</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.7.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <modules>
+        <!--<module>sportclub-album</module>-->
+        <module>sportclub-backend</module>
+        <module>sportclub-common</module>
+        <!--<module>sportclub-communication-batch</module>-->
+        <!--<module>sportclub-events</module>-->
+        <module>sportclub-frontend</module>
+        <!--<module>sportclub-payment</module>
+        <module>sportclub-points</module>
+        <module>sportclub-template</module>
+        <module>sportclub-user-management</module>-->
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <sportclub.version>${project.version}</sportclub.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--<dependency>
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-album</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>-->
+            <dependency>
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-common</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>
+            <!--<dependency>
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-communication-batch</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-events</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-payment</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-points</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-template</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-user-management</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>-->
+        </dependencies>
+    </dependencyManagement>
+</project>
