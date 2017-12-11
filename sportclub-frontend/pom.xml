@@ -24,7 +24,8 @@
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
-      <build>
+
+    <build>
         <plugins>
           <plugin>
             <groupId>com.github.eirslett</groupId>
@@ -62,6 +63,7 @@
             </executions>
           </plugin>
         </plugins>
+
       </build>
     </profile>
   </profiles>
