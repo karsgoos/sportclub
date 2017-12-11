@@ -2,4 +2,5 @@
 target
 .idea
 node_modules
+*.DS_Store
 sportclub-backend/src/main/resources/static
