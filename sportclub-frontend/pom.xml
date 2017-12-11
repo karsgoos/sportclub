@@ -18,7 +18,7 @@
         <npmVersion>5.5.1</npmVersion>
     </properties>
 
-    <build>
+    <!--build>
         <plugins>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -78,5 +78,5 @@
                 </executions>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 </project>
