@@ -5,6 +5,7 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {SportClubUserManagementModule} from './sportclub-user-management/sportclub-user-management.module';
 import {SportClubEventsModule} from './sportclub-events/sportclub-events.module';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -12,11 +13,12 @@ import {SportClubEventsModule} from './sportclub-events/sportclub-events.module'
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     SportClubUserManagementModule,
     SportClubEventsModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

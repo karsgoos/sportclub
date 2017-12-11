@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {SportClubEventService} from './service/sportclub-event.service';
+import {SportClubEvent} from './model/sportclub-event';
 
 @Component({
   selector: 'app-sportclub-events',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SportClubEventsComponent implements OnInit {
 
-  constructor() { }
+  sportClubEvent: SportClubEvent;
+
+  constructor(public sportClubEventService: SportClubEventService) {
+  }
 
   ngOnInit() {
+    this.sportClubEventService.mockTest()
+      .subscribe((data) => {
+          this.sportClubEvent = data;
+        }
+      );
   }
 
 }
