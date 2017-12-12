@@ -17,7 +17,7 @@ public class EventManagementController {
         this.service = service;
     }
 
-    @RequestMapping(headers = {"Accept=application/json","Content-Type=application/json"}, method = RequestMethod.POST, value = "/events")
+    @RequestMapping(consumes = "application/json", produces = "application/json", method = RequestMethod.POST, value = "/events")
     public @ResponseBody
     Event create(@RequestBody Event event) throws CouldNotCreateEventException {
         return service.create(event);
