@@ -1,6 +1,6 @@
 package com.realdolmen.sportclub.common.entity;
 
-import com.sun.istack.internal.NotNull;
+import javax.validation.constraints.NotNull;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,24 +10,24 @@ import java.util.List;
 @Entity
 public class RegisteredUser extends User {
 
-    @Column(nullable = false)
+    @NotNull
     private LocalDate dateOfBirth;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @NotNull
     private Gender gender;
 
     @Embedded
-    @Column(nullable = false)
+    @NotNull
     private Address address;
 
-    @Column(nullable = false)
+    @NotNull
     private String phoneNumber;
 
-    @Column(nullable = false)
+    @NotNull
     private String mobileNumber;
 
-    @Column(nullable = false)
+    @NotNull
     private String password;
 
     @OneToMany

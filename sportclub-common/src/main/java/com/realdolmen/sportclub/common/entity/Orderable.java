@@ -1,9 +1,8 @@
 package com.realdolmen.sportclub.common.entity;
 
-import com.sun.istack.internal.NotNull;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

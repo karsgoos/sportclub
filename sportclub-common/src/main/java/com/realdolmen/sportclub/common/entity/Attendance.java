@@ -1,11 +1,12 @@
 package com.realdolmen.sportclub.common.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @DiscriminatorValue("attendance")
 public class Attendance extends Orderable {
-    @Column(nullable = false)
+    @NotNull
     @Enumerated(EnumType.STRING)
     private AgeCategory ageCategory;
 

@@ -1,6 +1,7 @@
 package com.realdolmen.sportclub.common.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,46 +17,46 @@ public class Event {
     private Long id;
 
     @OneToMany(mappedBy = "event")
-    @Column(nullable = false)
+    @NotNull
     private List<RegisteredUser> responsibles = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "event_enrollment", joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "enrollment_id"))
-    @Column(nullable = false)
+    @NotNull
     private List<Enrollment> enrollments = new ArrayList<>();
 
     @Column
     private String imageUrl;
 
-    @Column(nullable = false)
+    @NotNull
     private LocalDateTime startDate;
 
-    @Column(nullable = false)
+    @NotNull
     private LocalDateTime endDate;
 
     @Embedded
-    @Column(nullable = false)
+    @NotNull
     private Address address;
 
-    @Column(nullable = false)
+    @NotNull
     private LocalDateTime deadline;
 
-    @Column(nullable = false)
+    @NotNull
     private boolean isClosed;
 
-    @Column(nullable = false)
+    @NotNull
     private Map<String, BigDecimal> price = new HashMap<>();
 
-    @Column(nullable = false)
+    @NotNull
     private int minParticipants;
 
-    @Column(nullable = false)
+    @NotNull
     private int maxParticipants;
 
     private String description;
 
-    @Column(nullable = false)
+    @NotNull
     private String name;
 
     @Column

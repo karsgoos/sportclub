@@ -1,6 +1,6 @@
 package com.realdolmen.sportclub.common.entity;
 
-import com.sun.istack.internal.NotNull;
+import javax.validation.constraints.NotNull;
 
 import javax.persistence.*;
 
@@ -12,16 +12,16 @@ public abstract class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
     private String email;
 
-    @Column(nullable = false)
+    @NotNull
     private String firstName;
 
-    @Column(nullable = false)
+    @NotNull
     private String lastName;
 
-    @Column(nullable = false)
+    @NotNull
     private Role role;
 
     public Long getId() {
