@@ -3,9 +3,10 @@ import {CommonModule} from '@angular/common';
 import {SportClubEventService} from './service/sportclub-event.service';
 import {SportClubEventsComponent} from './sportclub-events.component';
 
+
 @NgModule({
   imports: [
-    CommonModule,
+    CommonModule
   ],
   declarations: [SportClubEventsComponent],
   providers: [SportClubEventService]
