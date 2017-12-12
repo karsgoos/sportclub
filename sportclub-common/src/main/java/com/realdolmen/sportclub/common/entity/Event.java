@@ -50,6 +50,9 @@ public class Event {
 
     private String name;
 
+    @Column(nullable = true)
+    private Long recurringEventId;
+
     public Long getId() {
         return id;
     }
@@ -156,5 +159,13 @@ public class Event {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getRecurringEventId() {
+        return recurringEventId;
+    }
+
+    public void setRecurringEventId(Long recurringEventId) {
+        this.recurringEventId = recurringEventId;
     }
 }
