@@ -5,7 +5,19 @@
   <input formControlName="description" id="eventDescription">
   <div formGroupName="address">
     <label for="addrStreet">Street</label>
-    <input formControllerName="street" id="addrStreet">
+    <input formControlName="street" id="addrStreet">
+  </div>
+  <div formGroupName="price">
+    <label for="priceChildren">price children</label>
+    <input formControlName="child" id="priceChildren">
+    <label for="priceAdults">price adults</label>
+    <input formControlName="adult" id="priceAdults">
+    <label for="priceElderly">price elderly</label>
+    <input formControlName="elderly" id="priceElderly">
   </div>
   <button (click)="saveSingleEvent()">Save</button>
 </form>
+
+<p>
+  {{eventForm.value | json}}
+</p>

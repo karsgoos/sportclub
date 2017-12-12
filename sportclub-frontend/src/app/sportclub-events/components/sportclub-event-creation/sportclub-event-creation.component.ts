@@ -26,8 +26,16 @@ export class SportclubEventCreationComponent implements OnInit {
       address:this.fb.group({
         street:'',
       }),
+      price:this.fb.group({
+        child:0,
+        adult:0,
+        elderly:0,
+      })
     });
   }
+
+
+
 
   saveSingleEvent(){
     console.log(this.eventForm.value);
