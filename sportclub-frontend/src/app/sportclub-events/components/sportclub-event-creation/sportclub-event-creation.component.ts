@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SportClubEvent} from "../../model/sportclub-event";
+import {SportClubEventService} from "../../service/sportclub-event.service";
 
 @Component({
   selector: 'app-sportclub-event-creation',
@@ -10,9 +11,13 @@ export class SportclubEventCreationComponent implements OnInit {
 
   event: SportClubEvent;
 
-  constructor() { }
+  constructor(private eventService: SportClubEventService) { }
 
   ngOnInit() {
+  }
+
+  saveSingleEvent(){
+    this.eventService.saveEvent(this.event);
   }
 
 }
