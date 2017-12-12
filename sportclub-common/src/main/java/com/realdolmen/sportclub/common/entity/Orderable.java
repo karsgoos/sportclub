@@ -1,5 +1,7 @@
 package com.realdolmen.sportclub.common.entity;
 
+import com.sun.istack.internal.NotNull;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
@@ -11,6 +13,8 @@ public abstract class Orderable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private BigDecimal price;
+    @NotNull
     private String description;
 }
