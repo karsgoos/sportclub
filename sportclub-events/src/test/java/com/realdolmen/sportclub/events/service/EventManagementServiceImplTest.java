@@ -16,6 +16,8 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
+import java.time.LocalDateTime;
+
 @RunWith(MockitoJUnitRunner.class)
 public class EventManagementServiceImplTest {
     @InjectMocks
@@ -46,9 +48,26 @@ public class EventManagementServiceImplTest {
     public void canCreateEvent() throws CouldNotCreateEventException {
         Event event = new Event();
         event.setDescription("Test event");
+        event.setStartDate(LocalDateTime.now().plusDays(1));
+        event.setEndDate(LocalDateTime.now().plusDays(2));
         Event result = service.create(event);
 
         Assert.assertEquals(event, result);
+    }
+
+    @Test(expected = CouldNotCreateEventException.class)
+    public void canNotCreateEventInThePast() throws CouldNotCreateEventException {
+        Event event = new Event();
+        event.setStartDate(LocalDateTime.now().minusDays(1));
+        service.create(event);
+    }
+
+    @Test(expected = CouldNotCreateEventException.class)
+    public void canNotCreateEventWithNegativeDuration() throws CouldNotCreateEventException {
+        Event event = new Event();
+        event.setStartDate(LocalDateTime.now().plusDays(10));
+        event.setEndDate(LocalDateTime.now().plusDays(5));
+        service.create(event);
     }
 
     private static final String UPDATE_DESCRIPTION = "New description";
@@ -57,6 +76,8 @@ public class EventManagementServiceImplTest {
     public void canUpdateEventAfterCreation() throws CouldNotCreateEventException, CouldNotUpdateEventException {
         Event event = new Event();
         event.setDescription("Test event");
+        event.setStartDate(LocalDateTime.now().plusDays(1));
+        event.setEndDate(LocalDateTime.now().plusDays(2));
         event = service.create(event);
 
         event.setDescription(UPDATE_DESCRIPTION);
@@ -64,6 +85,29 @@ public class EventManagementServiceImplTest {
 
         Assert.assertEquals(event, result);
         Assert.assertEquals(UPDATE_DESCRIPTION, result.getDescription());
+    }
+
+    @Test(expected = CouldNotUpdateEventException.class)
+    public void canNotUpdateEventInThePast() throws CouldNotUpdateEventException {
+        Event event = new Event();
+        try {
+            event = service.create(event);
+            event.setStartDate(LocalDateTime.now().minusDays(1));
+        } catch (CouldNotCreateEventException e) {
+            service.update(event);
+        }
+    }
+
+    @Test(expected = CouldNotUpdateEventException.class)
+    public void canNotUpdateEventWithNegativeDuration() throws CouldNotUpdateEventException {
+        Event event = new Event();
+        try {
+            event = service.create(event);
+            event.setStartDate(LocalDateTime.now().plusDays(10));
+            event.setEndDate(LocalDateTime.now().plusDays(5));
+        } catch (CouldNotCreateEventException e) {
+            service.update(event);
+        }
     }
 
     @Test(expected = CouldNotUpdateEventException.class)

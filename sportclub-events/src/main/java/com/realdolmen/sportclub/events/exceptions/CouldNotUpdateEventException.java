@@ -8,4 +8,8 @@ public class CouldNotUpdateEventException extends Throwable {
     public CouldNotUpdateEventException() {
 
     }
+
+    public CouldNotUpdateEventException(String s) {
+        super(s);
+    }
 }

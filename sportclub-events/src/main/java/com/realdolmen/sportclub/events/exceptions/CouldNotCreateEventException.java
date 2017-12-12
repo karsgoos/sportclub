@@ -8,4 +8,8 @@ public class CouldNotCreateEventException extends Exception {
     public CouldNotCreateEventException() {
 
     }
+
+    public CouldNotCreateEventException(String s) {
+        super(s);
+    }
 }

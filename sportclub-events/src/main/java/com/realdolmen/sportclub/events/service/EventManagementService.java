@@ -7,6 +7,7 @@ import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
 public interface EventManagementService {
     /**
      * Create and persist a new Event.
+     * The Event must start in the future, and its end date must be after its start date.
      *
      * @param event The Event data.
      * @return The resulting Event. This is identical to the argument but contain an id.
@@ -16,6 +17,7 @@ public interface EventManagementService {
 
     /**
      * Update an existing Event.
+     * The Event must start in the future, and its end date must be after its start date.
      *
      * @param event An Event, containing the updated data but the id of the original Event.
      * @return The updated Event. This is identical to the argument.
