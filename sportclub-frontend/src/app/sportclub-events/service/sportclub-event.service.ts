@@ -7,8 +7,7 @@ import {HttpClient} from '@angular/common/http';
 export class SportClubEventService extends AbstractRestService<SportClubEvent> {
 
   constructor(http: HttpClient) {
-    // replace 5185415ba171ea3a00704eed with endpoint of the appropriate rest controller.
-    super(http, 'localhost:4200/api');
+    super(http, 'localhost:8080/events');
   }
 
   saveEvent(event:SportClubEvent){

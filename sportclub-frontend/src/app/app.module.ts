@@ -11,8 +11,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    SportclubEventCreationComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
