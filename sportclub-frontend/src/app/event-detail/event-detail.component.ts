@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {SportClubEvent} from "../sportclub-events/model/sportclub-event";
+import {SportClubEvent} from "../common/model/sportclub-event-model";
+
 
 @Component({
   selector: 'event-detail',
