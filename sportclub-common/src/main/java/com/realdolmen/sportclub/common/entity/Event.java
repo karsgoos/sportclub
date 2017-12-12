@@ -1,7 +1,5 @@
 package com.realdolmen.sportclub.common.entity;
 
-import jdk.internal.jline.internal.Nullable;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,7 +19,7 @@ public class Event {
 
     private String name;
 
-    @Nullable
+    @Column(nullable = true)
     private String imageUrl;
 
     @Column
@@ -32,8 +30,5 @@ public class Event {
 
     @Embedded
     private Address address;
-
-
-
 
 }
