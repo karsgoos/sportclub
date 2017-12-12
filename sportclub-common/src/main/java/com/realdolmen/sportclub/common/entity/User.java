@@ -1,11 +1,9 @@
 package com.realdolmen.sportclub.common.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Inheritance
 public abstract class User {
 
     @Id
@@ -18,6 +16,7 @@ public abstract class User {
 
     private String lastName;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     public Long getId() {

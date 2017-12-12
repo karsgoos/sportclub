@@ -1,11 +1,11 @@
 package com.realdolmen.sportclub.common.entity;
 
-public enum VAT_CATEGORY {
+public enum VatCategory {
     ZERO(0), TWENTYONE(21);
 
     private int numberValue;
 
-    VAT_CATEGORY(int numberValue) {
+    VatCategory(int numberValue) {
         this.numberValue = numberValue;
     }
 
