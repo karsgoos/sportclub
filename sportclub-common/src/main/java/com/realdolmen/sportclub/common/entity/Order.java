@@ -15,7 +15,7 @@ public class Order {
 
     private boolean isPaid;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany
     private List<Orderable> orderables = new ArrayList<>();
 
     @Transient
