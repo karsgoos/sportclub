@@ -1,4 +1,4 @@
-package com.realdolmen.sportclub.backend.authentication;
+package com.realdolmen.sportclub.backend.service.authentication;
 
 import com.realdolmen.sportclub.common.entity.Privilege;
 import com.realdolmen.sportclub.common.entity.RegisteredUser;

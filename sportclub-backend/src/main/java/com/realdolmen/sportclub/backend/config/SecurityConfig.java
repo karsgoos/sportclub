@@ -1,6 +1,6 @@
 package com.realdolmen.sportclub.backend.config;
 
-import com.realdolmen.sportclub.backend.authentication.UserService;
+import com.realdolmen.sportclub.backend.service.authentication.UserService;
 import com.realdolmen.sportclub.common.repository.RegisteredUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
