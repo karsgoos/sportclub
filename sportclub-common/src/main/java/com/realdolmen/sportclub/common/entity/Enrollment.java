@@ -1,13 +1,17 @@
 package com.realdolmen.sportclub.common.entity;
 
+import com.sun.istack.internal.NotNull;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @DiscriminatorValue("enrollment")
 public class Enrollment extends Orderable {
+    @NotNull
     @Column
     private LocalDate startDate;
+    @NotNull
     @Column
     private LocalDate endDate;
 

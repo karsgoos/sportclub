@@ -1,16 +1,22 @@
 package com.realdolmen.sportclub.common.entity;
 
+import com.sun.istack.internal.NotNull;
+
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class Address {
 
+    @NotNull
     private String street;
 
+    @NotNull
     private int homeNumber;
 
+    @NotNull
     private String postalCode;
 
+    @NotNull
     private String country;
 
     public String getStreet() {

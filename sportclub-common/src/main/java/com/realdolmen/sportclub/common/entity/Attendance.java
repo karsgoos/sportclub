@@ -8,7 +8,7 @@ import javax.persistence.Enumerated;
 @Entity
 @DiscriminatorValue("attendance")
 public class Attendance extends Orderable {
-
+    @NotNull
     @Enumerated(EnumType.STRING)
     private AgeCategory ageCategory;
 
@@ -19,5 +19,4 @@ public class Attendance extends Orderable {
     public void setAgeCategory(AgeCategory ageCategory) {
         this.ageCategory = ageCategory;
     }
-
 }
