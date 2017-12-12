@@ -1,1 +1,11 @@
-
+<form [formGroup]="eventForm">
+  <label for="eventName">Naam</label>
+  <input formControlName="name" id="eventName">
+  <label for="eventDescription">Description</label>
+  <input formControlName="description" id="eventDescription">
+  <div formGroupName="address">
+    <label for="addrStreet">Street</label>
+    <input formControllerName="street" id="addrStreet">
+  </div>
+  <button (click)="saveSingleEvent()">Save</button>
+</form>

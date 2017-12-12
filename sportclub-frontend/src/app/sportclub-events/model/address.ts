@@ -1,6 +1,6 @@
 export interface Address {
   street: string;
-  postalCode: string;
-  country:string;
-  homeNumber:number;
+  postalCode?: string;
+  country?:string;
+  homeNumber?:number;
 }
