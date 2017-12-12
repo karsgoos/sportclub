@@ -78,6 +78,8 @@
                 <artifactId>sportclub-user-management</artifactId>
                 <version>${sportclub.version}</version>
             </dependency>-->
+
+
         </dependencies>
     </dependencyManagement>
 </project>

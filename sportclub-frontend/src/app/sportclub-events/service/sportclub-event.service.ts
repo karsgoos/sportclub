@@ -10,4 +10,9 @@ export class SportClubEventService extends AbstractRestService<SportClubEvent> {
     // replace 5185415ba171ea3a00704eed with endpoint of the appropriate rest controller.
     super(http, '5a2bfe2e2f00007112039335');
   }
+
+  saveEvent(event:SportClubEvent){
+    super.save(event);
+  }
+
 }

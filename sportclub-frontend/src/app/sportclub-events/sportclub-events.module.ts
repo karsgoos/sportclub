@@ -5,7 +5,7 @@ import {SportClubEventsComponent} from './sportclub-events.component';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
   ],
   declarations: [SportClubEventsComponent],
   providers: [SportClubEventService]
