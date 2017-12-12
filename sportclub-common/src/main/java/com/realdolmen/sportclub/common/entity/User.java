@@ -21,6 +21,7 @@ public abstract class User {
     @NotNull
     private String lastName;
 
+    @ManyToOne
     @NotNull
     private Role role;
 
