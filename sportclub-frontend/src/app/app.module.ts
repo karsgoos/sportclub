@@ -6,10 +6,12 @@ import {AppRoutingModule} from './app-routing.module';
 import {SportClubUserManagementModule} from './sportclub-user-management/sportclub-user-management.module';
 import {SportClubEventsModule} from './sportclub-events/sportclub-events.module';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
+import { SportclubEventCreationComponent } from './sportclub-event-creation/sportclub-event-creation.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SportclubEventCreationComponent
   ],
   imports: [
     BrowserModule,
