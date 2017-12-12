@@ -16,7 +16,7 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany
     @NotNull
     private List<RegisteredUser> responsibles = new ArrayList<>();
 
@@ -45,8 +45,10 @@ public class Event {
     @NotNull
     private boolean isClosed;
 
+    @ElementCollection
+    @MapKeyEnumerated(EnumType.STRING)
     @NotNull
-    private Map<String, BigDecimal> price = new HashMap<>();
+    private Map<AgeCategory, BigDecimal> price = new HashMap<>();
 
     @NotNull
     private int minParticipants;
@@ -130,11 +132,11 @@ public class Event {
         isClosed = closed;
     }
 
-    public Map<String, BigDecimal> getPrice() {
+    public Map<AgeCategory, BigDecimal> getPrice() {
         return price;
     }
 
-    public void setPrice(Map<String, BigDecimal> price) {
+    public void setPrice(Map<AgeCategory, BigDecimal> price) {
         this.price = price;
     }
 
