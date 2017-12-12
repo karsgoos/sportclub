@@ -1,14 +1,11 @@
 package com.realdolmen.sportclub.common.entity;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue("attendance")
 public class Attendance extends Orderable {
-    @NotNull
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AgeCategory ageCategory;
 

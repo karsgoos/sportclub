@@ -10,22 +10,24 @@ import java.util.List;
 @Entity
 public class RegisteredUser extends User {
 
-    @NotNull
+    @Column(nullable = false)
     private LocalDate dateOfBirth;
 
-    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Gender gender;
 
     @Embedded
+    @Column(nullable = false)
     private Address address;
 
-    @NotNull
+    @Column(nullable = false)
     private String phoneNumber;
 
-    @NotNull
+    @Column(nullable = false)
     private String mobileNumber;
 
-    @NotNull
+    @Column(nullable = false)
     private String password;
 
     @OneToMany
@@ -34,6 +36,7 @@ public class RegisteredUser extends User {
     @OneToMany
     private List<Enrollment> enrollments = new ArrayList<>();
 
+    @Column
     private int totalPoints;
 
     public RegisteredUser(){

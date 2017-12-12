@@ -2,21 +2,22 @@ package com.realdolmen.sportclub.common.entity;
 
 import com.sun.istack.internal.NotNull;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class Address {
 
-    @NotNull
+    @Column(nullable = false)
     private String street;
 
-    @NotNull
+    @Column(nullable = false)
     private int homeNumber;
 
-    @NotNull
+    @Column(nullable = false)
     private String postalCode;
 
-    @NotNull
+    @Column(nullable = false)
     private String country;
 
     public String getStreet() {
