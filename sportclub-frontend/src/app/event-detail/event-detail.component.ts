@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {SportClubEvent} from "../sportclub-events/model/sportclub-event";
 
 @Component({
   selector: 'event-detail',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./event-detail.component.css']
 })
 export class EventDetailComponent implements OnInit {
+
+  event: SportClubEvent;
 
   constructor() { }
 
