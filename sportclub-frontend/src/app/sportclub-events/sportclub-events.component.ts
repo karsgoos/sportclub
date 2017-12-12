@@ -15,11 +15,11 @@ export class SportClubEventsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sportClubEventService.mockTest()
-      .subscribe((data) => {
-          this.sportClubEvent = data;
-        }
-      );
+    // this.sportClubEventService.mockTest()
+    //   .subscribe((data) => {
+    //       this.sportClubEvent = data;
+    //     }
+    //   );
   }
 
 }
