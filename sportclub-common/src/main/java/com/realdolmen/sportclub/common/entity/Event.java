@@ -16,41 +16,49 @@ public class Event {
     private Long id;
 
     @OneToMany(mappedBy = "event")
+    @Column(nullable = false)
     private List<RegisteredUser> responsibles = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "event_enrollment", joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "enrollment_id"))
+    @Column(nullable = false)
     private List<Enrollment> enrollments = new ArrayList<>();
 
-    @Column(nullable = true)
+    @Column
     private String imageUrl;
 
-    @Column
+    @Column(nullable = false)
     private LocalDateTime startDate;
 
-    @Column
+    @Column(nullable = false)
     private LocalDateTime endDate;
 
     @Embedded
+    @Column(nullable = false)
     private Address address;
 
-    @Column
+    @Column(nullable = false)
     private LocalDateTime deadline;
 
+    @Column(nullable = false)
     private boolean isClosed;
 
+    @Column(nullable = false)
     private Map<String, BigDecimal> price = new HashMap<>();
 
+    @Column(nullable = false)
     private int minParticipants;
 
+    @Column(nullable = false)
     private int maxParticipants;
 
     private String description;
 
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = true)
+    @Column
     private Long recurringEventId;
 
     public Long getId() {
