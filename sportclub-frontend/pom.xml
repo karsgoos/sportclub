@@ -65,6 +65,28 @@
               </execution>
             </executions>
           </plugin>
+          <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>3.0.2</version>
+            <executions>
+              <execution>
+                <id>copy-resources</id>
+                <phase>compile</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>../sportclub-backend/src/main/resources/static</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>dist</directory>
+                      <filtering>false</filtering>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
 
       </build>
