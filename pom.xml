@@ -52,13 +52,13 @@
                 <groupId>com.realdolmen</groupId>
                 <artifactId>sportclub-communication-batch</artifactId>
                 <version>${sportclub.version}</version>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>com.realdolmen</groupId>
                 <artifactId>sportclub-events</artifactId>
                 <version>${sportclub.version}</version>
             </dependency>
-            <dependency>
+           <!-- <dependency>
                 <groupId>com.realdolmen</groupId>
                 <artifactId>sportclub-payment</artifactId>
                 <version>${sportclub.version}</version>
