@@ -23,7 +23,7 @@ public class Event {
             inverseJoinColumns = @JoinColumn(name = "enrollment_id"))
     private List<Enrollment> enrollments = new ArrayList<>();
 
-
+    @Column(nullable = true)
     private String imageUrl;
 
     @Column

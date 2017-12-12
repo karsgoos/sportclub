@@ -1,7 +1,8 @@
 package com.realdolmen.sportclub.common.entity;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -9,8 +10,9 @@ public class RegisteredUser extends User {
 
     private LocalDate dateOfBirth;
 
-    private boolean gender;
+    private Gender gender;
 
+    @Embedded
     private Address address;
 
     private String phoneNumber;
@@ -19,11 +21,17 @@ public class RegisteredUser extends User {
 
     private String password;
 
-    private List<User> childAccounts;
+    @OneToMany
+    private List<User> childAccounts = new ArrayList<>();
 
-    private List<Enrollment> enrollments;
+    @OneToMany
+    private List<Enrollment> enrollments = new ArrayList<>();
 
     private int totalPoints;
+
+    public RegisteredUser(){
+
+    }
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
@@ -33,11 +41,11 @@ public class RegisteredUser extends User {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public boolean isGender() {
+    public Gender isGender() {
         return gender;
     }
 
-    public void setGender(boolean gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
