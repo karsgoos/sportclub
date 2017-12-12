@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AbstractRestService} from '../../common/abstract-rest-service.service';
-import {SportClubEvent} from '../model/sportclub-event';
+import {SportClubEvent} from '../../common/model/sportclub-event-model';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable()
