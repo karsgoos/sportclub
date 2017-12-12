@@ -13,9 +13,15 @@ public class EventManagementController {
     @Autowired
     private EventManagementService service;
 
-    @RequestMapping(method = RequestMethod.POST, value = "event")
-    public @ResponseBody Event create(@RequestBody Event event) throws CouldNotCreateEventException {
+    @RequestMapping(method = RequestMethod.POST, value = "/events")
+    public @ResponseBody
+    Event create(@RequestBody Event event) throws CouldNotCreateEventException {
         return service.create(event);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/events")
+    public Event findEvent() {
+        return new Event();
     }
 
     public EventManagementService getService() {
