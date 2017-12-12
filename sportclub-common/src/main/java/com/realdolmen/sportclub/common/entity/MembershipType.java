@@ -1,5 +1,7 @@
 package com.realdolmen.sportclub.common.entity;
 
+import com.sun.istack.internal.NotNull;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,8 +12,10 @@ public class MembershipType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String name;
 
+    @NotNull
     private String description;
 
     public Long getId() {

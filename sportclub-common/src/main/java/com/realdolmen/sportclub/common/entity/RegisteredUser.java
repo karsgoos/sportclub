@@ -1,5 +1,7 @@
 package com.realdolmen.sportclub.common.entity;
 
+import com.sun.istack.internal.NotNull;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,17 +10,22 @@ import java.util.List;
 @Entity
 public class RegisteredUser extends User {
 
+    @NotNull
     private LocalDate dateOfBirth;
 
+    @NotNull
     private Gender gender;
 
     @Embedded
     private Address address;
 
+    @NotNull
     private String phoneNumber;
 
+    @NotNull
     private String mobileNumber;
 
+    @NotNull
     private String password;
 
     @OneToMany

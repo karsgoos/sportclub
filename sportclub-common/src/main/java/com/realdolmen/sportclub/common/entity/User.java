@@ -1,5 +1,7 @@
 package com.realdolmen.sportclub.common.entity;
 
+import com.sun.istack.internal.NotNull;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,12 +12,16 @@ public abstract class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String email;
 
+    @NotNull
     private String firstName;
 
+    @NotNull
     private String lastName;
 
+    @NotNull
     private Role role;
 
     public Long getId() {

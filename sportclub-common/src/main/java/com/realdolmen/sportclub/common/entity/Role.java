@@ -1,5 +1,7 @@
 package com.realdolmen.sportclub.common.entity;
 
+import com.sun.istack.internal.NotNull;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String name;
 
     @ElementCollection(targetClass = Privilege.class)
