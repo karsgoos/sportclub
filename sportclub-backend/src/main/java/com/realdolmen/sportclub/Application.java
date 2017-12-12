@@ -4,10 +4,7 @@ import com.realdolmen.sportclub.common.entity.Sportclub;
 import com.realdolmen.sportclub.common.repository.SportclubRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 import javax.annotation.PostConstruct;
