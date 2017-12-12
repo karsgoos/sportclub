@@ -9,11 +9,14 @@ import { Options } from "fullcalendar";
 })
 export class EventCalendarComponent implements OnInit {
 
+  displayEvent: any;
   calendarOptions: Options;
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
   constructor() {}
   ngOnInit() {
     this.calendarOptions = {
+      locale: 'nl-be',
+      today: 'Vandaag',
       editable: false,
       eventLimit: false,
       header: {
@@ -23,10 +26,27 @@ export class EventCalendarComponent implements OnInit {
       },
       events: [{
         title: 'event',
-        start: '2017-12-12'
+        start: '2017-12-12T22:00',
+        end: '2017-12-12T23:00'
       }]
     };
 
+  }
+
+
+  eventClick(model: any) {
+    model = {
+      event: {
+        id: model.event.id,
+        start: model.event.start,
+        end: model.event.end,
+        title: model.event.title,
+        allDay: model.event.allDay
+        // other params
+      },
+      duration: {}
+    };
+    this.displayEvent = model;
   }
 
 }
