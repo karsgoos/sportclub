@@ -21,7 +21,7 @@
         <module>sportclub-backend</module>
         <module>sportclub-common</module>
         <!--<module>sportclub-communication-batch</module>-->
-        <!--<module>sportclub-events</module>-->
+        <module>sportclub-events</module>
         <module>sportclub-frontend</module>
         <!--<module>sportclub-payment</module>
         <module>sportclub-points</module>

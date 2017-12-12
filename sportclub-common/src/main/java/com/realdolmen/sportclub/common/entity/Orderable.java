@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(columnDefinition = "order_type")
+@DiscriminatorColumn(name = "order_type")
 public abstract class Orderable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
