@@ -1,11 +1,14 @@
-export interface SportClubEvent {
-  recurring: boolean;
+import {Address} from "./address";
 
-  name: string;
-  price1: number;
-  price2: number;
-  duration: number;
+export interface SportClubEvent {
+  address: Address;
   startDate: Date;
-  open: boolean;
-  location: string;
+  endDate: Date;
+  deadline:Date;
+  isClosed:boolean;
+  price;
+  minParticipants: number;
+  maxParticipants: number;
+  description: string;
+  name:string;
 }
