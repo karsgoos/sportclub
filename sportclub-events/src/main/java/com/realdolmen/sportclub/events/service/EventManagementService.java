@@ -3,6 +3,9 @@ package com.realdolmen.sportclub.events.service;
 import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
 import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
+import com.realdolmen.sportclub.events.exceptions.EventNotFoundException;
+
+import java.util.List;
 
 public interface EventManagementService {
     /**
@@ -24,4 +27,21 @@ public interface EventManagementService {
      * @throws CouldNotCreateEventException If {@code event} was {@code null}, or some repository exception occurred.
      */
     Event update(Event event) throws CouldNotUpdateEventException;
+
+    /**
+     * Get a single Event.
+     *
+     * @param id The Event id.
+     * @return The Event.
+     */
+    Event find(Long id) throws EventNotFoundException;
+
+    /**
+     * Get all Events.
+     *
+     * @param page The page (0-based).
+     * @param pageSize The size of a page.
+     * @return A list of Events (according to the given page).
+     */
+    List<Event> findAll(int page, int pageSize);
 }

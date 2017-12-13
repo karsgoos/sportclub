@@ -4,10 +4,16 @@ import com.realdolmen.sportclub.common.entity.Address;
 import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
 import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
+import com.realdolmen.sportclub.events.exceptions.EventNotFoundException;
 import com.realdolmen.sportclub.events.exceptions.InvalidEventException;
 import com.realdolmen.sportclub.events.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class EventManagementServiceImpl implements EventManagementService {
@@ -42,6 +48,29 @@ public class EventManagementServiceImpl implements EventManagementService {
         }
 
         return repository.save(event);
+    }
+
+    @Override
+    public Event find(Long id) throws EventNotFoundException {
+        if (id == null) {
+            throw new EventNotFoundException(new IllegalArgumentException("Id cannot be null."));
+        }
+
+        Event result = repository.findOne(id);
+        if (result == null) {
+            throw new EventNotFoundException();
+        }
+        return result;
+    }
+
+    @Override
+    public List<Event> findAll(int page, int pageSize) {
+        if (page < 0 || pageSize < 1) {
+            throw new IllegalArgumentException("Invalid page and pageSize arguments.");
+        }
+
+        PageRequest pageRequest = new PageRequest(page, pageSize);
+        return repository.findAll(pageRequest).getContent();
     }
 
     /**

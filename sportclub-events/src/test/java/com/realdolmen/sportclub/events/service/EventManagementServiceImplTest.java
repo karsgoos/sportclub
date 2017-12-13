@@ -5,6 +5,7 @@ import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.common.entity.RegisteredUser;
 import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
 import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
+import com.realdolmen.sportclub.events.exceptions.EventNotFoundException;
 import com.realdolmen.sportclub.events.repository.EventRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,6 +18,8 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,12 +39,15 @@ public class EventManagementServiceImplTest {
         MockitoAnnotations.initMocks(this);
 
         // Repository.save returns its argument
-        Mockito.when(repository.save((Event) Mockito.any())).thenAnswer(new Answer<Object>() {
+        Mockito.when(repository.save((Event) Mockito.any())).thenAnswer(new Answer<Event>() {
             @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
+            public Event answer(InvocationOnMock invocation) throws Throwable {
                 return invocation.getArgument(0);
             }
         });
+
+        // Find one returns an empty event
+        Mockito.when(repository.findOne(Mockito.anyLong())).thenReturn(new Event());
     }
 
     @Test(expected = CouldNotCreateEventException.class)
@@ -157,6 +163,52 @@ public class EventManagementServiceImplTest {
         Event event = createValidEvent();
         event.getAddress().setPostalCode(null);
         service.create(event);
+    }
+
+    @Test
+    public void canGetSingleEvent() throws EventNotFoundException {
+        Assert.assertNotNull(service.find(1L));
+    }
+
+    @Test(expected = EventNotFoundException.class)
+    public void canNotGetNonExistingEvent() throws EventNotFoundException {
+        Mockito.when(repository.findOne(Mockito.anyLong())).thenReturn(null);
+        service.find(1L);
+    }
+
+    @Test
+    public void canGetPageOfEvents() {
+        Mockito.when(repository.findAll((Pageable) Mockito.any())).thenReturn(new PageImpl(new ArrayList<>()));
+        List<Event> result = service.findAll(0, 10);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(0, result.size());
+    }
+
+    @Test
+    public void pagingWorksCorrectly() {
+        ArrayList<Event> results = new ArrayList<>();
+        for(int i = 0; i < 10; i++) {
+            results.add(new Event());
+        }
+        Mockito.when(repository.findAll((Pageable) Mockito.any())).thenReturn(new PageImpl(results));
+        List<Event> result = service.findAll(0, 10);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(10, result.size());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void pagingFailsWithNegativePage() {
+        service.findAll(-1, 1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void pagingFailsWithNegativePageSize() {
+        service.findAll(0, -1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void pagingFailsWithZeroPageSize() {
+        service.findAll(0, 0);
     }
 
     private Event createValidEvent() {

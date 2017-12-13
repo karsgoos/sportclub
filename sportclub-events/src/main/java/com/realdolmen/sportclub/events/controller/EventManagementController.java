@@ -5,6 +5,7 @@ import com.realdolmen.sportclub.common.entity.AgeCategory;
 import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
 import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
+import com.realdolmen.sportclub.events.exceptions.EventNotFoundException;
 import com.realdolmen.sportclub.events.service.EventManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,22 +15,21 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 public class EventManagementController {
+    @Autowired
     private EventManagementService service;
 
-    @Autowired
-    public EventManagementController(EventManagementService service) {
-        this.service = service;
+    public EventManagementController() {
+
     }
 
     @RequestMapping(consumes = "application/json", produces = "application/json", method = RequestMethod.POST, value = "/events")
     public @ResponseBody
     Event create(@RequestBody Event event) throws CouldNotCreateEventException {
-
-
         return service.create(event);
     }
 
@@ -39,13 +39,24 @@ public class EventManagementController {
         return service.update(event);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/events")
-    public Event findEvent() {
-        return new Event();
+    @RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "/events/{id}")
+    public @ResponseBody Event findEvent(@PathVariable("id") Long id) throws EventNotFoundException {
+        return service.find(id);
+    }
+
+    @RequestMapping(produces = "application/json", params = { "page", "pageSize" }, method = RequestMethod.GET, value = "/events")
+    public @ResponseBody
+    List<Event> findAll(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
+        return service.findAll(page, pageSize);
     }
 
     @ExceptionHandler(CouldNotCreateEventException.class)
-    public ResponseEntity handleException() {
+    public ResponseEntity handleCouldNotCreateEventException() {
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EventNotFoundException.class)
+    public ResponseEntity handleEventNotFoundException() {
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 }
