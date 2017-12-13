@@ -31,6 +31,9 @@ public class Event implements Serializable {
 
     private List<Enrollment> enrollments = new ArrayList<>();
 
+    @OneToMany
+    private List<Attendance> attendancies = new ArrayList<>();
+
     @Column
     private String imageUrl;
 
@@ -186,5 +189,14 @@ public class Event implements Serializable {
 
     public void setRecurringEventId(Long recurringEventId) {
         this.recurringEventId = recurringEventId;
+    }
+
+    public List<Attendance> getAttendancies(){
+        return attendancies;
+    }
+
+    public void addAttendancd(Attendance attendance){
+        attendancies.add(attendance);
+        attendance.setEvent(this);
     }
 }
