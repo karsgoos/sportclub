@@ -13,7 +13,7 @@ export abstract class AbstractRestService<T> {
   // Add here all the CRUD operations ( create, read, update, delete )
 
   save(toSave:T):Observable<T>{
-    return this.http.post("",toSave);
+    return this.http.post(Config.SERVER_URL + this.endPoint,toSave);
   }
 
 }
