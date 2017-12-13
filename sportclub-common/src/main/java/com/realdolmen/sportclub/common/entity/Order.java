@@ -55,11 +55,11 @@ public class Order {
         this.price = price;
     }
 
-    public User getRegisteredUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setRegisteredUser(User user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
