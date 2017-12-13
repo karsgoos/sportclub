@@ -19,8 +19,7 @@ public class EventExcelExporter {
         XSSFSheet sheet = workbook.createSheet("Aanwezigen");
         List<Object[]> data = new ArrayList<>();
         // Headers
-        // TODO: other information cannot be done with current domain model
-        data.add(new Object[]{"Voornaam", "Naam", "Geboortedatum", "Straat", "Nummer", "Postcode", "Land", "Extra informatie"});
+        data.add(new Object[]{"Voornaam", "Naam", "Geboortedatum", "Straat", "Nummer", "Postcode", "Stad", "Land", "Extra informatie"});
         for (User user : attendees) {
             if (user instanceof RegisteredUser) {
                 RegisteredUser ru = (RegisteredUser) user;
@@ -31,10 +30,11 @@ public class EventExcelExporter {
                         ru.getAddress().getStreet(),
                         ru.getAddress().getHomeNumber(),
                         ru.getAddress().getPostalCode(),
+                        ru.getAddress().getCity(),
                         ru.getAddress().getCountry(),
                         ru.getNonEditableField()});
             } else { // Guests have less information
-                data.add(new Object[]{user.getFirstName(), user.getLastName(), "", "", "", "", "", ""});
+                data.add(new Object[]{user.getFirstName(), user.getLastName(), "", "", "", "", "", "", ""});
             }
         }
 
