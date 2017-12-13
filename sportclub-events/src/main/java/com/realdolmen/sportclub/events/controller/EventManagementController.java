@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class EventManagementController {
     @Autowired
     private EventManagementService service;
@@ -23,31 +24,31 @@ public class EventManagementController {
 
     }
 
-    @RequestMapping(consumes = "application/json", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.POST, value = "/events")
+    @RequestMapping(consumes = "application/json", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.POST, value = "events")
     public @ResponseBody
     Event create(@RequestBody Event event) throws CouldNotCreateEventException {
         return service.create(event);
     }
 
-    @RequestMapping(consumes = "application/json", produces = "application/json", method = RequestMethod.PUT, value = "/events")
+    @RequestMapping(consumes = "application/json", produces = "application/json", method = RequestMethod.PUT, value = "events")
     public @ResponseBody
     Event update(@RequestBody Event event) throws CouldNotUpdateEventException {
         return service.update(event);
     }
 
-    @RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "/events/{id}")
+    @RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "events/{id}")
     public @ResponseBody
     Event findEvent(@PathVariable("id") Long id) throws EventNotFoundException {
         return service.find(id);
     }
 
-    @RequestMapping(produces = "application/json", params = {"page", "pageSize"}, method = RequestMethod.GET, value = "/events")
+    @RequestMapping(produces = "application/json", params = {"page", "pageSize"}, method = RequestMethod.GET, value = "events")
     public @ResponseBody
     List<Event> findAll(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
         return service.findAll(page, pageSize);
     }
 
-    @PostMapping("/events/{id}/attachment")
+    @PostMapping("events/{id}/attachment")
     public @ResponseBody ResponseEntity<?> uploadAttachement(@PathVariable("id") Long id, @RequestParam("file")MultipartFile attachment){
         if (attachment.isEmpty()) {
             return new ResponseEntity("please select a file!", HttpStatus.OK);
@@ -64,13 +65,13 @@ public class EventManagementController {
                 attachment.getOriginalFilename(), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/events/{id}/attachment", produces = MediaType.APPLICATION_PDF_VALUE)
+    @GetMapping(value = "events/{id}/attachment", produces = MediaType.APPLICATION_PDF_VALUE)
     public byte[] downloadAttachment(@PathVariable("id") Long id) throws AttachmentNotFoundException {
         return service.findAttachment(id);
     }
 
 
-    @RequestMapping(produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", method = RequestMethod.GET, value = "/events/{id}/attendees")
+    @RequestMapping(produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", method = RequestMethod.GET, value = "events/{id}/attendees")
     public @ResponseBody
     byte[] exportAttendees(@PathVariable("id") Long id) throws EventExportException, EventNotFoundException {
         return service.exportAttendanceList(id);
