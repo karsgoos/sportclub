@@ -18,7 +18,6 @@ const routes: Routes = [
     path: 'events',
     component: SportClubEventsComponent
   },
-  ,
   {
     path: 'eventDetail/:id',
     component : EventDetailComponent

@@ -2,11 +2,6 @@
   Inschrijven in ----------- op -------------
   <form #subscribeForm="ngForm"  novalidate>
     Naam
-    <input  #naam="ngModel" type="text"  placeholder="Naam" name="Naam" required minlength="2" ngModel>
-    <p *ngIf="naam.errors?.minlength">
-      Naam must be at least 2 char
-    </p>
-    <br>
 
 
 <button [disabled]="!subscribeForm.valid" type="submit" >Search</button>

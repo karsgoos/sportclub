@@ -10,14 +10,14 @@ import {Router} from "@angular/router";
 })
 export class EventDetailComponent implements OnInit {
 
-  event: SportClubEvent;
+  eventModel: SportClubEvent;
 
   constructor(private router:Router) { }
 
   ngOnInit() {
   }
   navigate(){
-    this.router.navigate(['/attendingModal'+event]);
+    this.router.navigate(['/eventSubscribe']);
 
   }
 
