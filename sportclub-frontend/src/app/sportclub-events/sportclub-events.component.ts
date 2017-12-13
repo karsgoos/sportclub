@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SportClubEventService} from './service/sportclub-event.service';
-import {SportClubEvent} from './model/sportclub-event';
+import {SportClubEvent} from "../common/model/sportclub-event-model";
+
 
 @Component({
   selector: 'app-sportclub-events',

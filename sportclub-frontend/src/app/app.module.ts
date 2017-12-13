@@ -6,17 +6,21 @@ import {AppRoutingModule} from './app-routing.module';
 import {SportClubUserManagementModule} from './sportclub-user-management/sportclub-user-management.module';
 import {SportClubEventsModule} from './sportclub-events/sportclub-events.module';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
+import { EventDetailComponent } from './event-detail/event-detail.component';
+import { AttendingModalComponent } from './attending-modal/attending-modal.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    EventDetailComponent,
+    AttendingModalComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     SportClubUserManagementModule,
-    SportClubEventsModule
+    SportClubEventsModule,
   ],
   bootstrap: [AppComponent]
 })
