@@ -1,4 +1,4 @@
-package com.realdolmen.sportclub.events.service;
+package com.realdolmen.sportclub.events.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

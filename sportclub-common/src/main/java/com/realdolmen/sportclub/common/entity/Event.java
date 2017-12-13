@@ -1,7 +1,12 @@
 package com.realdolmen.sportclub.common.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Entity
-public class Event {
+public class Event implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,23 +28,26 @@ public class Event {
     @ManyToMany
     @JoinTable(name = "event_enrollment", joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "enrollment_id"))
-    @NotNull
+
     private List<Enrollment> enrollments = new ArrayList<>();
 
     @Column
     private String imageUrl;
 
-    @NotNull
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonFormat(pattern="yyyy/MM/dd hh:mm")
     private LocalDateTime startDate;
 
-    @NotNull
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonFormat(pattern="yyyy/MM/dd hh:mm")
     private LocalDateTime endDate;
 
     @Embedded
     @NotNull
     private Address address;
 
-    @NotNull
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonFormat(pattern="yyyy/MM/dd hh:mm")
     private LocalDateTime deadline;
 
     @NotNull

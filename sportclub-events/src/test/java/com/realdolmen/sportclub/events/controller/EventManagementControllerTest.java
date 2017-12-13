@@ -1,9 +1,13 @@
 package com.realdolmen.sportclub.events.controller;
 
+import com.realdolmen.sportclub.common.entity.Address;
+import com.realdolmen.sportclub.common.entity.AgeCategory;
+import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
 import com.realdolmen.sportclub.events.service.EventManagementService;
 import com.realdolmen.sportclub.events.service.EventManagementServiceImpl;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -18,6 +22,14 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.mockito.Mockito.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,6 +50,42 @@ public class EventManagementControllerTest extends AbstractJUnit4SpringContextTe
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(eventManagementController).build();
+    }
+
+    @Test @Ignore
+    public void correctEventPostRequest()throws Exception{
+        Address postedAddress = new Address();
+        postedAddress.setCountry("Belgium");
+        LocalDateTime deadLine = LocalDateTime.now().plusDays(5);
+        LocalDateTime startDate = LocalDateTime.now().plusDays(100);
+        LocalDateTime endDate = startDate.plusHours(5);
+        Map<AgeCategory, BigDecimal> price = new HashMap<>();
+        price.put(AgeCategory.ADULT, new BigDecimal(100));
+        price.put(AgeCategory.CHILD, new BigDecimal(80));
+
+
+        postedAddress.setHomeNumber(1);
+        postedAddress.setPostalCode("1000");
+        postedAddress.setStreet("Stationstraat");
+        Event postedEvent = new Event();
+        postedEvent.setAddress(postedAddress);
+        postedEvent.setClosed(false);
+        postedEvent.setDeadline(deadLine);
+        postedEvent.setDescription("Test description");
+        postedEvent.setEndDate(endDate);
+        postedEvent.setStartDate(startDate);
+        postedEvent.setMaxParticipants(100);
+        postedEvent.setName("SuccessEvent");
+        postedEvent.setMinParticipants(3);
+        postedEvent.setPrice(price);
+
+
+        Mockito.when(eventManagementService.create(postedEvent)).thenReturn(postedEvent);
+
+        mockMvc.perform(post("/events").contentType(MediaType.APPLICATION_JSON).content(JsonUtil.asJsonString(postedEvent)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
     }
 
     @Test
