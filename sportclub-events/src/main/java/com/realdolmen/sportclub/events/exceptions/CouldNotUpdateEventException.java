@@ -1,6 +1,6 @@
 package com.realdolmen.sportclub.events.exceptions;
 
-public class CouldNotUpdateEventException extends Throwable {
+public class CouldNotUpdateEventException extends Exception {
     public CouldNotUpdateEventException(Exception e) {
         super(e);
     }

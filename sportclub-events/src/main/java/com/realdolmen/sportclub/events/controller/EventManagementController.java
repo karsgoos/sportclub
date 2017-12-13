@@ -2,6 +2,7 @@ package com.realdolmen.sportclub.events.controller;
 
 import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
+import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
 import com.realdolmen.sportclub.events.service.EventManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,12 @@ public class EventManagementController {
     public @ResponseBody
     Event create(@RequestBody Event event) throws CouldNotCreateEventException {
         return service.create(event);
+    }
+
+    @RequestMapping(consumes = "application/json", produces = "application/json", method = RequestMethod.PUT, value = "/events")
+    public @ResponseBody
+    Event update(@RequestBody Event event) throws CouldNotUpdateEventException {
+        return service.update(event);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/events")
