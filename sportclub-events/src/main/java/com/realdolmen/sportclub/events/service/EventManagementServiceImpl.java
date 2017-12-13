@@ -2,17 +2,17 @@ package com.realdolmen.sportclub.events.service;
 
 import com.realdolmen.sportclub.common.entity.Address;
 import com.realdolmen.sportclub.common.entity.Event;
-import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
-import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
-import com.realdolmen.sportclub.events.exceptions.EventNotFoundException;
-import com.realdolmen.sportclub.events.exceptions.InvalidEventException;
+import com.realdolmen.sportclub.common.entity.User;
+import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.events.repository.EventRepository;
+import com.realdolmen.sportclub.events.service.export.EventExcelExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -71,6 +71,18 @@ public class EventManagementServiceImpl implements EventManagementService {
 
         PageRequest pageRequest = new PageRequest(page, pageSize);
         return repository.findAll(pageRequest).getContent();
+    }
+
+    @Override
+    public byte[] exportAttendanceList(Long id) throws EventNotFoundException, EventExportException {
+        Event event = find(id);
+        List<User> attendees = repository.findAttendeesForEvent(event);
+
+        try {
+            return EventExcelExporter.export(attendees);
+        } catch (IOException e) {
+            throw new EventExportException(e);
+        }
     }
 
     /**
