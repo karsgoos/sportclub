@@ -16,7 +16,7 @@ public class EventController {
 	@Autowired
 	private EventRepository eventRepository;
 	
-	@RequestMapping(method = RequestMethod.GET, value = "api/events/all")
+	@RequestMapping(method = RequestMethod.GET, value = "api/events")
 	public Collection<Event> getEvents(){
 		return eventRepository.findAll();
 	}

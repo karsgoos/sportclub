@@ -11,7 +11,9 @@ export class SportClubEventsComponent implements OnInit {
 
   sportClubEvent: SportClubEvent;
 
-  constructor(public sportClubEventService: SportClubEventService) {
+  events: SportClubEvent[];
+
+  constructor(private eventService: SportClubEventService) {
   }
 
   ngOnInit() {
@@ -20,6 +22,8 @@ export class SportClubEventsComponent implements OnInit {
     //       this.sportClubEvent = data;
     //     }
     //   );
+    this.eventService.getEvents().subscribe(events => this.events = events);
+
   }
 
 }
