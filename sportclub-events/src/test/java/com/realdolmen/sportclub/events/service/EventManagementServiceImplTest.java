@@ -1,6 +1,8 @@
 package com.realdolmen.sportclub.events.service;
 
+import com.realdolmen.sportclub.common.entity.Address;
 import com.realdolmen.sportclub.common.entity.Event;
+import com.realdolmen.sportclub.common.entity.RegisteredUser;
 import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
 import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
 import com.realdolmen.sportclub.events.repository.EventRepository;
@@ -17,6 +19,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EventManagementServiceImplTest {
@@ -46,25 +51,15 @@ public class EventManagementServiceImplTest {
 
     @Test
     public void canCreateEvent() throws CouldNotCreateEventException {
-        Event event = new Event();
-        event.setDescription("Test event");
-        event.setStartDate(LocalDateTime.now().plusDays(1));
-        event.setEndDate(LocalDateTime.now().plusDays(2));
+        Event event = createValidEvent();
         Event result = service.create(event);
 
         Assert.assertEquals(event, result);
     }
 
     @Test(expected = CouldNotCreateEventException.class)
-    public void canNotCreateEventInThePast() throws CouldNotCreateEventException {
-        Event event = new Event();
-        event.setStartDate(LocalDateTime.now().minusDays(1));
-        service.create(event);
-    }
-
-    @Test(expected = CouldNotCreateEventException.class)
     public void canNotCreateEventWithNegativeDuration() throws CouldNotCreateEventException {
-        Event event = new Event();
+        Event event = createValidEvent();
         event.setStartDate(LocalDateTime.now().plusDays(10));
         event.setEndDate(LocalDateTime.now().plusDays(5));
         service.create(event);
@@ -74,10 +69,7 @@ public class EventManagementServiceImplTest {
 
     @Test
     public void canUpdateEventAfterCreation() throws CouldNotCreateEventException, CouldNotUpdateEventException {
-        Event event = new Event();
-        event.setDescription("Test event");
-        event.setStartDate(LocalDateTime.now().plusDays(1));
-        event.setEndDate(LocalDateTime.now().plusDays(2));
+        Event event = createValidEvent();
         event = service.create(event);
 
         event.setDescription(UPDATE_DESCRIPTION);
@@ -88,31 +80,105 @@ public class EventManagementServiceImplTest {
     }
 
     @Test(expected = CouldNotUpdateEventException.class)
-    public void canNotUpdateEventInThePast() throws CouldNotUpdateEventException {
-        Event event = new Event();
-        try {
-            event = service.create(event);
-            event.setStartDate(LocalDateTime.now().minusDays(1));
-        } catch (CouldNotCreateEventException e) {
-            service.update(event);
-        }
-    }
-
-    @Test(expected = CouldNotUpdateEventException.class)
-    public void canNotUpdateEventWithNegativeDuration() throws CouldNotUpdateEventException {
-        Event event = new Event();
-        try {
-            event = service.create(event);
-            event.setStartDate(LocalDateTime.now().plusDays(10));
-            event.setEndDate(LocalDateTime.now().plusDays(5));
-        } catch (CouldNotCreateEventException e) {
-            service.update(event);
-        }
+    public void canNotUpdateEventWithNegativeDuration() throws CouldNotUpdateEventException, CouldNotCreateEventException {
+        Event event = createValidEvent();
+        event = service.create(event);
+        event.setStartDate(LocalDateTime.now().plusDays(10));
+        event.setEndDate(LocalDateTime.now().plusDays(5));
+        service.update(event);
     }
 
     @Test(expected = CouldNotUpdateEventException.class)
     public void throwsExceptionWhenUpdateArgumentIsNull() throws CouldNotUpdateEventException {
         service.update(null);
+    }
+
+    @Test(expected = CouldNotCreateEventException.class)
+    public void canNotCreateEventWithNegativeMaxParticipants() throws CouldNotCreateEventException {
+        Event event = createValidEvent();
+        event.setMaxParticipants(-1);
+        service.create(event);
+    }
+
+    @Test(expected = CouldNotCreateEventException.class)
+    public void canNotCreateEventWithNegativeMinParticipants() throws CouldNotCreateEventException {
+        Event event = createValidEvent();
+        event.setMinParticipants(-1);
+        service.create(event);
+    }
+
+    @Test(expected = CouldNotCreateEventException.class)
+    public void canNotCreateEventWithMaxParticipantsLessThanMinParticipants() throws CouldNotCreateEventException {
+        Event event = createValidEvent();
+        event.setMinParticipants(10);
+        event.setMaxParticipants(9);
+        service.create(event);
+    }
+
+    @Test
+    public void canCreateEventWithMinParticipantsEqualToMaxParticipants() throws CouldNotCreateEventException {
+        Event event = createValidEvent();
+        event.setMinParticipants(1);
+        event.setMaxParticipants(1);
+        service.create(event);
+    }
+
+    @Test
+    public void canCreateEventWithMinParticipantsLessThanMaxParticipants() throws CouldNotCreateEventException {
+        Event event = createValidEvent();
+        event.setMinParticipants(1);
+        event.setMaxParticipants(2);
+        service.create(event);
+    }
+
+    @Test(expected = CouldNotCreateEventException.class)
+    public void canNotCreateEventWithInvalidAddressCountry() throws CouldNotCreateEventException {
+        Event event = createValidEvent();
+        event.getAddress().setCountry(null);
+        service.create(event);
+    }
+
+    @Test(expected = CouldNotCreateEventException.class)
+    public void canNotCreateEventWithInvalidAddressStreet() throws CouldNotCreateEventException {
+        Event event = createValidEvent();
+        event.getAddress().setStreet(null);
+        service.create(event);
+    }
+
+    @Test(expected = CouldNotCreateEventException.class)
+    public void canNotCreateEventWithInvalidAddressHomeNumber() throws CouldNotCreateEventException {
+        Event event = createValidEvent();
+        event.getAddress().setHomeNumber(0);
+        service.create(event);
+    }
+
+    @Test(expected = CouldNotCreateEventException.class)
+    public void canNotCreateEventWithInvalidAddressPostalCode() throws CouldNotCreateEventException {
+        Event event = createValidEvent();
+        event.getAddress().setPostalCode(null);
+        service.create(event);
+    }
+
+    private Event createValidEvent() {
+        Event event = new Event();
+        event.setStartDate(LocalDateTime.now());
+        event.setEndDate(LocalDateTime.now().plusDays(5));
+        event.setEnrollments(new ArrayList<>());
+        event.setPrice(new HashMap<>());
+        Address address = new Address();
+        address.setCountry("BE");
+        address.setPostalCode("9000");
+        address.setStreet("Sportstraat");
+        address.setHomeNumber(1);
+        event.setAddress(address);
+        event.setName("Test Event");
+        event.setMaxParticipants(10);
+        event.setMinParticipants(1);
+        List<RegisteredUser> responsibles = new ArrayList<>();
+        responsibles.add(new RegisteredUser());
+        event.setResponsibles(responsibles);
+        event.setDeadline(LocalDateTime.now().plusDays(10));
+        return event;
     }
 
 }
