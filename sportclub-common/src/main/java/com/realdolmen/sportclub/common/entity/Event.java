@@ -1,14 +1,22 @@
 package com.realdolmen.sportclub.common.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Event {
+public class Event implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,23 +29,29 @@ public class Event {
     @ManyToMany
     @JoinTable(name = "event_enrollment", joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "enrollment_id"))
-    @NotNull
+
     private List<Enrollment> enrollments = new ArrayList<>();
 
     @Column
     private String imageUrl;
 
-    @NotNull
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
     private LocalDateTime startDate;
 
-    @NotNull
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
     private LocalDateTime endDate;
 
     @Embedded
     @NotNull
     private Address address;
 
-    @NotNull
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
     private LocalDateTime deadline;
 
     @NotNull
@@ -86,6 +100,9 @@ public class Event {
 
     @OneToMany
     private List<Attendance> attendancies = new ArrayList<>();
+
+    @JsonIgnore @Lob
+    private byte[] attachement;
 
     public Long getId() {
         return id;
@@ -214,5 +231,13 @@ public class Event {
 
     public void remAttendance(Attendance attendance) {
         attendancies.remove(attendance);
+    }
+
+    public byte[] getAttachement() {
+        return attachement;
+    }
+
+    public void setAttachement(byte[] attachement) {
+        this.attachement = attachement;
     }
 }
