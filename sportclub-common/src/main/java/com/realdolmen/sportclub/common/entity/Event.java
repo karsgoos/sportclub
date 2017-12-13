@@ -42,7 +42,8 @@ public class Event implements Serializable {
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm")
+    @NotNull
     private LocalDateTime endDate;
 
     @Embedded
