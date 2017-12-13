@@ -1,12 +1,12 @@
 package com.realdolmen.sportclub.events.exceptions;
 
-public class EventNotFoundException extends Exception {
+public class AttachmentNotFoundException extends Exception {
 
-    public EventNotFoundException(IllegalArgumentException e) {
+    public AttachmentNotFoundException(IllegalArgumentException e) {
         super(e);
     }
 
-    public EventNotFoundException() {
+    public AttachmentNotFoundException() {
 
     }
 }

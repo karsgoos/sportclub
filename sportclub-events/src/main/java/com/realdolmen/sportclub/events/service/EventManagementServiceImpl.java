@@ -2,6 +2,7 @@ package com.realdolmen.sportclub.events.service;
 
 import com.realdolmen.sportclub.common.entity.Address;
 import com.realdolmen.sportclub.common.entity.Event;
+import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.common.entity.User;
 import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.events.repository.EventRepository;
@@ -11,7 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -71,6 +74,26 @@ public class EventManagementServiceImpl implements EventManagementService {
 
         PageRequest pageRequest = new PageRequest(page, pageSize);
         return repository.findAll(pageRequest).getContent();
+    }
+
+    @Override
+    public void saveAttachement(Long id, MultipartFile mpf) throws IOException {
+        if(!mpf.getContentType().toLowerCase().equals("application/pdf")){
+            throw new IllegalArgumentException("Invalid file type");
+        }
+        Event event = repository.findOne(id);
+        event.setAttachement(mpf.getBytes());
+        repository.save(event);
+    }
+
+    @Override
+    public byte[] findAttachment(Long id) throws AttachmentNotFoundException {
+        Event event = repository.findOne(id);
+        byte[] attachment = event.getAttachement();
+        if(attachment==null){
+            throw new AttachmentNotFoundException();
+        }
+        return event.getAttachement();
     }
 
     @Override

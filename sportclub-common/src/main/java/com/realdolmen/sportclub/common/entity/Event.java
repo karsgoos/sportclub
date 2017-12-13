@@ -1,6 +1,7 @@
 package com.realdolmen.sportclub.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -103,7 +104,8 @@ public class Event implements Serializable {
     @OneToMany
     private List<Attendance> attendancies;
 
-    private File attachement;
+    @JsonIgnore @Lob
+    private byte[] attachement;
 
     public Long getId() {
         return id;
@@ -234,11 +236,11 @@ public class Event implements Serializable {
         attendancies.remove(attendance);
     }
 
-    public File getAttachement() {
+    public byte[] getAttachement() {
         return attachement;
     }
 
-    public void setAttachement(File attachement) {
+    public void setAttachement(byte[] attachement) {
         this.attachement = attachement;
     }
 }

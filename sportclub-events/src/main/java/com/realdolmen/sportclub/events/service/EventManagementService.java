@@ -1,12 +1,15 @@
 package com.realdolmen.sportclub.events.service;
 
 import com.realdolmen.sportclub.common.entity.Event;
+import com.realdolmen.sportclub.events.exceptions.AttachmentNotFoundException;
 import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
 import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
 import com.realdolmen.sportclub.events.exceptions.EventExportException;
 import com.realdolmen.sportclub.events.exceptions.EventNotFoundException;
+import org.springframework.web.multipart.MultipartFile;
 import org.apache.poi.ss.usermodel.Workbook;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface EventManagementService {
@@ -56,4 +59,8 @@ public interface EventManagementService {
      * @throws EventExportException If the Event cannot be exported.
      */
     byte[] exportAttendanceList(Long id) throws EventNotFoundException, EventExportException;
+
+    public void saveAttachement(Long id, MultipartFile attachement) throws IOException;
+
+    byte[] findAttachment(Long id) throws AttachmentNotFoundException;
 }
