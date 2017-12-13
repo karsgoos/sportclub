@@ -16,7 +16,7 @@ export interface SportClubEvent {
   minParticipants: number;
   maxParticipants: number;
   description : String;
-  name: String;
-  recurringEventInfo: String;
+  title: String;
+  recurringEventId: String;
 
 }
