@@ -3,19 +3,21 @@ package com.realdolmen.sportclub.events.controller;
 import com.realdolmen.sportclub.common.entity.Address;
 import com.realdolmen.sportclub.common.entity.AgeCategory;
 import com.realdolmen.sportclub.common.entity.Event;
-import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
-import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
-import com.realdolmen.sportclub.events.exceptions.EventExportException;
-import com.realdolmen.sportclub.events.exceptions.EventNotFoundException;
+import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.events.service.EventManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +54,29 @@ public class EventManagementController {
     List<Event> findAll(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
         return service.findAll(page, pageSize);
     }
+
+    @PostMapping("/events/{id}/attachment")
+    public @ResponseBody ResponseEntity<?> uploadAttachement(@PathVariable("id") Long id, @RequestParam("file")MultipartFile attachment){
+        if (attachment.isEmpty()) {
+            return new ResponseEntity("please select a file!", HttpStatus.OK);
+        }
+
+        try {
+            service.saveAttachement(id, attachment);
+
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity("Successfully uploaded - " +
+                attachment.getOriginalFilename(), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/events/{id}/attachment", produces = MediaType.APPLICATION_PDF_VALUE)
+    public byte[] downloadAttachment(@PathVariable("id") Long id) throws AttachmentNotFoundException {
+        return service.findAttachment(id);
+    }
+
 
     @RequestMapping(produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", method = RequestMethod.GET, value = "/events/{id}/attendees")
     public @ResponseBody

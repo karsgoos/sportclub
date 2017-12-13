@@ -1,6 +1,7 @@
 package com.realdolmen.sportclub.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.File;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -101,6 +103,9 @@ public class Event implements Serializable {
 
     @OneToMany
     private List<Attendance> attendancies = new ArrayList<>();
+
+    @JsonIgnore @Lob
+    private byte[] attachement;
 
     public Long getId() {
         return id;
@@ -231,5 +236,11 @@ public class Event implements Serializable {
         attendancies.remove(attendance);
     }
 
+    public byte[] getAttachement() {
+        return attachement;
+    }
 
+    public void setAttachement(byte[] attachement) {
+        this.attachement = attachement;
+    }
 }
