@@ -1,4 +1,5 @@
 <p>Display event : {{displayEvent | json}}</p>
+<p>events : {{events | json}}</p>
 <div *ngIf="calendarOptions">
-  <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)"></ng-fullcalendar>
+  <ng-fullcalendar #ucCalendar [options]="calendarOptions" ></ng-fullcalendar>
 </div>
