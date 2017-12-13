@@ -40,9 +40,6 @@ public class RegisteredUser extends User {
     @Column
     private int totalPoints;
 
-    @NotNull
-    private LocalDateTime birthDate;
-
     private String nonEditableField;
 
     public RegisteredUser(){
@@ -123,14 +120,6 @@ public class RegisteredUser extends User {
 
     public Gender getGender() {
         return gender;
-    }
-
-    public LocalDateTime getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDateTime birthDate) {
-        this.birthDate = birthDate;
     }
 
     public String getNonEditableField() {
