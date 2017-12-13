@@ -22,6 +22,7 @@ public class EventExcelExporterTest {
             RegisteredUser u = new RegisteredUser();
             u.setDateOfBirth(LocalDate.now().minusYears(20));
             u.setAddress(new Address());
+            users.add(u);
         }
         byte[] bytes = EventExcelExporter.export(users);
         Assert.assertTrue(bytes.length > 0);
