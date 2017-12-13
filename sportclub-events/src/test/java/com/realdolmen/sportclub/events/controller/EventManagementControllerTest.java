@@ -3,17 +3,21 @@ package com.realdolmen.sportclub.events.controller;
 import com.realdolmen.sportclub.common.entity.Address;
 import com.realdolmen.sportclub.common.entity.AgeCategory;
 import com.realdolmen.sportclub.common.entity.Event;
+import com.realdolmen.sportclub.common.entity.Event;
+import com.realdolmen.sportclub.events.config.TestConfig;
 import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
+import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
 import com.realdolmen.sportclub.events.service.EventManagementService;
-import com.realdolmen.sportclub.events.service.EventManagementServiceImpl;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
@@ -31,16 +35,17 @@ import java.util.Map;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = {EventManagementServiceImpl.class, EventManagementController.class})
+@ContextConfiguration(classes = {TestConfig.class})
 public class EventManagementControllerTest extends AbstractJUnit4SpringContextTests {
 
     private MockMvc mockMvc;
 
-    @Spy
+    @Mock
     private EventManagementService eventManagementService;
 
     @InjectMocks
@@ -92,5 +97,11 @@ public class EventManagementControllerTest extends AbstractJUnit4SpringContextTe
     public void returnsErrorWhenCanNotCreateEvent() throws Exception {
         Mockito.when(eventManagementService.create(Mockito.any())).thenThrow(CouldNotCreateEventException.class);
         mockMvc.perform(post("/events").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void returnsErrorWhenCanNotUpdateEvent() throws Exception {
+        Mockito.when(eventManagementService.update(Mockito.any())).thenThrow(CouldNotUpdateEventException.class);
+        mockMvc.perform(put("/events").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
     }
 }

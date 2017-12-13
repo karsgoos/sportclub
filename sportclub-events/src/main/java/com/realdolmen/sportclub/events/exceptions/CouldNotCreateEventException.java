@@ -4,4 +4,12 @@ public class CouldNotCreateEventException extends Exception {
     public CouldNotCreateEventException(Exception cause) {
         super(cause);
     }
+
+    public CouldNotCreateEventException() {
+
+    }
+
+    public CouldNotCreateEventException(String s) {
+        super(s);
+    }
 }
