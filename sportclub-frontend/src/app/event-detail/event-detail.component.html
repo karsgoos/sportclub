@@ -1,26 +1,20 @@
 <div class="eventTitleBar">
-  <span>{{sportClubEvent.title}}</span><span></span>
-  <p *ngIf="!sportClubEvent.recurringEventId">
-  <span>Enkelvoudig evenement</span>
-</p>
-  <p *ngIf="sportClubEvent.recurringEventId">
-    <span>Recursief evenement</span>
-  </p>
+
 </div>
 
 
 <div>
-  <p *ngIf="!sportClubEvent.recurringEventId">
-    <span>Start datum: {{sportClubEvent.startDate}}</span>
-    <span>Eind datum: {{sportClubEvent.endDate}}</span>
+  <p *ngIf="!eventModel.recurringEventId">
+    <span>Start datum: {{eventModel.startDate}}</span>
+    <span>Eind datum: {{eventModel.endDate}}</span>
 
   </p>
-  <p *ngIf="sportClubEvent.recurringEventId">
-    <span>Datum: {{sportClubEvent.startDate}}</span>
+  <p *ngIf="eventModel.recurringEventId">
+    <span>Datum: {{eventModel.startDate}}</span>
   </p>
 
 
-  <span>Datum: {{sportClubEvent.startDate}}</span>
+  <span>Datum: {{eventModel.startDate}}</span>
 
   <span>Locatie:</span><br/>
   <span>{{event.street}}</span>
