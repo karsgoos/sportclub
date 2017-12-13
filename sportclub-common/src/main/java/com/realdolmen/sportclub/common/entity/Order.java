@@ -17,7 +17,7 @@ public class Order {
 
     private boolean isPaid;
 
-    @OneToMany
+    @OneToMany(mappedBy = "ordr")
     private List<Orderable> orderables = new ArrayList<>();
 
     private BigDecimal price;
