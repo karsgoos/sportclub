@@ -8,7 +8,7 @@ import {SportClubEventsModule} from './sportclub-events/sportclub-events.module'
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { EventDetailComponent } from './event-detail/event-detail.component';
 import { AttendingModalComponent } from './attending-modal/attending-modal.component';
-
+import {FormsModule} from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +20,7 @@ import { AttendingModalComponent } from './attending-modal/attending-modal.compo
     HttpClientModule,
     AppRoutingModule,
     SportClubUserManagementModule,
-    SportClubEventsModule,
+    SportClubEventsModule,FormsModule
   ],
   bootstrap: [AppComponent]
 })
