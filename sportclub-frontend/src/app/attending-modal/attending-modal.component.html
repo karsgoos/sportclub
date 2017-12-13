@@ -1,5 +1,5 @@
 
-  Inschrijven in {{eventModel.title}} op {{eventModel.startDate}}
+  Inschrijven in {{eventModel.name}} op {{eventModel.startDate}}
   <div *ngIf="!naam; else forminfo">
     <form [formGroup]="rForm">
       <div class="form-container">
@@ -8,6 +8,10 @@
               Naam <input type="text" formControlName="naam">
 
             </label>
+          <div class="alert" *ngIf="!rForm.controls['naam'].valid">
+            This is required
+          </div>
+
           <label>
             Voornaam <input type="text" formControlName="voornaam">
 

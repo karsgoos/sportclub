@@ -13,9 +13,12 @@ export class AttendingModalComponent implements OnInit {
   eventModel: SportClubEvent;
   paramId: number;
   rForm:FormGroup;
-  naam;
-  voornaam;
-  email;
+  naam:string;
+  voornaam:string;
+  email:string;
+  numberOfAdults:number;
+  numberOfChildren:number;
+
 
   constructor(private sportServ:SportClubEventService,private router:Router,private route:ActivatedRoute,private fb:FormBuilder) {
     this.rForm = fb.group({
