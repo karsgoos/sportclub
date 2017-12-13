@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {SportClubEvent} from "../common/model/sportclub-event-model";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -11,9 +12,14 @@ export class EventDetailComponent implements OnInit {
 
   event: SportClubEvent;
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
   }
+  navigate(){
+    this.router.navigate(['/attendingModal']);
+
+  }
+
 
 }

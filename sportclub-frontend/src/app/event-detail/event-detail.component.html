@@ -41,6 +41,10 @@
   <br/>
   <span>Beschikbare plaatsen{{event.availableSpace}}</span>
 
-  <button type="button" >Inschrijven</button>
+  <button (click)="navigate()">Dashboard</button>
+
+  <button type="button" (click)="openDialogs()" >Inschrijven</button>
 
 </div>
+
+
