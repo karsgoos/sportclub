@@ -1,6 +1,8 @@
 import {RegisteredUser} from "./registered-user-model";
 import {Enrollment} from "./enrollment-model";
 import {Address} from "./address-model";
+import {PriceModel} from "./price-model";
+import {RecurringEventInfo} from "./recurring-event-info";
 export interface SportClubEvent {
 
   id: number;
@@ -11,12 +13,11 @@ export interface SportClubEvent {
   endDate: Date;
   address: Address;
   deadline: Date;
-  isClosed: Date;
-  price: Array<number>;
+  price: PriceModel;
   minParticipants: number;
   maxParticipants: number;
   description : String;
-  title: String;
-  recurringEventId: String;
-
+  name: String;
+  recurringEventInfo: RecurringEventInfo;
+  closed: boolean;
 }

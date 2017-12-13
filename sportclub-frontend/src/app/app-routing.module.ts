@@ -7,19 +7,19 @@ import {AttendingModalComponent} from "./attending-modal/attending-modal.compone
 
 const routes: Routes = [
   {
-    path: 'user-management',
+    path: 'user-management',  pathMatch: 'full',
     component: SportClubUserManagementComponent
   },
   {
-    path: 'eventSubscribe/:id',
+    path: 'eventSubscribe/:id',pathMatch: 'full',
     component: AttendingModalComponent
   },
   {
-    path: 'events',
+    path: 'events',pathMatch: 'full',
     component: SportClubEventsComponent
   },
   {
-    path: 'eventDetail/:id',
+    path: 'eventDetail/:id',pathMatch: 'full',
     component : EventDetailComponent
   },
 
