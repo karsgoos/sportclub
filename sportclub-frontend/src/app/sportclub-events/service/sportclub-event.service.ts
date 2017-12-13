@@ -11,8 +11,7 @@ export class SportClubEventService extends AbstractRestService<SportClubEvent> {
   }
 
   saveEvent(event:SportClubEvent){
-    console.log("in service" + event)
-    super.save(event);
+    super.save(event).subscribe();
   }
 
 }
