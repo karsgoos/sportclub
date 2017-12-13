@@ -1,6 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import { CalendarComponent } from "ng-fullcalendar";
 import { Options } from "fullcalendar";
+import {SportClubEvent} from "../../common/model/sportclub-event-model";
+import {SportClubEventService} from "../service/sportclub-event.service";
 
 @Component({
   selector: 'app-event-calendar',
@@ -9,11 +11,16 @@ import { Options } from "fullcalendar";
 })
 export class EventCalendarComponent implements OnInit {
 
+  //@Output() displayEvent = new EventEmitter<SportClubEvent>();
   displayEvent: any;
+
+  events: SportClubEvent[];
+
   calendarOptions: Options;
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
-  constructor() {}
+  constructor(private eventService: SportClubEventService) {}
   ngOnInit() {
+    // this.eventService.getEvents().subscribe(events => this.events = events);
     this.calendarOptions = {
       locale: 'nl-be',
       today: 'Vandaag',
