@@ -3,11 +3,12 @@ import {CommonModule} from '@angular/common';
 import {SportClubEventService} from './service/sportclub-event.service';
 import {SportClubEventsComponent} from './sportclub-events.component';
 import {SportclubEventCreationComponent} from "./components/sportclub-event-creation/sportclub-event-creation.component";
-
+import {ReactiveFormsModule,FormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
   declarations: [SportClubEventsComponent,
         SportclubEventCreationComponent],

@@ -1,5 +1,5 @@
 export interface Price {
-  child: number,
-  adult: number,
-  elderly: number,
+  CHILD: number,
+  ADULT: number,
+  ELDERLY: number,
 }

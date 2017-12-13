@@ -2,7 +2,7 @@ package com.realdolmen.sportclub.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -31,23 +31,26 @@ public class Event implements Serializable {
 
     private List<Enrollment> enrollments = new ArrayList<>();
 
+    @OneToMany
+    private List<Attendance> attendancies = new ArrayList<>();
+
     @Column
     private String imageUrl;
 
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonFormat(pattern="yyyy/MM/dd hh:mm")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
     private LocalDateTime startDate;
 
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonFormat(pattern="yyyy/MM/dd hh:mm")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
     private LocalDateTime endDate;
 
     @Embedded
     @NotNull
     private Address address;
 
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonFormat(pattern="yyyy/MM/dd hh:mm")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
     private LocalDateTime deadline;
 
     @NotNull
@@ -69,8 +72,11 @@ public class Event implements Serializable {
     @NotNull
     private String name;
 
-    @Column
-    private Long recurringEventId;
+    @ManyToOne
+    private RecurringEventInfo recurringEventInfo;
+
+    @OneToMany
+    private List<Attendance> attendancies;
 
     public Long getId() {
         return id;
@@ -180,11 +186,25 @@ public class Event implements Serializable {
         this.name = name;
     }
 
-    public Long getRecurringEventId() {
-        return recurringEventId;
+    public RecurringEventInfo getRecurringEventInfo() {return recurringEventInfo; }
+
+    public void setRecurringEventInfo(RecurringEventInfo recurringEventInfo) {this.recurringEventInfo = recurringEventInfo;}
+
+    public List<Attendance> getAttendancies() {
+        return attendancies;
     }
 
-    public void setRecurringEventId(Long recurringEventId) {
-        this.recurringEventId = recurringEventId;
+    public void addAttendance(Attendance attendance){
+        attendancies.add(attendance);
+        attendance.setEvent(this);
+    }
+
+    public List<Attendance> getAttendancies(){
+        return attendancies;
+    }
+
+    public void addAttendancd(Attendance attendance){
+        attendancies.add(attendance);
+        attendance.setEvent(this);
     }
 }

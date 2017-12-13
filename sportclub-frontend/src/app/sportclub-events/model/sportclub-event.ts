@@ -1,11 +1,14 @@
 import {Address} from "./address";
 
 export interface SportClubEvent {
+  responsibles?: [any],
+  enrollments?: [any],
+  imageUrl?: string,
   address?: Address;
   startDate?: Date;
   endDate?: Date;
   deadline?:Date;
-  isClosed?:boolean;
+  closed?:boolean;
   price?;
   minParticipants?: number;
   maxParticipants?: number;
