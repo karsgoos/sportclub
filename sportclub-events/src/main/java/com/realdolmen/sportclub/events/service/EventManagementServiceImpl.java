@@ -57,7 +57,8 @@ public class EventManagementServiceImpl implements EventManagementService {
         if (event.getEndDate().isBefore(event.getStartDate())) {
             throw new InvalidEventException("End date can not be before the start date.");
         }
-        if (event.getResponsibles() == null || event.getResponsibles().size() == 0) {
+        //uncomment this part when we can add the current moderator in the frontend
+        if (event.getResponsibles() == null /*|| event.getResponsibles().size() == 0*/) {
             throw new InvalidEventException("The event should have at least one responsible.");
         }
         if (event.getEnrollments() == null) {
