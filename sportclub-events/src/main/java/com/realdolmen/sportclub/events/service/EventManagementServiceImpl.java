@@ -1,5 +1,6 @@
 package com.realdolmen.sportclub.events.service;
 
+import com.realdolmen.sportclub.common.entity.Address;
 import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
 import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
@@ -44,8 +45,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     /**
-     * An event is valid if it has a start date and end date in the future,
-     * and if the end date is before the start date.
+     * Validate an event successfully or throw an exception.
      *
      * @throws InvalidEventException If the event is not valid. The message of the
      *                               exception will contain the reason validation failed.
@@ -66,6 +66,7 @@ public class EventManagementServiceImpl implements EventManagementService {
         if (event.getAddress() == null) {
             throw new InvalidEventException("Address cannot be null.");
         }
+        validate(event.getAddress());
         if (event.getDeadline() == null) {
             throw new InvalidEventException("Deadline cannot be null.");
         }
@@ -83,6 +84,24 @@ public class EventManagementServiceImpl implements EventManagementService {
         }
         if (event.getMinParticipants() > event.getMaxParticipants()) {
             throw new InvalidEventException("Min participants must be smaller than or equal to max participants.");
+        }
+    }
+
+    /**
+     * Validate an address or throw an exception
+     */
+    private void validate(Address address) throws InvalidEventException {
+        if (address.getCountry() == null) {
+            throw new InvalidEventException("Address country cannot be null.");
+        }
+        if (address.getPostalCode() == null) {
+            throw new InvalidEventException("Address postal code cannot be null.");
+        }
+        if (address.getStreet() == null) {
+            throw new InvalidEventException("Address street cannot be null.");
+        }
+        if (address.getHomeNumber() < 1) {
+            throw new InvalidEventException("Address home number cannot be less than 1.");
         }
     }
 }

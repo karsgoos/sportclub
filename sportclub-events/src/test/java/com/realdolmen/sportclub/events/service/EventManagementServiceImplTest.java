@@ -131,13 +131,46 @@ public class EventManagementServiceImplTest {
         service.create(event);
     }
 
+    @Test(expected = CouldNotCreateEventException.class)
+    public void canNotCreateEventWithInvalidAddressCountry() throws CouldNotCreateEventException {
+        Event event = createValidEvent();
+        event.getAddress().setCountry(null);
+        service.create(event);
+    }
+
+    @Test(expected = CouldNotCreateEventException.class)
+    public void canNotCreateEventWithInvalidAddressStreet() throws CouldNotCreateEventException {
+        Event event = createValidEvent();
+        event.getAddress().setStreet(null);
+        service.create(event);
+    }
+
+    @Test(expected = CouldNotCreateEventException.class)
+    public void canNotCreateEventWithInvalidAddressHomeNumber() throws CouldNotCreateEventException {
+        Event event = createValidEvent();
+        event.getAddress().setHomeNumber(0);
+        service.create(event);
+    }
+
+    @Test(expected = CouldNotCreateEventException.class)
+    public void canNotCreateEventWithInvalidAddressPostalCode() throws CouldNotCreateEventException {
+        Event event = createValidEvent();
+        event.getAddress().setPostalCode(null);
+        service.create(event);
+    }
+
     private Event createValidEvent() {
         Event event = new Event();
         event.setStartDate(LocalDateTime.now());
         event.setEndDate(LocalDateTime.now().plusDays(5));
         event.setEnrollments(new ArrayList<>());
         event.setPrice(new HashMap<>());
-        event.setAddress(new Address());
+        Address address = new Address();
+        address.setCountry("BE");
+        address.setPostalCode("9000");
+        address.setStreet("Sportstraat");
+        address.setHomeNumber(1);
+        event.setAddress(address);
         event.setName("Test Event");
         event.setMaxParticipants(10);
         event.setMinParticipants(1);
