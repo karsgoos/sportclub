@@ -32,7 +32,7 @@ public class EventServiceImpl implements EventService {
 	public void attendEvent(String userId, String eventId, int nrOfAdults, int nrOfChildren) {
 		
 		Order order = new Order();
-		order.setRegisteredUser(userRepository.getOne(Long.parseLong(userId)));
+		order.setUser(userRepository.getOne(Long.parseLong(userId)));
 
 		Event event= eventRepository.findOne(Long.parseLong(eventId));
 
