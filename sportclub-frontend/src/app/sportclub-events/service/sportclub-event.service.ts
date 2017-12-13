@@ -19,7 +19,7 @@ export class SportClubEventService { //extends AbstractRestService<SportClubEven
   getEvent(id: number) {
     var url = environment.eventApiUrl + "/" + id;
 
-    return this.http.get<SportClubEvent[]>(url);
+    return this.http.get<SportClubEvent>(url);
   }
 
   lookupEvent(name: string) {
