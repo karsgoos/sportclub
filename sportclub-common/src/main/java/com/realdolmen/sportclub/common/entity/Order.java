@@ -20,7 +20,7 @@ public class Order {
     @OneToMany
     private List<Orderable> orderables = new ArrayList<>();
 
-    private BigDecimal price;
+    private BigDecimal price = BigDecimal.ZERO;
 
     @ManyToOne
     private User user;
@@ -46,6 +46,10 @@ public class Order {
     public void setOrderables(List<Orderable> orderables) {
         this.orderables = orderables;
     }
+    
+    public void addOrderable(Orderable orderable){
+           this.orderables.add(orderable);
+       }
 
     public BigDecimal getPrice() {
         return price;

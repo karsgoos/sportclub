@@ -16,4 +16,24 @@ public abstract class Orderable {
     private BigDecimal price;
     @NotNull
     private String description;
+    
+    public Long getId() {
+        return id;
+    }
+    
+    public BigDecimal getPrice() {
+        return price;
+    }
+    
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
