@@ -1,5 +1,7 @@
 package com.realdolmen.sportclub.backend.config;
 
+import com.realdolmen.sportclub.backend.service.authentication.UserService;
+import com.realdolmen.sportclub.common.repository.RegisteredUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
@@ -21,9 +23,11 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ProductionResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
+    private RegisteredUserRepository registeredUserRepository;
+
+    @Autowired
     public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("bert").password("kek").authorities("CAN_SHIT");
+        auth.userDetailsService(new UserService(registeredUserRepository));
     }
 
     @Override
