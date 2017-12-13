@@ -230,4 +230,6 @@ public class Event implements Serializable {
     public void remAttendance(Attendance attendance) {
         attendancies.remove(attendance);
     }
+
+
 }

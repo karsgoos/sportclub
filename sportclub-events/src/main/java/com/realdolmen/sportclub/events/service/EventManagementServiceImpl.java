@@ -100,8 +100,11 @@ public class EventManagementServiceImpl implements EventManagementService {
         if (event.getDeadline() == null) {
             throw new InvalidEventException("Deadline cannot be null.");
         }
-        if (event.getPrice() == null) {
-            throw new InvalidEventException("Price cannot be null.");
+        if (event.getPriceAdult() == null) {
+            throw new InvalidEventException("Adult price cannot be null.");
+        }
+        if (event.getPriceChild() == null) {
+            throw new InvalidEventException("Child price cannot be null.");
         }
         if (event.getName() == null) {
             throw new InvalidEventException("Name cannot be null.");
