@@ -2,7 +2,7 @@ package com.realdolmen.sportclub.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -34,20 +34,20 @@ public class Event implements Serializable {
     @Column
     private String imageUrl;
 
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonFormat(pattern="yyyy/MM/dd hh:mm")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
     private LocalDateTime startDate;
 
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonFormat(pattern="yyyy/MM/dd hh:mm")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
     private LocalDateTime endDate;
 
     @Embedded
     @NotNull
     private Address address;
 
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonFormat(pattern="yyyy/MM/dd hh:mm")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
     private LocalDateTime deadline;
 
     @NotNull
