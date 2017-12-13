@@ -16,7 +16,7 @@ public class Order {
 
     private boolean isPaid;
 
-    @OneToMany
+    @OneToMany(mappedBy = "ordr")
     private List<Orderable> orderables = new ArrayList<>();
 
     private BigDecimal price;
@@ -54,11 +54,11 @@ public class Order {
         this.price = price;
     }
 
-    public User getRegisteredUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setRegisteredUser(User user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
