@@ -10,6 +10,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.File;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -101,6 +102,8 @@ public class Event implements Serializable {
 
     @OneToMany
     private List<Attendance> attendancies;
+
+    private File attachement;
 
     public Long getId() {
         return id;
@@ -231,5 +234,11 @@ public class Event implements Serializable {
         attendancies.remove(attendance);
     }
 
+    public File getAttachement() {
+        return attachement;
+    }
 
+    public void setAttachement(File attachement) {
+        this.attachement = attachement;
+    }
 }
