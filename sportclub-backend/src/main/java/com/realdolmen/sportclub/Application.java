@@ -1,16 +1,13 @@
 package com.realdolmen.sportclub;
 
-import com.realdolmen.sportclub.common.entity.Address;
-import com.realdolmen.sportclub.common.entity.Event;
-import com.realdolmen.sportclub.common.entity.Sportclub;
-import com.realdolmen.sportclub.common.repository.SportclubRepository;
-import com.realdolmen.sportclub.events.repository.EventRepository;
+import com.realdolmen.sportclub.common.entity.*;
+import com.realdolmen.sportclub.common.repository.EventRepository;
+import com.realdolmen.sportclub.common.repository.RoleRepository;
+import com.realdolmen.sportclub.common.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
@@ -18,18 +15,23 @@ import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.util.ArrayList;
 
 @SpringBootApplication
 @ComponentScan("com.realdolmen.sportclub")
 @EnableJpaRepositories("com.realdolmen.sportclub")
 @EntityScan("com.realdolmen.sportclub")
-
 public class Application {
 
     @Autowired
     private EventRepository eventRepository;
-
+    
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
+    private RoleRepository roleRepository;
+    
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -48,17 +50,31 @@ public class Application {
         eventRepository.save(e);
         Event t = new Event();
         t.setName("FOOOD");
-        t.setStartDate(LocalDateTime.of(2017,12,16,12,0,0));
-        t.setEndDate(LocalDateTime.of(2017,12,16,14,0,0));
+        t.setStartDate(LocalDateTime.of(2017,12,17,12,0,0));
+        t.setEndDate(LocalDateTime.of(2017,12,17,14,0,0));
         t.setDeadline(LocalDateTime.of(2017,12,16,12,0,0));
         Address a = new Address();
         a.setCountry("Belgium");
         t.setAddress(a);
-        t.setPriceAdult(BigDecimal.TEN);
-        t.setClosed(true);
-        t.setDescription("this is a nice description");
+        t.setPriceAdult(BigDecimal.ONE);
         eventRepository.save(t);
-        
+    
+        RegisteredUser u = new RegisteredUser();
+        u.setFirstName("bert");
+        u.setLastName("beton");
+        u.setEmail("bert@beton.be");
+        u.setMobileNumber("0");
+        u.setPhoneNumber("1");
+        u.setDateOfBirth(LocalDate.of(1991,8,07));
+        u.setAddress(new Address());
+        u.setGender(Gender.MAN);
+        u.setPassword("abc");
+        Role r = new Role();
+        r.setName("guest");
+        r.setPrivileges(new ArrayList<>());
+        roleRepository.save(r);
+        u.setRole(r);
+        userRepository.save(u);
     }
 
 }
