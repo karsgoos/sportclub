@@ -15,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -43,6 +44,7 @@ public class Application {
         Address address = new Address();
         address.setCountry("Belgium");
         e.setAddress(address);
+        e.setPriceAdult(BigDecimal.TEN);
         eventRepository.save(e);
         Event t = new Event();
         t.setName("FOOOD");
@@ -52,6 +54,7 @@ public class Application {
         Address a = new Address();
         a.setCountry("Belgium");
         t.setAddress(a);
+        t.setPriceAdult(BigDecimal.TEN);
         eventRepository.save(t);
         
     }
