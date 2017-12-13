@@ -35,10 +35,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -61,17 +63,12 @@ public class EventManagementControllerTest extends AbstractJUnit4SpringContextTe
     }
 
     @Test
-    @Ignore
-    public void correctEventPostRequest() throws Exception {
+    public void correctEventPostRequest()throws Exception{
         Address postedAddress = new Address();
         postedAddress.setCountry("Belgium");
         LocalDateTime deadLine = LocalDateTime.now().plusDays(5);
         LocalDateTime startDate = LocalDateTime.now().plusDays(100);
         LocalDateTime endDate = startDate.plusHours(5);
-        Map<AgeCategory, BigDecimal> price = new HashMap<>();
-        price.put(AgeCategory.ADULT, new BigDecimal(100));
-        price.put(AgeCategory.CHILD, new BigDecimal(80));
-
 
         postedAddress.setHomeNumber(1);
         postedAddress.setPostalCode("1000");
@@ -86,27 +83,25 @@ public class EventManagementControllerTest extends AbstractJUnit4SpringContextTe
         postedEvent.setMaxParticipants(100);
         postedEvent.setName("SuccessEvent");
         postedEvent.setMinParticipants(3);
-        postedEvent.setPrice(price);
-
+        postedEvent.setPriceAdult(new BigDecimal(100));
 
         Mockito.when(eventManagementService.create(postedEvent)).thenReturn(postedEvent);
 
-        mockMvc.perform(post("/events").contentType(MediaType.APPLICATION_JSON).content(JsonUtil.asJsonString(postedEvent)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        mockMvc.perform(post("/api/events").contentType(MediaType.APPLICATION_JSON).content(JsonUtil.asJsonString(postedEvent)))
+                .andExpect(status().isOk());
 
     }
 
     @Test
     public void returnsErrorWhenCanNotCreateEvent() throws Exception {
         Mockito.when(eventManagementService.create(Mockito.any())).thenThrow(CouldNotCreateEventException.class);
-        mockMvc.perform(post("/events").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+        mockMvc.perform(post("/api/events").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
     }
 
     @Test
     public void returnsErrorWhenCanNotUpdateEvent() throws Exception {
         Mockito.when(eventManagementService.update(Mockito.any())).thenThrow(CouldNotUpdateEventException.class);
-        mockMvc.perform(put("/events").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+        mockMvc.perform(put("/api/events").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
     }
 
     @Test
@@ -118,7 +113,7 @@ public class EventManagementControllerTest extends AbstractJUnit4SpringContextTe
     public void returnsSingleEventOnGet() throws Exception {
         Event event = new Event();
         Mockito.when(eventManagementService.find(new Long(1))).thenReturn(event);
-        mockMvc.perform(get("/events/{id}", 1L).accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/api/events/{id}", 1L).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
@@ -126,7 +121,7 @@ public class EventManagementControllerTest extends AbstractJUnit4SpringContextTe
     @Test
     public void returnsErrorWhenCallingGetWithWrongId() throws Exception {
         Mockito.when(eventManagementService.find(new Long(2))).thenThrow(EventNotFoundException.class);
-        mockMvc.perform(get("/events/{id}", 2L).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
+        mockMvc.perform(get("/api/events/{id}", 2L).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
     }
 
     @Test
@@ -134,7 +129,7 @@ public class EventManagementControllerTest extends AbstractJUnit4SpringContextTe
     // See returnsSingleEventOnGet for information on why this test is ignored.
     public void returnsPageOfEvents() throws Exception {
         Mockito.when(eventManagementService.findAll(0, 1)).thenReturn(new ArrayList<>());
-        mockMvc.perform(get("/events?page=0&pageSize=1").accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/api/events?page=0&pageSize=1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }

@@ -10,6 +10,7 @@ public class Attendance extends Orderable {
     @Enumerated(EnumType.STRING)
     private AgeCategory ageCategory;
 
+    @ManyToOne
     private Event event;
 
     public AgeCategory getAgeCategory() {

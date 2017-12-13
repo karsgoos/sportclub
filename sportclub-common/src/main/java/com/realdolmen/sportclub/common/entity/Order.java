@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "ordr")
@@ -15,16 +16,17 @@ public class Order {
 
     private boolean isPaid;
 
-    @OneToMany
+    @OneToMany(mappedBy = "ordr")
     private List<Orderable> orderables = new ArrayList<>();
 
-    @Transient
     private BigDecimal price;
 
     @ManyToOne
-    private RegisteredUser registeredUser;
+    private User user;
 
-    public Long getId() {
+    private UUID identifier;
+
+       public Long getId() {
         return id;
     }
 
@@ -52,11 +54,17 @@ public class Order {
         this.price = price;
     }
 
-    public RegisteredUser getRegisteredUser() {
-        return registeredUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setRegisteredUser(RegisteredUser registeredUser) {
-        this.registeredUser = registeredUser;
+    public void setUser(User user) {
+        this.user = user;
     }
+
+    @PrePersist
+    public void initializeUUID(){
+        identifier = UUID.randomUUID();
+    }
+
 }

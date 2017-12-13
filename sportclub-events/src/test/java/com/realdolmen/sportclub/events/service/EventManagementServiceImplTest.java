@@ -21,6 +21,7 @@ import org.mockito.stubbing.Answer;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -216,7 +217,6 @@ public class EventManagementServiceImplTest {
         event.setStartDate(LocalDateTime.now());
         event.setEndDate(LocalDateTime.now().plusDays(5));
         event.setEnrollments(new ArrayList<>());
-        event.setPrice(new HashMap<>());
         Address address = new Address();
         address.setCountry("BE");
         address.setPostalCode("9000");
@@ -230,6 +230,8 @@ public class EventManagementServiceImplTest {
         responsibles.add(new RegisteredUser());
         event.setResponsibles(responsibles);
         event.setDeadline(LocalDateTime.now().plusDays(10));
+        event.setPriceAdult(new BigDecimal(10.0));
+        event.setPriceChild(new BigDecimal(7.0));
         return event;
     }
 

@@ -2,17 +2,20 @@ package com.realdolmen.sportclub.events.service;
 
 import com.realdolmen.sportclub.common.entity.Address;
 import com.realdolmen.sportclub.common.entity.Event;
-import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
-import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
-import com.realdolmen.sportclub.events.exceptions.EventNotFoundException;
-import com.realdolmen.sportclub.events.exceptions.InvalidEventException;
+import com.realdolmen.sportclub.events.exceptions.*;
+import com.realdolmen.sportclub.common.entity.User;
+import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.events.repository.EventRepository;
+import com.realdolmen.sportclub.events.service.export.EventExcelExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -73,6 +76,38 @@ public class EventManagementServiceImpl implements EventManagementService {
         return repository.findAll(pageRequest).getContent();
     }
 
+    @Override
+    public void saveAttachment(Long id, MultipartFile mpf) throws IOException {
+        if(!mpf.getContentType().toLowerCase().equals("application/pdf")){
+            throw new IllegalArgumentException("Invalid file type");
+        }
+        Event event = repository.findOne(id);
+        event.setAttachement(mpf.getBytes());
+        repository.save(event);
+    }
+
+    @Override
+    public byte[] findAttachment(Long id) throws AttachmentNotFoundException {
+        Event event = repository.findOne(id);
+        byte[] attachment = event.getAttachement();
+        if(attachment==null){
+            throw new AttachmentNotFoundException();
+        }
+        return event.getAttachement();
+    }
+
+    @Override
+    public byte[] exportAttendanceList(Long id) throws EventNotFoundException, EventExportException {
+        Event event = find(id);
+        List<User> attendees = repository.findAttendeesForEvent(event);
+
+        try {
+            return EventExcelExporter.export(attendees);
+        } catch (IOException e) {
+            throw new EventExportException(e);
+        }
+    }
+
     /**
      * Validate an event successfully or throw an exception.
      *
@@ -100,8 +135,11 @@ public class EventManagementServiceImpl implements EventManagementService {
         if (event.getDeadline() == null) {
             throw new InvalidEventException("Deadline cannot be null.");
         }
-        if (event.getPrice() == null) {
-            throw new InvalidEventException("Price cannot be null.");
+        if (event.getPriceAdult() == null) {
+            throw new InvalidEventException("Adult price cannot be null.");
+        }
+        if (event.getPriceChild() == null) {
+            throw new InvalidEventException("Child price cannot be null.");
         }
         if (event.getName() == null) {
             throw new InvalidEventException("Name cannot be null.");
