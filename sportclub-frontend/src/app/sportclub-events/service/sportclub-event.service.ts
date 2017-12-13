@@ -3,6 +3,7 @@ import {AbstractRestService} from '../../common/abstract-rest-service.service';
 import {SportClubEvent} from '../../common/model/sportclub-event-model';
 import {HttpClient} from '@angular/common/http';
 import {environment} from "../../../environments/environment";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class SportClubEventService { //extends AbstractRestService<SportClubEvent> {
@@ -12,20 +13,20 @@ export class SportClubEventService { //extends AbstractRestService<SportClubEven
     //super(http, '5a2bfe2e2f00007112039335');
   }
 
-  getEvents() {
+  getEvents() :Observable<SportClubEvent[]>{
     return this.http.get<SportClubEvent[]>(environment.eventApiUrl);
   }
 
-  getEvent(id: number) {
+  getEvent(id: number):  Observable<SportClubEvent>{
     var url = environment.eventApiUrl + "/" + id;
 
-    return this.http.get<SportClubEvent[]>(url);
+    return this.http.get<SportClubEvent>(url);
   }
 
-  lookupEvent(name: string) {
+  lookupEvent(name: string) :  Observable<SportClubEvent> {
     var url = environment.eventApiUrl + "/search?name=" + name;
 
-    return this.http.get<SportClubEvent[]>(url);
+    return this.http.get<SportClubEvent>(url);
   }
 
 
