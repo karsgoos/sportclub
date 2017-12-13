@@ -11,6 +11,8 @@ import {FormGroup, FormBuilder} from "@angular/forms";
 export class SportclubEventCreationComponent implements OnInit {
 
   eventForm: FormGroup;
+  date: Date = new Date();
+
 
   constructor(private eventService: SportClubEventService, private fb: FormBuilder) {
     this.createForm();

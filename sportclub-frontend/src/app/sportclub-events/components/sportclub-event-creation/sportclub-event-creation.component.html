@@ -1,23 +1,53 @@
-<form [formGroup]="eventForm">
-  <label for="eventName">Naam</label>
-  <input formControlName="name" id="eventName">
-  <label for="eventDescription">Description</label>
-  <input formControlName="description" id="eventDescription">
-  <div formGroupName="address">
-    <label for="addrStreet">Street</label>
-    <input formControlName="street" id="addrStreet">
-  </div>
-  <div formGroupName="price">
-    <label for="priceChildren">price children</label>
-    <input formControlName="child" id="priceChildren">
-    <label for="priceAdults">price adults</label>
-    <input formControlName="adult" id="priceAdults">
-    <label for="priceElderly">price elderly</label>
-    <input formControlName="elderly" id="priceElderly">
-  </div>
-  <button (click)="saveSingleEvent()">Save</button>
-</form>
+<div class="container">
+  <div class="row">
+    <form [formGroup]="eventForm">
+      <label for="eventName">Naam</label>
+      <input class="input-field" formControlName="name" type="text" id="eventName">
+      <label for="eventDescription">Description</label>
+      <input formControlName="description" id="eventDescription">
+      <div formGroupName="address">
+        <label for="addrStreet">Street</label>
+        <input formControlName="street" id="addrStreet">
+        <label for="addrStreet">Homenumber</label>
+        <input formControlName="homeNumber" id="addrHomeNumber">
+        <label for="addrStreet">Postalcode</label>
+        <input formControlName="postalCode" id="addrPostalCode">
+        <label for="addrStreet">Country</label>
+        <input formControlName="country" id="addrCountry">
+      </div>
+      <div formGroupName="price">
+        <div class=" input-field col m4">
+          <label for="priceChildren">price children</label>
+          <input formControlName="child" type="number" id="priceChildren">
+        </div>
+        <div class="col m4"><label for="priceAdults">price adults</label>
+          <input formControlName="adult" id="priceAdults">
+        </div>
+        <div class="col m4"><label for="priceElderly">price elderly</label>
+          <input formControlName="elderly" id="priceElderly">
+        </div>
+      </div>
+      <div class="col m6">
+        <label for="eventStartDate">Start date</label>
+        <input id="eventStartDate" type="text" class="datepicker">
+      </div>
+      <div class="col m6">
+        <label for="eventStartTime">Start time</label>
+        <input id="eventStartTime" type="text" class="timepicker">
+      </div>
+      <div class="col m6">
+        <label for="eventEndDate">End date</label>
+        <input id="eventEndDate" type="text" class="datepicker">
+      </div>
+      <div class="col m6">
+        <label for="eventEndTime">End time</label>
+        <input id="eventEndTime" type="text" class="timepicker">
+      </div>
+      <button (click)="saveSingleEvent()">Save</button>
+    </form>
 
-<p>
-  {{eventForm.value | json}}
-</p>
+    <p>
+      {{eventForm.value | json}}
+    </p>
+  </div>
+</div>
