@@ -61,8 +61,8 @@ public class Event {
     @NotNull
     private String name;
 
-    @Column
-    private Long recurringEventId;
+    @ManyToOne
+    private RecurringEventInfo recurringEventInfo;
 
     public Long getId() {
         return id;
@@ -172,11 +172,7 @@ public class Event {
         this.name = name;
     }
 
-    public Long getRecurringEventId() {
-        return recurringEventId;
-    }
+    public RecurringEventInfo getRecurringEventInfo() {return recurringEventInfo; }
 
-    public void setRecurringEventId(Long recurringEventId) {
-        this.recurringEventId = recurringEventId;
-    }
+    public void setRecurringEventInfo(RecurringEventInfo recurringEventInfo) {this.recurringEventInfo = recurringEventInfo;}
 }
