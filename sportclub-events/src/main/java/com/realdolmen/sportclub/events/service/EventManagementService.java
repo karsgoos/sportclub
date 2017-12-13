@@ -60,7 +60,7 @@ public interface EventManagementService {
      */
     byte[] exportAttendanceList(Long id) throws EventNotFoundException, EventExportException;
 
-    public void saveAttachement(Long id, MultipartFile attachement) throws IOException;
+    public void saveAttachment(Long id, MultipartFile attachement) throws IOException;
 
     byte[] findAttachment(Long id) throws AttachmentNotFoundException;
 }

@@ -77,7 +77,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
-    public void saveAttachement(Long id, MultipartFile mpf) throws IOException {
+    public void saveAttachment(Long id, MultipartFile mpf) throws IOException {
         if(!mpf.getContentType().toLowerCase().equals("application/pdf")){
             throw new IllegalArgumentException("Invalid file type");
         }

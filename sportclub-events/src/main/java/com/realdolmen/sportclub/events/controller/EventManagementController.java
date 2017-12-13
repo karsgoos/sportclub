@@ -1,12 +1,9 @@
 package com.realdolmen.sportclub.events.controller;
 
-import com.realdolmen.sportclub.common.entity.Address;
-import com.realdolmen.sportclub.common.entity.AgeCategory;
 import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.events.service.EventManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,12 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class EventManagementController {
@@ -62,7 +54,7 @@ public class EventManagementController {
         }
 
         try {
-            service.saveAttachement(id, attachment);
+            service.saveAttachment(id, attachment);
 
         } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
