@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SportClubEventService} from './service/sportclub-event.service';
-import {SportClubEvent} from "../common/model/sportclub-event-model";
-
+import {SportClubEvent} from '../common/model/sportclub-event-model';
 
 @Component({
   selector: 'app-sportclub-events',
@@ -16,11 +15,11 @@ export class SportClubEventsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sportClubEventService.mockTest()
-      .subscribe((data) => {
-          this.sportClubEvent = data;
-        }
-      );
+    // this.sportClubEventService.mockTest()
+    //   .subscribe((data) => {
+    //       this.sportClubEvent = data;
+    //     }
+    //   );
   }
 
 }
