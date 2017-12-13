@@ -11,11 +11,6 @@ const routes: Routes = [
     component: SportClubUserManagementComponent
   },
   {
-    path: 'eventDetail',
-    component : EventDetailComponent
-
-  },
-  {
     path: 'attendingModal',
     component: AttendingModalComponent
 
@@ -23,6 +18,15 @@ const routes: Routes = [
   {
     path: 'events',
     component: SportClubEventsComponent
+  },
+  {
+    path: 'eventDetail/:id',
+    component : EventDetailComponent
+  },
+  {
+    path: 'eventSubscribe/:id',
+    component: AttendingModalComponent
+
   }
 ];
 

@@ -21,7 +21,7 @@
         <module>sportclub-backend</module>
         <module>sportclub-common</module>
         <!--<module>sportclub-communication-batch</module>-->
-        <!--<module>sportclub-events</module>-->
+        <module>sportclub-events</module>
         <module>sportclub-frontend</module>
         <!--<module>sportclub-payment</module>
         <module>sportclub-points</module>
@@ -52,13 +52,13 @@
                 <groupId>com.realdolmen</groupId>
                 <artifactId>sportclub-communication-batch</artifactId>
                 <version>${sportclub.version}</version>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>com.realdolmen</groupId>
                 <artifactId>sportclub-events</artifactId>
                 <version>${sportclub.version}</version>
             </dependency>
-            <dependency>
+           <!-- <dependency>
                 <groupId>com.realdolmen</groupId>
                 <artifactId>sportclub-payment</artifactId>
                 <version>${sportclub.version}</version>
