@@ -24,7 +24,19 @@ export class EventCalendarComponent implements OnInit {
     this.eventService.getEvents().subscribe(events =>{
       this.calendarOptions = {
         locale: 'nl-be',
-        today: 'Vandaag',
+        buttonText:{
+          today:    'Vandaag',
+          month:    'Maand',
+          week:     'Week',
+          day:      'Dag',
+          list:     'Agenda'
+        },
+        timeFormat: 'H:mm',
+        displayEventTime: true,
+        displayEventEnd: true,
+        height: 'parent',
+        slotLabelFormat: 'H:mm',
+        contentHeight: 'auto',
         editable: false,
         eventLimit: false,
 
@@ -35,6 +47,7 @@ export class EventCalendarComponent implements OnInit {
           event.start = event.startDate;
           event.end = event.endDate;
           event.url = '/eventDetail/'+event.id;
+          event.color = event.closed ? "blue" : "orange";
           return event;
         },
 

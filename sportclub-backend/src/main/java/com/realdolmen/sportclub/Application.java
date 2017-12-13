@@ -48,13 +48,15 @@ public class Application {
         eventRepository.save(e);
         Event t = new Event();
         t.setName("FOOOD");
-        t.setStartDate(LocalDateTime.of(2017,12,17,12,0,0));
-        t.setEndDate(LocalDateTime.of(2017,12,17,14,0,0));
+        t.setStartDate(LocalDateTime.of(2017,12,16,12,0,0));
+        t.setEndDate(LocalDateTime.of(2017,12,16,14,0,0));
         t.setDeadline(LocalDateTime.of(2017,12,16,12,0,0));
         Address a = new Address();
         a.setCountry("Belgium");
         t.setAddress(a);
         t.setPriceAdult(BigDecimal.TEN);
+        t.setClosed(true);
+        t.setDescription("this is a nice description");
         eventRepository.save(t);
         
     }
