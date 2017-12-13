@@ -5,9 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 public class Event {
@@ -45,10 +43,32 @@ public class Event {
     @NotNull
     private boolean isClosed;
 
-    @ElementCollection
+    /*@ElementCollection
     @MapKeyEnumerated(EnumType.STRING)
     @NotNull
-    private Map<AgeCategory, BigDecimal> price = new HashMap<>();
+    private Map<AgeCategory, BigDecimal> price = new HashMap<>();*/
+
+    public BigDecimal getPriceAdult() {
+        return priceAdult;
+    }
+
+    public void setPriceAdult(BigDecimal priceAdult) {
+        this.priceAdult = priceAdult;
+    }
+
+    public BigDecimal getPriceChild() {
+        return priceChild;
+    }
+
+    public void setPriceChild(BigDecimal priceChild) {
+        this.priceChild = priceChild;
+    }
+
+    @NotNull
+
+    private BigDecimal priceAdult;
+
+    private BigDecimal priceChild;
 
     @NotNull
     private int minParticipants;
@@ -135,13 +155,13 @@ public class Event {
         isClosed = closed;
     }
 
-    public Map<AgeCategory, BigDecimal> getPrice() {
+   /* public Map<AgeCategory, BigDecimal> getPrice() {
         return price;
     }
 
     public void setPrice(Map<AgeCategory, BigDecimal> price) {
         this.price = price;
-    }
+    }*/
 
     public int getMinParticipants() {
         return minParticipants;
@@ -175,16 +195,24 @@ public class Event {
         this.name = name;
     }
 
-    public RecurringEventInfo getRecurringEventInfo() {return recurringEventInfo; }
+    public RecurringEventInfo getRecurringEventInfo() {
+        return recurringEventInfo;
+    }
 
-    public void setRecurringEventInfo(RecurringEventInfo recurringEventInfo) {this.recurringEventInfo = recurringEventInfo;}
+    public void setRecurringEventInfo(RecurringEventInfo recurringEventInfo) {
+        this.recurringEventInfo = recurringEventInfo;
+    }
 
     public List<Attendance> getAttendancies() {
         return attendancies;
     }
 
-    public void addAttendance(Attendance attendance){
+    public void addAttendance(Attendance attendance) {
         attendancies.add(attendance);
         attendance.setEvent(this);
+    }
+
+    public void remAttendance(Attendance attendance) {
+        attendancies.remove(attendance);
     }
 }
