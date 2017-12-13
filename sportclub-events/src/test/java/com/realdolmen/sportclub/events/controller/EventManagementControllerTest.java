@@ -69,10 +69,6 @@ public class EventManagementControllerTest extends AbstractJUnit4SpringContextTe
         LocalDateTime deadLine = LocalDateTime.now().plusDays(5);
         LocalDateTime startDate = LocalDateTime.now().plusDays(100);
         LocalDateTime endDate = startDate.plusHours(5);
-        Map<AgeCategory, BigDecimal> price = new HashMap<>();
-        price.put(AgeCategory.ADULT, new BigDecimal(100));
-        price.put(AgeCategory.CHILD, new BigDecimal(80));
-
 
         postedAddress.setHomeNumber(1);
         postedAddress.setPostalCode("1000");
@@ -87,8 +83,7 @@ public class EventManagementControllerTest extends AbstractJUnit4SpringContextTe
         postedEvent.setMaxParticipants(100);
         postedEvent.setName("SuccessEvent");
         postedEvent.setMinParticipants(3);
-        postedEvent.setPrice(price);
-
+        postedEvent.setPriceAdult(new BigDecimal(100));
 
         Mockito.when(eventManagementService.create(postedEvent)).thenReturn(postedEvent);
 

@@ -216,7 +216,6 @@ public class EventManagementServiceImplTest {
         event.setStartDate(LocalDateTime.now());
         event.setEndDate(LocalDateTime.now().plusDays(5));
         event.setEnrollments(new ArrayList<>());
-        event.setPrice(new HashMap<>());
         Address address = new Address();
         address.setCountry("BE");
         address.setPostalCode("9000");
