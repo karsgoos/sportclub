@@ -17,7 +17,7 @@ export class EventDetailComponent implements OnInit {
   ngOnInit() {
   }
   navigate(){
-    this.router.navigate(['/attendingModal']);
+    this.router.navigate(['/attendingModal'+event]);
 
   }
 

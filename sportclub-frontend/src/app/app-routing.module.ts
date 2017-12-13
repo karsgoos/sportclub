@@ -11,19 +11,19 @@ const routes: Routes = [
     component: SportClubUserManagementComponent
   },
   {
-    path: 'eventDetail',
-    component : EventDetailComponent
-
-  },
-  {
-    path: 'attendingModal',
+    path: 'eventSubscribe/:id',
     component: AttendingModalComponent
-
   },
   {
     path: 'events',
     component: SportClubEventsComponent
-  }
+  },
+  ,
+  {
+    path: 'eventDetail/:id',
+    component : EventDetailComponent
+  },
+
 ];
 
 @NgModule({
