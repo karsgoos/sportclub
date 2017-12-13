@@ -72,8 +72,11 @@ public class Event implements Serializable {
     @NotNull
     private String name;
 
-    @Column
-    private Long recurringEventId;
+    @ManyToOne
+    private RecurringEventInfo recurringEventInfo;
+
+    @OneToMany
+    private List<Attendance> attendancies;
 
     public Long getId() {
         return id;
@@ -183,12 +186,17 @@ public class Event implements Serializable {
         this.name = name;
     }
 
-    public Long getRecurringEventId() {
-        return recurringEventId;
+    public RecurringEventInfo getRecurringEventInfo() {return recurringEventInfo; }
+
+    public void setRecurringEventInfo(RecurringEventInfo recurringEventInfo) {this.recurringEventInfo = recurringEventInfo;}
+
+    public List<Attendance> getAttendancies() {
+        return attendancies;
     }
 
-    public void setRecurringEventId(Long recurringEventId) {
-        this.recurringEventId = recurringEventId;
+    public void addAttendance(Attendance attendance){
+        attendancies.add(attendance);
+        attendance.setEvent(this);
     }
 
     public List<Attendance> getAttendancies(){
