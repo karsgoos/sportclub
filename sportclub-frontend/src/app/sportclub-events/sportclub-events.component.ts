@@ -9,21 +9,13 @@ import {SportClubEvent} from '../common/model/sportclub-event-model';
 })
 export class SportClubEventsComponent implements OnInit {
 
-  sportClubEvent: SportClubEvent;
-
   events: SportClubEvent[];
 
   constructor(private eventService: SportClubEventService) {
   }
 
   ngOnInit() {
-    // this.sportClubEventService.mockTest()
-    //   .subscribe((data) => {
-    //       this.sportClubEvent = data;
-    //     }
-    //   );
     this.eventService.getEvents().subscribe(events => this.events = events);
-
   }
 
 }
