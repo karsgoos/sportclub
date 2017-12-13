@@ -35,10 +35,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -61,8 +63,7 @@ public class EventManagementControllerTest extends AbstractJUnit4SpringContextTe
     }
 
     @Test
-    @Ignore
-    public void correctEventPostRequest() throws Exception {
+    public void correctEventPostRequest()throws Exception{
         Address postedAddress = new Address();
         postedAddress.setCountry("Belgium");
         LocalDateTime deadLine = LocalDateTime.now().plusDays(5);
@@ -92,8 +93,7 @@ public class EventManagementControllerTest extends AbstractJUnit4SpringContextTe
         Mockito.when(eventManagementService.create(postedEvent)).thenReturn(postedEvent);
 
         mockMvc.perform(post("/events").contentType(MediaType.APPLICATION_JSON).content(JsonUtil.asJsonString(postedEvent)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(status().isOk());
 
     }
 

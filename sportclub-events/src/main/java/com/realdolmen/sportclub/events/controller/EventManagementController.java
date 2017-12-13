@@ -9,6 +9,7 @@ import com.realdolmen.sportclub.events.exceptions.EventNotFoundException;
 import com.realdolmen.sportclub.events.service.EventManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class EventManagementController {
 
     }
 
-    @RequestMapping(consumes = "application/json", produces = "application/json", method = RequestMethod.POST, value = "/events")
+    @RequestMapping(consumes = "application/json", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.POST, value = "/events")
     public @ResponseBody
     Event create(@RequestBody Event event) throws CouldNotCreateEventException {
         return service.create(event);
