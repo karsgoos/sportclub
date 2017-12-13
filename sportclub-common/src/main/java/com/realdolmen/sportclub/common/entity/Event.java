@@ -85,7 +85,7 @@ public class Event {
     private RecurringEventInfo recurringEventInfo;
 
     @OneToMany
-    private List<Attendance> attendancies;
+    private List<Attendance> attendancies = new ArrayList<>();
 
     public Long getId() {
         return id;
