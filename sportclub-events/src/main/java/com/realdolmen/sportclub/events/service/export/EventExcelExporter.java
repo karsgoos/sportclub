@@ -10,8 +10,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 public class EventExcelExporter {
     public static byte[] export(List<User> attendees) throws IOException {
@@ -26,13 +29,13 @@ public class EventExcelExporter {
                 data.add(new Object[]{
                         user.getFirstName(),
                         user.getLastName(),
-                        ru.getDateOfBirth().toString(),
+                        DateTimeFormatter.ofPattern("dd/MM/yyyy").format(ru.getDateOfBirth()),
                         ru.getAddress().getStreet(),
                         ru.getAddress().getHomeNumber(),
                         ru.getAddress().getPostalCode(),
                         ru.getAddress().getCity(),
                         ru.getAddress().getCountry(),
-                        ru.getNonEditableField()});
+                        Objects.toString(ru.getNonEditableField(), "")});
             } else { // Guests have less information
                 data.add(new Object[]{user.getFirstName(), user.getLastName(), "", "", "", "", "", "", ""});
             }
