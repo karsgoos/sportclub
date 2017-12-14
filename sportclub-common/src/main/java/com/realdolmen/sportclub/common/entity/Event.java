@@ -82,7 +82,7 @@ public class Event implements Serializable {
 
     @NotNull
 
-    private BigDecimal priceAdult;
+    private BigDecimal priceAdult = BigDecimal.ZERO;
 
     private BigDecimal priceChild;
 
