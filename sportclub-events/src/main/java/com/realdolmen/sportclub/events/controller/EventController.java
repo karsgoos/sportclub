@@ -1,7 +1,7 @@
 package com.realdolmen.sportclub.events.controller;
 
 import com.realdolmen.sportclub.common.entity.Event;
-import com.realdolmen.sportclub.common.repository.EventRepository;
+import com.realdolmen.sportclub.events.repository.EventRepository;
 import com.realdolmen.sportclub.events.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

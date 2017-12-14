@@ -2,13 +2,12 @@ package com.realdolmen.sportclub.events.service;
 
 import com.realdolmen.sportclub.common.entity.*;
 import com.realdolmen.sportclub.common.repository.AttendanceRepository;
-import com.realdolmen.sportclub.common.repository.EventRepository;
 import com.realdolmen.sportclub.common.repository.OrderRepository;
 import com.realdolmen.sportclub.common.repository.UserRepository;
+import com.realdolmen.sportclub.events.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 
 @Service

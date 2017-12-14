@@ -1,12 +1,11 @@
 package com.realdolmen.sportclub;
 
 import com.realdolmen.sportclub.common.entity.*;
-import com.realdolmen.sportclub.common.repository.EventRepository;
 import com.realdolmen.sportclub.common.repository.RoleRepository;
 import com.realdolmen.sportclub.common.repository.UserRepository;
+import com.realdolmen.sportclub.events.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;

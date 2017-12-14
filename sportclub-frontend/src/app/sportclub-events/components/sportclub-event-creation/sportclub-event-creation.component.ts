@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {SportClubEvent} from "../../model/sportclub-event";
+import {SportClubCreationEvent} from "../../model/sportclub-event";
 import {SportClubEventService} from "../../service/sportclub-event.service";
 import {FormGroup, FormBuilder} from "@angular/forms";
 import {Address} from "../../model/address";
@@ -44,7 +44,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     };
   }
 
-  event: SportClubEvent = {};
+  event: SportClubCreationEvent = {};
   addr: Address = {};
   eventForm: FormGroup;
 

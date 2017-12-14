@@ -4,9 +4,10 @@ import {SportClubEvent} from '../../common/model/sportclub-event-model';
 import {HttpClient} from '@angular/common/http';
 import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs/Observable";
+import {SportClubCreationEvent} from "../model/sportclub-event";
 
 @Injectable()
-export class SportClubEventService extends AbstractRestService<SportClubEvent> {
+export class SportClubEventService extends AbstractRestService<SportClubCreationEvent> {
 
   constructor(http: HttpClient) {
     super(http, 'events');
@@ -50,7 +51,7 @@ export class SportClubEventService extends AbstractRestService<SportClubEvent> {
 
   }
 
-  saveEvent(event:SportClubEvent){
+  saveEvent(event:SportClubCreationEvent){
     super.save(event).subscribe();
   }
 

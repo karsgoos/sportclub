@@ -15,7 +15,7 @@ import {AngularDateTimePickerModule} from "angular2-datetimepicker";
     CommonModule,
     FullCalendarModule,
     ReactiveFormsModule,
-    AngularDateTimePickerModule
+    AngularDateTimePickerModule,
   ],
   declarations: [SportClubEventsComponent,
         SportclubEventCreationComponent, EventCalendarComponent],
