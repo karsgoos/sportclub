@@ -13,44 +13,66 @@
           <textarea formControlName="description" id="eventDescription" class="materialize-textarea"></textarea>
         </div>
       </div>
+
       <div class="row">
         <div class="col">
-          <input type="checkbox" id="customAddressCheckbox" formControlName="customAddressBoolean"/>
+          <input type="checkbox" id="customAddressCheckbox" formControlName="standardAddressBoolean"/>
           <label for="customAddressCheckbox">Take the default sport club address</label>
         </div>
       </div>
 
-      <div *ngIf="!(eventForm.value.customAddressBoolean)">
-        <div class="row">
-          <div class="col s5 input-field">
-            <label for="addrStreet">Street</label>
-            <input formControlName="street" id="addrStreet">
-          </div>
-          <div class="col s1 input-field">
-            <label for="addrStreet">Nr</label>
-            <input formControlName="homeNumber" id="addrHomeNumber">
-          </div>
+      <div *ngIf="!(eventForm.value.standardAddressBoolean)">
+      <div class="row">
+        <div class="col s5 input-field">
+          <label for="addrStreet">Street</label>
+          <input formControlName="street" id="addrStreet" type="text">
         </div>
+        <div class="col s1 input-field">
+          <label for="addrStreet">Nr</label>
+          <input formControlName="homeNumber" id="addrHomeNumber" type="number">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s2 input-field">
+          <label for="addrStreet">Postalcode</label>
+          <input formControlName="postalCode" id="addrPostalCode" type="number">
+        </div>
+        <div class="col s4 input-field">
+          <label for="addrStreet">Country</label>
+          <input formControlName="country" id="addrCountry" type="text">
+        </div>
+      </div>
+    </div>
+
+      <div class="row">
+        <div class="col">
+          <input type="checkbox" id="customPriceCheckbox" formControlName="differentPricesBoolean"/>
+          <label for="customPriceCheckbox">Differentiate price for adults and children</label>
+        </div>
+      </div>
+
+      <div *ngIf="(eventForm.value.differentPricesBoolean)">
         <div class="row">
           <div class="col s2 input-field">
-            <label for="addrStreet">Postalcode</label>
-            <input formControlName="postalCode" id="addrPostalCode">
+            <label for="priceChild">Price Children</label>
+            <input formControlName="pricePerChild" id="priceChild" type="number">
           </div>
-          <div class="col s4 input-field">
-            <label for="addrStreet">Country</label>
-            <input formControlName="country" id="addrCountry">
+          <div class="col s2 input-field">
+            <label for="priceAdult">Price Adults</label>
+            <input formControlName="pricePerAdult" id="priceAdult" type="number">
           </div>
         </div>
       </div>
-      <div>
-        <div class="col m4">
-          <label for="priceChildren">price children</label>
-          <input formControlName="pricePerChild" type="number" id="priceChildren">
-        </div>
-        <div class="col m4"><label for="priceAdults">price adults</label>
-          <input formControlName="pricePerAdult" id="priceAdults">
+
+      <div *ngIf="(!eventForm.value.differentPricesBoolean)">
+        <div class="row">
+          <div class="col s2 input-field">
+            <label for="priceGeneral">Price</label>
+            <input formControlName="priceGeneral" id="priceGeneral">
+          </div>
         </div>
       </div>
+
       <div class="col m6">
         <label for="eventStartDate">Start date</label>
         <input id="eventStartDate" type="text" class="eventDatepicker">
@@ -135,8 +157,8 @@
 
     </form>
 
-    <p class="col s12">
-      {{eventForm.value.customAddressBoolean}}
+    <p>
+      {{eventForm.value.standardAddressBoolean}}
     </p>
 
     <p class="col s12">

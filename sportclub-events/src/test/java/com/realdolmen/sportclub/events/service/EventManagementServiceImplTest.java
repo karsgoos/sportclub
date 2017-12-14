@@ -87,6 +87,7 @@ public class EventManagementServiceImplTest {
 
         service.create(event);
         Mockito.verify(repository, Mockito.times(numberOfRecurrences)).save((Event) Mockito.any());
+        Mockito.verify(recurringEventInfoRepository, Mockito.times(1)).save((RecurringEventInfo) Mockito.any());
     }
 
     @Test
@@ -103,6 +104,7 @@ public class EventManagementServiceImplTest {
 
         service.create(event);
         Mockito.verify(repository, Mockito.times(numberOfRecurrences)).save((Event) Mockito.any());
+        Mockito.verify(recurringEventInfoRepository, Mockito.times(1)).save((RecurringEventInfo) Mockito.any());
     }
 
     @Test(expected = CouldNotCreateEventException.class)

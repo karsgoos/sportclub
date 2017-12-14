@@ -57,24 +57,26 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
 
   createForm() {
     this.eventForm = this.fb.group({
-      name: '',
-      description: '',
-      street: '',
-      homeNumber: '',
-      postalCode: '',
-      country: '',
-      pricePerChild: '',
-      pricePerAdult: '',
-      startday: '',
-      starttime: '',
-      endday: '',
-      endtime: '',
-      deadlineday: '',
-      deadlinetime: '',
-      minParticipants: 10,
-      maxParticipants: 100,
-      closed: false,
-      customAddressBoolean: false,
+      name:'',
+      description:'',
+      street:'',
+      homeNumber:'',
+      postalCode:'',
+      country:'',
+      pricePerChild:'',
+      pricePerAdult:'',
+      priceGeneral:'',
+      startday:'',
+      starttime:'',
+      endday:'',
+      endtime:'',
+      deadlineday:'',
+      deadlinetime:'',
+      minParticipants:10,
+      maxParticipants:100,
+      closed:false,
+      standardAddressBoolean:false,
+      differentPricesBoolean:false,
       eventIsRecurring: false,
       firstEventDate: '',
       lastEventDate: '',
@@ -99,14 +101,30 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     });
   }
 
-  prepareEventToSave() {
-    this.addr.street = this.eventForm.value.street;
-    this.addr.homeNumber = this.eventForm.value.homeNumber;
-    this.addr.country = this.eventForm.value.country;
-    this.addr.postalCode = this.eventForm.value.postalCode;
+  prepareEventToSave(){
+    // if a custom address is wanted, set the address like specified in the form
+    if(!this.eventForm.value.standardAddressBoolean){
+      this.addr.street = this.eventForm.value.street;
+      this.addr.homeNumber = this.eventForm.value.homeNumber;
+      this.addr.country = this.eventForm.value.country;
+      this.addr.postalCode = this.eventForm.value.postalCode;
+    }
+    // TODO: Make this the standard sportclub address
+    else{
+      this.addr.street = "SportClubStreet";
+      this.addr.homeNumber = 101;
+      this.addr.country = "SportClubCountry";
+      this.addr.postalCode = "1000";
+    }
 
-    this.event.priceChild = this.eventForm.value.pricePerChild;
-    this.event.priceAdult = this.eventForm.value.pricePerAdult;
+    if(this.eventForm.value.differentPricesBoolean){
+      this.event.priceChild = this.eventForm.value.pricePerChild;
+      this.event.priceAdult = this.eventForm.value.pricePerAdult;
+    }
+    else {
+      this.event.priceChild = this.eventForm.value.priceGeneral;
+      this.event.priceAdult = this.eventForm.value.priceGeneral;
+    }
 
     this.event.name = this.eventForm.value.name;
     this.event.description = this.eventForm.value.description;

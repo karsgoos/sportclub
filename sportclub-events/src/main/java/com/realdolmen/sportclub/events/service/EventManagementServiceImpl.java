@@ -83,6 +83,8 @@ public class EventManagementServiceImpl implements EventManagementService {
                     newEvent.setStartDate(newEventStartDateTime);
                     newEvent.setEndDate(newEventEndDateTime);
 
+                    newEvent.setRecurringEventInfo(event.getRecurringEventInfo());
+
                     eventsToCreate.add(newEvent);
                 }
 
