@@ -2,6 +2,7 @@ package com.realdolmen.sportclub.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -79,7 +80,6 @@ public class Event implements Serializable {
     }
 
     @NotNull
-
     private BigDecimal priceAdult;
 
     private BigDecimal priceChild;
@@ -99,10 +99,16 @@ public class Event implements Serializable {
     private RecurringEventInfo recurringEventInfo;
 
     @OneToMany
+    @JsonIgnoreProperties("event")
     private List<Attendance> attendancies = new ArrayList<>();
 
     @JsonIgnore @Lob
     private byte[] attachement;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
+    private LocalDateTime reminderDate;
 
     public Long getId() {
         return id;
@@ -239,5 +245,13 @@ public class Event implements Serializable {
 
     public void setAttachement(byte[] attachement) {
         this.attachement = attachement;
+    }
+
+    public LocalDateTime getReminderDate() {
+        return reminderDate;
+    }
+
+    public void setReminderDate(LocalDateTime reminderDate) {
+        this.reminderDate = reminderDate;
     }
 }

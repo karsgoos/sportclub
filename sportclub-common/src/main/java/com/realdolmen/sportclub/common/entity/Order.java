@@ -1,7 +1,18 @@
 package com.realdolmen.sportclub.common.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -14,11 +25,18 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonFormat(pattern="yyyy/MM/dd")
+    private LocalDate orderDate;
+
+
     private boolean isPaid;
 
     @OneToMany(mappedBy = "ordr")
     private List<Orderable> orderables = new ArrayList<>();
 
+    @Transient
     private BigDecimal price;
 
     @ManyToOne
@@ -26,7 +44,7 @@ public class Order {
 
     private UUID identifier;
 
-       public Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -47,10 +65,10 @@ public class Order {
     }
 
     public BigDecimal getPrice() {
-        return price;
+        return this.calculateTotalPrice();
     }
 
-    public void setPrice(BigDecimal price) {
+    private void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -60,6 +78,20 @@ public class Order {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public LocalDate getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDate orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    @PostConstruct
+    public BigDecimal calculateTotalPrice(){
+           this.price = this.orderables.stream().map(Orderable::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+           return this.price;
     }
 
     @PrePersist

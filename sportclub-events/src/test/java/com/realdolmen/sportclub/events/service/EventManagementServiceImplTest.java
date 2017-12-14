@@ -25,6 +25,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EventManagementServiceImplTest {
@@ -76,34 +77,34 @@ public class EventManagementServiceImplTest {
 
     @Test
     public void canCreateRecurringEventOnSingleWeekday() throws CouldNotCreateEventException {
-        int numberOfRecurrences = 5; // 1 + 4 recurrences
         Event event = createValidEvent();
         RecurringEventInfo recurringEventInfo = new RecurringEventInfo();
         recurringEventInfo.setStartDate(event.getStartDate());
         recurringEventInfo.setEndDate(event.getStartDate().plusMonths(1));
-        recurringEventInfo.setWeekdays(new ArrayList<>());
+        recurringEventInfo.setWeekdays(new TreeSet<>());
         recurringEventInfo.getWeekdays().add(DayOfWeek.MONDAY);
         event.setRecurringEventInfo(recurringEventInfo);
 
         service.create(event);
-        Mockito.verify(repository, Mockito.times(numberOfRecurrences)).save((Event) Mockito.any());
+        Mockito.verify(repository, Mockito.times(1)).save((Event) Mockito.any()); // First event
+        Mockito.verify(repository, Mockito.times(1)).save((Iterable<Event>) Mockito.any()); // Recurrences
         Mockito.verify(recurringEventInfoRepository, Mockito.times(1)).save((RecurringEventInfo) Mockito.any());
     }
 
     @Test
     public void canCreateRecurringEventOnMultipleWeekdays() throws CouldNotCreateEventException {
-        int numberOfRecurrences = 9; // 1 + 8 recurrences
         Event event = createValidEvent();
         RecurringEventInfo recurringEventInfo = new RecurringEventInfo();
         recurringEventInfo.setStartDate(event.getStartDate());
         recurringEventInfo.setEndDate(event.getStartDate().plusMonths(1));
-        recurringEventInfo.setWeekdays(new ArrayList<>());
+        recurringEventInfo.setWeekdays(new TreeSet<>());
         recurringEventInfo.getWeekdays().add(DayOfWeek.MONDAY);
         recurringEventInfo.getWeekdays().add(DayOfWeek.WEDNESDAY);
         event.setRecurringEventInfo(recurringEventInfo);
 
         service.create(event);
-        Mockito.verify(repository, Mockito.times(numberOfRecurrences)).save((Event) Mockito.any());
+        Mockito.verify(repository, Mockito.times(1)).save((Event) Mockito.any()); // First event
+        Mockito.verify(repository, Mockito.times(1)).save((Iterable<Event>) Mockito.any()); // Recurrences
         Mockito.verify(recurringEventInfoRepository, Mockito.times(1)).save((RecurringEventInfo) Mockito.any());
     }
 
@@ -221,28 +222,55 @@ public class EventManagementServiceImplTest {
     }
 
     @Test
-    public void canGetPageOfEvents() {
-        Mockito.when(repository.findAll((Pageable) Mockito.any())).thenReturn(new PageImpl(new ArrayList<>()));
-        List<Event> result = service.findAll(0, 10);
-        Assert.assertNotNull(result);
-        Assert.assertEquals(0, result.size());
-    }
-
-    @Test
-    public void pagingWorksCorrectly() {
+    public void pagingWorksCorrectlyWithPositivePageAndFutureEvents() {
         ArrayList<Event> results = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            results.add(new Event());
+            Event event = createValidEvent();
+            event.setStartDate(LocalDateTime.now().plusMonths(1));
+            results.add(event);
         }
-        Mockito.when(repository.findAll((Pageable) Mockito.any())).thenReturn(new PageImpl(results));
+        Mockito.when(repository.findByStartDateAfterOrderByStartDateAsc(Mockito.any(), (Pageable) Mockito.any())).thenReturn(results);
         List<Event> result = service.findAll(0, 10);
         Assert.assertNotNull(result);
         Assert.assertEquals(10, result.size());
+        Mockito.verify(repository, Mockito.times(1)).findByStartDateAfterOrderByStartDateAsc(Mockito.any(), (Pageable) Mockito.any());
+        Mockito.verify(repository, Mockito.never()).findByStartDateBeforeOrderByStartDateDesc(Mockito.any(), (Pageable) Mockito.any());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void pagingFailsWithNegativePage() {
-        service.findAll(-1, 1);
+    @Test
+    public void pagingReturnsNothingWithPositivePageAndPastEvents() {
+        Mockito.when(repository.findByStartDateAfterOrderByStartDateAsc(Mockito.any(), (Pageable) Mockito.any())).thenReturn(new ArrayList<>());
+        List<Event> result = service.findAll(0, 10);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(0, result.size());
+        Mockito.verify(repository, Mockito.times(1)).findByStartDateAfterOrderByStartDateAsc(Mockito.any(), (Pageable) Mockito.any());
+        Mockito.verify(repository, Mockito.never()).findByStartDateBeforeOrderByStartDateDesc(Mockito.any(), (Pageable) Mockito.any());
+    }
+
+    @Test
+    public void pagingWorksCorrectlyWithNegativePageAndPastEvents() {
+        ArrayList<Event> results = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Event event = createValidEvent();
+            event.setStartDate(LocalDateTime.now().minusMonths(1));
+            results.add(event);
+        }
+        Mockito.when(repository.findByStartDateBeforeOrderByStartDateDesc(Mockito.any(), (Pageable) Mockito.any())).thenReturn(results);
+        List<Event> result = service.findAll(-1, 10);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(10, result.size());
+        Mockito.verify(repository, Mockito.never()).findByStartDateAfterOrderByStartDateAsc(Mockito.any(), (Pageable) Mockito.any());
+        Mockito.verify(repository, Mockito.times(1)).findByStartDateBeforeOrderByStartDateDesc(Mockito.any(), (Pageable) Mockito.any());
+    }
+
+    @Test
+    public void pagingReturnsNothingWithNegativePageAndFutureEvents() {
+        Mockito.when(repository.findByStartDateBeforeOrderByStartDateDesc(Mockito.any(), (Pageable) Mockito.any())).thenReturn(new ArrayList<>());
+        List<Event> result = service.findAll(-1, 10);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(0, result.size());
+        Mockito.verify(repository, Mockito.never()).findByStartDateAfterOrderByStartDateAsc(Mockito.any(), (Pageable) Mockito.any());
+        Mockito.verify(repository, Mockito.times(1)).findByStartDateBeforeOrderByStartDateDesc(Mockito.any(), (Pageable) Mockito.any());
     }
 
     @Test(expected = IllegalArgumentException.class)

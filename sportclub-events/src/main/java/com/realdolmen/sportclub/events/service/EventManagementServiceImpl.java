@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -93,9 +94,7 @@ public class EventManagementServiceImpl implements EventManagementService {
         }
 
         event = repository.save(event);
-        for(Event e : eventsToCreate) {
-            repository.save(e);
-        }
+        repository.save(eventsToCreate);
 
         return event;
     }
@@ -133,12 +132,25 @@ public class EventManagementServiceImpl implements EventManagementService {
     @Override
     @Transactional
     public List<Event> findAll(int page, int pageSize) {
-        if (page < 0 || pageSize < 1) {
-            throw new IllegalArgumentException("Invalid page and pageSize arguments.");
+        if (pageSize < 1) {
+            throw new IllegalArgumentException("Argument 'pageSize' must be larger than zero.");
         }
 
-        PageRequest pageRequest = new PageRequest(page, pageSize);
-        return repository.findAll(pageRequest).getContent();
+        LocalDateTime today = LocalDateTime.now();
+
+        List<Event> result;
+        if (page < 0) {
+            PageRequest pageRequest = new PageRequest(-page - 1, pageSize);
+            result = repository.findByStartDateBeforeOrderByStartDateDesc(today, pageRequest);
+            // The results are ordered descending in the repository. By reversing their order here, we obtain
+            // the most recent events in the past, ordered ascendingly by start date.
+            Collections.reverse(result);
+        } else {
+            PageRequest pageRequest = new PageRequest(page, pageSize);
+            result = repository.findByStartDateAfterOrderByStartDateAsc(today, pageRequest);
+        }
+
+        return result;
     }
 
     @Override
