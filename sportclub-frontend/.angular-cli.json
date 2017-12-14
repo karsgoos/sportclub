@@ -18,10 +18,16 @@
       "tsconfig": "tsconfig.spec.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
-      "styles": [
+      "styles": ["../node_modules/fullcalendar/dist/fullcalendar.css",
+        "../node_modules/materialize-css/dist/css/materialize.css",
         "styles.css"
       ],
-      "scripts": [],
+      "scripts": ["../node_modules/jquery/dist/jquery.js",
+        "../node_modules/moment/moment.js",
+        "../node_modules/fullcalendar/dist/fullcalendar.js",
+        "../node_modules/fullcalendar/dist/locale/nl-be.js",
+        "../node_modules/materialize-css/dist/js/materialize.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
