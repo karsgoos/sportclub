@@ -1,4 +1,5 @@
 import {Address} from "./address";
+import {RecuringEventInfo} from "./sportclub-recuring-event-info";
 
 export interface SportClubEvent {
   responsibles?,
@@ -15,4 +16,5 @@ export interface SportClubEvent {
   maxParticipants?: number;
   description?: string;
   name?:string;
+  recuringEventInfo?: RecuringEventInfo;
 }
