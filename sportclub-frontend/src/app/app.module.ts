@@ -8,10 +8,11 @@ import {SportClubEventsModule} from './sportclub-events/sportclub-events.module'
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {SportclubEventCreationComponent} from './sportclub-events/components/sportclub-event-creation/sportclub-event-creation.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {MenuBarComponent} from "./menu-bar/menu-bar.component";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,MenuBarComponent
   ],
   imports: [
     BrowserModule,

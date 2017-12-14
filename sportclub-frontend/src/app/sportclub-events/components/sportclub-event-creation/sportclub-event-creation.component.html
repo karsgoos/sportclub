@@ -3,7 +3,7 @@
     <form [formGroup]="eventForm">
       <div class="row">
         <div class="input-field col s6">
-          <label for="eventName" [ngStyle]="{'color' : isFieldValidAndSubmitted('name') ? 'red' : ''}">Naam</label>
+          <label for="eventName">Naam</label>
           <input class="input-field" formControlName="name" type="text" id="eventName" [ngClass]="errorCss('name')">
           <span *ngIf= "isFieldValidAndSubmitted('name')" style="color: red">Name is required</span>
         </div>
@@ -86,7 +86,8 @@
         </div>
         <div class="col m2">
           <label for="eventStartTime">Start time</label>
-          <input id="eventStartTime" type="text" class="timepicker">
+          <input id="eventStartTime" type="text" class="timepicker" [ngClass]="errorCss('starttime')">
+          <span *ngIf= "isFieldValidAndSubmitted('starttime')" class="error">Start time is required</span>
         </div>
         <div class="col m4">
           <label for="eventEndDate">End date</label>
@@ -94,7 +95,8 @@
         </div>
         <div class="col m2">
           <label for="eventEndTime">End time</label>
-          <input id="eventEndTime" type="text" class="timepicker">
+          <input id="eventEndTime" type="text" class="timepicker" [ngClass]="errorCss('endtime')">
+          <span *ngIf= "isFieldValidAndSubmitted('endtime')" class="error" >End time is required</span>
         </div>
       </div>
       <div class="row">
