@@ -133,4 +133,14 @@ public class EventManagementControllerTest extends AbstractJUnit4SpringContextTe
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
+
+    @Test
+    @Ignore
+    // See returnsSingleEventOnGet for information on why this test is ignored.
+    public void returnsListOfCancellations() throws Exception {
+        Mockito.when(eventManagementService.findCancellations(1L)).thenReturn(new ArrayList<>());
+        mockMvc.perform(get("/api/events/{id}/cancellations", 1L).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    }
 }

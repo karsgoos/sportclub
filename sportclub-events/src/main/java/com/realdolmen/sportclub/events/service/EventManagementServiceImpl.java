@@ -1,6 +1,7 @@
 package com.realdolmen.sportclub.events.service;
 
 import com.realdolmen.sportclub.common.entity.Address;
+import com.realdolmen.sportclub.common.entity.Attendance;
 import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.common.entity.User;
@@ -106,6 +107,12 @@ public class EventManagementServiceImpl implements EventManagementService {
         } catch (IOException e) {
             throw new EventExportException(e);
         }
+    }
+
+    @Override
+    public List<Attendance> findCancellations(Long id) throws EventNotFoundException {
+        Event event = find(id);
+        return repository.findCancellationsForEvent(event);
     }
 
     /**

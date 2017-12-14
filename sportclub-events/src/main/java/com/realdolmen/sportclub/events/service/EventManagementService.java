@@ -1,5 +1,6 @@
 package com.realdolmen.sportclub.events.service;
 
+import com.realdolmen.sportclub.common.entity.Attendance;
 import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.events.exceptions.AttachmentNotFoundException;
 import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
@@ -59,6 +60,15 @@ public interface EventManagementService {
      * @throws EventExportException If the Event cannot be exported.
      */
     byte[] exportAttendanceList(Long id) throws EventNotFoundException, EventExportException;
+
+    /**
+     * Obtain a list of cancelled attendances for a given event.
+     *
+     * @param id The id of the Event to query.
+     * @return A list of attendances which have been cancelled.
+     * @throws EventNotFoundException If the Event does not exist.
+     */
+    List<Attendance> findCancellations(Long id) throws EventNotFoundException;
 
     public void saveAttachment(Long id, MultipartFile attachement) throws IOException;
 
