@@ -39,7 +39,7 @@ public class Application {
     @PostConstruct
     public void initData() {
         Event e = new Event();
-        e.setName("FOOOD");
+        e.setName(" Open FOOOD");
         e.setStartDate(LocalDateTime.of(2017,12,16,12,0,0));
         e.setEndDate(LocalDateTime.of(2017,12,16,14,0,0));
         e.setDeadline(LocalDateTime.of(2017,12,15,12,0,0));
@@ -49,13 +49,15 @@ public class Application {
         e.setPriceAdult(BigDecimal.TEN);
         eventRepository.save(e);
         Event t = new Event();
-        t.setName("FOOOD");
+        t.setName("Closed FOOOD");
         t.setStartDate(LocalDateTime.of(2017,12,17,12,0,0));
         t.setEndDate(LocalDateTime.of(2017,12,17,14,0,0));
         t.setDeadline(LocalDateTime.of(2017,12,16,12,0,0));
         Address a = new Address();
         a.setCountry("Belgium");
         t.setAddress(a);
+        t.setClosed(true);
+        t.setDescription("Im a closed event");
         t.setPriceAdult(BigDecimal.ONE);
         eventRepository.save(t);
     
