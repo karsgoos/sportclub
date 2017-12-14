@@ -47,7 +47,7 @@
       <div class="row">
         <div class="col">
           <input type="checkbox" id="customPriceCheckbox" formControlName="differentPricesBoolean"/>
-          <label for="customPriceCheckbox">Differentiate price for adults and children</label>
+          <label for="customPriceCheckbox">Different prices for adults and children</label>
         </div>
       </div>
 
@@ -68,34 +68,38 @@
         <div class="row">
           <div class="col s2 input-field">
             <label for="priceGeneral">Price</label>
-            <input formControlName="priceGeneral" id="priceGeneral">
+            <input formControlName="priceGeneral" id="priceGeneral" type="number">
           </div>
         </div>
       </div>
 
-      <div class="col m6">
-        <label for="eventStartDate">Start date</label>
-        <input id="eventStartDate" type="text" class="eventDatepicker">
+      <div class="row">
+        <div class="col m4">
+          <label for="eventStartDate">Start date</label>
+          <input id="eventStartDate" type="text" class="eventDatepicker">
+        </div>
+        <div class="col m2">
+          <label for="eventStartTime">Start time</label>
+          <input id="eventStartTime" type="text" class="timepicker">
+        </div>
+        <div class="col m4">
+          <label for="eventEndDate">End date</label>
+          <input id="eventEndDate" type="text" class="eventDatepicker">
+        </div>
+        <div class="col m2">
+          <label for="eventEndTime">End time</label>
+          <input id="eventEndTime" type="text" class="timepicker">
+        </div>
       </div>
-      <div class="col m6">
-        <label for="eventStartTime">Start time</label>
-        <input id="eventStartTime" type="text" class="timepicker">
-      </div>
-      <div class="col m6">
-        <label for="eventEndDate">End date</label>
-        <input id="eventEndDate" type="text" class="eventDatepicker">
-      </div>
-      <div class="col m6">
-        <label for="eventEndTime">End time</label>
-        <input id="eventEndTime" type="text" class="timepicker">
-      </div>
-      <div class="col m6">
-        <label for="eventDeadlineDate">Deadline date</label>
-        <input id="eventDeadlineDate" type="text" class="eventDatepicker">
-      </div>
-      <div class="col m6">
-        <label for="eventDeadlineTime">Deadline time</label>
-        <input id="eventDeadlineTime" type="text" class="timepicker">
+      <div class="row">
+        <div class="col m4">
+          <label for="eventDeadlineDate">Deadline date</label>
+          <input id="eventDeadlineDate" type="text" class="eventDatepicker">
+        </div>
+        <div class="col m2">
+          <label for="eventDeadlineTime">Deadline time</label>
+          <input id="eventDeadlineTime" type="text" class="timepicker">
+        </div>
       </div>
 
       <div class="col s12">
@@ -146,7 +150,7 @@
             <input type="checkbox" id="test11" formControlName="SUNDAY"/>
             <label for="test11">Sunday</label>
           </div>
-          -->
+
         </div>
       </div>
 
