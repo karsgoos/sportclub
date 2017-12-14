@@ -39,7 +39,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       self.eventForm.patchValue({"firstEventDate": self.convertDateString(event.target.value)});
     };
 
-    document.getElementById('eventDeadlineDate').onchange = function (event: any) {
+    document.getElementById('eventLastDate').onchange = function (event: any) {
       self.eventForm.patchValue({"lastEventDate": self.convertDateString(event.target.value)});
     };
   }
@@ -148,8 +148,8 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
         }
       });
       this.event.recurringEventInfo = {
-        startDate: this.eventForm.value.firstEventDate,
-        endDate: this.eventForm.value.lastEventDate,
+        startDate: this.eventForm.value.firstEventDate+" 00:00",
+        endDate: this.eventForm.value.lastEventDate+ " 00:00",
         weekdays: weekdays as [string]
       }
     }
