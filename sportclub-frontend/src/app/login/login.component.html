@@ -1,3 +1,47 @@
-<p>
-  login works!
-</p>
+ <div class="row">
+ 	<div class="col s6 offset-s3">
+ 		<form name="form" class="card-panel" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+ 			<div class="row">
+ 				<div class="col s12">
+ 					<h4>Inloggen</h4>
+ 				</div>
+ 			</div>
+ 			<div class="row">
+ 				<div class="input-field col s12"   >
+ 					<input id="email" name="email" type="email" [(ngModel)]="model.email" #email="ngModel" [ngClass]="{ 'invalid' : f.submitted && !email.valid}" required>
+ 					<label for="email">
+ 						<div class="people-effect people-light left" data-error="wrong" data-success="right" type="submit"><i class="material-icons right">people</i></div>
+ 						Email
+ 					</label>
+ 				</div>
+ 			</div>
+
+ 			<div class="row">
+ 				<div class="input-field col s12"  >
+ 					<i class="material-icons lock"></i>
+ 					<input id="password" name="password" type="password" [(ngModel)]="model.password" #password="ngModel" [ngClass]="{'invalid' : f.submitted && !password.valid}"  required>
+ 					<label for="password" data-error="wrong" data-success="right">Password</label>
+ 				</div>
+ 			</div>
+ 			<div class="row">
+ 				<div class="col s6">
+ 					<p>
+ 						<input type="checkbox" class="filled-in" id="filled-in-box">
+ 						<label for="filled-in-box">Wactwoord onthouden</label>
+ 					</p>
+ 				</div>
+ 				<div class="col s6">
+ 					<button [disabled]="loading" class="chevron_right-effect chevron_right-light btn-large .btn right" type="submit"><i class="material-icons right">chevron_right</i>Inloggen</button>
+ 					<img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+ 				</div>
+ 			</div>
+ 		</form>
+
+ 		<div class="row">
+ 			<div class="col s12 center-align login-alt-routes" >
+ 				<a href="#">wachtwoord vergeten?</a><br>
+ 				<a href="#">Nog geen account? Registreer hier</a>
+ 			</div>
+ 		</div>
+ 	</div>
+ </div>
