@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminTemplateComponent } from './admin-template.component';
+import { MenuBarComponent } from './menu-bar.component';
 
-describe('AdminTemplateComponent', () => {
-  let component: AdminTemplateComponent;
-  let fixture: ComponentFixture<AdminTemplateComponent>;
+describe('MenuBarComponent', () => {
+  let component: MenuBarComponent;
+  let fixture: ComponentFixture<MenuBarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AdminTemplateComponent ]
+      declarations: [ MenuBarComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdminTemplateComponent);
+    fixture = TestBed.createComponent(MenuBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
