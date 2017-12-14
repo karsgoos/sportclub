@@ -25,6 +25,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EventManagementServiceImplTest {
@@ -80,7 +81,7 @@ public class EventManagementServiceImplTest {
         RecurringEventInfo recurringEventInfo = new RecurringEventInfo();
         recurringEventInfo.setStartDate(event.getStartDate());
         recurringEventInfo.setEndDate(event.getStartDate().plusMonths(1));
-        recurringEventInfo.setWeekdays(new ArrayList<>());
+        recurringEventInfo.setWeekdays(new TreeSet<>());
         recurringEventInfo.getWeekdays().add(DayOfWeek.MONDAY);
         event.setRecurringEventInfo(recurringEventInfo);
 
@@ -96,7 +97,7 @@ public class EventManagementServiceImplTest {
         RecurringEventInfo recurringEventInfo = new RecurringEventInfo();
         recurringEventInfo.setStartDate(event.getStartDate());
         recurringEventInfo.setEndDate(event.getStartDate().plusMonths(1));
-        recurringEventInfo.setWeekdays(new ArrayList<>());
+        recurringEventInfo.setWeekdays(new TreeSet<>());
         recurringEventInfo.getWeekdays().add(DayOfWeek.MONDAY);
         recurringEventInfo.getWeekdays().add(DayOfWeek.WEDNESDAY);
         event.setRecurringEventInfo(recurringEventInfo);
