@@ -10,7 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class RecurringEventInfo {
@@ -34,14 +34,10 @@ public class RecurringEventInfo {
     @NotNull
     @ElementCollection(targetClass=DayOfWeek.class)
     @Enumerated(EnumType.STRING)
-       private List<DayOfWeek> weekdays;
+       private Set<DayOfWeek> weekdays;
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public LocalDateTime getStartDate() {
@@ -60,11 +56,11 @@ public class RecurringEventInfo {
         this.endDate = endDate;
     }
 
-    public List<DayOfWeek> getWeekdays() {
+    public Set<DayOfWeek> getWeekdays() {
         return weekdays;
     }
 
-    public void setWeekdays(List<DayOfWeek> weekdays) {
+    public void setWeekdays(Set<DayOfWeek> weekdays) {
         this.weekdays = weekdays;
     }
 }

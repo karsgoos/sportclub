@@ -1,5 +1,7 @@
 package com.realdolmen.sportclub.common.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -11,6 +13,7 @@ public class Attendance extends Orderable {
     private AgeCategory ageCategory;
 
     @ManyToOne
+    @JsonIgnoreProperties("attendancies")
     private Event event;
 
     private boolean cancelled;
