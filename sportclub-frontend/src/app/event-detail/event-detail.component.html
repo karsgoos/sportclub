@@ -1,11 +1,18 @@
 <div class="eventTitleBar">
-
 </div>
 
+<div class="row">
+  <div class="col s12 m6 l3"><p> testing content {{eventModel.address.street}} {{eventModel.address.homeNumber}}</p></div>
+  <div class="col s12 m6 l3"><p>testing content {{eventModel.address.country}}</p></div>
+  <div class="col s12 m6 l3"><p> </p></div>
+  <div class="col s12 m6 l3"><p>  </p></div>
+</div>
 
 <div class="row">
-  <div class="col s12 m6 l3"><p>  </p></div>
   <div class="col s12 m6 l3"><p> </p></div>
+  <div class="col s12 m6 l3" *ngIf="eventModel.imageUrl != null">
+    <img class="materialboxed" width="200" src="{{eventModel.imageUrl}}" alt="event image">
+  </div>
   <div class="col s12 m6 l3"><p> </p></div>
   <div class="col s12 m6 l3"><p>  </p></div>
 </div>
@@ -13,7 +20,7 @@
 <div class="row">
   <div class="col s12 m6 l3"><p>  </p></div>
   <div class="col s12 m6 l3"><p>{{eventModel.name}}</p></div>
-  <div class="col s12 m6 l3"><p>Prijs volwassenen:{{eventModel.price.adultPrice}}<br/>Prijs kinderen:{{eventModel.price.childPrice}}</p></div>
+  <div class="col s12 m6 l3"><p>Prijs volwassenen: &euro;{{eventModel.price.adultPrice}}<br/>Prijs kinderen: &euro;{{eventModel.price.childPrice}}</p></div>
   <div class="col s12 m6 l3"><p>  </p></div>
 </div>
 
@@ -24,7 +31,7 @@
     <span>Eind datum: {{eventModel.endDate}}</span> <br/>
     <span>Recursief evenement</span>
   </div>
-  <div class="col s12 m6 l3"  *ngIf="eventModel.recurringEventInfo == null">
+  <div class="col s12 m6 l3" *ngIf="eventModel.recurringEventInfo == null">
     <span>Datum: {{eventModel.startDate}}</span> <br/>
     <span>Enkelvoudig evenement</span>
   </div>
@@ -37,14 +44,18 @@
 
 <div class="row">
   <div class="col s12 m6 l3"><p>  </p></div>
-  <div class="col s12 m6 l3"><p>
+  <div class="col s12 m6 l3">
     <span>Locatie:</span><br/>
     <span>{{eventModel.address.street}} {{eventModel.address.homeNumber}}</span>
     <br/>
     <span>{{eventModel.address.postalCode}}</span>
-  </p></div>
+    <br/>
+    <span>{{eventModel.address.country}}</span>
+</div>
   <div class="col s12 m6 l3">
-    <a class="waves-effect waves-light btn" (click)="subscribe()" >Inschrijven</a></div>
+    <a class="waves-effect waves-light btn" (click)="subscribe()" >Inschrijven</a><br/>
+    <span>Inschrijven voor: {{eventModel.deadline}}</span>
+  </div>
   <div class="col s12 m6 l3"><p>  </p></div>
 </div>
 
