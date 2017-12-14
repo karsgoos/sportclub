@@ -1,8 +1,10 @@
 package com.realdolmen.sportclub.common.entity;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -14,6 +16,10 @@ public class Enrollment extends Orderable {
     @NotNull
     @Column
     private LocalDate endDate;
+
+    @NotNull
+    @ManyToOne
+    private MembershipType membershipType;
 
     public LocalDate getStartDate() {
         return startDate;

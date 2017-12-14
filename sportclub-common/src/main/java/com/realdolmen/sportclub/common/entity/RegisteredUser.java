@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,8 @@ public class RegisteredUser extends User {
 
     @Column
     private int totalPoints;
+
+    private String nonEditableField;
 
     public RegisteredUser(){
 
@@ -113,5 +116,17 @@ public class RegisteredUser extends User {
 
     public void setTotalPoints(int totalPoints) {
         this.totalPoints = totalPoints;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public String getNonEditableField() {
+        return nonEditableField;
+    }
+
+    public void setNonEditableField(String nonEditableField) {
+        this.nonEditableField = nonEditableField;
     }
 }
