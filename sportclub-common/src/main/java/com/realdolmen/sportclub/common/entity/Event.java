@@ -2,6 +2,8 @@ package com.realdolmen.sportclub.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -98,7 +100,8 @@ public class Event implements Serializable {
     @ManyToOne
     private RecurringEventInfo recurringEventInfo;
 
-    @OneToMany
+    @OneToMany(mappedBy = "event")
+    @JsonIgnoreProperties("event")
     private List<Attendance> attendancies = new ArrayList<>();
 
     @JsonIgnore @Lob
