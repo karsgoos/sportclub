@@ -42,9 +42,10 @@ public interface EventManagementService {
     Event find(Long id) throws EventNotFoundException;
 
     /**
-     * Get all Events.
+     * Get all Events. Passing a negative page will return events in the past,
+     * while passing a page >= 0 will return events in the future.
      *
-     * @param page The page (0-based).
+     * @param page The page.
      * @param pageSize The size of a page.
      * @return A list of Events (according to the given page).
      */
