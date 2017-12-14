@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import { SportClubEvent} from "../../model/sportclub-event";
+import {SportClubEvent} from "../../model/sportclub-event";
 import {SportClubEventService} from "../../service/sportclub-event.service";
 import {FormGroup, FormBuilder} from "@angular/forms";
 import {Address} from "../../model/address";
@@ -14,24 +14,32 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
   // hack for making date and time pickers work
   ngAfterViewInit(): void {
     let self = this;
-    document.getElementById('eventEndTime').onchange= function(event: any) {
+    document.getElementById('eventEndTime').onchange = function (event: any) {
       self.eventForm.patchValue({"endtime": event.target.value});
     };
-    document.getElementById('eventStartTime').onchange= function(event: any) {
+    document.getElementById('eventStartTime').onchange = function (event: any) {
       self.eventForm.patchValue({"starttime": event.target.value});
     };
-    document.getElementById('eventStartDate').onchange= function(event: any) {
+    document.getElementById('eventStartDate').onchange = function (event: any) {
       self.eventForm.patchValue({"startday": self.convertDateString(event.target.value)});
     };
-    document.getElementById('eventEndDate').onchange= function(event: any) {
+    document.getElementById('eventEndDate').onchange = function (event: any) {
       self.eventForm.patchValue({"endday": self.convertDateString(event.target.value)});
     };
 
-    document.getElementById('eventDeadlineTime').onchange= function(event: any) {
+    document.getElementById('eventDeadlineTime').onchange = function (event: any) {
       self.eventForm.patchValue({"deadlinetime": event.target.value});
     };
-    document.getElementById('eventDeadlineDate').onchange= function(event: any) {
+    document.getElementById('eventDeadlineDate').onchange = function (event: any) {
       self.eventForm.patchValue({"deadlineday": self.convertDateString(event.target.value)});
+    };
+
+    document.getElementById('eventFirstDate').onchange = function (event: any) {
+      self.eventForm.patchValue({"firstEventDate": self.convertDateString(event.target.value)});
+    };
+
+    document.getElementById('eventDeadlineDate').onchange = function (event: any) {
+      self.eventForm.patchValue({"lastEventDate": self.convertDateString(event.target.value)});
     };
   }
 
@@ -46,7 +54,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     this.createForm();
   }
 
-  createForm(){
+  createForm() {
     this.eventForm = this.fb.group({
       name:'',
       description:'',
@@ -67,7 +75,11 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       maxParticipants:100,
       closed:false,
       standardAddressBoolean:false,
-      differentPricesBoolean:false
+      differentPricesBoolean:false,
+      eventIsRecurring: false,
+      firstEventDate: '',
+      lastEventDate: '',
+      nrOfWeekdays : []
     });
   }
 
@@ -108,23 +120,26 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     this.event.maxParticipants = this.eventForm.value.maxParticipants;
     this.event.closed = this.eventForm.value.closed;
 
+    if (this.eventForm.value.eventIsRecurring) {
+      /*this.event.recuringEventInfo = {
+
+      }*/
+    }
+
   }
 
-  saveSingleEvent(){
+  saveSingleEvent() {
     this.prepareEventToSave();
     this.eventService.saveEvent(this.event);
   }
 
 
-
-
-
-  convertDateString(dateString:string):string{
+  convertDateString(dateString: string): string {
     let temp = dateString.split(" ");
-    let day:string = temp[0];
-    let year:string = temp[2];
-    let month:string;
-    switch(temp[1]) {
+    let day: string = temp[0];
+    let year: string = temp[2];
+    let month: string;
+    switch (temp[1]) {
       case "January,":
         month = "01";
         break;
@@ -162,7 +177,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
         month = "12";
         break;
       default:
-        month="00";
+        month = "00";
     }
 
     return year + '/' + month + '/' + day;

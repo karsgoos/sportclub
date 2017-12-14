@@ -1,14 +1,13 @@
 package com.realdolmen.sportclub.events.service;
 
-import com.realdolmen.sportclub.common.entity.Attendance;
 import com.realdolmen.sportclub.common.entity.Event;
+import com.realdolmen.sportclub.common.entity.User;
 import com.realdolmen.sportclub.events.exceptions.AttachmentNotFoundException;
 import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
 import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
 import com.realdolmen.sportclub.events.exceptions.EventExportException;
 import com.realdolmen.sportclub.events.exceptions.EventNotFoundException;
 import org.springframework.web.multipart.MultipartFile;
-import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.IOException;
 import java.util.List;
@@ -68,7 +67,16 @@ public interface EventManagementService {
      * @return A list of attendances which have been cancelled.
      * @throws EventNotFoundException If the Event does not exist.
      */
-    List<Attendance> findCancellations(Long id) throws EventNotFoundException;
+    List<User> findCancellations(Long id) throws EventNotFoundException;
+
+    /**
+     * Obtain a list of cancelled attendances for a given event as an Excel file.
+     *
+     * @param id The id of the Event to query.
+     * @return A list of attendances which have been cancelled (Excel workbook as byte array).
+     * @throws EventNotFoundException If the Event does not exist.
+     */
+    byte[] exportCancellations(Long id) throws EventNotFoundException, EventExportException;
 
     public void saveAttachment(Long id, MultipartFile attachement) throws IOException;
 

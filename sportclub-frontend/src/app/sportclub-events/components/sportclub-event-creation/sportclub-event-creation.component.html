@@ -97,17 +97,66 @@
         <label for="eventDeadlineTime">Deadline time</label>
         <input id="eventDeadlineTime" type="text" class="timepicker">
       </div>
-      <button (click)="saveSingleEvent()">Save</button>
+
+      <div class="col s12">
+        <input type="checkbox" id="eventIsRecurringCheckbox" formControlName="eventIsRecurring"/>
+        <label for="eventIsRecurringCheckbox">Event is recurring</label>
+      </div>
+
+      <div [hidden]="!(eventForm.value.eventIsRecurring)">
+        <div class="col m6">
+          <label for="eventFirstDate">First event date</label>
+          <input id="eventFirstDate" type="text" class="eventDatepicker">
+        </div>
+        <div class="col m6">
+          <label for="eventLastDate">Last event date</label>
+          <input id="eventLastDate" type="text" class="eventDatepicker">
+        </div>
+        <div class="col s12">
+          <input type="checkbox" id="test5"/>
+          <label for="test5">Monday</label>
+        </div>
+
+        <div class="col s12">
+          <input type="checkbox" id="test6"/>
+          <label for="test6">Tuesday</label>
+        </div>
+        <div class="col s12">
+          <input type="checkbox" id="test7"/>
+          <label for="test7">Wednesday</label>
+        </div>
+        <div class="col s12">
+          <input type="checkbox" id="test8"/>
+          <label for="test8">Thursday</label>
+        </div>
+        <div class="col s12">
+          <input type="checkbox" id="test9"/>
+          <label for="test9">Friday</label>
+        </div>
+        <div class="col s12">
+          <input type="checkbox" id="test10"/>
+          <label for="test10">Saturday</label>
+        </div>
+        <div class="col s12">
+          <input type="checkbox" id="test11"/>
+          <label for="test11">Sunday</label>
+        </div>
+      </div>
+
+      <div class="col s12">
+        <button class="btn" (click)="saveSingleEvent()">Save</button>
+      </div>
+
     </form>
 
     <p>
       {{eventForm.value.standardAddressBoolean}}
     </p>
 
-    <p>
+    <p class="col s12">
       {{eventForm.value | json}}
     </p>
-    <p>
+    <p class="col s12">
       {{event | json}}
     </p>
   </div>

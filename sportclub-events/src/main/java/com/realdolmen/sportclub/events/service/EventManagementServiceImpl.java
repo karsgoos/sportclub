@@ -1,30 +1,39 @@
 package com.realdolmen.sportclub.events.service;
 
 import com.realdolmen.sportclub.common.entity.Address;
-import com.realdolmen.sportclub.common.entity.Attendance;
 import com.realdolmen.sportclub.common.entity.Event;
+import com.realdolmen.sportclub.common.entity.RecurringEventInfo;
 import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.common.entity.User;
-import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.events.repository.EventRepository;
+import com.realdolmen.sportclub.events.repository.RecurringEventInfoRepository;
 import com.realdolmen.sportclub.events.service.export.EventExcelExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 public class EventManagementServiceImpl implements EventManagementService {
     @Autowired
     private EventRepository repository;
+    @Autowired
+    private RecurringEventInfoRepository recurringEventInfoRepository;
 
     @Override
+    @Transactional
     public Event create(Event event) throws CouldNotCreateEventException {
         if (event == null) {
             throw new CouldNotCreateEventException(new IllegalArgumentException("Event cannot be null."));
@@ -36,10 +45,61 @@ public class EventManagementServiceImpl implements EventManagementService {
             throw new CouldNotCreateEventException(e);
         }
 
-        return repository.save(event);
+        List<Event> eventsToCreate = new ArrayList<>();
+        if (event.getRecurringEventInfo() != null) {
+            event.setRecurringEventInfo(recurringEventInfoRepository.save(event.getRecurringEventInfo()));
+
+            // This is a recurring event, so we have to create an event instance per occurrence
+            LocalDateTime startDateTime = event.getRecurringEventInfo().getStartDate();
+            LocalDateTime endDateTime = event.getRecurringEventInfo().getEndDate();
+
+            // To do this, we loop over all the days and add events when a recurring weekday occurs
+            Collection<DayOfWeek> weekDays = event.getRecurringEventInfo().getWeekdays();
+            LocalDate currentDate = startDateTime.plusDays(1).toLocalDate();
+            while(currentDate.isBefore(endDateTime.toLocalDate())) {
+                if (weekDays.contains(currentDate.getDayOfWeek())) {
+                    // Create a new event
+                    // Each new event should have the same start time as the event passed to this method
+                    LocalTime eventStartTime = event.getStartDate().toLocalTime();
+                    LocalTime eventEndTime = event.getEndDate().toLocalTime();
+                    LocalDateTime newEventStartDateTime = LocalDateTime.of(currentDate, eventStartTime);
+                    LocalDateTime newEventEndDateTime = LocalDateTime.of(currentDate, eventEndTime);
+
+                    // Create a deep copy of the event
+                    Event newEvent = new Event();
+                    newEvent.setPriceAdult(event.getPriceAdult());
+                    newEvent.setPriceChild(event.getPriceChild());
+                    newEvent.setMaxParticipants(event.getMaxParticipants());
+                    newEvent.setMinParticipants(event.getMinParticipants());
+                    newEvent.setDeadline(event.getDeadline());
+                    newEvent.setResponsibles(event.getResponsibles());
+                    newEvent.setAddress(event.getAddress());
+                    newEvent.setClosed(event.isClosed());
+                    newEvent.setDescription(event.getDescription());
+                    newEvent.setName(event.getName());
+                    newEvent.setAttachement(event.getAttachement());
+                    newEvent.setImageUrl(event.getImageUrl());
+
+                    newEvent.setStartDate(newEventStartDateTime);
+                    newEvent.setEndDate(newEventEndDateTime);
+
+                    eventsToCreate.add(newEvent);
+                }
+
+                currentDate = currentDate.plusDays(1);
+            }
+        }
+
+        event = repository.save(event);
+        for(Event e : eventsToCreate) {
+            repository.save(e);
+        }
+
+        return event;
     }
 
     @Override
+    @Transactional
     public Event update(Event event) throws CouldNotUpdateEventException {
         if (event == null) {
             throw new CouldNotUpdateEventException(new IllegalArgumentException("Event cannot be null."));
@@ -55,6 +115,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
+    @Transactional
     public Event find(Long id) throws EventNotFoundException {
         if (id == null) {
             throw new EventNotFoundException(new IllegalArgumentException("Id cannot be null."));
@@ -68,6 +129,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
+    @Transactional
     public List<Event> findAll(int page, int pageSize) {
         if (page < 0 || pageSize < 1) {
             throw new IllegalArgumentException("Invalid page and pageSize arguments.");
@@ -78,6 +140,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
+    @Transactional
     public void saveAttachment(Long id, MultipartFile mpf) throws IOException {
         if(!mpf.getContentType().toLowerCase().equals("application/pdf")){
             throw new IllegalArgumentException("Invalid file type");
@@ -88,6 +151,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
+    @Transactional
     public byte[] findAttachment(Long id) throws AttachmentNotFoundException {
         Event event = repository.findOne(id);
         byte[] attachment = event.getAttachement();
@@ -98,6 +162,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
+    @Transactional
     public byte[] exportAttendanceList(Long id) throws EventNotFoundException, EventExportException {
         Event event = find(id);
         List<User> attendees = repository.findAttendeesForEvent(event);
@@ -110,9 +175,22 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
-    public List<Attendance> findCancellations(Long id) throws EventNotFoundException {
+    @Transactional
+    public List<User> findCancellations(Long id) throws EventNotFoundException {
         Event event = find(id);
         return repository.findCancellationsForEvent(event);
+    }
+
+    @Override
+    @Transactional
+    public byte[] exportCancellations(Long id) throws EventNotFoundException, EventExportException {
+        List<User> cancellations = findCancellations(id);
+
+        try {
+            return EventExcelExporter.export(cancellations);
+        } catch (IOException e) {
+            throw new EventExportException(e);
+        }
     }
 
     /**
