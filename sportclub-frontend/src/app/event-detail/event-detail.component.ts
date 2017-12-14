@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {SportClubEvent} from "../common/model/sportclub-event-model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SportClubEventService} from "../sportclub-events/service/sportclub-event.service";
-
+declare var $ :any;
 
 @Component({
   selector: 'event-detail',
@@ -26,6 +26,10 @@ export class EventDetailComponent implements OnInit {
   subscribe(){
   this.router.navigate(['/event/'+this.eventModel.id+'/subscribe']);
 
+  }
+
+  subscribeModal(){
+    $('#modal1').modal();
   }
 
 
