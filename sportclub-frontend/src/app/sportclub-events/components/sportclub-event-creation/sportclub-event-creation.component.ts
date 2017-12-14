@@ -56,6 +56,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       country:'',
       pricePerChild:'',
       pricePerAdult:'',
+      priceGeneral:'',
       startday:'',
       starttime:'',
       endday:'',
@@ -65,18 +66,35 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       minParticipants:10,
       maxParticipants:100,
       closed:false,
-      customAddressBoolean:false
+      standardAddressBoolean:false,
+      differentPricesBoolean:false
     });
   }
 
   prepareEventToSave(){
-    this.addr.street = this.eventForm.value.street;
-    this.addr.homeNumber = this.eventForm.value.homeNumber;
-    this.addr.country = this.eventForm.value.country;
-    this.addr.postalCode = this.eventForm.value.postalCode;
+    // if a custom address is wanted, set the address like specified in the form
+    if(!this.eventForm.value.standardAddressBoolean){
+      this.addr.street = this.eventForm.value.street;
+      this.addr.homeNumber = this.eventForm.value.homeNumber;
+      this.addr.country = this.eventForm.value.country;
+      this.addr.postalCode = this.eventForm.value.postalCode;
+    }
+    // TODO: Make this the standard sportclub address
+    else{
+      this.addr.street = "SportClubStreet";
+      this.addr.homeNumber = 101;
+      this.addr.country = "SportClubCountry";
+      this.addr.postalCode = "1000";
+    }
 
-    this.event.priceChild = this.eventForm.value.pricePerChild;
-    this.event.priceAdult = this.eventForm.value.pricePerAdult;
+    if(this.eventForm.value.differentPricesBoolean){
+      this.event.priceChild = this.eventForm.value.pricePerChild;
+      this.event.priceAdult = this.eventForm.value.pricePerAdult;
+    }
+    else {
+      this.event.priceChild = this.eventForm.value.priceGeneral;
+      this.event.priceAdult = this.eventForm.value.priceGeneral;
+    }
 
     this.event.name = this.eventForm.value.name;
     this.event.description = this.eventForm.value.description;
