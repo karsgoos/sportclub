@@ -65,10 +65,10 @@ public class Order {
     }
 
     public BigDecimal getPrice() {
-        return price;
+        return this.calculateTotalPrice();
     }
 
-    public void setPrice(BigDecimal price) {
+    private void setPrice(BigDecimal price) {
         this.price = price;
     }
 

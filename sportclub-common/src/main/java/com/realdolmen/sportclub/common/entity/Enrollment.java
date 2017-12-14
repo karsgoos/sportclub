@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@DiscriminatorValue("enrollment")
 public class Enrollment {
     @Id
     @GeneratedValue
