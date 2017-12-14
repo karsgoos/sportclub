@@ -37,7 +37,6 @@ export class AttendingModalComponent implements OnInit {
 
     this.sportServ.getEvent(this.paramId).subscribe(eventModel => {
       this.eventModel=eventModel
-      console.log(this.eventModel.name);
     });
   }
 
