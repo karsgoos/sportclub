@@ -8,16 +8,16 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
 @DiscriminatorValue("enrollment")
 public class Enrollment {
+    @Id
+    @GeneratedValue
+    private Long id;
     @NotNull
     @Column
     @JsonSerialize(using = LocalDateSerializer.class)
@@ -34,6 +34,10 @@ public class Enrollment {
     @NotNull
     @ManyToOne
     private MembershipType membershipType;
+
+    public Long getId() {
+        return id;
+    }
 
     public LocalDate getStartDate() {
         return startDate;

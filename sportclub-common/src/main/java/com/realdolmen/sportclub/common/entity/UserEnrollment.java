@@ -14,8 +14,11 @@ public class UserEnrollment extends Orderable {
     @ManyToOne
     private Enrollment enrollment;
 
-    @NotNull
-    @ManyToOne
-    private MembershipType membershipType;
+    public Enrollment getEnrollment() {
+        return enrollment;
+    }
 
+    public void setEnrollment(Enrollment enrollment) {
+        this.enrollment = enrollment;
+    }
 }
