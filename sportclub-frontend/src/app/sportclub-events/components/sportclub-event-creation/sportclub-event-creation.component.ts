@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {SportClubEvent} from "../../model/sportclub-event";
 import {SportClubEventService} from "../../service/sportclub-event.service";
-import {FormGroup, FormBuilder} from "@angular/forms";
+import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {Address} from "../../model/address";
 import {Weekday} from "../../model/sportclub-recuring-event-info"
 import {Moderator} from "../../model/moderator";
@@ -52,6 +52,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     $('select').material_select();
   }
 
+  isFormSubmitted: boolean = false;
   event: SportClubEvent = {};
   addr: Address = {};
   responsibles:Moderator[]=[];
@@ -67,23 +68,23 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
 
   createForm() {
     this.eventForm = this.fb.group({
-      name:'',
+      name:['',Validators.required],
       description:'',
-      street:'',
-      homeNumber:'',
-      postalCode:'',
-      country:'',
-      pricePerChild:'',
-      pricePerAdult:'',
-      priceGeneral:'',
-      startday:'',
-      starttime:'',
-      endday:'',
-      endtime:'',
-      deadlineday:'',
-      deadlinetime:'',
-      minParticipants:10,
-      maxParticipants:100,
+      street: ['', Validators.required],
+      homeNumber:['',Validators.required],
+      postalCode:['',Validators.required],
+      country:['',Validators.required],
+      pricePerChild:['',Validators.required],
+      pricePerAdult:['',Validators.required],
+      priceGeneral:['',Validators.required],
+      startday:['',Validators.required],
+      starttime:['',Validators.required],
+      endday:['',Validators.required],
+      endtime:['',Validators.required],
+      deadlineday:['',Validators.required],
+      deadlinetime:['',Validators.required],
+      minParticipants:10, //['',Validators.required]
+      maxParticipants:100, //['',Validators.required]
       closed:false,
       standardAddressBoolean:false,
       differentPricesBoolean:false,
@@ -161,8 +162,8 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
         }
       });
       this.event.recurringEventInfo = {
-        startDate: this.eventForm.value.firstEventDate,
-        endDate: this.eventForm.value.lastEventDate,
+        startDate: this.eventForm.value.firstEventDate+" 00:00",
+        endDate: this.eventForm.value.lastEventDate+ " 00:00",
         weekdays: weekdays as [string]
       }
     }
@@ -172,6 +173,25 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
   saveSingleEvent() {
     this.prepareEventToSave();
     this.eventService.saveEvent(this.event);
+    this.isFormSubmitted = true;
+  }
+
+  isFieldValid(field: string){
+    return this.eventForm.get(field).valid;
+  }
+
+  isFieldValidAndSubmitted(field: string){
+    return !this.isFieldValid(field) && this.isFormSubmitted;
+  }
+
+  errorCss(field: string){
+    return {
+      'invalid' : this.isFieldValidAndSubmitted(field)
+    }
+  }
+
+  errorRedText(field: string){
+    return {'color: red' : this.isFieldValidAndSubmitted(field)}
   }
 
   getAllModerators():Moderator[]{
