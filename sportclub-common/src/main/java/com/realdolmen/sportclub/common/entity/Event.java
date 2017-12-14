@@ -79,7 +79,6 @@ public class Event implements Serializable {
     }
 
     @NotNull
-
     private BigDecimal priceAdult;
 
     private BigDecimal priceChild;
@@ -103,6 +102,11 @@ public class Event implements Serializable {
 
     @JsonIgnore @Lob
     private byte[] attachement;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
+    private LocalDateTime reminderDate;
 
     public Long getId() {
         return id;
@@ -239,5 +243,13 @@ public class Event implements Serializable {
 
     public void setAttachement(byte[] attachement) {
         this.attachement = attachement;
+    }
+
+    public LocalDateTime getReminderDate() {
+        return reminderDate;
+    }
+
+    public void setReminderDate(LocalDateTime reminderDate) {
+        this.reminderDate = reminderDate;
     }
 }
