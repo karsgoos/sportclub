@@ -28,3 +28,14 @@ thead {
   -webkit-font-smoothing: antialiased;
 }
 /* Materialize Icons end */
+
+
+
+
+.container {
+  margin-top: 30px;
+}
+
+.morespacing {
+  margin-bottom: 40px;
+}
