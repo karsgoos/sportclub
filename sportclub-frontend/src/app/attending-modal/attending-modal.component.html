@@ -1,12 +1,13 @@
 
-<p *ngIf="eventModel !=null">
-Inschrijven in {{eventModel.name}} op {{eventModel.startDate}}
-</p>
+
 
 <div *ngIf="!naam; else forminfo">
     <form [formGroup]="rForm">
       <div class="form-container">
         <div class="row columns">
+          <p *ngIf="eventModel !=null">
+            Inschrijven in {{eventModel.name}} op {{eventModel.startDate}}
+          </p>
             <label>
               Naam <input type="text" formControlName="naam">
 

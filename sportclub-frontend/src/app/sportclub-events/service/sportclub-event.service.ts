@@ -36,8 +36,12 @@ export class SportClubEventService { //extends AbstractRestService<SportClubEven
 	}*/
 
   subscribeEvent(eventId,naam,voornam,email,nbAdults,nbChild){
+    // return this.http
+    //   .post(environment.eventApiUrl+'/attend',{eventId:eventId,lastName:naam,firstName:voornam,email:email,nrOfAdults:nbAdults,nrOfChildren:nbChild})
+    //   .subscribe();
+
     return this.http
-      .post(environment.eventApiUrl+'/attend',{eventId:eventId,lastName:naam,firstName:voornam,email:email,nrOfAdults:nbAdults,nrOfChildren:nbChild})
+      .post(environment.eventApiUrl+'/attend',{userId:1,eventId:eventId,nrOfAdults:nbAdults,nrOfChildren:nbChild})
       .subscribe();
 
   }
