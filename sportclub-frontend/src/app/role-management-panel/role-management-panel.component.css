@@ -39,3 +39,7 @@ thead {
 .morespacing {
   margin-bottom: 40px;
 }
+
+.material-icons {
+  line-height: inherit;
+}
