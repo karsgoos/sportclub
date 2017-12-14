@@ -37,11 +37,19 @@ public class Order {
     private List<Orderable> orderables = new ArrayList<>();
 
     @Transient
-    private BigDecimal price;
+    private BigDecimal price = BigDecimal.ZERO;
 
     @ManyToOne
     private User user;
-
+    
+    public UUID getIdentifier() {
+        return identifier;
+    }
+    
+    public void setIdentifier(UUID identifier) {
+        this.identifier = identifier;
+    }
+    
     private UUID identifier;
 
     public Long getId() {
@@ -63,6 +71,10 @@ public class Order {
     public void setOrderables(List<Orderable> orderables) {
         this.orderables = orderables;
     }
+    
+    public void addOrderable(Orderable orderable){
+           this.orderables.add(orderable);
+       }
 
     public BigDecimal getPrice() {
         return this.calculateTotalPrice();

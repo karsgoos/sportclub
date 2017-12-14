@@ -1,7 +1,8 @@
 import {Address} from "./address";
 import {RecurringEventInfo} from "./sportclub-recuring-event-info";
 
-export interface SportClubEvent {
+export interface SportClubCreationEvent {
+  id?,
   responsibles?,
   enrollments?,
   imageUrl?: string,

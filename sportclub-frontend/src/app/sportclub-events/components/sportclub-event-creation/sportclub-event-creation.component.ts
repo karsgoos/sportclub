@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {SportClubEvent} from "../../model/sportclub-event";
+import {SportClubCreationEvent} from "../../model/sportclub-event";
 import {SportClubEventService} from "../../service/sportclub-event.service";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {Address} from "../../model/address";
@@ -53,7 +53,8 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
   }
 
   isFormSubmitted: boolean = false;
-  event: SportClubEvent = {};
+
+  event: SportClubCreationEvent = {};
   addr: Address = {};
   responsibles:Moderator[]=[];
   responsible_id: number;

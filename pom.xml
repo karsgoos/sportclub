@@ -7,6 +7,12 @@
     <groupId>com.realdolmen</groupId>
     <artifactId>sportclub</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
+    </dependencies>
     <packaging>pom</packaging>
 
     <parent>
@@ -48,6 +54,11 @@
                 <artifactId>sportclub-common</artifactId>
                 <version>${sportclub.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-backend</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>
             <!--<dependency>
                 <groupId>com.realdolmen</groupId>
                 <artifactId>sportclub-communication-batch</artifactId>
@@ -58,7 +69,7 @@
                 <artifactId>sportclub-events</artifactId>
                 <version>${sportclub.version}</version>
             </dependency>
-            <!--<dependency>
+           <!-- <dependency>
                 <groupId>com.realdolmen</groupId>
                 <artifactId>sportclub-payment</artifactId>
                 <version>${sportclub.version}</version>

@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Config} from './config';
 
 export abstract class AbstractRestService<T> {
-  constructor(private http: HttpClient, private endPoint: string) {
+  constructor(protected http: HttpClient, private endPoint: string) {
   }
 
   mockTest(): Observable<T> {

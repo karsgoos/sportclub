@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  eventApiUrl: "https://sport-club-staging.herokuapp.com/api/events"
 };
