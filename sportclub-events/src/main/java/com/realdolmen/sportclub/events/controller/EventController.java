@@ -5,9 +5,10 @@ import com.realdolmen.sportclub.common.repository.EventRepository;
 import com.realdolmen.sportclub.events.DTO.AttendEventDTO;
 import com.realdolmen.sportclub.events.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import java.util.Collection;
 
 @RestController
@@ -27,22 +28,44 @@ public class EventController {
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "api/events/{id}")
-	public Event getEvent(@PathVariable Long id){
-		return eventRepository.findOne(id);
+	public ResponseEntity<Event> getEvent(@PathVariable Long id) {
+		Event event = eventRepository.findOne(id);
+		if(event==null)
+			return ResponseEntity.notFound().build();
+		return ResponseEntity.ok(event);
 	}
 	
 	
 	@RequestMapping(method = RequestMethod.POST, value = "api/events/attend")
-	public  void attendEvent(@RequestBody AttendEventDTO dto){
-		//guest
-		if(dto.getUserId()==null)
-			eventService.attendOpenEvent(dto.getFirstName(),dto.getLastName(),dto.getEmail(),dto.getEventId(),dto.getNrOfAdults(),dto.getNrOfChildren());
-		//registered user closed event
-		else if(dto.getNrOfAdults()==0&&dto.getNrOfChildren()==0)
+	public ResponseEntity attendEvent(@RequestBody AttendEventDTO dto){
+		Event e = eventRepository.findOne(Long.parseLong(dto.getEventId()));
+		if(e==null)
+			return ResponseEntity.badRequest().body("evenement werd niet gevonden");
+		
+		//closed event
+		if(e.isClosed())
 			eventService.attendClosedEvent(dto.getUserId(),dto.getEventId());
-		//registered user open event
-		else
-		eventService.attendOpenEvent(dto.getUserId(),dto.getEventId(),dto.getNrOfAdults(),dto.getNrOfChildren());
+		//open event guest
+		else if(dto.getUserId()==null){
+			try{
+				eventService.attendOpenEvent(dto.getFirstName(),dto.getLastName(),dto.getEmail(),dto.getEventId(),dto.getNrOfAdults(),dto.getNrOfChildren());
+			}
+			catch (ConstraintViolationException c){
+				return ResponseEntity.badRequest().body("een of meerdere parameters voldoen niet aan de voorwaarden");
+			}
+
+		}
+		//open event registered user
+		else{
+			try{
+				eventService.attendOpenEvent(dto.getUserId(),dto.getEventId(),dto.getNrOfAdults(),dto.getNrOfChildren());
+			}
+			catch (ConstraintViolationException c){
+				return ResponseEntity.badRequest().body("een of meerdere parameters voldoen niet aan de voorwaarden");
+			}
+		}
+		
+		return ResponseEntity.ok().build();
 	}
 	
 }
