@@ -4,6 +4,8 @@ import {SportClubEventService} from "../../service/sportclub-event.service";
 import {FormGroup, FormBuilder} from "@angular/forms";
 import {Address} from "../../model/address";
 import {Weekday} from "../../model/sportclub-recuring-event-info"
+import {Moderator} from "../../model/moderator";
+declare var $: any;
 
 @Component({
   selector: 'app-sportclub-event-creation',
@@ -39,13 +41,21 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       self.eventForm.patchValue({"firstEventDate": self.convertDateString(event.target.value)});
     };
 
-    document.getElementById('eventDeadlineDate').onchange = function (event: any) {
+    document.getElementById('eventLastDate').onchange = function (event: any) {
       self.eventForm.patchValue({"lastEventDate": self.convertDateString(event.target.value)});
     };
+
+    document.getElementById('selectModeratorBox').onchange = function (event: any) {
+      self.responsible_id = event.target.value;
+    };
+
+    $('select').material_select();
   }
 
   event: SportClubEvent = {};
   addr: Address = {};
+  responsibles:Moderator[]=[];
+  responsible_id: number;
   eventForm: FormGroup;
 
   constructor(private eventService: SportClubEventService, private fb: FormBuilder) {
@@ -87,8 +97,9 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
         THURSDAY : false,
         FRIDAY : false,
         SATURDAY : false,
-        SUNDAY : false,
+        SUNDAY : false
       }),
+      extraModeratorsBoolean:false
       /*nrOfWeekdays : [
         {name: "Monday",value : Weekday.MONDAY, checked: false},
         {name: "Tuesday",value : Weekday.TUESDAY, checked: false},
@@ -138,6 +149,8 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     this.event.maxParticipants = this.eventForm.value.maxParticipants;
     this.event.closed = this.eventForm.value.closed;
 
+    this.event.responsibles = this.responsibles;
+
     if (this.eventForm.value.eventIsRecurring) {
       let weekdays = [];
       var nrOfDays = this.eventForm.value.nrOfWeekdays;
@@ -160,6 +173,33 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     this.prepareEventToSave();
     this.eventService.saveEvent(this.event);
   }
+
+  getAllModerators():Moderator[]{
+    // TODO: make this call method from some userservice
+    // for now this simply generates some mock data to show something in the form.
+    let mockedModerators=[{"firstName":"John", "lastName":"Doe", "id":1},{"firstName":"Robb", "lastName":"Stark", "id":2}];
+    return mockedModerators;
+  }
+
+  getModeratorById(id:number):Moderator{
+    // TODO: make this call method from some userservice
+    // for now this simply generates some mock data to show something in the form.
+    let moderators = this.getAllModerators();
+    for(let moderator of moderators){
+      if(moderator.id == id){
+        return moderator;
+      }
+    }
+  }
+
+  addResponsibleModerator(){
+    this.responsibles.push(this.getModeratorById(this.responsible_id));
+  }
+
+  clearResponsibleModerators(){
+    this.responsibles = [];
+  }
+
 
 
   convertDateString(dateString: string): string {

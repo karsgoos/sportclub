@@ -10,8 +10,6 @@ export abstract class AbstractRestService<T> {
     return this.http.get<T>(Config.SERVER_URL + this.endPoint);
   }
 
-  event
-
   // Add here all the CRUD operations ( create, read, update, delete )
 
   save(toSave:T):Observable<T>{

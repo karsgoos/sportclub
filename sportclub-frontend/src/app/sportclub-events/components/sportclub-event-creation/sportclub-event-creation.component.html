@@ -102,6 +102,43 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="col">
+          <input type="checkbox" id="extraModeratorsCheckbox" formControlName="extraModeratorsBoolean"/>
+          <label for="extraModeratorsCheckbox">Do you want to set extra moderators?</label>
+        </div>
+      </div>
+
+      <div class="row" [hidden]="!(eventForm.value.extraModeratorsBoolean)">
+        <div class="input-field col s4">
+          <select id="selectModeratorBox">
+            <option disabled selected>Choose your moderator</option>
+            <option *ngFor="let moderator of getAllModerators()" value="{{moderator.id}}">
+              {{moderator.firstName}} {{moderator.lastName}}
+            </option>
+          </select>
+          <label>Add a moderator</label>
+        </div>
+        <div class="col s2">
+          <button class="btn-small green" (click)="addResponsibleModerator()">Add</button>
+        </div>
+        <div class="col s4">
+          <label for="responsibleModeratorsTextArea">Responsible Moderators</label>
+          <div class="card white darken-1" id="responsibleModeratorsTextArea">
+            <div class="card-content black-text">
+              <ul>
+                <li *ngFor="let moderator of responsibles">
+                  {{moderator.firstName}} {{moderator.lastName}}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col s2">
+          <button class="btn-small green" (click)="clearResponsibleModerators()">Clear</button>
+        </div>
+      </div>
+
       <div class="col s12">
         <input type="checkbox" id="eventIsRecurringCheckbox" formControlName="eventIsRecurring"/>
         <label for="eventIsRecurringCheckbox">Event is recurring</label>
@@ -155,15 +192,14 @@
         </div>
       </div>
 
+
+
+
       <div class="col s12">
         <button class="btn" (click)="saveSingleEvent()">Save</button>
       </div>
 
     </form>
-
-    <p>
-      {{eventForm.value.standardAddressBoolean}}
-    </p>
 
     <p class="col s12">
       {{eventForm.value | json}}
