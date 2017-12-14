@@ -28,7 +28,8 @@ public class EventController {
 	public Event getEvent(@PathVariable Long id){
 		return eventRepository.findOne(id);
 	}
-	
+
+
 	@RequestMapping(method = RequestMethod.POST, value = "api/events/attend")
 	public void attendEvent(@RequestParam("userId") String userId,@RequestParam("eventId") String eventId, @RequestParam("nrOfAdults") int nrOfAdults, @RequestParam("nrOfChildren")  int nrOfChildren){
 		eventService.attendEvent(userId, eventId, nrOfAdults, nrOfChildren);

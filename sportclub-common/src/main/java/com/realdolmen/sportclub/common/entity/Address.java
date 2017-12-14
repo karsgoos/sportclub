@@ -16,9 +16,6 @@ public class Address {
     private String postalCode;
 
     @NotNull
-    private String city;
-
-    @NotNull
     private String country;
 
     public String getStreet() {
@@ -51,13 +48,5 @@ public class Address {
 
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 }

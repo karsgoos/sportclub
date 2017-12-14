@@ -19,7 +19,7 @@ const routes: Routes = [
     component: SportClubEventsComponent
   },
   {
-    path: 'event-detail/:id',pathMatch: 'full',
+    path: 'event/:id',pathMatch: 'full',
     component : EventDetailComponent
   },
 
