@@ -17,8 +17,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>1.5.9.RELEASE</version>
-        </dependency>
+                    </dependency>
         <dependency>
             <groupId>com.realdolmen</groupId>
             <artifactId>sportclub-common</artifactId>
@@ -49,5 +48,14 @@
             <version>2.13.0</version>
             <scope>test</scope>
         </dependency>
+
+
+        <!-- other mail depandency -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.0</version>
+        </dependency>
+
     </dependencies>
 </project>
