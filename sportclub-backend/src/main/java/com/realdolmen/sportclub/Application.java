@@ -47,6 +47,7 @@ public class Application {
         address.setCountry("Belgium");
         e.setAddress(address);
         e.setPriceAdult(BigDecimal.TEN);
+        e.setPriceChild(BigDecimal.ONE);
         eventRepository.save(e);
         Event t = new Event();
         t.setName("FOOOD");
@@ -57,6 +58,7 @@ public class Application {
         a.setCountry("Belgium");
         t.setAddress(a);
         t.setPriceAdult(BigDecimal.ONE);
+        t.setPriceChild(BigDecimal.ONE);
         eventRepository.save(t);
     
         RegisteredUser u = new RegisteredUser();

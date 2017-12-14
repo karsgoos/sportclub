@@ -1,10 +1,10 @@
 
-<p>
+<p *ngIf="eventModel !=null">
 Inschrijven in {{eventModel.name}} op {{eventModel.startDate}}
 </p>
 
 <div *ngIf="!naam; else forminfo">
-    <form [formGroup]="rForm" (ngSubmit)="addEvent(rForm.value)">
+    <form [formGroup]="rForm">
       <div class="form-container">
         <div class="row columns">
             <label>
@@ -35,13 +35,19 @@ Inschrijven in {{eventModel.name}} op {{eventModel.startDate}}
             numberOfAdults <input type="number" formControlName="numberOfAdults">
 
           </label>
+          <div class="alert" *ngIf="!rForm.controls['numberOfAdults'].valid">
+            This is required
+          </div>
           <label>
             numberOfChildren <input type="number" formControlName="numberOfChildren">
 
           </label>
+          <div class="alert" *ngIf="!rForm.controls['numberOfChildren'].valid">
+            This is required
+          </div>
 
 
-          <input type="submit" class="button expanded" value="Inschrijvin" [disabled]="!rForm.valid">
+          <input type="button" class="button expanded" value="Inschrijvin" [disabled]="!rForm.valid" (click)="addEvent(rForm.value)">
 
         </div>
 

@@ -36,7 +36,9 @@ export class SportClubEventService { //extends AbstractRestService<SportClubEven
 	}*/
 
   subscribeEvent(userId,eventId,nbAdults,nbChild){
-    return this.http.post<void>(environment.eventApiUrl+'/attend',{userId:1,eventId:eventId,nrOfAdults:nbAdults,nrOfChildren:nbChild});
+    return this.http
+      .post(environment.eventApiUrl+'/attend',{userId:1,eventId:eventId,nrOfAdults:nbAdults,nrOfChildren:nbChild})
+      .subscribe();
 
   }
 

@@ -24,7 +24,9 @@ export class AttendingModalComponent implements OnInit {
     this.rForm = fb.group({
       'naam': [null,Validators.required],
       'voornaam': [null,Validators.required],
-      'email':[null,Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]
+      'email':[null,Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)],
+      'numberOfAdults':[null,Validators.required],
+      'numberOfChildren':[null,Validators.required]
     })
 
 
@@ -40,6 +42,7 @@ export class AttendingModalComponent implements OnInit {
   }
 
   addEvent(post){
+
     this.naam=post.naam;
     this.voornaam=post.voornaam;
     this.numberOfAdults=post.numberOfAdults;
