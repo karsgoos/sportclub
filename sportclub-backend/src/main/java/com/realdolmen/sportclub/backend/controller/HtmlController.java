@@ -15,9 +15,9 @@ public class HtmlController {
      *
      * Other rest services will override this route, so it does not get in the way.
      */
-//    @RequestMapping(value = {"", "/", "/**/{[path:[^\\\\.]*}"}, method = GET)
-//    public String routeToIndex() {
-//        return "forward:/index.html";
-//    }
+    @RequestMapping(value = {"", "/", "/**/{[path:[^\\\\.]*}"}, method = GET)
+    public String routeToIndex() {
+        return "forward:/index.html";
+    }
 
 }

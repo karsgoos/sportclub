@@ -8,7 +8,6 @@ import com.realdolmen.sportclub.common.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 
 @Service
@@ -37,39 +36,26 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Override
-	public void attendEvent(String userId, String eventId, int nrOfAdults, int nrOfChildren) {
+	public void attendOpenEvent(String userId, String eventId, int nrOfAdults, int nrOfChildren) {
 		
 		Order order = new Order();
 		order.setUser(userRepository.getOne(Long.parseLong(userId)));
-
+		
 		Event event= eventRepository.findOne(Long.parseLong(eventId));
 
 		for(int i=0;i<nrOfAdults;i++){
-			Attendance attendance = new Attendance();
-			attendance.setPrice(event.getPriceAdult());
-			attendance.setAgeCategory(AgeCategory.ADULT);
-			attendance.setDescription(event.getName()+" volwassene");
-			attendanceRepository.save(attendance);
-			order.addOrderable(attendance);
-			event.addAttendance(attendance);
-			order.setPrice(order.getPrice().add(attendance.getPrice()));
+			singleAttendanceToEvent(event,order,AgeCategory.ADULT);
 		}
 		for(int i=0;i<nrOfChildren;i++){
-			Attendance attendance = new Attendance();
-			attendance.setPrice(event.getPriceChild());
-			attendance.setAgeCategory(AgeCategory.CHILD);
-			attendance.setDescription(event.getName()+" kind");
-			attendanceRepository.save(attendance);
-			order.addOrderable(attendance);
-			event.addAttendance(attendance);
-			order.setPrice(order.getPrice().add(attendance.getPrice()));
+			singleAttendanceToEvent(event,order,AgeCategory.CHILD);
 		}
+		
 		orderRepository.save(order);
 		eventRepository.save(event);
 	}
 	
 	@Override
-	public void attendEvent(String firstName, String lastName, String email, Long eventId, int nrOfAdults, int nrOfChildren) {
+	public void attendOpenEvent(String firstName, String lastName, String email, String eventId, int nrOfAdults, int nrOfChildren) {
 		Guest guest = new Guest();
 		guest.setEmail(email);
 		guest.setFirstName(firstName);
@@ -81,6 +67,45 @@ public class EventServiceImpl implements EventService {
 		guest.setRole(role);
 		
 		userRepository.save(guest);
-		//attendEvent(guest.getId(),eventId,nrOfAdults,nrOfChildren);
+		attendOpenEvent(guest.getId().toString(),eventId,nrOfAdults,nrOfChildren);
+	}
+	
+	@Override
+	public void attendClosedEvent(String userId, String eventId) {
+		
+		Order order = new Order();
+		order.setUser(userRepository.getOne(Long.parseLong(userId)));
+		Event event= eventRepository.findOne(Long.parseLong(eventId));
+		
+		singleAttendanceToEvent(event,order,AgeCategory.DEFAULT);
+		
+		orderRepository.save(order);
+		eventRepository.save(event);
+	}
+	
+	private void singleAttendanceToEvent(Event event, Order order, AgeCategory ageCategory){
+		Attendance attendance = new Attendance();
+		attendance.setEvent(event);
+		if(ageCategory == AgeCategory.CHILD){
+			attendance.setPrice(event.getPriceChild());
+			attendance.setAgeCategory(AgeCategory.CHILD);
+			attendance.setDescription(event.getName()+" kind");
+		}
+		else if(ageCategory == AgeCategory.ADULT){
+			attendance.setPrice(event.getPriceAdult());
+			attendance.setAgeCategory(AgeCategory.ADULT);
+			attendance.setDescription(event.getName()+" volwassene");
+		}
+		else{
+			attendance.setPrice(event.getPriceAdult());
+			attendance.setAgeCategory(AgeCategory.DEFAULT);
+			attendance.setDescription(event.getName());
+		}
+		
+		attendanceRepository.save(attendance);
+		order.addOrderable(attendance);
+		event.addAttendance(attendance);
+		order.setPrice(order.getPrice().add(attendance.getPrice()));
+
 	}
 }
