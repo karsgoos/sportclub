@@ -17,6 +17,8 @@ public class Attendance extends Orderable {
     @JsonIgnoreProperties("attendancies")
     private Event event;
 
+    private boolean cancelled;
+
     public AgeCategory getAgeCategory() {
         return ageCategory;
     }
@@ -31,5 +33,13 @@ public class Attendance extends Orderable {
 
     public void setEvent(Event event) {
         this.event = event;
+    }
+
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 }

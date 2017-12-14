@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @SpringBootApplication
-@ComponentScan("com.realdolmen.sportclub")
+@ComponentScan(basePackages = "com.realdolmen.sportclub")
 @EnableJpaRepositories("com.realdolmen.sportclub")
 @EntityScan("com.realdolmen.sportclub")
 public class Application {

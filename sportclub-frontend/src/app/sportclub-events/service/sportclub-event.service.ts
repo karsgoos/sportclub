@@ -6,12 +6,14 @@ import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs/Observable";
 
 @Injectable()
-export class SportClubEventService { //extends AbstractRestService<SportClubEvent> {
+export class SportClubEventService extends AbstractRestService<SportClubEvent> {
 
-  constructor(private http: HttpClient) {
+  constructor(http: HttpClient) {
+    super(http, 'events');
+  }
     // replace 5185415ba171ea3a00704eed with endpoint of the appropriate rest controller.
     //super(http, '5a2bfe2e2f00007112039335');
-  }
+
 
   getEvents() :Observable<SportClubEvent[]>{
     return this.http.get<SportClubEvent[]>(environment.eventApiUrl);
@@ -35,11 +37,21 @@ export class SportClubEventService { //extends AbstractRestService<SportClubEven
 		eventService.attendEvent(userId, eventId, nrOfAdults, nrOfChildren);
 	}*/
 
-  subscribeEvent(userId,eventId,nbAdults,nbChild){
+  subscribeEvent(userId,eventId,nbAdults,nbChild) {
     return this.http
-      .post(environment.eventApiUrl+'/attend',{userId:1,eventId:eventId,nrOfAdults:nbAdults,nrOfChildren:nbChild})
+      .post(environment.eventApiUrl + '/attend', {
+        userId: 1,
+        eventId: eventId,
+        nrOfAdults: nbAdults,
+        nrOfChildren: nbChild
+      })
       .subscribe();
 
+
+  }
+
+  saveEvent(event:SportClubEvent){
+    super.save(event).subscribe();
   }
 
 }

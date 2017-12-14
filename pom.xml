@@ -44,8 +44,6 @@
 
     <dependencyManagement>
         <dependencies>
-
-
             <!--<dependency>
                 <groupId>com.realdolmen</groupId>
                 <artifactId>sportclub-album</artifactId>
@@ -62,10 +60,10 @@
                 <version>${sportclub.version}</version>
             </dependency>
             <!--<dependency>
-               <groupId>com.realdolmen</groupId>
-               <artifactId>sportclub-communication-batch</artifactId>
-               <version>${sportclub.version}</version>
-           </dependency>-->
+                <groupId>com.realdolmen</groupId>
+                <artifactId>sportclub-communication-batch</artifactId>
+                <version>${sportclub.version}</version>
+            </dependency>-->
             <dependency>
                 <groupId>com.realdolmen</groupId>
                 <artifactId>sportclub-events</artifactId>
@@ -91,6 +89,7 @@
                 <artifactId>sportclub-user-management</artifactId>
                 <version>${sportclub.version}</version>
             </dependency>-->
+
 
         </dependencies>
     </dependencyManagement>

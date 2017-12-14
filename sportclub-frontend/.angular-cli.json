@@ -28,7 +28,8 @@
         "../node_modules/fullcalendar/dist/locale/nl-be.js",
         "../node_modules/materialize-css/dist/js/materialize.js",
         "../node_modules/materialize-css/dist/js/materialize.min.js",
-        "assets/js/custom.js"
+        "assets/js/custom.js",
+        "assets/js/materialize-datetimepicker.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
