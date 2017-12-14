@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class RecurringEventInfo {
@@ -22,5 +23,5 @@ public class RecurringEventInfo {
     @NotNull
     @ElementCollection(targetClass=DayOfWeek.class)
     @Enumerated(EnumType.STRING)
-       private List<DayOfWeek> weekdays;
+       private Set<DayOfWeek> weekdays;
 }
