@@ -24,7 +24,7 @@ export class EventDetailComponent implements OnInit {
 
 
   subscribe(){
-  this.router.navigate(['/eventSubscribe/'+this.eventModel.id]);
+  this.router.navigate(['/event/'+this.eventModel.id+'/subscribe']);
 
   }
 

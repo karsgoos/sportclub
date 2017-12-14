@@ -23,7 +23,8 @@ export class AttendingModalComponent implements OnInit {
   constructor(private sportServ:SportClubEventService,private router:Router,private route:ActivatedRoute,private fb:FormBuilder) {
     this.rForm = fb.group({
       'naam': [null,Validators.required],
-      'voornaam': [null,Validators.required]
+      'voornaam': [null,Validators.required],
+      'email':[null,Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]
     })
 
 
@@ -31,7 +32,19 @@ export class AttendingModalComponent implements OnInit {
 
   ngOnInit() {
     this.paramId= +this.route.snapshot.paramMap.get('id');
-    this.sportServ.getEvent(this.paramId).subscribe(eventModel => this.eventModel=eventModel);
+
+    this.sportServ.getEvent(this.paramId).subscribe(eventModel => {
+      this.eventModel=eventModel
+      console.log(this.eventModel.name);
+    });
+  }
+
+  addEvent(post){
+    this.naam=post.naam;
+    this.voornaam=post.voornaam;
+    this.numberOfAdults=post.numberOfAdults;
+    this.numberOfChildren=post.numberOfChildren;
+    this.sportServ.subscribeEvent(1,this.paramId,this.numberOfAdults,this.numberOfChildren);
   }
 
 }

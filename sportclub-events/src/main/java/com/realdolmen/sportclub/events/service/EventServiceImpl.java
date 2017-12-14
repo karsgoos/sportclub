@@ -1,7 +1,9 @@
 package com.realdolmen.sportclub.events.service;
 
 import com.realdolmen.sportclub.common.entity.*;
+import com.realdolmen.sportclub.common.repository.AttendanceRepository;
 import com.realdolmen.sportclub.common.repository.EventRepository;
+import com.realdolmen.sportclub.common.repository.OrderRepository;
 import com.realdolmen.sportclub.common.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,12 @@ public class EventServiceImpl implements EventService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private AttendanceRepository attendanceRepository;
+	
+	@Autowired
+	private OrderRepository orderRepository;
 	
 	@Override
 	public Collection<Event> findAll() {
@@ -41,6 +49,7 @@ public class EventServiceImpl implements EventService {
 			attendance.setPrice(event.getPriceAdult());
 			attendance.setAgeCategory(AgeCategory.ADULT);
 			attendance.setDescription(event.getName()+" volwassene");
+			attendanceRepository.save(attendance);
 			order.addOrderable(attendance);
 			event.addAttendance(attendance);
 			order.setPrice(order.getPrice().add(attendance.getPrice()));
@@ -50,10 +59,13 @@ public class EventServiceImpl implements EventService {
 			attendance.setPrice(event.getPriceChild());
 			attendance.setAgeCategory(AgeCategory.CHILD);
 			attendance.setDescription(event.getName()+" kind");
+			attendanceRepository.save(attendance);
 			order.addOrderable(attendance);
 			event.addAttendance(attendance);
 			order.setPrice(order.getPrice().add(attendance.getPrice()));
 		}
+		orderRepository.save(order);
+		eventRepository.save(event);
 	}
 	
 	@Override
