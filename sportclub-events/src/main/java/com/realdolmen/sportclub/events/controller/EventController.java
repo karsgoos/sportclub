@@ -26,7 +26,7 @@ public class EventController {
 	}
 	
 	
-	@RequestMapping(method = RequestMethod.GET, value = "api/events/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET, value = "api/events/{id}")
 	public Event getEvent(@PathVariable Long id){
 		return eventRepository.findOne(id);
 	}
