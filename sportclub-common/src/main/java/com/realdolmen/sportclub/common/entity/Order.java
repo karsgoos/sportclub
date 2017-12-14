@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -35,12 +36,15 @@ public class Order {
     @OneToMany(mappedBy = "ordr")
     private List<Orderable> orderables = new ArrayList<>();
 
+    @Transient
+    private BigDecimal price;
+
     @ManyToOne
     private User user;
 
     private UUID identifier;
 
-       public Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -60,6 +64,14 @@ public class Order {
         this.orderables = orderables;
     }
 
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
     public User getUser() {
         return user;
     }
@@ -76,8 +88,10 @@ public class Order {
         this.orderDate = orderDate;
     }
 
+    @PostConstruct
     public BigDecimal calculateTotalPrice(){
-           return this.orderables.stream().map(Orderable::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+           this.price = this.orderables.stream().map(Orderable::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+           return this.price;
     }
 
     @PrePersist
