@@ -64,7 +64,8 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       deadlinetime:'',
       minParticipants:10,
       maxParticipants:100,
-      closed:false
+      closed:false,
+      customAddressBoolean:false
     });
   }
 

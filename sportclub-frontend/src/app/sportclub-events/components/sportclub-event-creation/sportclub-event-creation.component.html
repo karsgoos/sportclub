@@ -1,19 +1,46 @@
 <div class="container">
   <div class="row">
     <form [formGroup]="eventForm">
-      <label for="eventName">Naam</label>
-      <input class="input-field" formControlName="name" type="text" id="eventName">
-      <label for="eventDescription">Description</label>
-      <input formControlName="description" id="eventDescription">
-      <div>
-        <label for="addrStreet">Street</label>
-        <input formControlName="street" id="addrStreet">
-        <label for="addrStreet">Homenumber</label>
-        <input formControlName="homeNumber" id="addrHomeNumber">
-        <label for="addrStreet">Postalcode</label>
-        <input formControlName="postalCode" id="addrPostalCode">
-        <label for="addrStreet">Country</label>
-        <input formControlName="country" id="addrCountry">
+      <div class="row">
+        <div class="input-field col s6">
+          <label for="eventName">Naam</label>
+          <input class="input-field" formControlName="name" type="text" id="eventName">
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <label for="eventDescription">Description</label>
+          <textarea formControlName="description" id="eventDescription" class="materialize-textarea"></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <input type="checkbox" id="customAddressCheckbox" formControlName="customAddressBoolean"/>
+          <label for="customAddressCheckbox">Take the default sport club address</label>
+        </div>
+      </div>
+
+      <div *ngIf="!(eventForm.value.customAddressBoolean)">
+        <div class="row">
+          <div class="col s5 input-field">
+            <label for="addrStreet">Street</label>
+            <input formControlName="street" id="addrStreet">
+          </div>
+          <div class="col s1 input-field">
+            <label for="addrStreet">Nr</label>
+            <input formControlName="homeNumber" id="addrHomeNumber">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s2 input-field">
+            <label for="addrStreet">Postalcode</label>
+            <input formControlName="postalCode" id="addrPostalCode">
+          </div>
+          <div class="col s4 input-field">
+            <label for="addrStreet">Country</label>
+            <input formControlName="country" id="addrCountry">
+          </div>
+        </div>
       </div>
       <div>
         <div class="col m4">
@@ -50,6 +77,10 @@
       </div>
       <button (click)="saveSingleEvent()">Save</button>
     </form>
+
+    <p>
+      {{eventForm.value.customAddressBoolean}}
+    </p>
 
     <p>
       {{eventForm.value | json}}
