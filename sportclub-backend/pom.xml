@@ -23,10 +23,12 @@
             <groupId>com.realdolmen</groupId>
             <artifactId>sportclub-communication-batch</artifactId>
         </dependency>
+        -->
         <dependency>
             <groupId>com.realdolmen</groupId>
             <artifactId>sportclub-events</artifactId>
         </dependency>
+        <!--
         <dependency>
             <groupId>com.realdolmen</groupId>
             <artifactId>sportclub-payment</artifactId>
@@ -52,6 +54,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.realdolmen</groupId>
+            <artifactId>sportclub-events</artifactId>
         </dependency>
     </dependencies>
 
