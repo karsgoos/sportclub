@@ -147,7 +147,11 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
           weekdays.push(key);
         }
       });
-      console.log(weekdays);
+      this.event.recurringEventInfo = {
+        startDate: this.eventForm.value.firstEventDate,
+        endDate: this.eventForm.value.lastEventDate,
+        weekdays: weekdays as [string]
+      }
     }
 
   }

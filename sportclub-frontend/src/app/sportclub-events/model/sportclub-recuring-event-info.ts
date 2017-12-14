@@ -10,8 +10,8 @@ export class Weekday {
   static SUNDAY = "SUNDAY";
 
 }
-export interface RecuringEventInfo{
+export interface RecurringEventInfo{
   startDate: Date,
   endDate: Date,
-  weekdays: [Weekday]
+  weekdays: [string]
 }
