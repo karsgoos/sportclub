@@ -12,7 +12,7 @@ const routes: Routes = [
     component: SportClubUserManagementComponent
   },
   {
-    path: 'eventSubscribe/:id',pathMatch: 'full',
+    path: 'event/:id/subscribe',pathMatch: 'full',
     component: AttendingModalComponent
   },
   {
@@ -20,7 +20,7 @@ const routes: Routes = [
     component: SportClubEventsComponent
   },
   {
-    path: 'eventDetail/:id',pathMatch: 'full',
+    path: 'event/:id',pathMatch: 'full',
     component : EventDetailComponent
   },
 

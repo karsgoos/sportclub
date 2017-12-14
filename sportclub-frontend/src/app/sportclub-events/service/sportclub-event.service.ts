@@ -29,5 +29,17 @@ export class SportClubEventService { //extends AbstractRestService<SportClubEven
     return this.http.get<SportClubEvent>(url);
   }
 
+  /*  @CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(method = RequestMethod.POST, value = "api/events/attend")
+	public void attendEvent(@RequestParam("userId") String userId,@RequestParam("eventId") String eventId, @RequestParam("nrOfAdults") int nrOfAdults, @RequestParam("nrOfChildren")  int nrOfChildren){
+		eventService.attendEvent(userId, eventId, nrOfAdults, nrOfChildren);
+	}*/
+
+  subscribeEvent(userId,eventId,nbAdults,nbChild){
+    return this.http
+      .post(environment.eventApiUrl+'/attend',{userId:1,eventId:eventId,nrOfAdults:nbAdults,nrOfChildren:nbChild})
+      .subscribe();
+
+  }
 
 }

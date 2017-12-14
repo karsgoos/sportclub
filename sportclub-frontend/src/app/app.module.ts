@@ -8,6 +8,7 @@ import {SportClubEventsModule} from './sportclub-events/sportclub-events.module'
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { EventDetailComponent } from './event-detail/event-detail.component';
 import { AttendingModalComponent } from './attending-modal/attending-modal.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FormsModule} from '@angular/forms';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 
@@ -23,7 +24,7 @@ import { MenuBarComponent } from './menu-bar/menu-bar.component';
     HttpClientModule,
     AppRoutingModule,
     SportClubUserManagementModule,
-    SportClubEventsModule,FormsModule
+    SportClubEventsModule,FormsModule,ReactiveFormsModule
   ],
   bootstrap: [AppComponent]
 })
