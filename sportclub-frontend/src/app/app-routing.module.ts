@@ -4,6 +4,7 @@ import {SportClubUserManagementComponent} from './sportclub-user-management/spor
 import {SportClubEventsComponent} from './sportclub-events/sportclub-events.component';
 
 
+
 const routes: Routes = [
   {
     path: 'user-management',
