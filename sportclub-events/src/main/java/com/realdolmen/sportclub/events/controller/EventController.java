@@ -36,7 +36,7 @@ public class EventController {
 	public  void attendEvent(@RequestBody AttendEventDTO dto){
 		//guest
 		if(dto.getUserId()==null)
-			eventService.attendOpenEvent(dto.getFirstName(),dto.getLastName(),dto.getNrOfAdults(),dto.getNrOfChildren());
+			eventService.attendOpenEvent(dto.getFirstName(),dto.getLastName(),dto.getEmail(),dto.getEventId(),dto.getNrOfAdults(),dto.getNrOfChildren());
 		//registered user closed event
 		else if(dto.getNrOfAdults()==0&&dto.getNrOfChildren()==0)
 			eventService.attendClosedEvent(dto.getUserId(),dto.getEventId());
