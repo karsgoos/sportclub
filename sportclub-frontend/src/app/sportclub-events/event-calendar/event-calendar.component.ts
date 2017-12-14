@@ -46,7 +46,7 @@ export class EventCalendarComponent implements OnInit {
           event.title = event.name;
           event.start = event.startDate;
           event.end = event.endDate;
-          event.url = '/eventDetail/'+event.id;
+          event.url = '/event-detail/'+event.id;
           event.color = event.closed ? "blue" : "orange";
           return event;
         },
