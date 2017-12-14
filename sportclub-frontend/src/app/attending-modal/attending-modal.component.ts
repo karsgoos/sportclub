@@ -42,6 +42,10 @@ export class AttendingModalComponent implements OnInit {
 
   addEvent(post){
 
+    debugger;
+    console.log("----------------------------------------------- OK");
+
+
     this.naam=post.naam;
     this.voornaam=post.voornaam;
     this.numberOfAdults=post.numberOfAdults;
