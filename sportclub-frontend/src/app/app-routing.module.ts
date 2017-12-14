@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {SportClubUserManagementComponent} from './sportclub-user-management/sportclub-user-management.component';
 import {SportClubEventsComponent} from './sportclub-events/sportclub-events.component';
 
+
 const routes: Routes = [
   {
     path: 'user-management',
