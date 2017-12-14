@@ -1,5 +1,6 @@
 package com.realdolmen.sportclub.events.controller;
 
+import com.realdolmen.sportclub.common.entity.Attendance;
 import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.events.service.EventManagementService;
@@ -46,6 +47,12 @@ public class EventManagementController {
     public @ResponseBody
     List<Event> findAll(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
         return service.findAll(page, pageSize);
+    }
+
+    @RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "events/{id}/cancellations")
+    public @ResponseBody
+    List<Attendance> findCancellations(@PathVariable("id") Long id) throws EventNotFoundException {
+        return service.findCancellations(id);
     }
 
     @PostMapping("events/{id}/attachment")

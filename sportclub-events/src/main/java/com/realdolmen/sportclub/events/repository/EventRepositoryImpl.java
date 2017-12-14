@@ -1,5 +1,6 @@
 package com.realdolmen.sportclub.events.repository;
 
+import com.realdolmen.sportclub.common.entity.Attendance;
 import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.common.entity.User;
 
@@ -18,6 +19,14 @@ public class EventRepositoryImpl implements EventAttendeeRepository {
                 "INNER JOIN a.ordr o INNER JOIN o.user u " +
                 "WHERE e.id = :eventId";
         TypedQuery<User> query = entityManager.createQuery(queryString, User.class).setParameter("eventId", event.getId());
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Attendance> findCancellationsForEvent(Event event) {
+        String queryString = "SELECT DISTINCT a FROM Event e INNER JOIN e.attendancies a " +
+                "WHERE a.cancelled = TRUE AND e.id = :eventId";
+        TypedQuery<Attendance> query = entityManager.createQuery(queryString, Attendance.class).setParameter("eventId", event.getId());
         return query.getResultList();
     }
 }

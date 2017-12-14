@@ -1,6 +1,7 @@
 package com.realdolmen.sportclub.events.service;
 
 import com.realdolmen.sportclub.common.entity.Address;
+import com.realdolmen.sportclub.common.entity.Attendance;
 import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.common.entity.RegisteredUser;
 import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
@@ -210,6 +211,18 @@ public class EventManagementServiceImplTest {
     @Test(expected = IllegalArgumentException.class)
     public void pagingFailsWithZeroPageSize() {
         service.findAll(0, 0);
+    }
+
+    @Test
+    public void canObtainCancellationsForEvent() throws EventNotFoundException {
+        List<Attendance> attendances = new ArrayList<>();
+        for(int i = 0; i < 10; i++) {
+            attendances.add(new Attendance());
+        }
+        Mockito.when(repository.findCancellationsForEvent(Mockito.any())).thenReturn(attendances);
+        List<Attendance> result = service.findCancellations(1L);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(attendances, result);
     }
 
     private Event createValidEvent() {
