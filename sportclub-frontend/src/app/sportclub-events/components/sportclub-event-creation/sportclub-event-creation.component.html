@@ -3,8 +3,9 @@
     <form [formGroup]="eventForm">
       <div class="row">
         <div class="input-field col s6">
-          <label for="eventName">Naam</label>
-          <input class="input-field" formControlName="name" type="text" id="eventName">
+          <label for="eventName" [ngStyle]="{'color' : isFieldValidAndSubmitted('name') ? 'red' : ''}">Naam</label>
+          <input class="input-field" formControlName="name" type="text" id="eventName" [ngClass]="errorCss('name')">
+          <span *ngIf= "isFieldValidAndSubmitted('name')" style="color: red">Name is required</span>
         </div>
       </div>
       <div class="row">
@@ -25,21 +26,26 @@
       <div class="row">
         <div class="col s5 input-field">
           <label for="addrStreet">Street</label>
-          <input formControlName="street" id="addrStreet" type="text">
+          <input formControlName="street" id="addrStreet" type="text" [ngClass]="errorCss('street')">
+          <span *ngIf= "isFieldValidAndSubmitted('street')" style="color: red">Street is required</span>
+
         </div>
         <div class="col s1 input-field">
-          <label for="addrStreet">Nr</label>
-          <input formControlName="homeNumber" id="addrHomeNumber" type="number">
+          <label for="addrHomeNumber">Nr</label>
+          <input formControlName="homeNumber" id="addrHomeNumber" type="number" [ngClass]="errorCss('homeNumber')">
+          <span *ngIf= "isFieldValidAndSubmitted('homeNumber')" style="color: red">HomeNumber is required</span>
         </div>
       </div>
       <div class="row">
         <div class="col s2 input-field">
           <label for="addrStreet">Postalcode</label>
-          <input formControlName="postalCode" id="addrPostalCode" type="number">
+          <input formControlName="postalCode" id="addrPostalCode" type="number" [ngClass]="errorCss('postalCode')">
+          <span *ngIf= "isFieldValidAndSubmitted('postalCode')" style="color: red">Postalcode is required</span>
         </div>
         <div class="col s4 input-field">
           <label for="addrStreet">Country</label>
-          <input formControlName="country" id="addrCountry" type="text">
+          <input formControlName="country" id="addrCountry" type="text" [ngClass]="errorCss('country')">
+          <span *ngIf= "isFieldValidAndSubmitted('country')" style="color: red">Country is required</span>
         </div>
       </div>
     </div>
