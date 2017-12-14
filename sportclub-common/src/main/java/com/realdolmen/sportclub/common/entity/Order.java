@@ -24,7 +24,15 @@ public class Order {
 
     @ManyToOne
     private User user;
-
+    
+    public UUID getIdentifier() {
+        return identifier;
+    }
+    
+    public void setIdentifier(UUID identifier) {
+        this.identifier = identifier;
+    }
+    
     private UUID identifier;
 
        public Long getId() {

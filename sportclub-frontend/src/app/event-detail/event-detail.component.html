@@ -1,44 +1,79 @@
 <div class="eventTitleBar">
+</div>
 
+<!--<div class="row">-->
+  <!--<div class="col s12 m6 l3"><p>-->
+    <!--<b>Please ignore test content, it's not part of the layout Mmmmkay?</b>-->
+    <!--testing content street {{eventModel.address.street}}<br/>-->
+    <!--testing content country {{eventModel.address.country}} <br/>-->
+    <!--testing content homeNumber {{eventModel.address.homeNumber}} <br/>-->
+    <!--testing content postalcode {{eventModel.address.postalCode}}-->
+  <!--</p></div>-->
+  <!--<div class="col s12 m6 l3"><p></p></div>-->
+  <!--<div class="col s12 m6 l3"><p></p></div>-->
+  <!--<div class="col s12 m6 l3"><p></p></div>-->
+<!--</div>-->
+
+<div class="row">
+  <div class="col s12 m6 l3"><p> </p></div>
+  <div class="col s12 m6 l3" *ngIf="eventModel.imageUrl != null">
+    <img class="materialboxed" width="200" src="{{eventModel.imageUrl}}" alt="event image">
+  </div>
+  <div class="col s12 m6 l3"><p> </p></div>
+  <div class="col s12 m6 l3"><p>  </p></div>
+</div>
+
+<div class="row">
+  <div class="col s12 m6 l3"><p>  </p></div>
+  <div class="col s12 m6 l3"><p>{{eventModel.name}}</p></div>
+  <div class="col s12 m6 l3"><p><b>PLEASE DONT USE BIG DECIMAL IN THE JSON YOU SEND TO ANGULAR!!!!!!!</b></p></div>
+  <!--<div class="col s12 m6 l3"><p>Prijs volwassenen: &euro;{{eventModel.price.adultPrice}}<br/>Prijs kinderen: &euro;{{eventModel.price.childPrice}}</p></div>-->
+  <div class="col s12 m6 l3"><p>  </p></div>
+</div>
+
+<div class="row">
+  <div class="col s12 m6 l3"><p>  </p></div>
+  <div class="col s12 m6 l3"  *ngIf="eventModel.recurringEventInfo != null">
+    <span>Start datum: {{eventModel.startDate}}</span> <br/>
+    <span>Eind datum: {{eventModel.endDate}}</span> <br/>
+    <span>Recursief evenement</span>
+  </div>
+  <div class="col s12 m6 l3" *ngIf="eventModel.recurringEventInfo == null">
+    <span>Datum: {{eventModel.startDate}}</span> <br/>
+    <span>Enkelvoudig evenement</span>
+  </div>
+  <div class="col s12 m6 l3"><span>Beschikbare plaatsen{{eventModel.availableSpace}}</span>
+    <br/>
+    <span>Beschrijving: {{eventModel.name}}</span></div>
+  <div class="col s12 m6 l3"><p></p></div>
 </div>
 
 
-<div>
-  <p *ngIf="eventModel.recurringEventInfo !={}">
-    <span>Start datum: {{eventModel.startDate}}</span>  <br/>
-    <span>Eind datum: {{eventModel.endDate}}</span>
-
-  </p>
-  <p *ngIf="eventModel.recurringEventInfo === {}">
-    <span>Datum: {{eventModel.startDate}}</span>
-  </p>
-
-
-  <!--<span>Datum: {{eventModel.startDate}}</span>-->
-
-  <span>Locatie:</span><br/>
-  <span>{{eventModel.address.street}} {{eventModel.address.homeNumber}}</span>
-  <br/>
-  <span>{{eventModel.address.postalCode}}</span>
-
-  <br/>
-  <span>Beschrijving:</span>
-  <br/>
-  <span>{{eventModel.name}}</span>
-
-  <br/>
-  <span>Prijs volwassen{{eventModel.price.childPrice}}</span>
-  <br/>
-  <span>Prijs Kind:{{eventModel.price.childPrice}}</span>
-
-  <br/>
-  <span>Beschikbare plaatsen{{eventModel.availableSpace}}</span>
-
-  <button (click)="navigate()">Dashboard</button>
-
-  <button type="button" (click)="subscribe()" >Inschrijven</button>
-
-
+<div class="row">
+  <div class="col s12 m6 l3"><p>  </p></div>
+  <div class="col s12 m6 l3">
+    <span>Locatie:</span><br/>
+    <span>{{eventModel.address.street}} {{eventModel.address.homeNumber}}</span>
+    <br/>
+    <span>{{eventModel.address.postalCode}}</span>
+    <br/>
+    <span>{{eventModel.address.country}}</span>
+</div>
+  <div class="col s12 m6 l3">
+    <a class="waves-effect waves-light btn" (click)="subscribeModal()" class="btn modal-trigger" data-target="modal1" >Inschrijven</a><br/>
+    <span>Inschrijven voor: {{eventModel.deadline}}</span>
+  </div>
+  <div class="col s12 m6 l3"><p>  </p></div>
 </div>
 
+
+<!-- Modal Structure  -->
+<div id="modal1" class="modal">
+  <div class="modal-content">
+    <app-attending-modal> </app-attending-modal>
+  </div>
+  <!--<div class="modal-footer">-->
+    <!--<a  [disabled]="!rForm.valid" (click)="addEvent(rForm.value)" class="modal-action modal-close waves-effect waves-green btn-flat">Inschrijven</a>-->
+  <!--</div>-->
+</div>
 

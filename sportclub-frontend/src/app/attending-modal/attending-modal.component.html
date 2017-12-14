@@ -1,10 +1,86 @@
 
-  Inschrijven in ----------- op -------------
-  <form #subscribeForm="ngForm"  novalidate>
-    Naam
+<p *ngIf="eventModel !=null">
+Inschrijven in {{eventModel.name}} op {{eventModel.startDate}}
+</p>
+
+<div *ngIf="!naam; else forminfo">
+    <form [formGroup]="rForm">
+      <div class="form-container">
+        <div class="row columns">
+            <label>
+              Naam <input type="text" formControlName="naam">
+
+            </label>
+          <div class="alert" *ngIf="rForm.controls['naam'].touched && !rForm.controls['naam'].valid">
+            This is required
+          </div>
+
+          <label>
+          Voornaam <input type="text" formControlName="voornaam">
+
+        </label>
+          <div class="alert" *ngIf="rForm.controls['naam'].touched && !rForm.controls['voornaam'].valid">
+            This is required
+          </div>
+          <label>
+           Email <input type="email" formControlName="email">
+
+          </label>
+          <div class="alert" *ngIf="rForm.controls['naam'].touched && !rForm.controls['email'].valid">
+            This is not good
+          </div>
 
 
-<button [disabled]="!subscribeForm.valid" type="submit" >Search</button>
+          <label>
+            numberOfAdults <input type="number" formControlName="numberOfAdults">
 
-  </form>
+          </label>
+          <div class="alert" *ngIf="rForm.controls['naam'].touched && !rForm.controls['numberOfAdults'].valid">
+            This is required
+          </div>
+          <label>
+            numberOfChildren <input type="number" formControlName="numberOfChildren">
+
+          </label>
+          <div class="alert" *ngIf="rForm.controls['naam'].touched && !rForm.controls['numberOfChildren'].valid">
+            This is required
+          </div>
+
+          <div *ngIf="!rForm.valid">
+            <a class="btn disabled waves-effect waves-light btn" (click)="addEvent(rForm.value)">Inscrijven</a>
+          </div>
+
+          <div *ngIf="rForm.valid">
+            <a class="waves-effect waves-light btn" (click)="addEvent(rForm.value)">Inscrijven</a>
+          </div>
+
+
+          <!--<input type="button" class="button expanded" value="Inschrijvin" [disabled]="!rForm.valid" (click)="addEvent(rForm.value)">-->
+
+        </div>
+
+
+      </div>
+
+    </form>
+
+
+
+  </div>
+
+  <ng-template #forminfo>
+    <div class="form-container">
+      <div class="row columns">
+
+
+      </div>
+
+
+    </div>
+
+
+
+
+
+  </ng-template>
 
