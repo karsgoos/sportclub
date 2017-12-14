@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {SportClubUserManagementComponent} from './sportclub-user-management/sportclub-user-management.component';
 import {SportClubEventsComponent} from './sportclub-events/sportclub-events.component';
+import {RoleManagementPanelComponent} from './role-management-panel/role-management-panel.component';
 
 
 const routes: Routes = [
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'events',
     component: SportClubEventsComponent
+  },
+  {
+    path: 'role-management',
+    component: RoleManagementPanelComponent
   }
 ];
 
