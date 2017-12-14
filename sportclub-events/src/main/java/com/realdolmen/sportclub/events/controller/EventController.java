@@ -24,8 +24,8 @@ public class EventController {
 	public Collection<Event> getEvents(){
 		return eventRepository.findAll();
 	}
-	
-	
+
+
 	@RequestMapping(method = RequestMethod.GET, value = "api/events/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Event getEvent(@PathVariable Long id){
 		return eventRepository.findOne(id);
