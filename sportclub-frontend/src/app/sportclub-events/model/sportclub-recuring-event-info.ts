@@ -1,6 +1,6 @@
 
 //String enum weekday
-class Weekday {
+export class Weekday {
   static MONDAY = "MONDAY";
   static TUESDAY = "TUESDAY";
   static WEDNESDAY = "WENDNESDAY";

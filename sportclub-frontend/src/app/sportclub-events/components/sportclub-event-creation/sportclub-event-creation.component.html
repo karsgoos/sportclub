@@ -95,29 +95,36 @@
           <label for="test5">Monday</label>
         </div>
 
-        <div class="col s12">
-          <input type="checkbox" id="test6"/>
-          <label for="test6">Tuesday</label>
-        </div>
-        <div class="col s12">
-          <input type="checkbox" id="test7"/>
-          <label for="test7">Wednesday</label>
-        </div>
-        <div class="col s12">
-          <input type="checkbox" id="test8"/>
-          <label for="test8">Thursday</label>
-        </div>
-        <div class="col s12">
-          <input type="checkbox" id="test9"/>
-          <label for="test9">Friday</label>
-        </div>
-        <div class="col s12">
-          <input type="checkbox" id="test10"/>
-          <label for="test10">Saturday</label>
-        </div>
-        <div class="col s12">
-          <input type="checkbox" id="test11"/>
-          <label for="test11">Sunday</label>
+        <!-- <div *ngFor="let weekday of nrOfWeekdays; let i = index" class="col s12">
+           <input type="checkbox" id="test6" [(ngModel)]="eventForm.value.nrOfWeekdays[i].checked"/>
+           <label for="test6" >{{weekday.name}}</label>
+         </div>-->
+        <div formGroupName="nrOfWeekdays">
+          <div class="col s12">
+            <input type="checkbox" id="test6" formControlName="MONDAY"/>
+            <label for="test6">Tuesday</label>
+          </div>
+          <div class="col s12">
+            <input type="checkbox" id="test7" formControlName="TUESDAY"/>
+            <label for="test7">Wednesday</label>
+          </div>
+          <div class="col s12">
+            <input type="checkbox" id="test8" formControlName="WEDNESDAY"/>
+            <label for="test8">Thursday</label>
+          </div>
+          <div class="col s12">
+            <input type="checkbox" id="test9" formControlName="THURSDAY"/>
+            <label for="test9">Friday</label>
+          </div>
+          <div class="col s12">
+            <input type="checkbox" id="test10" formControlName="SATURDAY"/>
+            <label for="test10">Saturday</label>
+          </div>
+          <div class="col s12">
+            <input type="checkbox" id="test11" formControlName="SUNDAY"/>
+            <label for="test11">Sunday</label>
+          </div>
+          -->
         </div>
       </div>
 

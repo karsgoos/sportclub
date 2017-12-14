@@ -3,6 +3,7 @@ import {SportClubEvent} from "../../model/sportclub-event";
 import {SportClubEventService} from "../../service/sportclub-event.service";
 import {FormGroup, FormBuilder} from "@angular/forms";
 import {Address} from "../../model/address";
+import {Weekday} from "../../model/sportclub-recuring-event-info"
 
 @Component({
   selector: 'app-sportclub-event-creation',
@@ -77,7 +78,24 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       eventIsRecurring: false,
       firstEventDate: '',
       lastEventDate: '',
-      nrOfWeekdays : []
+      nrOfWeekdays : this.fb.group({
+        MONDAY : false,
+        TUESDAY : false,
+        WEDNESDAY : false,
+        THURSDAY : false,
+        FRIDAY : false,
+        SATURDAY : false,
+        SUNDAY : false,
+      }),
+      /*nrOfWeekdays : [
+        {name: "Monday",value : Weekday.MONDAY, checked: false},
+        {name: "Tuesday",value : Weekday.TUESDAY, checked: false},
+        {name: "Wednesday",value : Weekday.WEDNESDAY, checked: false},
+        {name: "Thursday",value : Weekday.THURSDAY, checked: false},
+        {name: "Friday",value : Weekday.FRIDAY, checked: false},
+        {name: "Saturday",value : Weekday.SATURDAY, checked: false},
+        {name: "Sunday",value : Weekday.SUNDAY, checked: false},
+      ]*/
     });
   }
 
@@ -103,9 +121,15 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     this.event.closed = this.eventForm.value.closed;
 
     if (this.eventForm.value.eventIsRecurring) {
-      /*this.event.recuringEventInfo = {
-
-      }*/
+      let weekdays = [];
+      var nrOfDays = this.eventForm.value.nrOfWeekdays;
+      Object.entries(nrOfDays).forEach(([key, value]) =>{
+        console.log(key +"--"+value);
+        if(value){
+          weekdays.push(key);
+        }
+      });
+      console.log(weekdays);
     }
 
   }
