@@ -9,6 +9,7 @@ import com.realdolmen.sportclub.events.service.export.EventExcelExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     private EventRepository repository;
 
     @Override
+    @Transactional
     public Event create(Event event) throws CouldNotCreateEventException {
         if (event == null) {
             throw new CouldNotCreateEventException(new IllegalArgumentException("Event cannot be null."));
@@ -35,6 +37,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
+    @Transactional
     public Event update(Event event) throws CouldNotUpdateEventException {
         if (event == null) {
             throw new CouldNotUpdateEventException(new IllegalArgumentException("Event cannot be null."));
@@ -50,6 +53,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
+    @Transactional
     public Event find(Long id) throws EventNotFoundException {
         if (id == null) {
             throw new EventNotFoundException(new IllegalArgumentException("Id cannot be null."));
@@ -63,6 +67,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
+    @Transactional
     public List<Event> findAll(int page, int pageSize) {
         if (page < 0 || pageSize < 1) {
             throw new IllegalArgumentException("Invalid page and pageSize arguments.");
@@ -73,6 +78,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
+    @Transactional
     public void saveAttachment(Long id, MultipartFile mpf) throws IOException {
         if(!mpf.getContentType().toLowerCase().equals("application/pdf")){
             throw new IllegalArgumentException("Invalid file type");
@@ -83,6 +89,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
+    @Transactional
     public byte[] findAttachment(Long id) throws AttachmentNotFoundException {
         Event event = repository.findOne(id);
         byte[] attachment = event.getAttachement();
@@ -93,6 +100,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
+    @Transactional
     public byte[] exportAttendanceList(Long id) throws EventNotFoundException, EventExportException {
         Event event = find(id);
         List<User> attendees = repository.findAttendeesForEvent(event);
@@ -105,12 +113,14 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
+    @Transactional
     public List<User> findCancellations(Long id) throws EventNotFoundException {
         Event event = find(id);
         return repository.findCancellationsForEvent(event);
     }
 
     @Override
+    @Transactional
     public byte[] exportCancellations(Long id) throws EventNotFoundException, EventExportException {
         List<User> cancellations = findCancellations(id);
 
