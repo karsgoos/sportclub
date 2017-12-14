@@ -1,0 +1,15 @@
+.panel panel-primary{
+  display: flex;
+  border: 1px solid black;
+}
+.table-responsive{
+  border: 1px solid black;
+}
+.bordered1{
+  background-color: royalblue;
+}
+
+.panel-body1{
+  text-align: center;
+  background-color: royalblue;
+}
