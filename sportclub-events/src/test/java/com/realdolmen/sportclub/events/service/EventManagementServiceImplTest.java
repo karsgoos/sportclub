@@ -76,7 +76,6 @@ public class EventManagementServiceImplTest {
 
     @Test
     public void canCreateRecurringEventOnSingleWeekday() throws CouldNotCreateEventException {
-        int numberOfRecurrences = 5; // 1 + 4 recurrences
         Event event = createValidEvent();
         RecurringEventInfo recurringEventInfo = new RecurringEventInfo();
         recurringEventInfo.setStartDate(event.getStartDate());
@@ -86,13 +85,13 @@ public class EventManagementServiceImplTest {
         event.setRecurringEventInfo(recurringEventInfo);
 
         service.create(event);
-        Mockito.verify(repository, Mockito.times(numberOfRecurrences)).save((Event) Mockito.any());
+        Mockito.verify(repository, Mockito.times(1)).save((Event) Mockito.any()); // First event
+        Mockito.verify(repository, Mockito.times(1)).save((Iterable<Event>) Mockito.any()); // Recurrences
         Mockito.verify(recurringEventInfoRepository, Mockito.times(1)).save((RecurringEventInfo) Mockito.any());
     }
 
     @Test
     public void canCreateRecurringEventOnMultipleWeekdays() throws CouldNotCreateEventException {
-        int numberOfRecurrences = 9; // 1 + 8 recurrences
         Event event = createValidEvent();
         RecurringEventInfo recurringEventInfo = new RecurringEventInfo();
         recurringEventInfo.setStartDate(event.getStartDate());
@@ -103,7 +102,8 @@ public class EventManagementServiceImplTest {
         event.setRecurringEventInfo(recurringEventInfo);
 
         service.create(event);
-        Mockito.verify(repository, Mockito.times(numberOfRecurrences)).save((Event) Mockito.any());
+        Mockito.verify(repository, Mockito.times(1)).save((Event) Mockito.any()); // First event
+        Mockito.verify(repository, Mockito.times(1)).save((Iterable<Event>) Mockito.any()); // Recurrences
         Mockito.verify(recurringEventInfoRepository, Mockito.times(1)).save((RecurringEventInfo) Mockito.any());
     }
 

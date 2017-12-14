@@ -93,9 +93,7 @@ public class EventManagementServiceImpl implements EventManagementService {
         }
 
         event = repository.save(event);
-        for(Event e : eventsToCreate) {
-            repository.save(e);
-        }
+        repository.save(eventsToCreate);
 
         return event;
     }
