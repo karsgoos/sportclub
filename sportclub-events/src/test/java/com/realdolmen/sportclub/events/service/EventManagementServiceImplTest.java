@@ -1,9 +1,6 @@
 package com.realdolmen.sportclub.events.service;
 
-import com.realdolmen.sportclub.common.entity.Address;
-import com.realdolmen.sportclub.common.entity.Attendance;
-import com.realdolmen.sportclub.common.entity.Event;
-import com.realdolmen.sportclub.common.entity.RegisteredUser;
+import com.realdolmen.sportclub.common.entity.*;
 import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
 import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
 import com.realdolmen.sportclub.events.exceptions.EventNotFoundException;
@@ -215,14 +212,17 @@ public class EventManagementServiceImplTest {
 
     @Test
     public void canObtainCancellationsForEvent() throws EventNotFoundException {
-        List<Attendance> attendances = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         for(int i = 0; i < 10; i++) {
-            attendances.add(new Attendance());
+            users.add(new RegisteredUser());
         }
-        Mockito.when(repository.findCancellationsForEvent(Mockito.any())).thenReturn(attendances);
-        List<Attendance> result = service.findCancellations(1L);
+        for(int i = 0; i < 5; i++) {
+            users.add(new Guest());
+        }
+        Mockito.when(repository.findCancellationsForEvent(Mockito.any())).thenReturn(users);
+        List<User> result = service.findCancellations(1L);
         Assert.assertNotNull(result);
-        Assert.assertEquals(attendances, result);
+        Assert.assertEquals(users, result);
     }
 
     private Event createValidEvent() {

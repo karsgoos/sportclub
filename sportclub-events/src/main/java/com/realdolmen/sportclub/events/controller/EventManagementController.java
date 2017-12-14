@@ -1,7 +1,7 @@
 package com.realdolmen.sportclub.events.controller;
 
-import com.realdolmen.sportclub.common.entity.Attendance;
 import com.realdolmen.sportclub.common.entity.Event;
+import com.realdolmen.sportclub.common.entity.User;
 import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.events.service.EventManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,12 +51,19 @@ public class EventManagementController {
 
     @RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "events/{id}/cancellations")
     public @ResponseBody
-    List<Attendance> findCancellations(@PathVariable("id") Long id) throws EventNotFoundException {
+    List<User> findCancellations(@PathVariable("id") Long id) throws EventNotFoundException {
         return service.findCancellations(id);
     }
 
+    @RequestMapping(produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", method = RequestMethod.GET, value = "events/{id}/cancellations")
+    public @ResponseBody
+    byte[] exportCancellations(@PathVariable("id") Long id) throws EventNotFoundException, EventExportException {
+        return service.exportCancellations(id);
+    }
+
     @PostMapping("events/{id}/attachment")
-    public @ResponseBody ResponseEntity<?> uploadAttachement(@PathVariable("id") Long id, @RequestParam("file")MultipartFile attachment){
+    public @ResponseBody
+    ResponseEntity<?> uploadAttachement(@PathVariable("id") Long id, @RequestParam("file") MultipartFile attachment) {
         if (attachment.isEmpty()) {
             return new ResponseEntity("please select a file!", HttpStatus.OK);
         }

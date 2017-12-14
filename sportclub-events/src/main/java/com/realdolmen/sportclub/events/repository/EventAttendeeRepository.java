@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface EventAttendeeRepository {
     List<User> findAttendeesForEvent(Event event);
-    List<Attendance> findCancellationsForEvent(Event event);
+    List<User> findCancellationsForEvent(Event event);
 }

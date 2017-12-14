@@ -1,21 +1,16 @@
 package com.realdolmen.sportclub.events.service;
 
 import com.realdolmen.sportclub.common.entity.Address;
-import com.realdolmen.sportclub.common.entity.Attendance;
 import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.common.entity.User;
-import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.events.repository.EventRepository;
 import com.realdolmen.sportclub.events.service.export.EventExcelExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -110,9 +105,20 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
-    public List<Attendance> findCancellations(Long id) throws EventNotFoundException {
+    public List<User> findCancellations(Long id) throws EventNotFoundException {
         Event event = find(id);
         return repository.findCancellationsForEvent(event);
+    }
+
+    @Override
+    public byte[] exportCancellations(Long id) throws EventNotFoundException, EventExportException {
+        List<User> cancellations = findCancellations(id);
+
+        try {
+            return EventExcelExporter.export(cancellations);
+        } catch (IOException e) {
+            throw new EventExportException(e);
+        }
     }
 
     /**
