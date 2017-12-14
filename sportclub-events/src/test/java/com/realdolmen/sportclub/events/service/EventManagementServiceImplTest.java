@@ -5,6 +5,7 @@ import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
 import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
 import com.realdolmen.sportclub.events.exceptions.EventNotFoundException;
 import com.realdolmen.sportclub.events.repository.EventRepository;
+import com.realdolmen.sportclub.events.repository.RecurringEventInfoRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,9 +21,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -32,6 +33,9 @@ public class EventManagementServiceImplTest {
 
     @Mock
     private EventRepository repository;
+
+    @Mock
+    private RecurringEventInfoRepository recurringEventInfoRepository;
 
     @Before
     public void setUp() {
@@ -47,6 +51,14 @@ public class EventManagementServiceImplTest {
 
         // Find one returns an empty event
         Mockito.when(repository.findOne(Mockito.anyLong())).thenReturn(new Event());
+
+        // Repository.save returns its argument
+        Mockito.when(recurringEventInfoRepository.save((RecurringEventInfo) Mockito.any())).thenAnswer(new Answer<RecurringEventInfo>() {
+            @Override
+            public RecurringEventInfo answer(InvocationOnMock invocation) throws Throwable {
+                return invocation.getArgument(0);
+            }
+        });
     }
 
     @Test(expected = CouldNotCreateEventException.class)
@@ -60,6 +72,37 @@ public class EventManagementServiceImplTest {
         Event result = service.create(event);
 
         Assert.assertEquals(event, result);
+    }
+
+    @Test
+    public void canCreateRecurringEventOnSingleWeekday() throws CouldNotCreateEventException {
+        int numberOfRecurrences = 5; // 1 + 4 recurrences
+        Event event = createValidEvent();
+        RecurringEventInfo recurringEventInfo = new RecurringEventInfo();
+        recurringEventInfo.setStartDate(event.getStartDate());
+        recurringEventInfo.setEndDate(event.getStartDate().plusMonths(1));
+        recurringEventInfo.setWeekdays(new ArrayList<>());
+        recurringEventInfo.getWeekdays().add(DayOfWeek.MONDAY);
+        event.setRecurringEventInfo(recurringEventInfo);
+
+        service.create(event);
+        Mockito.verify(repository, Mockito.times(numberOfRecurrences)).save((Event) Mockito.any());
+    }
+
+    @Test
+    public void canCreateRecurringEventOnMultipleWeekdays() throws CouldNotCreateEventException {
+        int numberOfRecurrences = 9; // 1 + 8 recurrences
+        Event event = createValidEvent();
+        RecurringEventInfo recurringEventInfo = new RecurringEventInfo();
+        recurringEventInfo.setStartDate(event.getStartDate());
+        recurringEventInfo.setEndDate(event.getStartDate().plusMonths(1));
+        recurringEventInfo.setWeekdays(new ArrayList<>());
+        recurringEventInfo.getWeekdays().add(DayOfWeek.MONDAY);
+        recurringEventInfo.getWeekdays().add(DayOfWeek.WEDNESDAY);
+        event.setRecurringEventInfo(recurringEventInfo);
+
+        service.create(event);
+        Mockito.verify(repository, Mockito.times(numberOfRecurrences)).save((Event) Mockito.any());
     }
 
     @Test(expected = CouldNotCreateEventException.class)
@@ -186,7 +229,7 @@ public class EventManagementServiceImplTest {
     @Test
     public void pagingWorksCorrectly() {
         ArrayList<Event> results = new ArrayList<>();
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             results.add(new Event());
         }
         Mockito.when(repository.findAll((Pageable) Mockito.any())).thenReturn(new PageImpl(results));
@@ -213,10 +256,10 @@ public class EventManagementServiceImplTest {
     @Test
     public void canObtainCancellationsForEvent() throws EventNotFoundException {
         List<User> users = new ArrayList<>();
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             users.add(new RegisteredUser());
         }
-        for(int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
             users.add(new Guest());
         }
         Mockito.when(repository.findCancellationsForEvent(Mockito.any())).thenReturn(users);
