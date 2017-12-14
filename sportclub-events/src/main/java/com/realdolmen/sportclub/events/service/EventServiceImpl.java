@@ -1,10 +1,7 @@
 package com.realdolmen.sportclub.events.service;
 
 import com.realdolmen.sportclub.common.entity.*;
-import com.realdolmen.sportclub.common.repository.AttendanceRepository;
-import com.realdolmen.sportclub.common.repository.EventRepository;
-import com.realdolmen.sportclub.common.repository.OrderRepository;
-import com.realdolmen.sportclub.common.repository.UserRepository;
+import com.realdolmen.sportclub.common.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +21,9 @@ public class EventServiceImpl implements EventService {
 	
 	@Autowired
 	private OrderRepository orderRepository;
+	
+	@Autowired
+	private RoleRepository roleRepository;
 	
 	@Override
 	public Collection<Event> findAll() {
@@ -64,6 +64,7 @@ public class EventServiceImpl implements EventService {
 		//TODO: role for guest
 		Role role = new Role();
 		role.setName("GUEST");
+		roleRepository.save(role);
 		guest.setRole(role);
 		
 		userRepository.save(guest);
