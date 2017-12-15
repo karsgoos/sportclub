@@ -4,6 +4,7 @@ import com.realdolmen.sportclub.common.entity.*;
 import com.realdolmen.sportclub.common.repository.EventRepository;
 import com.realdolmen.sportclub.common.repository.RoleRepository;
 import com.realdolmen.sportclub.common.repository.UserRepository;
+import com.realdolmen.sportclub.common.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -19,20 +20,21 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @SpringBootApplication
-@ComponentScan("com.realdolmen.sportclub")
+@EnableAutoConfiguration
+@ComponentScan(basePackages = {"com.realdolmen.sportclub"})
 @EnableJpaRepositories("com.realdolmen.sportclub")
 @EntityScan("com.realdolmen.sportclub")
 public class Application {
 
     @Autowired
     private EventRepository eventRepository;
-
+    
     @Autowired
     private UserRepository userRepository;
-
+    
     @Autowired
     private RoleRepository roleRepository;
-
+    
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -61,7 +63,7 @@ public class Application {
         t.setPriceAdult(BigDecimal.ONE);
         t.setPriceChild(BigDecimal.ONE);
         eventRepository.save(t);
-
+    
         RegisteredUser u = new RegisteredUser();
         u.setFirstName("bert");
         u.setLastName("beton");
