@@ -48,13 +48,12 @@ public class EventManagementServiceImpl implements EventManagementService {
 
         List<Event> eventsToCreate = calculateRecurrentEvents(event, false);
 
-        event = repository.save(event);
         repository.save(eventsToCreate);
 
         return event;
     }
 
-    private List<Event> calculateRecurrentEvents(Event event, boolean isUpdate) {
+    private List<Event> calculateRecurrentEvents(Event event, boolean isUpdate) throws CouldNotCreateEventException {
         List<Event> eventsToCreate = new ArrayList<>();
         if (event.getRecurringEventInfo() != null) {
             event.setRecurringEventInfo(recurringEventInfoRepository.save(event.getRecurringEventInfo()));
@@ -113,10 +112,9 @@ public class EventManagementServiceImpl implements EventManagementService {
             throw new CouldNotCreateEventException("No events to create.");
         }
 
-
         repository.save(eventsToCreate);
 
-        return eventsToCreate.get(0);
+        return eventsToCreate;
 
     }
 
@@ -133,9 +131,13 @@ public class EventManagementServiceImpl implements EventManagementService {
             throw new CouldNotUpdateEventException(e);
         }
 
-        List<Event> eventsToCreate = calculateRecurrentEvents(event, true);
+        List<Event> eventsToCreate = null;
+        try {
+            eventsToCreate = calculateRecurrentEvents(event, true);
+        } catch (CouldNotCreateEventException e) {
+            throw new CouldNotUpdateEventException(e);
+        }
 
-        event = repository.save(event);
         repository.save(eventsToCreate);
 
         return event;
