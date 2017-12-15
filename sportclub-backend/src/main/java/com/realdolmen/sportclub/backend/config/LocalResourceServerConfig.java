@@ -23,7 +23,10 @@ public class LocalResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("bert").password("kek").authorities("CAN_DO_SOMETHING", "CAN_DO_NOTHING");
+                .withUser("bert").password("kek").authorities("CAN_DO_SOMETHING", "CAN_DO_NOTHING")
+                .and()
+                .withUser("user")
+                .password("").roles("USER");
     }
 
     @Override
