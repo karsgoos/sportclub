@@ -37,13 +37,13 @@ public class EventManagementController {
         return service.update(event);
     }
 
-    @RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "events/{id}")
+    @RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "events/detail/{id}")
     public @ResponseBody
     Event findEvent(@PathVariable("id") Long id) throws EventNotFoundException {
         return service.find(id);
     }
 
-    @RequestMapping(produces = "application/json", params = {"page", "pageSize"}, method = RequestMethod.GET, value = "events")
+    @RequestMapping(produces = "application/json", params = {"page", "pageSize"}, method = RequestMethod.GET, value = "events/timeline")
     public @ResponseBody
     List<Event> findAll(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
         return service.findAll(page, pageSize);
