@@ -4,7 +4,6 @@ import com.realdolmen.sportclub.common.entity.*;
 import com.realdolmen.sportclub.common.repository.EventRepository;
 import com.realdolmen.sportclub.common.repository.RoleRepository;
 import com.realdolmen.sportclub.common.repository.UserRepository;
-import com.realdolmen.sportclub.common.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -49,6 +48,9 @@ public class Application {
         e.setImageUrl("http://www.adpoly.ac.ae/En/Academics/AbuDhabiMainCampus/ISET/CODATHON/Documents/CODE%20%20%20DS-01.png");
         Address address = new Address();
         address.setCountry("Belgium");
+        address.setStreet("somewhere");
+        address.setPostalCode("2000");
+        address.setHomeNumber(4);
         e.setAddress(address);
         e.setPriceAdult(BigDecimal.TEN);
         e.setPriceChild(BigDecimal.ONE);

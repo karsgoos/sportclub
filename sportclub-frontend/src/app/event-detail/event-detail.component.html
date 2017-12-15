@@ -1,80 +1,105 @@
 <div class="eventTitleBar">
 </div>
+<br/>
+<br/>
+<br/>
+<br/>
 
-<!--<div class="row">-->
-  <!--<div class="col s12 m6 l3"><p>-->
-    <!--<b>Please ignore test content, it's not part of the layout Mmmmkay?</b>-->
-    <!--testing content street {{eventModel.address.street}}<br/>-->
-    <!--testing content country {{eventModel.address.country}} <br/>-->
-    <!--testing content homeNumber {{eventModel.address.homeNumber}} <br/>-->
-    <!--testing content postalcode {{eventModel.address.postalCode}}-->
-  <!--</p></div>-->
-  <!--<div class="col s12 m6 l3"><p></p></div>-->
-  <!--<div class="col s12 m6 l3"><p></p></div>-->
-  <!--<div class="col s12 m6 l3"><p></p></div>-->
-<!--</div>-->
+<div class="container">
+  <div class="card-panel hoverable large">
 
-<div class="row">
-  <div class="col s12 m6 l3"><p> </p></div>
-  <!--<div class="col s12 m6 l3" *ngIf="eventModel.imageUrl != null">-->
-    <!--<img class="materialboxed" width="200" src="{{eventModel.imageUrl}}" alt="event image">-->
-  <!--</div>-->
-  <div class="col s12 m6 l3"><p> </p></div>
-  <div class="col s12 m6 l3"><p>  </p></div>
-</div>
 
-<div class="row">
-  <div class="col s12 m6 l3"><p>  </p></div>
-  <div class="col s12 m6 l3"><p>{{eventModel.name}}</p></div>
-  <div class="col s12 m6 l3"><p><b>PLEASE DONT USE BIG DECIMAL IN THE JSON YOU SEND TO ANGULAR!!!!!!!</b></p></div>
-  <!--<div class="col s12 m6 l3"><p>Prijs volwassenen: &euro;{{eventModel.price.adultPrice}}<br/>Prijs kinderen: &euro;{{eventModel.price.childPrice}}</p></div>-->
-  <div class="col s12 m6 l3"><p>  </p></div>
-</div>
+    <div class="row">
+      <div class="col s12 m6 l3"><p> </p></div>
+      <!-- If there is an image else... -->
+      <div class="col s12 m6 l3" *ngIf="eventModel.imageUrl != null; else noImage">
+        <img class="materialboxed" width="200" src="{{eventModel.imageUrl}}" alt="event image">
+      </div>
+      <ng-template #noImage><div class="col s12 m6 l3"><img class="materialboxed" width="200" height="150" src="https://upload.wikimedia.org/wikipedia/commons/6/6c/No_image_3x4.svg" alt="no event image"></div></ng-template>
 
-<div class="row">
-  <div class="col s12 m6 l3"><p>  </p></div>
-  <div class="col s12 m6 l3"  *ngIf="eventModel.recurringEventInfo != null">
-    <span>Start datum: {{eventModel.startDate}}</span> <br/>
-    <span>Eind datum: {{eventModel.endDate}}</span> <br/>
-    <span>Recursief evenement</span>
+
+      <!--if it is a closed event else... -->
+      <div class="col s12 m6 l3">
+    <span *ngIf="eventModel.closed == true; else openEvent">
+      <i class="medium material-icons">person</i><br/><b>Gesloten evenement</b>
+    </span>
+        <ng-template #openEvent>
+          <i class="medium material-icons">people</i><br/><b>Openbaar evenement</b>
+        </ng-template>
+        <br/>
+
+        <span *ngIf="eventModel.recurringEventInfo != null; else singleEvent"><b>Recursief evenement</b></span>
+        <ng-template #singleEvent><b>Enkelvoudig evenement</b></ng-template>
+
+      </div>
+
+
+      <div class="col s12 m6 l3"></div>
+
+    </div>
+
+    <div class="row">
+      <div class="col s12 m6 l3"><p>  </p></div>
+      <div class="col s12 m6 l3">
+        <p *ngIf="eventModel.recurringEventInfo == null; else recurringEvent">
+          <b>{{eventModel.name}}</b><br/>
+          Datum: {{eventModel.startDate}}
+        </p>
+        <ng-template #recurringEvent>
+          <b>{{eventModel.name}}</b><br/>
+          Start datum: {{eventModel.startDate}}<br/>
+          Eind datum: {{eventModel.endDate}}
+        </ng-template>
+      </div>
+      <!-- TODO replace static price with dynamic after big decimal issue has been resolved-->
+      <div class="col s12 m6 l3"><p>Prijs volwassenen: &euro; {{eventModel.priceAdult}}<br/>Prijs kinderen: &euro; {{eventModel.priceChild}}</p></div>
+      <div class="col s12 m6 l3"><p>  </p></div>
+    </div>
+
+
+
+
+
+
+    <div class="row">
+      <div class="col s12 m6 l3"><p>  </p></div>
+      <div class="col s12 m6 l3"><p>  </p></div>
+
+      <div class="col s12 m6 l3">
+        <span>Beschikbare plaatsen: {{eventModel.maxParticipants}}</span>
+        <br/>
+        <span>Beschrijving: {{eventModel.description}}</span>
+      </div>
+
+      <div class="col s12 m6 l3"><p> </p></div>
+    </div>
+
+
+
+    <div class="row">
+      <div class="col s12 m6 l3"><p></p></div>
+      <div class="col s12 m6 l3">
+        <span>Locatie:</span><br/>
+        <span>{{eventModel.address.street}} {{eventModel.address.homeNumber}}</span>
+        <br/>
+        <span>{{eventModel.address.postalCode}}</span> <span>{{eventModel.address.country}}</span>
+      </div>
+      <div class="col s12 m6 l3">
+        <a class="waves-effect waves-light btn" (click)="subscribeModal()" class="btn modal-trigger" data-target="modal1" >Inschrijven</a><br/>
+        <span><b>Inschrijven voor: {{eventModel.deadline}}</b></span>
+      </div>
+      <div class="col s12 m6 l3"><p>  </p></div>
+    </div>
+    <!-- Modal Structure  -->
+    <div id="modal1" class="modal">
+      <div class="modal-content">
+        <app-attending-modal> </app-attending-modal>
+      </div>
+    </div>
+
   </div>
-  <div class="col s12 m6 l3" *ngIf="eventModel.recurringEventInfo == null">
-    <span>Datum: {{eventModel.startDate}}</span> <br/>
-    <span>Enkelvoudig evenement</span>
-  </div>
-  <div class="col s12 m6 l3"><span>Beschikbare plaatsen{{eventModel.availableSpace}}</span>
-    <br/>
-    <span>Beschrijving: {{eventModel.name}}</span></div>
-  <div class="col s12 m6 l3"><p></p></div>
 </div>
-
-
-<div class="row">
-  <div class="col s12 m6 l3"><p>  </p></div>
-  <div class="col s12 m6 l3">
-    <span>Locatie:</span><br/>
-    <span>{{eventModel.address.street}} {{eventModel.address.homeNumber}}</span>
-    <br/>
-    <span>{{eventModel.address.postalCode}}</span>
-    <br/>
-    <span>{{eventModel.address.country}}</span>
-</div>
-  <div class="col s12 m6 l3">
-    <a class="waves-effect waves-light btn" (click)="subscribeModal()" class="btn modal-trigger" data-target="modal1" >Inschrijven</a><br/>
-    <span>Inschrijven voor: {{eventModel.deadline}}</span>
-  </div>
-  <div class="col s12 m6 l3"><p>  </p></div>
-</div>
-
-
-<!-- Modal Structure  -->
-<div id="modal1" class="modal">
-  <div class="modal-content">
-
-    <app-attending-modal> </app-attending-modal>
-  </div>
-  <!--<div class="modal-footer">-->
-    <!--<a  [disabled]="!rForm.valid" (click)="addEvent(rForm.value)" class="modal-action modal-close waves-effect waves-green btn-flat">Inschrijven</a>-->
-  <!--</div>-->
-</div>
-
+<br/>
+<br/>
+<br/>
+<br/>
