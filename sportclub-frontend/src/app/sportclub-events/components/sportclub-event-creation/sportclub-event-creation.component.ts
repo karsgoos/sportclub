@@ -6,6 +6,7 @@ import {Address} from "../../model/address";
 import {Weekday} from "../../model/sportclub-recuring-event-info"
 import {Moderator} from "../../model/moderator";
 import {EnrollmentTemp} from "../../model/enrollment-temp";
+import {ActivatedRoute} from "@angular/router";
 declare var $: any;
 
 @Component({
@@ -69,11 +70,103 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
   enrollments:EnrollmentTemp[]=[];
   enrollment_id: number;
 
-  constructor(private eventService: SportClubEventService, private fb: FormBuilder) {
+  eventId: number;
+
+  constructor(private route: ActivatedRoute, private eventService: SportClubEventService, private fb: FormBuilder) {
   }
 
   ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      if (params.get('id')) { // Edit page
+        this.eventId = Number(params.get('id'));
+        this.loadForm();
+      } else { // Create page
+        this.createForm();
+      }
+    });
+  }
+
+  static dateToPickerString(date: Date): string {
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    let value = String(date.getDate()) + ' ' + monthNames[date.getMonth()] + ', ' + date.getFullYear();
+    return value.trim();
+  }
+
+  static timeToPickerString(date: Date): string {
+    let hoursString = date.getHours() < 10 ? '0' + date.getHours() : String(date.getHours());
+    let minutesString = date.getMinutes() < 10 ? '0' + date.getMinutes() : String(date.getMinutes());
+    let value = String(hoursString + ':' + minutesString);
+    return value.trim();
+  }
+
+  loadForm() {
     this.createForm();
+    this.eventService.getCreationEvent(this.eventId).subscribe(event => {
+      this.event.id = event.id;
+
+      let nrOfWeekdays = {
+        MONDAY: false,
+        TUESDAY: false,
+        WEDNESDAY: false,
+        THURSDAY: false,
+        FRIDAY: false,
+        SATURDAY: false,
+        SUNDAY: false,
+      };
+      if (event.recurringEventInfo) {
+        this.eventForm.controls['eventIsRecurring'].setValue(true);
+        for(let i = 0; i < event.recurringEventInfo.weekdays.length; i++) {
+          let weekday = event.recurringEventInfo.weekdays[i];
+          nrOfWeekdays[weekday] = true;
+        }
+      }
+      this.eventForm.patchValue({
+        name: event.name,
+        description: event.description,
+        street: event.address.street,
+        homeNumber: event.address.homeNumber,
+        // TODO: city
+        postalCode: event.address.postalCode,
+        country: event.address.country,
+        pricePerChild: event.priceChild,
+        pricePerAdult: event.priceAdult,
+        priceGeneral: event.priceAdult,
+        nrOfWeekdays: nrOfWeekdays,
+        closed: event.closed,
+        extraModeratorsBoolean: event.responsibles.length > 1,
+      });
+      // Dates and times need to be set manually
+      // Additionally, so that angular picks up the date and time values, we need to trigger an onchange event
+      $('#eventStartDate')[0].value = SportclubEventCreationComponent.dateToPickerString(new Date(event.startDate));
+      $('#eventStartDate')[0].dispatchEvent(new Event('change'));
+      $('#eventStartTime')[0].value = SportclubEventCreationComponent.timeToPickerString(new Date(event.startDate));
+      $('#eventStartTime')[0].dispatchEvent(new Event('change'));
+
+      $('#eventEndDate')[0].value = SportclubEventCreationComponent.dateToPickerString(new Date(event.endDate));
+      $('#eventEndDate')[0].dispatchEvent(new Event('change'));
+      $('#eventEndTime')[0].value = SportclubEventCreationComponent.timeToPickerString(new Date(event.endDate));
+      $('#eventEndTime')[0].dispatchEvent(new Event('change'));
+
+      $('#eventDeadlineDate')[0].value = SportclubEventCreationComponent.dateToPickerString(new Date(event.deadline));
+      $('#eventDeadlineDate')[0].dispatchEvent(new Event('change'));
+      $('#eventDeadlineTime')[0].value = SportclubEventCreationComponent.timeToPickerString(new Date(event.deadline));
+      $('#eventDeadlineTime')[0].dispatchEvent(new Event('change'));
+
+      if (event.recurringEventInfo) {
+        $('#eventFirstDate')[0].value = SportclubEventCreationComponent.dateToPickerString(new Date(event.recurringEventInfo.startDate));
+        $('#eventFirstDate')[0].dispatchEvent(new Event('change'));
+        $('#eventLastDate')[0].value = SportclubEventCreationComponent.dateToPickerString(new Date(event.recurringEventInfo.endDate));
+        $('#eventLastDate')[0].dispatchEvent(new Event('change'));
+      }
+      // Enrollments need to be set manually
+      // TODO: make sure this works when actual enrollments are added
+      for(let i = 0; i < this.enrollments.length; i++) {
+        let enrollment = this.enrollments[i];
+      }
+    });
   }
 
   createForm() {
@@ -188,7 +281,12 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
 
   saveSingleEvent() {
     this.prepareEventToSave();
-    this.eventService.saveEvent(this.event);
+    if (this.eventId) {
+      console.log(this.event);
+      this.eventService.updateEvent(this.event);
+    } else {
+      this.eventService.saveEvent(this.event);
+    }
     this.isFormSubmitted = true;
   }
 

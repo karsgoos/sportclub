@@ -12,7 +12,12 @@ const routes: Routes = [
   {
     path: 'events/creation',
     component: SportclubEventCreationComponent
-  },{
+  },
+  {
+    path: 'events/edit/:id', pathMatch: 'full',
+    component: SportclubEventCreationComponent
+  },
+  {
     path: 'user-management',  pathMatch: 'full',
     component: SportClubUserManagementComponent
   },

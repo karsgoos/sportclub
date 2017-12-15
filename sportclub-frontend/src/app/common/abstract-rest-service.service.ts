@@ -16,4 +16,8 @@ export abstract class AbstractRestService<T> {
     return this.http.post(Config.SERVER_URL + this.endPoint,toSave);
   }
 
+  update(toUpdate: T): Observable<T> {
+    return this.http.put(Config.SERVER_URL + this.endPoint, toUpdate);
+  }
+
 }

@@ -231,9 +231,6 @@ public class EventManagementServiceImpl implements EventManagementService {
             throw new InvalidEventException("Address cannot be null.");
         }
         validate(event.getAddress());
-        if (event.getDeadline() == null) {
-            throw new InvalidEventException("Deadline cannot be null.");
-        }
         if (event.getPriceAdult() == null) {
             throw new InvalidEventException("Adult price cannot be null.");
         }

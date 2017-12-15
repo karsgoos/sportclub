@@ -26,6 +26,12 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
     return this.http.get<SportClubEvent>(url);
   }
 
+  getCreationEvent(id: number):  Observable<SportClubCreationEvent>{
+    var url = environment.eventApiUrl + "/" + id;
+
+    return this.http.get<SportClubCreationEvent>(url);
+  }
+
   lookupEvent(name: string) :  Observable<SportClubEvent> {
     var url = environment.eventApiUrl + "/search?name=" + name;
 
@@ -53,6 +59,10 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
 
   saveEvent(event:SportClubCreationEvent){
     super.save(event).subscribe();
+  }
+
+  updateEvent(event: SportClubCreationEvent) {
+    super.update(event).subscribe();
   }
 
 }
