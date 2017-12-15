@@ -9,13 +9,6 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.7.RELEASE</version>
-        <relativePath/>
-    </parent>
-
     <modules>
         <module>sportclub-events</module>
         <module>sportclub-frontend</module>
@@ -23,11 +16,4 @@
         <module>sportclub-points</module>
         <module>sportclub-user-management</module>
     </modules>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
-        <sportclub.version>${project.version}</sportclub.version>
-    </properties>
 </project>

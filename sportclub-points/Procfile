@@ -1,0 +1,1 @@
+web: java $JAVA_OPTS -Dserver.port=$PORT -Dspring.profiles.active=production -jar target/sportclub-points-1.0.0-SNAPSHOT.jar
