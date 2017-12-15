@@ -110,6 +110,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       this.addr.homeNumber = 101;
       this.addr.country = "SportClubCountry";
       this.addr.postalCode = "1000";
+      this.addr.city = "SportClubCity";
     }
 
     if(this.eventForm.value.differentPricesBoolean){
@@ -124,22 +125,38 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     this.event.name = this.eventForm.value.name;
     this.event.description = this.eventForm.value.description;
     this.event.address = this.addr;
-    this.event.startDate = this.eventForm.value.startday + " " + this.eventForm.value.starttime;
-    this.event.endDate = this.eventForm.value.endday + " " + this.eventForm.value.endtime;
     this.event.responsibles = [];
     this.event.enrollments = [];
     this.event.closed = this.eventForm.value.closed;
 
+    if(this.eventForm.value.eventIsRecurring){
+      this.event.startDate = this.eventForm.value.firstEventDate + " " + this.eventForm.value.starttime;
+      this.event.endDate = this.eventForm.value.lastEventDate + " " + this.eventForm.value.endtime;
+    }
+    else{
+      this.event.startDate = this.eventForm.value.startday + " " + this.eventForm.value.starttime;
+      this.event.endDate = this.eventForm.value.endday + " " + this.eventForm.value.endtime;
+    }
+
     if(this.eventForm.value.customMinMaxParticipantsBoolean){
       this.event.minParticipants = this.eventForm.value.minParticipants;
       this.event.maxParticipants = this.eventForm.value.maxParticipants;
+    }
+    else{
+      this.event.minParticipants = 1;
+      this.event.maxParticipants = 999999;
     }
 
     if(this.eventForm.value.customDeadlineBoolean){
       this.event.deadline = this.eventForm.value.deadlineday + " " + this.eventForm.value.deadlinetime;
     }
     else{
-      this.event.deadline = this.eventForm.value.startday + " 00:00";
+      if(this.eventForm.value.eventIsRecurring){
+        this.event.deadline = this.eventForm.value.firstEventDate + " 00:00";
+      }
+      else{
+        this.event.deadline = this.eventForm.value.startday + " 00:00";
+      }
     }
 
     if (this.eventForm.value.eventIsRecurring) {
@@ -169,6 +186,9 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
   convertDateString(dateString: string): string {
     let temp = dateString.split(" ");
     let day: string = temp[0];
+    if(day.length===1){
+      day = "0" + day;
+    }
     let year: string = temp[2];
     let month: string;
     switch (temp[1]) {
