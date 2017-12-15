@@ -8,6 +8,7 @@ import {AttendingModalComponent} from "./attending-modal/attending-modal.compone
 import {AppComponent} from "./app.component";
 import {SportclubEventCreationComponent} from "./sportclub-events/components/sportclub-event-creation/sportclub-event-creation.component";
 
+
 const routes: Routes = [
   {
     path: 'events/creation',
