@@ -192,34 +192,34 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     let year: string = temp[2];
     let month: string;
     switch (temp[1]) {
-      case "January,":
+      case "Januari,":
         month = "01";
         break;
-      case "February,":
+      case "Februari,":
         month = "02";
         break;
-      case "March,":
+      case "Maart,":
         month = "03";
         break;
       case "April,":
         month = "04";
         break;
-      case "May,":
+      case "Mei,":
         month = "05";
         break;
-      case "June,":
+      case "Juni,":
         month = "06";
         break;
-      case "July,":
+      case "Juli,":
         month = "07";
         break;
-      case "August,":
+      case "Augustus,":
         month = "08";
         break;
       case "September,":
         month = "09";
         break;
-      case "October,":
+      case "Oktober,":
         month = "10";
         break;
       case "November,":
