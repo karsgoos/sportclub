@@ -10,7 +10,7 @@ import { EventDetailComponent } from './event-detail/event-detail.component';
 import { AttendingModalComponent } from './attending-modal/attending-modal.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
-
+import {RoleManagementPanelComponent} from './role-management-panel/role-management-panel.component';
 
 
 @NgModule({
@@ -18,7 +18,8 @@ import { MenuBarComponent } from './menu-bar/menu-bar.component';
     AppComponent,
     MenuBarComponent,
     EventDetailComponent,
-    AttendingModalComponent
+    AttendingModalComponent,
+    RoleManagementPanelComponent
   ],
   imports: [
     BrowserModule,
