@@ -1,7 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import { CalendarComponent } from "ng-fullcalendar";
 import { Options } from "fullcalendar";
-import {SportClubEvent} from "../../common/model/sportclub-event-model";
 import {SportClubEventService} from "../service/sportclub-event.service";
 
 @Component({
@@ -58,8 +57,7 @@ export class EventCalendarComponent implements OnInit {
         },
         events: events
       };
-    } );
-
+    });
   }
 
 }

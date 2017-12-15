@@ -38,21 +38,20 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
 		eventService.attendEvent(userId, eventId, nrOfAdults, nrOfChildren);
 	}*/
 
-  subscribeEvent(userId,eventId,nbAdults,nbChild) {
-    return this.http
-      .post(environment.eventApiUrl + '/attend', {
-        userId: 1,
-        eventId: eventId,
-        nrOfAdults: nbAdults,
-        nrOfChildren: nbChild
-      })
-      .subscribe();
 
-
+  saveEvent(event:SportClubCreationEvent) {
+    return super.save(event);
   }
 
-  saveEvent(event:SportClubCreationEvent){
-    return super.save(event);
+  subscribeEvent(eventId,naam,voornam,email,nbAdults,nbChild){
+     return this.http
+      .post(environment.eventApiUrl+'/attend',{eventId:eventId,lastName:naam,firstName:voornam,email:email,nrOfAdults:nbAdults,nrOfChildren:nbChild})
+      .subscribe();
+
+    // return this.http
+    //   .post(environment.eventApiUrl+'/attend',{userId:1,eventId:eventId,nrOfAdults:nbAdults,nrOfChildren:nbChild})
+    //   .subscribe();
+
   }
 
 }

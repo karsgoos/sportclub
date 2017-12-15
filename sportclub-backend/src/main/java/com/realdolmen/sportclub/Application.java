@@ -2,10 +2,12 @@ package com.realdolmen.sportclub;
 
 import com.realdolmen.sportclub.common.entity.*;
 import com.realdolmen.sportclub.common.repository.RoleRepository;
+import com.realdolmen.sportclub.common.repository.*;
 import com.realdolmen.sportclub.common.repository.UserRepository;
 import com.realdolmen.sportclub.events.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,20 +20,24 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.realdolmen.sportclub")
+@EnableAutoConfiguration
+@ComponentScan(basePackages = {"com.realdolmen.sportclub"})
 @EnableJpaRepositories("com.realdolmen.sportclub")
 @EntityScan("com.realdolmen.sportclub")
 public class Application {
 
     @Autowired
     private EventRepository eventRepository;
-
+    
     @Autowired
     private UserRepository userRepository;
-
+    
     @Autowired
     private RoleRepository roleRepository;
-
+    
+    @Autowired
+    private SportclubRepository sportclubRepository;
+    
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -39,28 +45,36 @@ public class Application {
     @PostConstruct
     public void initData() {
         Event e = new Event();
-        e.setName("FOOOD");
+        e.setName("Coding Marathon");
         e.setStartDate(LocalDateTime.of(2017,12,16,12,0,0));
         e.setEndDate(LocalDateTime.of(2017,12,16,14,0,0));
         e.setDeadline(LocalDateTime.of(2017,12,15,12,0,0));
+        e.setImageUrl("http://www.adpoly.ac.ae/En/Academics/AbuDhabiMainCampus/ISET/CODATHON/Documents/CODE%20%20%20DS-01.png");
         Address address = new Address();
         address.setCountry("Belgium");
+        address.setStreet("somewhere");
+        address.setPostalCode("2000");
+        address.setHomeNumber("4");
+        e.setMaxParticipants(50);
+        e.setDescription("Demo event");
         e.setAddress(address);
         e.setPriceAdult(BigDecimal.TEN);
         e.setPriceChild(BigDecimal.ONE);
         eventRepository.save(e);
         Event t = new Event();
-        t.setName("FOOOD");
+        t.setName("Closed FOOOD");
         t.setStartDate(LocalDateTime.of(2017,12,17,12,0,0));
         t.setEndDate(LocalDateTime.of(2017,12,17,14,0,0));
         t.setDeadline(LocalDateTime.of(2017,12,16,12,0,0));
         Address a = new Address();
         a.setCountry("Belgium");
         t.setAddress(a);
+        t.setClosed(true);
+        t.setDescription("Im a closed event");
         t.setPriceAdult(BigDecimal.ONE);
         t.setPriceChild(BigDecimal.ONE);
         eventRepository.save(t);
-
+    
         RegisteredUser u = new RegisteredUser();
         u.setFirstName("bert");
         u.setLastName("beton");
@@ -77,6 +91,10 @@ public class Application {
         roleRepository.save(r);
         u.setRole(r);
         userRepository.save(u);
+        
+        Sportclub s = new Sportclub();
+        s.setName("de spieren los");
+        sportclubRepository.save(s);
     }
 
 }
