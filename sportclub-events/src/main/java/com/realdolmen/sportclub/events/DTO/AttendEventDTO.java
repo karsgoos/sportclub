@@ -62,7 +62,7 @@ public class AttendEventDTO {
 	}
 	
 	public void setFirstName(@Nullable String firstName) {
-		this.firstName = firstName;
+		this.firstName = firstName.trim();
 	}
 	
 	@Nullable
@@ -71,7 +71,7 @@ public class AttendEventDTO {
 	}
 	
 	public void setLastName(@Nullable String lastName) {
-		this.lastName = lastName;
+		this.lastName = lastName.trim();
 	}
 	
 	@Nullable
@@ -80,6 +80,6 @@ public class AttendEventDTO {
 	}
 	
 	public void setEmail(@Nullable String email) {
-		this.email = email;
+		this.email = email.trim() ;
 	}
 }
