@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {SportClubEvent} from "../common/model/sportclub-event-model";
+import {SportClubEvent} from "../../common/model/sportclub-event-model";
 import {ActivatedRoute, Router} from "@angular/router";
-import {SportClubEventService} from "../sportclub-events/service/sportclub-event.service";
+import {SportClubEventService} from "../service/sportclub-event.service";
 
 declare var $ :any;
 

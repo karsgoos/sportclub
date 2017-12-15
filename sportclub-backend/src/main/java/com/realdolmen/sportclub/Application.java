@@ -51,6 +51,8 @@ public class Application {
         address.setStreet("somewhere");
         address.setPostalCode("2000");
         address.setHomeNumber(4);
+        e.setMaxParticipants(50);
+        e.setDescription("Demo event");
         e.setAddress(address);
         e.setPriceAdult(BigDecimal.TEN);
         e.setPriceChild(BigDecimal.ONE);
