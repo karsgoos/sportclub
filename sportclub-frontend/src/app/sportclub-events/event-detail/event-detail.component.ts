@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {SportClubEvent} from "../../common/model/sportclub-event-model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SportClubEventService} from "../service/sportclub-event.service";
+import {AttendingModalComponent} from "../attending-modal/attending-modal.component";
 
 declare var $ :any;
 
@@ -13,6 +14,8 @@ declare var $ :any;
 export class EventDetailComponent implements OnInit {
 
   eventModel: SportClubEvent;
+
+  @ViewChild(AttendingModalComponent) modal: AttendingModalComponent;
 
   constructor(private route: ActivatedRoute, private router:Router, private sportClubEventService :SportClubEventService) {  }
 
@@ -31,7 +34,7 @@ export class EventDetailComponent implements OnInit {
   }
 
   subscribeModal(){
-    $('#modal1').modal();
+    this.modal.show();
   }
 
 

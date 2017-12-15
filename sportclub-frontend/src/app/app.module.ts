@@ -7,9 +7,9 @@ import {SportClubUserManagementModule} from './sportclub-user-management/sportcl
 import {SportClubEventsModule} from './sportclub-events/sportclub-events.module';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { EventDetailComponent } from './sportclub-events/event-detail/event-detail.component';
-import { AttendingModalComponent } from './attending-modal/attending-modal.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
+import {AttendingModalComponent} from "./sportclub-events/attending-modal/attending-modal.component";
 
 @NgModule({
   declarations: [
