@@ -91,6 +91,12 @@ public class EventManagementServiceImpl implements EventManagementService {
 
                 currentDate = currentDate.plusDays(1);
             }
+        } else {
+            eventsToCreate.add(event);
+        }
+
+        if (eventsToCreate.isEmpty()) {
+            throw new CouldNotCreateEventException("No events to create.");
         }
 
         repository.save(eventsToCreate);

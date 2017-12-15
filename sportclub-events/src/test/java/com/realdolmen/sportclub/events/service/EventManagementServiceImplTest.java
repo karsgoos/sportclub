@@ -86,8 +86,7 @@ public class EventManagementServiceImplTest {
         event.setRecurringEventInfo(recurringEventInfo);
 
         service.create(event);
-        Mockito.verify(repository, Mockito.times(1)).save((Event) Mockito.any()); // First event
-        Mockito.verify(repository, Mockito.times(1)).save((Iterable<Event>) Mockito.any()); // Recurrences
+        Mockito.verify(repository, Mockito.times(1)).save((Iterable<Event>) Mockito.any());
         Mockito.verify(recurringEventInfoRepository, Mockito.times(1)).save((RecurringEventInfo) Mockito.any());
     }
 
@@ -103,8 +102,7 @@ public class EventManagementServiceImplTest {
         event.setRecurringEventInfo(recurringEventInfo);
 
         service.create(event);
-        Mockito.verify(repository, Mockito.times(1)).save((Event) Mockito.any()); // First event
-        Mockito.verify(repository, Mockito.times(1)).save((Iterable<Event>) Mockito.any()); // Recurrences
+        Mockito.verify(repository, Mockito.times(1)).save((Iterable<Event>) Mockito.any());
         Mockito.verify(recurringEventInfoRepository, Mockito.times(1)).save((RecurringEventInfo) Mockito.any());
     }
 
