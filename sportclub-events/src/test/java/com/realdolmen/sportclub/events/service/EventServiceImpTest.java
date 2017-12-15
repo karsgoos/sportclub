@@ -40,10 +40,19 @@ public class EventServiceImpTest {
 	private RoleRepository roleRepository;
 	
 	@Mock
+	private MailSenderService mailSenderService;
+	
+	@Mock
+	private SportclubRepository sportclubRepository;
+	
+	@Mock
 	private Guest u;
 	
 	@Mock
 	private Event e;
+	
+	@Mock
+	private Sportclub s;
 	
 	@Before
 	public void init(){
@@ -53,9 +62,11 @@ public class EventServiceImpTest {
 		Mockito.when(e.getPriceChild()).thenReturn(BigDecimal.ONE);
 		Mockito.when(u.getFirstName()).thenReturn("bertje");
 		Mockito.when(u.getId()).thenReturn(1L);
+		Mockito.when(s.getName()).thenReturn("R-Sportclub");
 		//initialize mocks
 		Mockito.when(eventRepository.findOne(1L)).thenReturn(e);
 		Mockito.when(userRepository.findOne(1L)).thenReturn(u);
+		Mockito.when(sportclubRepository.findOne(1L)).thenReturn(s);
 	}
 
 	@Test
@@ -146,6 +157,8 @@ public class EventServiceImpTest {
 		assertEquals(2,nrOfAdults);
 		assertEquals(3,nrOfChildren);
 		Mockito.verify(userRepository).save(any(User.class));
+		//TODO: test unsubscribelink
+		Mockito.verify(mailSenderService).sendMailGuestAttendPublicEvent(u,e,s,"http://www.realdolmen.com");
 	}
 	
 	@Test

@@ -80,7 +80,7 @@ public class EventServiceImpl implements EventService {
 		attendOpenEvent(guest.getId().toString(),eventId,nrOfAdults,nrOfChildren);
 		
 		//TODO: unsubscribe link
-		mailSenderService.sendMailGuestAttendPublicEvent(guest,eventRepository.findOne(Long.parseLong(eventId)),sportclubRepository.findOne(1L),"http://realdolmen.com");
+		mailSenderService.sendMailGuestAttendPublicEvent(guest,eventRepository.findOne(Long.parseLong(eventId)),sportclubRepository.findOne(1L),"http://www.realdolmen.com");
 	}
 	
 	@Override
