@@ -4,4 +4,3 @@ target
 node_modules
 *.DS_Store
 */node
-sportclub-backend/src/main/resources/static
