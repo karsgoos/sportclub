@@ -4,6 +4,7 @@ import {SportClubUserManagementComponent} from './sportclub-user-management/spor
 import {SportClubEventsComponent} from './sportclub-events/sportclub-events.component';
 import {EventDetailComponent} from "./event-detail/event-detail.component";
 import {AttendingModalComponent} from "./attending-modal/attending-modal.component";
+import {RoleManagementPanelComponent} from './role-management-panel/role-management-panel.component';
 
 import {AppComponent} from "./app.component";
 import {SportclubEventCreationComponent} from "./sportclub-events/components/sportclub-event-creation/sportclub-event-creation.component";
@@ -24,6 +25,10 @@ const routes: Routes = [
   {
     path: 'events',pathMatch: 'full',
     component: SportClubEventsComponent
+  },
+  {
+    path: 'role-management',
+    component: RoleManagementPanelComponent
   },
   {
     path: 'event/:id',pathMatch: 'full',

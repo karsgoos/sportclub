@@ -56,7 +56,7 @@ public class EventManagementServiceImpl implements EventManagementService {
 
             // To do this, we loop over all the days and add events when a recurring weekday occurs
             Collection<DayOfWeek> weekDays = event.getRecurringEventInfo().getWeekdays();
-            LocalDate currentDate = startDateTime.plusDays(1).toLocalDate();
+            LocalDate currentDate = startDateTime.toLocalDate();
             while(currentDate.isBefore(endDateTime.toLocalDate())) {
                 if (weekDays.contains(currentDate.getDayOfWeek())) {
                     // Create a new event
