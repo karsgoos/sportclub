@@ -76,7 +76,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       minParticipants:10,
       maxParticipants:100,
       closed:false,
-      standardAddressBoolean:false,
+      customAddressBoolean:false,
       differentPricesBoolean:false,
       eventIsRecurring: false,
       firstEventDate: '',
@@ -96,7 +96,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
 
   prepareEventToSave(){
     // if a custom address is wanted, set the address like specified in the form
-    if(!this.eventForm.value.standardAddressBoolean){
+    if(this.eventForm.value.customAddressBoolean){
       this.addr.street = this.eventForm.value.street;
       this.addr.homeNumber = this.eventForm.value.homeNumber;
       this.addr.country = this.eventForm.value.country;

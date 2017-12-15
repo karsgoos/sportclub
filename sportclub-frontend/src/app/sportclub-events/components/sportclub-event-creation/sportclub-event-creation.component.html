@@ -120,12 +120,12 @@
 
       <div class="row">
         <div class="col">
-          <input type="checkbox" id="customAddressCheckbox" formControlName="standardAddressBoolean"/>
-          <label for="customAddressCheckbox">Gebruik standaard adres van de club</label>
+          <input type="checkbox" id="customAddressCheckbox" formControlName="customAddressBoolean"/>
+          <label for="customAddressCheckbox">Evenement vindt buitenhuis plaats</label>
         </div>
       </div>
 
-      <div *ngIf="!(eventForm.value.standardAddressBoolean)">
+      <div *ngIf="(eventForm.value.customAddressBoolean)">
         <div class="row">
           <div class="col s8 input-field">
             <label for="addrStreet">Straat</label>
