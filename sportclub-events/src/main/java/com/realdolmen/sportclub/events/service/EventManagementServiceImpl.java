@@ -66,7 +66,6 @@ public class EventManagementServiceImpl implements EventManagementService {
             // However, if this is an event update, we first want to delete all future event instances
             if (isUpdate) {
                 repository.deleteByStartDateAfterAndRecurringEventInfoEquals(LocalDateTime.now(), event.getRecurringEventInfo());
-                //repository.findByRecurringEventInfoId(event.getRecurringEventInfo().getId());
             }
 
             // To do this, we loop over all the days and add events when a recurring weekday occurs
