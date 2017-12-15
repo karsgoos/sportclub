@@ -52,7 +52,7 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
   }
 
   saveEvent(event:SportClubCreationEvent){
-    super.save(event).subscribe();
+    return super.save(event);
   }
 
 }
