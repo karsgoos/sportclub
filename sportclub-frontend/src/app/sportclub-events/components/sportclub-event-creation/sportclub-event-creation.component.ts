@@ -73,12 +73,13 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       endtime:'',
       deadlineday:'',
       deadlinetime:'',
-      minParticipants:10,
-      maxParticipants:100,
+      minParticipants:'',
+      maxParticipants:'',
       closed:false,
       customAddressBoolean:false,
       differentPricesBoolean:false,
       eventIsRecurring: false,
+      customMinMaxParticipantsBoolean: false,
       firstEventDate: '',
       lastEventDate: '',
       nrOfWeekdays : this.fb.group({
@@ -127,9 +128,12 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     this.event.endDate = this.eventForm.value.endday + " " + this.eventForm.value.endtime;
     this.event.responsibles = [];
     this.event.enrollments = [];
-    this.event.minParticipants = this.eventForm.value.minParticipants;
-    this.event.maxParticipants = this.eventForm.value.maxParticipants;
     this.event.closed = this.eventForm.value.closed;
+
+    if(this.eventForm.value.customMinMaxParticipantsBoolean){
+      this.event.minParticipants = this.eventForm.value.minParticipants;
+      this.event.maxParticipants = this.eventForm.value.maxParticipants;
+    }
 
     if(this.eventForm.value.customDeadlineBoolean){
       this.event.deadline = this.eventForm.value.deadlineday + " " + this.eventForm.value.deadlinetime;

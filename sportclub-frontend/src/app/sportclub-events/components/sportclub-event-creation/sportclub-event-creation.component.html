@@ -21,6 +21,29 @@
 
     </div>
 
+    <div class="section">
+      <h5>Deelnemers</h5>
+
+      <div class="row">
+        <div class="col">
+          <input type="checkbox" id="customMinMaxParticipantsCheckbox" formControlName="customMinMaxParticipantsBoolean"/>
+          <label for="customMinMaxParticipantsCheckbox">Bepaal een minimum en maximum aantal deelnemers</label>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="(eventForm.value.customMinMaxParticipantsBoolean)">
+        <div class="col s4 input-field">
+          <label for="minParticipantsField">Minimum aantal deelnemers</label>
+          <input formControlName="minParticipants" id="minParticipantsField" type="number">
+        </div>
+        <div class="col s4 input-field">
+          <label for="maxParticipantsField">Maximum aantal deelnemers</label>
+          <input formControlName="maxParticipants" id="maxParticipantsField" type="number">
+        </div>
+      </div>
+
+    </div>
+
 
     <div class="section">
       <h5>Data evenement</h5>
