@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {AuthenticationService} from "../login/services/authentication.service";
 
@@ -20,7 +20,7 @@ export class PointsComponent implements OnInit {
   constructor(private _http: HttpClient, private authService: AuthenticationService) {}
 
   ngOnInit(): void {
-    this._http.get('http://localhost:8080/points').subscribe((points:any[]) => this.updatePoints(points));
+    this._http.get('http://localhost:8080/api/points').subscribe((points:any[]) => this.updatePoints(points));
   }
 
   sortedPoints:any[]=[];
