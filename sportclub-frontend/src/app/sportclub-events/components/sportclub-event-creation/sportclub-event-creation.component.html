@@ -147,6 +147,43 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="col">
+          <input type="checkbox" id="openClosedCheckbox" formControlName="closed"/>
+          <label for="openClosedCheckbox">Make this a closed event</label>
+        </div>
+      </div>
+
+      <div class="row" [hidden]="!(eventForm.value.closed)">
+        <div class="input-field col s4">
+          <select id="selectEnrollmentBox">
+            <option disabled selected>Choose the enrollment to add</option>
+            <option *ngFor="let enrollment of getAllEnrollments()" value="{{enrollment.id}}">
+              {{enrollment.name}}
+            </option>
+          </select>
+          <label>Add an enrollment</label>
+        </div>
+        <div class="col s2">
+          <button class="btn-small green" (click)="addEnrollment()">Add</button>
+        </div>
+        <div class="col s4">
+          <label for="enrollmentsTextArea">This event is for following enrollments</label>
+          <div class="card white darken-1" id="enrollmentsTextArea">
+            <div class="card-content black-text">
+              <ul>
+                <li *ngFor="let enrollment of enrollments">
+                  {{enrollment.name}}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col s2">
+          <button class="btn-small green" (click)="clearEnrollments()">Clear</button>
+        </div>
+      </div>
+
       <div class="col s12">
         <input type="checkbox" id="eventIsRecurringCheckbox" formControlName="eventIsRecurring"/>
         <label for="eventIsRecurringCheckbox">Event is recurring</label>
@@ -208,6 +245,7 @@
       </div>
 
     </form>
+
 
     <p class="col s12">
       {{eventForm.value | json}}

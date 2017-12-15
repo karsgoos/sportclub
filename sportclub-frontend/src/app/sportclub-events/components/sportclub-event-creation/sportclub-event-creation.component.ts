@@ -5,6 +5,7 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {Address} from "../../model/address";
 import {Weekday} from "../../model/sportclub-recuring-event-info"
 import {Moderator} from "../../model/moderator";
+import {EnrollmentTemp} from "../../model/enrollment-temp";
 declare var $: any;
 
 @Component({
@@ -45,20 +46,28 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       self.eventForm.patchValue({"lastEventDate": self.convertDateString(event.target.value)});
     };
 
+    $('select').material_select();
+
     document.getElementById('selectModeratorBox').onchange = function (event: any) {
       self.responsible_id = event.target.value;
     };
 
-    $('select').material_select();
+    document.getElementById('selectEnrollmentBox').onchange = function (event: any) {
+      self.enrollment_id = event.target.value;
+    };
   }
 
   isFormSubmitted: boolean = false;
 
   event: SportClubCreationEvent = {};
   addr: Address = {};
+  eventForm: FormGroup;
+
   responsibles:Moderator[]=[];
   responsible_id: number;
-  eventForm: FormGroup;
+
+  enrollments:EnrollmentTemp[]=[];
+  enrollment_id: number;
 
   constructor(private eventService: SportClubEventService, private fb: FormBuilder) {
   }
@@ -151,7 +160,13 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     this.event.maxParticipants = this.eventForm.value.maxParticipants;
     this.event.closed = this.eventForm.value.closed;
 
-    this.event.responsibles = this.responsibles;
+    if(this.eventForm.value.extraModeratorsBoolean){
+      this.event.responsibles = this.responsibles;
+    }
+
+    if(this.eventForm.value.closed){
+      this.event.enrollments = this.enrollments;
+    }
 
     if (this.eventForm.value.eventIsRecurring) {
       let weekdays = [];
@@ -219,6 +234,31 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
 
   clearResponsibleModerators(){
     this.responsibles = [];
+  }
+
+  // this method is currently implemented with mockdata
+  //TODO: This should be a method calling some service to retrieve all the actual enrollments in the system!!
+  getAllEnrollments():EnrollmentTemp[]{
+    let mockEnrollments = [{"name":"18+ 2016-2017","id":1},{"name":"U17 2017-2018","id":2},{"name":"U15 2017-2018","id":3}];
+    return mockEnrollments;
+  }
+
+  //TODO: This should be a method calling some kind of service. This is a temporal implementation
+  getEnrollmentById(id:number):EnrollmentTemp{
+    let allEnrollments = this.getAllEnrollments();
+    for(let enrollment of allEnrollments){
+      if(enrollment.id == id){
+        return enrollment;
+      }
+    }
+  }
+
+  addEnrollment(){
+    this.enrollments.push(this.getEnrollmentById(this.enrollment_id));
+  }
+
+  clearEnrollments(){
+    this.enrollments = [];
   }
 
 
