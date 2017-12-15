@@ -40,10 +40,19 @@ public class EventServiceImpTest {
 	private RoleRepository roleRepository;
 	
 	@Mock
+	private MailSenderService mailSenderService;
+	
+	@Mock
+	private SportclubRepository sportclubRepository;
+	
+	@Mock
 	private Guest u;
 	
 	@Mock
 	private Event e;
+	
+	@Mock
+	private Sportclub s;
 	
 	@Before
 	public void init(){
@@ -53,9 +62,11 @@ public class EventServiceImpTest {
 		Mockito.when(e.getPriceChild()).thenReturn(BigDecimal.ONE);
 		Mockito.when(u.getFirstName()).thenReturn("bertje");
 		Mockito.when(u.getId()).thenReturn(1L);
+		Mockito.when(s.getName()).thenReturn("R-Sportclub");
 		//initialize mocks
 		Mockito.when(eventRepository.findOne(1L)).thenReturn(e);
 		Mockito.when(userRepository.findOne(1L)).thenReturn(u);
+		Mockito.when(sportclubRepository.findOne(1L)).thenReturn(s);
 	}
 
 	@Test
@@ -98,8 +109,6 @@ public class EventServiceImpTest {
 			else if(a.getAgeCategory()==AgeCategory.CHILD)
 				nrOfChildren++;
 		}
-		//check total price
-		assertEquals(BigDecimal.valueOf(23),order.getValue().getPrice());
 		
 		//check total attendencies in event
 		Mockito.verify(e,times(5)).addAttendance(any(Attendance.class));
@@ -140,8 +149,6 @@ public class EventServiceImpTest {
 			else if(a.getAgeCategory()==AgeCategory.CHILD)
 				nrOfChildren++;
 		}
-		//check total price
-		assertEquals(BigDecimal.valueOf(23),order.getValue().getPrice());
 		
 		//check total attendencies in event
 		Mockito.verify(e,times(5)).addAttendance(any(Attendance.class));
@@ -150,6 +157,8 @@ public class EventServiceImpTest {
 		assertEquals(2,nrOfAdults);
 		assertEquals(3,nrOfChildren);
 		Mockito.verify(userRepository).save(any(User.class));
+		//TODO: test unsubscribelink
+		Mockito.verify(mailSenderService).sendMailGuestAttendPublicEvent(u,e,s,"http://www.realdolmen.com");
 	}
 	
 	@Test
@@ -173,9 +182,6 @@ public class EventServiceImpTest {
 		
 		//check ageCategory
 		assertEquals(AgeCategory.DEFAULT,attendance.getValue().getAgeCategory());
-
-		//check total price
-		assertEquals(BigDecimal.valueOf(10),order.getValue().getPrice());
 		
 		//check total attendencies in event
 		Mockito.verify(e).addAttendance(any(Attendance.class));

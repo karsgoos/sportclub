@@ -12,6 +12,7 @@ import javax.validation.ConstraintViolationException;
 import java.util.Collection;
 
 @RestController
+@RequestMapping(value = "api/events")
 public class EventController {
 	
 	@Autowired
@@ -21,13 +22,13 @@ public class EventController {
 	private EventService eventService;
 	
 	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(method = RequestMethod.GET, value = "api/events")
+	@RequestMapping(method = RequestMethod.GET)
 	public Collection<Event> getEvents(){
 		return eventRepository.findAll();
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(method = RequestMethod.GET, value = "api/events/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
 	public ResponseEntity<Event> getEvent(@PathVariable Long id) {
 		Event event = eventRepository.findOne(id);
 		if(event==null)
@@ -35,8 +36,8 @@ public class EventController {
 		return ResponseEntity.ok(event);
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(method = RequestMethod.POST, value = "api/events/attend")
+    @CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(method = RequestMethod.POST, value = "/attend")
 	public ResponseEntity attendEvent(@RequestBody AttendEventDTO dto){
 		Event e = eventRepository.findOne(Long.parseLong(dto.getEventId()));
 		if(e==null)

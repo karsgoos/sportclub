@@ -1,9 +1,7 @@
 package com.realdolmen.sportclub;
 
 import com.realdolmen.sportclub.common.entity.*;
-import com.realdolmen.sportclub.common.repository.EventRepository;
-import com.realdolmen.sportclub.common.repository.RoleRepository;
-import com.realdolmen.sportclub.common.repository.UserRepository;
+import com.realdolmen.sportclub.common.repository.*;
 import com.realdolmen.sportclub.common.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -35,6 +33,9 @@ public class Application {
     @Autowired
     private RoleRepository roleRepository;
     
+    @Autowired
+    private SportclubRepository sportclubRepository;
+    
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -49,6 +50,11 @@ public class Application {
         e.setImageUrl("http://www.adpoly.ac.ae/En/Academics/AbuDhabiMainCampus/ISET/CODATHON/Documents/CODE%20%20%20DS-01.png");
         Address address = new Address();
         address.setCountry("Belgium");
+        address.setStreet("somewhere");
+        address.setPostalCode("2000");
+        address.setHomeNumber(4);
+        e.setMaxParticipants(50);
+        e.setDescription("Demo event");
         e.setAddress(address);
         e.setPriceAdult(BigDecimal.TEN);
         e.setPriceChild(BigDecimal.ONE);
@@ -83,6 +89,10 @@ public class Application {
         roleRepository.save(r);
         u.setRole(r);
         userRepository.save(u);
+        
+        Sportclub s = new Sportclub();
+        s.setName("de spieren los");
+        sportclubRepository.save(s);
     }
 
 }
