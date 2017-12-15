@@ -1,15 +1,14 @@
 $(document).ready(function() {
   $('.eventDatepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
-    selectYears: 120, // Creates a dropdown to control year,
-    min: -47450,   //120 years
-    max: -1825,    // 5 years
-    today:false,
+    selectYears: 15, // Creates a dropdown to control year,
+    today: false,
+    min: new Date(),
     monthsFull: ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'],
     monthsShort: ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
     weekdaysFull: ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'],
     weekdaysShort: ['Zon', 'Maa', 'Din', 'Woe', 'Don', 'Vri', 'Zat'],
-    weekday:['Z', 'M', 'D', 'W', 'D', 'V', 'Z'], //TODO This does not work yet
+    weekdaysLetter: ['Z', 'M', 'D', 'W', 'D', 'V', 'Z'],
     labelMonthNext: 'Volgende maand',
     labelMonthPrev: 'Vorige maand',
     labelMonthSelect: 'Selecteer een maand',
