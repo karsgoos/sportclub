@@ -25,8 +25,8 @@ public class EventController {
 	public Collection<Event> getEvents(){
 		return eventRepository.findAll();
 	}
-	
-	
+
+	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(method = RequestMethod.GET, value = "api/events/{id}")
 	public ResponseEntity<Event> getEvent(@PathVariable Long id) {
 		Event event = eventRepository.findOne(id);
@@ -34,8 +34,8 @@ public class EventController {
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(event);
 	}
-	
-	
+
+	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(method = RequestMethod.POST, value = "api/events/attend")
 	public ResponseEntity attendEvent(@RequestBody AttendEventDTO dto){
 		Event e = eventRepository.findOne(Long.parseLong(dto.getEventId()));
