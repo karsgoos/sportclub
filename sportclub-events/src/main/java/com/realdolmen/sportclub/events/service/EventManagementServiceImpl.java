@@ -95,7 +95,7 @@ public class EventManagementServiceImpl implements EventManagementService {
 
         repository.save(eventsToCreate);
 
-        return event;
+        return eventsToCreate.get(0);
     }
 
     @Override
