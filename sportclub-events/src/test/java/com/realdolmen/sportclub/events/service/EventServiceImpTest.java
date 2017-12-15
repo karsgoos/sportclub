@@ -98,8 +98,6 @@ public class EventServiceImpTest {
 			else if(a.getAgeCategory()==AgeCategory.CHILD)
 				nrOfChildren++;
 		}
-		//check total price
-		assertEquals(BigDecimal.valueOf(23),order.getValue().getPrice());
 		
 		//check total attendencies in event
 		Mockito.verify(e,times(5)).addAttendance(any(Attendance.class));
@@ -140,8 +138,6 @@ public class EventServiceImpTest {
 			else if(a.getAgeCategory()==AgeCategory.CHILD)
 				nrOfChildren++;
 		}
-		//check total price
-		assertEquals(BigDecimal.valueOf(23),order.getValue().getPrice());
 		
 		//check total attendencies in event
 		Mockito.verify(e,times(5)).addAttendance(any(Attendance.class));
@@ -173,9 +169,6 @@ public class EventServiceImpTest {
 		
 		//check ageCategory
 		assertEquals(AgeCategory.DEFAULT,attendance.getValue().getAgeCategory());
-
-		//check total price
-		assertEquals(BigDecimal.valueOf(10),order.getValue().getPrice());
 		
 		//check total attendencies in event
 		Mockito.verify(e).addAttendance(any(Attendance.class));
