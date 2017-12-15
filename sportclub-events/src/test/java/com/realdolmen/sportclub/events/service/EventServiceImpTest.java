@@ -74,10 +74,6 @@ public class EventServiceImpTest {
 		Mockito.verify(eventRepository).findAll();
 	}
 	
-	private void setupAttendEvent(){
-	
-	}
-	
 	@Test
 	public void testAttendOpenEventRegisteredUserHappyFlow(){
 		//initialize argumentCaptors
@@ -175,14 +171,14 @@ public class EventServiceImpTest {
 		Mockito.verify(eventRepository).save(event.capture());
 		Mockito.verify(attendanceRepository).save(attendance.capture());
 		
+		//check ageCategory
 		assertEquals(AgeCategory.DEFAULT,attendance.getValue().getAgeCategory());
 
 		//check total price
 		assertEquals(BigDecimal.valueOf(10),order.getValue().getPrice());
 		
 		//check total attendencies in event
-		assertEquals(1,e.getAttendancies().size());
-		
+		Mockito.verify(e).addAttendance(any(Attendance.class));
 	}
 
 }

@@ -106,7 +106,5 @@ public class EventServiceImpl implements EventService {
 		attendanceRepository.save(attendance);
 		order.addOrderable(attendance);
 		event.addAttendance(attendance);
-		order.setPrice(order.getPrice().add(attendance.getPrice()));
-
 	}
 }
