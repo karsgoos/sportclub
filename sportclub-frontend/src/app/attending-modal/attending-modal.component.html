@@ -20,14 +20,14 @@
           Voornaam <input type="text" formControlName="voornaam">
 
         </label>
-          <div class="alert" *ngIf="rForm.controls['naam'].touched && !rForm.controls['voornaam'].valid">
+          <div class="alert" *ngIf="rForm.controls['voornaam'].touched && !rForm.controls['voornaam'].valid">
             This is required
           </div>
           <label>
            Email <input type="email" formControlName="email">
 
           </label>
-          <div class="alert" *ngIf="rForm.controls['naam'].touched && !rForm.controls['email'].valid">
+          <div class="alert" *ngIf="!rForm.controls['email'].valid">
             This is not good
           </div>
 
@@ -36,14 +36,14 @@
             numberOfAdults <input type="number" formControlName="numberOfAdults">
 
           </label>
-          <div class="alert" *ngIf="rForm.controls['naam'].touched && !rForm.controls['numberOfAdults'].valid">
+          <div class="alert" *ngIf="rForm.controls['numberOfAdults'].touched && !rForm.controls['numberOfAdults'].valid">
             This is required
           </div>
           <label>
             numberOfChildren <input type="number" formControlName="numberOfChildren">
 
           </label>
-          <div class="alert" *ngIf="rForm.controls['naam'].touched && !rForm.controls['numberOfChildren'].valid">
+          <div class="alert" *ngIf="rForm.controls['numberOfChildren'].touched && !rForm.controls['numberOfChildren'].valid">
             This is required
           </div>
 

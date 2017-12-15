@@ -52,6 +52,7 @@ export class AttendingModalComponent implements OnInit {
       this.eventModel = eventModel;
       this.naam = post.naam;
       this.voornaam = post.voornaam;
+      this.email=post.email;
       this.numberOfAdults = post.numberOfAdults;
       this.numberOfChildren = post.numberOfChildren;
       this.sportServ.subscribeEvent(this.eventModel.id, this.naam, this.voornaam, this.email, this.numberOfAdults, this.numberOfChildren);
