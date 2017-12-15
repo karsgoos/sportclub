@@ -1,5 +1,9 @@
 package com.realdolmen.sportclub.events.service;
 
+import com.realdolmen.sportclub.common.entity.Event;
+import com.realdolmen.sportclub.common.entity.Guest;
+import com.realdolmen.sportclub.common.entity.Sportclub;
+import com.realdolmen.sportclub.events.service.mail.MailContentBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +20,7 @@ import javax.mail.internet.MimeMessage;
  * Created by FVDBF69 on 13/12/2017.
  */
 @Component("javasampleapproachMailSender")
-public class MailSenderServiceImpl implements MailSenderService{
+public class MailSenderServiceImpl implements MailSenderService {
 
 
     @Value("${spring.mail.username}")
@@ -25,6 +29,9 @@ public class MailSenderServiceImpl implements MailSenderService{
     @Autowired
     private JavaMailSender javaMailSender;
 
+    @Autowired
+    MailContentBuilder mailContentBuilder;
+
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
@@ -32,35 +39,10 @@ public class MailSenderServiceImpl implements MailSenderService{
      *
      * @param to String The delivery mail address
      * @param subject String The subject of the mail
-     * @param body String The body of the mail in text format.
-     *
-     *  Send One Mail with the body in plain text format (eq. \n is a new line)
-     */
-    public void sendOneMailPlainText(String to, String subject, String body) {
-
-        SimpleMailMessage mail = new SimpleMailMessage();
-
-        mail.setFrom(emailAddress);
-        mail.setTo(to);
-        mail.setSubject(subject);
-        mail.setText(body);
-
-        logger.info("Sending mail from " + emailAddress + " to " + to + " ...");
-
-        javaMailSender.send(mail);
-
-        logger.info("Done!");
-    }
-
-    /**
-     *
-     * @param to String The delivery mail address
-     * @param subject String The subject of the mail
-     * @param htmlBodyMsg String The body of the mail written in content-type="text/html".
      *
      *  Send One Mail with the body in content-type="text/html"
      */
-    public void sendOneMailTextHtml(String to, String subject, String htmlBodyMsg) {
+    public void sendTestMail(String to, String subject) {
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
@@ -70,7 +52,9 @@ public class MailSenderServiceImpl implements MailSenderService{
             helper.setFrom(emailAddress);
             helper.setTo(to);
             helper.setSubject(subject);
-            mimeMessage.setContent(htmlBodyMsg, "text/html");
+
+            String content = mailContentBuilder.buildTest();
+            helper.setText(content, true);
         } catch (MessagingException e){
 
             logger.error("There went someting wrong while generating the email ...");
@@ -83,36 +67,25 @@ public class MailSenderServiceImpl implements MailSenderService{
         logger.info("Done!");
     }
 
-    /**
-     *
-     * @param to String[] The array of delivery mail addresses
-     * @param subject String The subject of the mail
-     * @param body String The body of the mail in text format.
-     *
-     *  Send multiple Mails with the body in plain text format (eq. \n is a new line)
-     */
-    public void sendMultipleMailPlainText(String[] to, String subject, String body){
+    public void sendMailGuestAttendPublicEvent(Guest guest, Event event, Sportclub sportclub, String unsubscribeLink) {
 
-        for ( int i = 0; i < to.length; i++) {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 
-            sendOneMailTextHtml(to[i], subject, body);
+        try {
+
+            helper.setFrom(emailAddress);
+            helper.setTo(guest.getEmail());
+            String subject = "Confirmation attending " + event.getName();
+            helper.setSubject(subject);
+            String content = mailContentBuilder.buildMailGuestAttendPublicEvent(guest, event, sportclub, unsubscribeLink);
+            helper.setText(content, true);
+        } catch (MessagingException e){
+
+            logger.error("There went someting wrong while generating the email ...");
         }
-    }
 
-    /**
-     *
-     * @param to String[] The array of delivery mail addresses
-     * @param subject String The subject of the mail
-     * @param htmlBodyMsg String The body of the mail written in content-type="text/html".
-     *
-     *  Send multiple Mails with the body in content-type="text/html"
-     */
-    public void sendMultipleMailTextHtml(String[] to, String subject, String htmlBodyMsg) {
-
-        for ( int i = 0; i < to.length; i++) {
-
-            sendOneMailTextHtml(to[i], subject, htmlBodyMsg);
-        }
+        javaMailSender.send(mimeMessage);
     }
 
 
