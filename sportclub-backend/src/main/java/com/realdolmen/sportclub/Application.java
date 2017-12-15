@@ -52,13 +52,15 @@ public class Application {
         e.setPriceChild(BigDecimal.ONE);
         eventRepository.save(e);
         Event t = new Event();
-        t.setName("FOOOD");
+        t.setName("Closed FOOOD");
         t.setStartDate(LocalDateTime.of(2017,12,17,12,0,0));
         t.setEndDate(LocalDateTime.of(2017,12,17,14,0,0));
         t.setDeadline(LocalDateTime.of(2017,12,16,12,0,0));
         Address a = new Address();
         a.setCountry("Belgium");
         t.setAddress(a);
+        t.setClosed(true);
+        t.setDescription("Im a closed event");
         t.setPriceAdult(BigDecimal.ONE);
         t.setPriceChild(BigDecimal.ONE);
         eventRepository.save(t);

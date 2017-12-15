@@ -67,7 +67,7 @@ public class EventServiceImpl implements EventService {
 		roleRepository.save(role);
 		guest.setRole(role);
 		
-		userRepository.save(guest);
+		guest=userRepository.save(guest);
 		attendOpenEvent(guest.getId().toString(),eventId,nrOfAdults,nrOfChildren);
 	}
 	
@@ -106,7 +106,5 @@ public class EventServiceImpl implements EventService {
 		attendanceRepository.save(attendance);
 		order.addOrderable(attendance);
 		event.addAttendance(attendance);
-		order.setPrice(order.getPrice().add(attendance.getPrice()));
-
 	}
 }

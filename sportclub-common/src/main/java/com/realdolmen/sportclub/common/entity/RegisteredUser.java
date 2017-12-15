@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@DiscriminatorValue("R")
 public class RegisteredUser extends User {
 
     @NotNull
