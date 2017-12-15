@@ -84,8 +84,11 @@ public class MailSenderServiceImpl implements MailSenderService {
 
             logger.error("There went someting wrong while generating the email ...");
         }
+        logger.info("mail sending");
 
         javaMailSender.send(mimeMessage);
+        
+        logger.info("done");
     }
 
 

@@ -25,6 +25,12 @@ public class EventServiceImpl implements EventService {
 	@Autowired
 	private RoleRepository roleRepository;
 	
+	@Autowired
+	private MailSenderService mailSenderService;
+	
+	@Autowired
+	private SportclubRepository sportclubRepository;
+	
 	@Override
 	public Collection<Event> findAll() {
 		return eventRepository.findAll();
@@ -35,6 +41,7 @@ public class EventServiceImpl implements EventService {
 		return eventRepository.findOne(id);
 	}
 	
+	//attend open event as a registerd user
 	@Override
 	public void attendOpenEvent(String userId, String eventId, int nrOfAdults, int nrOfChildren) {
 		
@@ -52,8 +59,10 @@ public class EventServiceImpl implements EventService {
 		
 		orderRepository.save(order);
 		eventRepository.save(event);
+		//TODO: send email
 	}
 	
+	//attend open event as a guest
 	@Override
 	public void attendOpenEvent(String firstName, String lastName, String email, String eventId, int nrOfAdults, int nrOfChildren) {
 		Guest guest = new Guest();
@@ -69,6 +78,9 @@ public class EventServiceImpl implements EventService {
 		
 		guest=userRepository.save(guest);
 		attendOpenEvent(guest.getId().toString(),eventId,nrOfAdults,nrOfChildren);
+		
+		//TODO: unsubscribe link
+		mailSenderService.sendMailGuestAttendPublicEvent(guest,eventRepository.findOne(Long.parseLong(eventId)),sportclubRepository.findOne(1L),"http://realdolmen.com");
 	}
 	
 	@Override
@@ -82,6 +94,7 @@ public class EventServiceImpl implements EventService {
 		
 		orderRepository.save(order);
 		eventRepository.save(event);
+		//TODO: send email
 	}
 	
 	private void singleAttendanceToEvent(Event event, Order order, AgeCategory ageCategory){
@@ -107,4 +120,5 @@ public class EventServiceImpl implements EventService {
 		order.addOrderable(attendance);
 		event.addAttendance(attendance);
 	}
+	
 }

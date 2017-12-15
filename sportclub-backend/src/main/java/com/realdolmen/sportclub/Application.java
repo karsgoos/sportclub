@@ -1,8 +1,7 @@
 package com.realdolmen.sportclub;
 
 import com.realdolmen.sportclub.common.entity.*;
-import com.realdolmen.sportclub.common.repository.EventRepository;
-import com.realdolmen.sportclub.common.repository.RoleRepository;
+import com.realdolmen.sportclub.common.repository.*;
 import com.realdolmen.sportclub.common.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -33,6 +32,9 @@ public class Application {
     
     @Autowired
     private RoleRepository roleRepository;
+    
+    @Autowired
+    private SportclubRepository sportclubRepository;
     
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -87,6 +89,10 @@ public class Application {
         roleRepository.save(r);
         u.setRole(r);
         userRepository.save(u);
+        
+        Sportclub s = new Sportclub();
+        s.setName("de spieren los");
+        sportclubRepository.save(s);
     }
 
 }
