@@ -70,7 +70,7 @@ public class EventManagementControllerTest extends AbstractJUnit4SpringContextTe
         LocalDateTime startDate = LocalDateTime.now().plusDays(100);
         LocalDateTime endDate = startDate.plusHours(5);
 
-        postedAddress.setHomeNumber(1);
+        postedAddress.setHomeNumber("1");
         postedAddress.setPostalCode("1000");
         postedAddress.setStreet("Stationstraat");
         Event postedEvent = new Event();

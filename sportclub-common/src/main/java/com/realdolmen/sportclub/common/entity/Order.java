@@ -1,6 +1,7 @@
 package com.realdolmen.sportclub.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -34,6 +35,7 @@ public class Order {
     private boolean isPaid;
 
     @OneToMany(mappedBy = "ordr")
+    @JsonIgnoreProperties("ordr")
     private List<Orderable> orderables = new ArrayList<>();
 
     @Transient

@@ -3,7 +3,6 @@ import {SportClubCreationEvent} from "../../model/sportclub-event";
 import {SportClubEventService} from "../../service/sportclub-event.service";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {Address} from "../../model/address";
-import {Weekday} from "../../model/sportclub-recuring-event-info"
 import {Moderator} from "../../model/moderator";
 import {EnrollmentTemp} from "../../model/enrollment-temp";
 import {ActivatedRoute} from "@angular/router";
@@ -130,7 +129,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
         description: event.description,
         street: event.address.street,
         homeNumber: event.address.homeNumber,
-        // TODO: city
+        city: event.address.city,
         postalCode: event.address.postalCode,
         country: event.address.country,
         pricePerChild: event.priceChild,
@@ -179,6 +178,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       homeNumber:['',Validators.required],
       postalCode:['',Validators.required],
       country:['',Validators.required],
+      city:'',
       pricePerChild:['',Validators.required],
       pricePerAdult:['',Validators.required],
       priceGeneral:['',Validators.required],
@@ -191,9 +191,10 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       minParticipants:10, //['',Validators.required]
       maxParticipants:100, //['',Validators.required]
       closed:false,
-      standardAddressBoolean:false,
+      customAddressBoolean:false,
       differentPricesBoolean:false,
       eventIsRecurring: false,
+      customMinMaxParticipantsBoolean: false,
       firstEventDate: '',
       lastEventDate: '',
       nrOfWeekdays : this.fb.group({
@@ -205,33 +206,27 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
         SATURDAY : false,
         SUNDAY : false
       }),
-      extraModeratorsBoolean:false
-      /*nrOfWeekdays : [
-        {name: "Monday",value : Weekday.MONDAY, checked: false},
-        {name: "Tuesday",value : Weekday.TUESDAY, checked: false},
-        {name: "Wednesday",value : Weekday.WEDNESDAY, checked: false},
-        {name: "Thursday",value : Weekday.THURSDAY, checked: false},
-        {name: "Friday",value : Weekday.FRIDAY, checked: false},
-        {name: "Saturday",value : Weekday.SATURDAY, checked: false},
-        {name: "Sunday",value : Weekday.SUNDAY, checked: false},
-      ]*/
+      extraModeratorsBoolean:false,
+      customDeadlineBoolean: false
     });
   }
 
   prepareEventToSave(){
     // if a custom address is wanted, set the address like specified in the form
-    if(!this.eventForm.value.standardAddressBoolean){
+    if(this.eventForm.value.customAddressBoolean){
       this.addr.street = this.eventForm.value.street;
       this.addr.homeNumber = this.eventForm.value.homeNumber;
       this.addr.country = this.eventForm.value.country;
       this.addr.postalCode = this.eventForm.value.postalCode;
+      this.addr.city = this.eventForm.value.city;
     }
     // TODO: Make this the standard sportclub address
     else{
       this.addr.street = "SportClubStreet";
-      this.addr.homeNumber = 101;
+      this.addr.homeNumber = "101";
       this.addr.country = "SportClubCountry";
       this.addr.postalCode = "1000";
+      this.addr.city = "SportClubCity";
     }
 
     if(this.eventForm.value.differentPricesBoolean){
@@ -246,21 +241,47 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     this.event.name = this.eventForm.value.name;
     this.event.description = this.eventForm.value.description;
     this.event.address = this.addr;
-    this.event.startDate = this.eventForm.value.startday + " " + this.eventForm.value.starttime;
-    this.event.endDate = this.eventForm.value.endday + " " + this.eventForm.value.endtime;
-    this.event.deadline = this.eventForm.value.deadlineday + " " + this.eventForm.value.deadlinetime;
     this.event.responsibles = [];
     this.event.enrollments = [];
-    this.event.minParticipants = this.eventForm.value.minParticipants;
-    this.event.maxParticipants = this.eventForm.value.maxParticipants;
     this.event.closed = this.eventForm.value.closed;
+
 
     if(this.eventForm.value.extraModeratorsBoolean){
       this.event.responsibles = this.responsibles;
     }
 
-    if(this.eventForm.value.closed){
+    if(this.eventForm.value.closed) {
       this.event.enrollments = this.enrollments;
+    }
+
+    if(this.eventForm.value.eventIsRecurring){
+      this.event.startDate = this.eventForm.value.firstEventDate + " " + this.eventForm.value.starttime;
+      this.event.endDate = this.eventForm.value.lastEventDate + " " + this.eventForm.value.endtime;
+    }
+    else{
+      this.event.startDate = this.eventForm.value.startday + " " + this.eventForm.value.starttime;
+      this.event.endDate = this.eventForm.value.endday + " " + this.eventForm.value.endtime;
+    }
+
+    if(this.eventForm.value.customMinMaxParticipantsBoolean){
+      this.event.minParticipants = this.eventForm.value.minParticipants;
+      this.event.maxParticipants = this.eventForm.value.maxParticipants;
+    }
+    else{
+      this.event.minParticipants = 1;
+      this.event.maxParticipants = 999999;
+    }
+
+    if(this.eventForm.value.customDeadlineBoolean){
+      this.event.deadline = this.eventForm.value.deadlineday + " " + this.eventForm.value.deadlinetime;
+    }
+    else {
+      if (this.eventForm.value.eventIsRecurring) {
+        this.event.deadline = this.eventForm.value.firstEventDate + " 00:00";
+      }
+      else {
+        this.event.deadline = this.eventForm.value.startday + " 00:00";
+      }
     }
 
     if (this.eventForm.value.eventIsRecurring) {
@@ -367,37 +388,40 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
   convertDateString(dateString: string): string {
     let temp = dateString.split(" ");
     let day: string = temp[0];
+    if(day.length===1){
+      day = "0" + day;
+    }
     let year: string = temp[2];
     let month: string;
     switch (temp[1]) {
-      case "January,":
+      case "Januari,":
         month = "01";
         break;
-      case "February,":
+      case "Februari,":
         month = "02";
         break;
-      case "March,":
+      case "Maart,":
         month = "03";
         break;
       case "April,":
         month = "04";
         break;
-      case "May,":
+      case "Mei,":
         month = "05";
         break;
-      case "June,":
+      case "Juni,":
         month = "06";
         break;
-      case "July,":
+      case "Juli,":
         month = "07";
         break;
-      case "August,":
+      case "Augustus,":
         month = "08";
         break;
       case "September,":
         month = "09";
         break;
-      case "October,":
+      case "Oktober,":
         month = "10";
         break;
       case "November,":

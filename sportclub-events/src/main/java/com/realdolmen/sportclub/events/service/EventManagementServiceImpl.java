@@ -70,7 +70,7 @@ public class EventManagementServiceImpl implements EventManagementService {
 
             // To do this, we loop over all the days and add events when a recurring weekday occurs
             Collection<DayOfWeek> weekDays = event.getRecurringEventInfo().getWeekdays();
-            LocalDate currentDate = startDateTime.plusDays(1).toLocalDate();
+            LocalDate currentDate = startDateTime.toLocalDate();
             while(currentDate.isBefore(endDateTime.toLocalDate())) {
                 if (weekDays.contains(currentDate.getDayOfWeek())) {
                     // Create a new event
@@ -105,8 +105,19 @@ public class EventManagementServiceImpl implements EventManagementService {
 
                 currentDate = currentDate.plusDays(1);
             }
+        } else {
+            eventsToCreate.add(event);
         }
-        return eventsToCreate;
+
+        if (eventsToCreate.isEmpty()) {
+            throw new CouldNotCreateEventException("No events to create.");
+        }
+
+
+        repository.save(eventsToCreate);
+
+        return eventsToCreate.get(0);
+
     }
 
     @Override
@@ -279,8 +290,8 @@ public class EventManagementServiceImpl implements EventManagementService {
         if (address.getStreet() == null) {
             throw new InvalidEventException("Address street cannot be null.");
         }
-        if (address.getHomeNumber() < 1) {
-            throw new InvalidEventException("Address home number cannot be less than 1.");
+        if (address.getHomeNumber() == null) {
+            throw new InvalidEventException("Address home number cannot be null.");
         }
     }
 }

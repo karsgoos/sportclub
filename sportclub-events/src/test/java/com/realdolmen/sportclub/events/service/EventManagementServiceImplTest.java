@@ -86,8 +86,7 @@ public class EventManagementServiceImplTest {
         event.setRecurringEventInfo(recurringEventInfo);
 
         service.create(event);
-        Mockito.verify(repository, Mockito.times(1)).save((Event) Mockito.any()); // First event
-        Mockito.verify(repository, Mockito.times(1)).save((Iterable<Event>) Mockito.any()); // Recurrences
+        Mockito.verify(repository, Mockito.times(1)).save((Iterable<Event>) Mockito.any());
         Mockito.verify(recurringEventInfoRepository, Mockito.times(1)).save((RecurringEventInfo) Mockito.any());
     }
 
@@ -103,8 +102,7 @@ public class EventManagementServiceImplTest {
         event.setRecurringEventInfo(recurringEventInfo);
 
         service.create(event);
-        Mockito.verify(repository, Mockito.times(1)).save((Event) Mockito.any()); // First event
-        Mockito.verify(repository, Mockito.times(1)).save((Iterable<Event>) Mockito.any()); // Recurrences
+        Mockito.verify(repository, Mockito.times(1)).save((Iterable<Event>) Mockito.any());
         Mockito.verify(recurringEventInfoRepository, Mockito.times(1)).save((RecurringEventInfo) Mockito.any());
     }
 
@@ -199,7 +197,7 @@ public class EventManagementServiceImplTest {
     @Test(expected = CouldNotCreateEventException.class)
     public void canNotCreateEventWithInvalidAddressHomeNumber() throws CouldNotCreateEventException {
         Event event = createValidEvent();
-        event.getAddress().setHomeNumber(0);
+        event.getAddress().setHomeNumber(null);
         service.create(event);
     }
 
@@ -307,7 +305,7 @@ public class EventManagementServiceImplTest {
         address.setCountry("BE");
         address.setPostalCode("9000");
         address.setStreet("Sportstraat");
-        address.setHomeNumber(1);
+        address.setHomeNumber("1");
         event.setAddress(address);
         event.setName("Test Event");
         event.setMaxParticipants(10);
