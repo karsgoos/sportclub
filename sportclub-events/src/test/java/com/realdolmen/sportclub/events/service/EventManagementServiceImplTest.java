@@ -197,7 +197,7 @@ public class EventManagementServiceImplTest {
     @Test(expected = CouldNotCreateEventException.class)
     public void canNotCreateEventWithInvalidAddressHomeNumber() throws CouldNotCreateEventException {
         Event event = createValidEvent();
-        event.getAddress().setHomeNumber(0);
+        event.getAddress().setHomeNumber(null);
         service.create(event);
     }
 
@@ -305,7 +305,7 @@ public class EventManagementServiceImplTest {
         address.setCountry("BE");
         address.setPostalCode("9000");
         address.setStreet("Sportstraat");
-        address.setHomeNumber(1);
+        address.setHomeNumber("1");
         event.setAddress(address);
         event.setName("Test Event");
         event.setMaxParticipants(10);

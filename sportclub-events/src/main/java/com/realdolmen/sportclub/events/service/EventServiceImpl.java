@@ -51,7 +51,7 @@ public class EventServiceImpl implements EventService {
 			attendanceRepository.save(attendance);
 			order.addOrderable(attendance);
 			event.addAttendance(attendance);
-			order.setPrice(order.getPrice().add(attendance.getPrice()));
+			//order.setPrice(order.getPrice().add(attendance.getPrice()));
 		}
 		for(int i=0;i<nrOfChildren;i++){
 			Attendance attendance = new Attendance();
@@ -61,7 +61,7 @@ public class EventServiceImpl implements EventService {
 			attendanceRepository.save(attendance);
 			order.addOrderable(attendance);
 			event.addAttendance(attendance);
-			order.setPrice(order.getPrice().add(attendance.getPrice()));
+			//order.setPrice(order.getPrice().add(attendance.getPrice()));
 		}
 		orderRepository.save(order);
 		eventRepository.save(event);

@@ -107,7 +107,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     // TODO: Make this the standard sportclub address
     else{
       this.addr.street = "SportClubStreet";
-      this.addr.homeNumber = 101;
+      this.addr.homeNumber = "101";
       this.addr.country = "SportClubCountry";
       this.addr.postalCode = "1000";
       this.addr.city = "SportClubCity";

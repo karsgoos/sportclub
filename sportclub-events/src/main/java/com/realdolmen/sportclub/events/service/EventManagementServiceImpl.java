@@ -272,8 +272,8 @@ public class EventManagementServiceImpl implements EventManagementService {
         if (address.getStreet() == null) {
             throw new InvalidEventException("Address street cannot be null.");
         }
-        if (address.getHomeNumber() < 1) {
-            throw new InvalidEventException("Address home number cannot be less than 1.");
+        if (address.getHomeNumber() == null) {
+            throw new InvalidEventException("Address home number cannot be null.");
         }
     }
 }
