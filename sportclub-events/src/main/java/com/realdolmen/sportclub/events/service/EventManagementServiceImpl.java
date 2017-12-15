@@ -46,6 +46,15 @@ public class EventManagementServiceImpl implements EventManagementService {
             throw new CouldNotCreateEventException(e);
         }
 
+        List<Event> eventsToCreate = calculateRecurrentEvents(event, false);
+
+        event = repository.save(event);
+        repository.save(eventsToCreate);
+
+        return event;
+    }
+
+    private List<Event> calculateRecurrentEvents(Event event, boolean isUpdate) {
         List<Event> eventsToCreate = new ArrayList<>();
         if (event.getRecurringEventInfo() != null) {
             event.setRecurringEventInfo(recurringEventInfoRepository.save(event.getRecurringEventInfo()));
@@ -53,6 +62,12 @@ public class EventManagementServiceImpl implements EventManagementService {
             // This is a recurring event, so we have to create an event instance per occurrence
             LocalDateTime startDateTime = event.getRecurringEventInfo().getStartDate();
             LocalDateTime endDateTime = event.getRecurringEventInfo().getEndDate();
+
+            // However, if this is an event update, we first want to delete all future event instances
+            if (isUpdate) {
+                repository.deleteByStartDateAfterAndRecurringEventInfoEquals(LocalDateTime.now(), event.getRecurringEventInfo());
+                //repository.findByRecurringEventInfoId(event.getRecurringEventInfo().getId());
+            }
 
             // To do this, we loop over all the days and add events when a recurring weekday occurs
             Collection<DayOfWeek> weekDays = event.getRecurringEventInfo().getWeekdays();
@@ -92,11 +107,7 @@ public class EventManagementServiceImpl implements EventManagementService {
                 currentDate = currentDate.plusDays(1);
             }
         }
-
-        event = repository.save(event);
-        repository.save(eventsToCreate);
-
-        return event;
+        return eventsToCreate;
     }
 
     @Override
@@ -112,7 +123,12 @@ public class EventManagementServiceImpl implements EventManagementService {
             throw new CouldNotUpdateEventException(e);
         }
 
-        return repository.save(event);
+        List<Event> eventsToCreate = calculateRecurrentEvents(event, true);
+
+        event = repository.save(event);
+        repository.save(eventsToCreate);
+
+        return event;
     }
 
     @Override

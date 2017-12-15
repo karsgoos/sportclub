@@ -15,6 +15,7 @@ declare var $: any;
   styleUrls: ['./sportclub-event-creation.component.css']
 })
 export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
+  private recurringEventId: number;
 
   // hack for making date and time pickers work
   ngAfterViewInit(): void {
@@ -117,6 +118,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
         SUNDAY: false,
       };
       if (event.recurringEventInfo) {
+        this.recurringEventId = event.recurringEventInfo.id;
         this.eventForm.controls['eventIsRecurring'].setValue(true);
         for(let i = 0; i < event.recurringEventInfo.weekdays.length; i++) {
           let weekday = event.recurringEventInfo.weekdays[i];
@@ -271,6 +273,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
         }
       });
       this.event.recurringEventInfo = {
+        id: this.recurringEventId,
         startDate: this.eventForm.value.firstEventDate+" 00:00",
         endDate: this.eventForm.value.lastEventDate+ " 00:00",
         weekdays: weekdays as [string]
