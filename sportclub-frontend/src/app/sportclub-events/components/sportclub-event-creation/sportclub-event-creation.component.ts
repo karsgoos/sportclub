@@ -63,6 +63,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       homeNumber:'',
       postalCode:'',
       country:'',
+      city:'',
       pricePerChild:'',
       pricePerAdult:'',
       priceGeneral:'',
@@ -89,15 +90,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
         SATURDAY : false,
         SUNDAY : false,
       }),
-      /*nrOfWeekdays : [
-        {name: "Monday",value : Weekday.MONDAY, checked: false},
-        {name: "Tuesday",value : Weekday.TUESDAY, checked: false},
-        {name: "Wednesday",value : Weekday.WEDNESDAY, checked: false},
-        {name: "Thursday",value : Weekday.THURSDAY, checked: false},
-        {name: "Friday",value : Weekday.FRIDAY, checked: false},
-        {name: "Saturday",value : Weekday.SATURDAY, checked: false},
-        {name: "Sunday",value : Weekday.SUNDAY, checked: false},
-      ]*/
+      customDeadlineBoolean: false
     });
   }
 
@@ -108,6 +101,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       this.addr.homeNumber = this.eventForm.value.homeNumber;
       this.addr.country = this.eventForm.value.country;
       this.addr.postalCode = this.eventForm.value.postalCode;
+      this.addr.city = this.eventForm.value.city;
     }
     // TODO: Make this the standard sportclub address
     else{
@@ -131,12 +125,18 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     this.event.address = this.addr;
     this.event.startDate = this.eventForm.value.startday + " " + this.eventForm.value.starttime;
     this.event.endDate = this.eventForm.value.endday + " " + this.eventForm.value.endtime;
-    this.event.deadline = this.eventForm.value.deadlineday + " " + this.eventForm.value.deadlinetime;
     this.event.responsibles = [];
     this.event.enrollments = [];
     this.event.minParticipants = this.eventForm.value.minParticipants;
     this.event.maxParticipants = this.eventForm.value.maxParticipants;
     this.event.closed = this.eventForm.value.closed;
+
+    if(this.eventForm.value.customDeadlineBoolean){
+      this.event.deadline = this.eventForm.value.deadlineday + " " + this.eventForm.value.deadlinetime;
+    }
+    else{
+      this.event.deadline = this.eventForm.value.startday + " 00:00";
+    }
 
     if (this.eventForm.value.eventIsRecurring) {
       let weekdays = [];

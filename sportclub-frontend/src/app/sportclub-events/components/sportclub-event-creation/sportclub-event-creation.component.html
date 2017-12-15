@@ -1,175 +1,197 @@
 <div class="container">
-  <div class="row">
-    <form [formGroup]="eventForm">
+  <form [formGroup]="eventForm">
+
+
+    <div class="section">
+      <h5>Algemeen</h5>
+
       <div class="row">
         <div class="input-field col s6">
-          <label for="eventName">Naam</label>
+          <label for="eventName">Naam evenement</label>
           <input class="input-field" formControlName="name" type="text" id="eventName">
         </div>
       </div>
+
       <div class="row">
         <div class="input-field col s12">
-          <label for="eventDescription">Description</label>
+          <label for="eventDescription">Extra informatie</label>
           <textarea formControlName="description" id="eventDescription" class="materialize-textarea"></textarea>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col">
-          <input type="checkbox" id="customAddressCheckbox" formControlName="standardAddressBoolean"/>
-          <label for="customAddressCheckbox">Take the default sport club address</label>
-        </div>
-      </div>
-
-      <div *ngIf="!(eventForm.value.standardAddressBoolean)">
-      <div class="row">
-        <div class="col s5 input-field">
-          <label for="addrStreet">Street</label>
-          <input formControlName="street" id="addrStreet" type="text">
-        </div>
-        <div class="col s1 input-field">
-          <label for="addrStreet">Nr</label>
-          <input formControlName="homeNumber" id="addrHomeNumber" type="number">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s2 input-field">
-          <label for="addrStreet">Postalcode</label>
-          <input formControlName="postalCode" id="addrPostalCode" type="number">
-        </div>
-        <div class="col s4 input-field">
-          <label for="addrStreet">Country</label>
-          <input formControlName="country" id="addrCountry" type="text">
-        </div>
-      </div>
     </div>
 
-      <div class="row">
-        <div class="col">
-          <input type="checkbox" id="customPriceCheckbox" formControlName="differentPricesBoolean"/>
-          <label for="customPriceCheckbox">Different prices for adults and children</label>
-        </div>
-      </div>
 
-      <div *ngIf="(eventForm.value.differentPricesBoolean)">
-        <div class="row">
-          <div class="col s2 input-field">
-            <label for="priceChild">Price Children</label>
-            <input formControlName="pricePerChild" id="priceChild" type="number">
-          </div>
-          <div class="col s2 input-field">
-            <label for="priceAdult">Price Adults</label>
-            <input formControlName="pricePerAdult" id="priceAdult" type="number">
-          </div>
-        </div>
-      </div>
-
-      <div *ngIf="(!eventForm.value.differentPricesBoolean)">
-        <div class="row">
-          <div class="col s2 input-field">
-            <label for="priceGeneral">Price</label>
-            <input formControlName="priceGeneral" id="priceGeneral" type="number">
-          </div>
-        </div>
-      </div>
+    <div class="section">
+      <h5>Data evenement</h5>
 
       <div class="row">
-        <div class="col m4">
-          <label for="eventStartDate">Start date</label>
+        <div class="col s12">
+          <input type="checkbox" id="eventIsRecurringCheckbox" formControlName="eventIsRecurring"/>
+          <label for="eventIsRecurringCheckbox">Maak een wekelijks evenement</label>
+        </div>
+      </div>
+
+      <div class="row" [hidden]="!(eventForm.value.eventIsRecurring)">
+        <div formGroupName="nrOfWeekdays">
+          <div class="col s3">
+            <input type="checkbox" id="maandagCheckbox" formControlName="MONDAY"/>
+            <label for="maandagCheckbox">Maandag</label>
+          </div>
+          <div class="col s3">
+            <input type="checkbox" id="dinsdagCheckbox" formControlName="TUESDAY"/>
+            <label for="dinsdagCheckbox">Dinsdag</label>
+          </div>
+          <div class="col s3">
+            <input type="checkbox" id="woensdagCheckbox" formControlName="WEDNESDAY"/>
+            <label for="woensdagCheckbox">Woensdag</label>
+          </div>
+          <div class="col s3">
+            <input type="checkbox" id="donderdagCheckbox" formControlName="THURSDAY"/>
+            <label for="donderdagCheckbox">Donderdag</label>
+          </div>
+          <div class="col s3">
+            <input type="checkbox" id="vrijdagCheckbox" formControlName="FRIDAY"/>
+            <label for="vrijdagCheckbox">Vrijdag</label>
+          </div>
+          <div class="col s3">
+            <input type="checkbox" id="zaterdagCheckbox" formControlName="SATURDAY"/>
+            <label for="zaterdagCheckbox">Zaterdag</label>
+          </div>
+          <div class="col s3">
+            <input type="checkbox" id="zondagCheckbox" formControlName="SUNDAY"/>
+            <label for="zondagCheckbox">Zondag</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s4" [hidden]="(eventForm.value.eventIsRecurring)">
+          <label for="eventStartDate">Startdatum evenement</label>
           <input id="eventStartDate" type="text" class="eventDatepicker">
         </div>
-        <div class="col m2">
-          <label for="eventStartTime">Start time</label>
+        <div class="col s2">
+          <label for="eventStartTime">Startuur evenement</label>
           <input id="eventStartTime" type="text" class="timepicker">
         </div>
-        <div class="col m4">
-          <label for="eventEndDate">End date</label>
+        <div class="col s4" [hidden]="(eventForm.value.eventIsRecurring)">
+          <label for="eventEndDate">Einddatum evenement</label>
           <input id="eventEndDate" type="text" class="eventDatepicker">
         </div>
-        <div class="col m2">
-          <label for="eventEndTime">End time</label>
+        <div class="col s2">
+          <label for="eventEndTime">Einduur evenement</label>
           <input id="eventEndTime" type="text" class="timepicker">
         </div>
+        <div [hidden]="!(eventForm.value.eventIsRecurring)">
+          <div class="col s4">
+            <label for="eventFirstDate">Start periode</label>
+            <input  formControlName="firstEventDate" id="eventFirstDate" type="text" class="eventDatepicker">
+          </div>
+          <div class="col s4">
+            <label for="eventLastDate">Einde periode</label>
+            <input formControlName="lastEventDate" id="eventLastDate" type="text" class="eventDatepicker">
+          </div>
+        </div>
       </div>
+
       <div class="row">
-        <div class="col m4">
-          <label for="eventDeadlineDate">Deadline date</label>
+        <div class="col s12">
+          <input type="checkbox" id="customDeadlineCheckbox" formControlName="customDeadlineBoolean"/>
+          <label for="customDeadlineCheckbox">Bepaal een inschrijvingsdeadline</label>
+        </div>
+      </div>
+
+      <div class="row" [hidden]="!(eventForm.value.customDeadlineBoolean)">
+        <div class="col s4">
+          <label for="eventDeadlineDate">Deadline datum</label>
           <input id="eventDeadlineDate" type="text" class="eventDatepicker">
         </div>
-        <div class="col m2">
-          <label for="eventDeadlineTime">Deadline time</label>
+        <div class="col s2">
+          <label for="eventDeadlineTime">Deadline uur</label>
           <input id="eventDeadlineTime" type="text" class="timepicker">
         </div>
       </div>
 
-      <div class="col s12">
-        <input type="checkbox" id="eventIsRecurringCheckbox" formControlName="eventIsRecurring"/>
-        <label for="eventIsRecurringCheckbox">Event is recurring</label>
-      </div>
-
-      <div [hidden]="!(eventForm.value.eventIsRecurring)">
-        <div class="col m6">
-          <label for="eventFirstDate">First event date</label>
-          <input  formControlName="firstEventDate" id="eventFirstDate" type="text" class="eventDatepicker">
-        </div>
-        <div class="col m6">
-          <label for="eventLastDate">Last event date</label>
-          <input formControlName="lastEventDate" id="eventLastDate" type="text" class="eventDatepicker">
-        </div>
+    </div>
 
 
-        <!-- <div *ngFor="let weekday of nrOfWeekdays; let i = index" class="col s12">
-           <input type="checkbox" id="test6" [(ngModel)]="eventForm.value.nrOfWeekdays[i].checked"/>
-           <label for="test6" >{{weekday.name}}</label>
-         </div>-->
-        <div formGroupName="nrOfWeekdays">
-          <div class="col s12">
-            <input type="checkbox" id="test5" formControlName="MONDAY"/>
-            <label for="test5">Monday</label>
-          </div>
-          <div class="col s12">
-            <input type="checkbox" id="test6" formControlName="TUESDAY"/>
-            <label for="test6">Tuesday</label>
-          </div>
-          <div class="col s12">
-            <input type="checkbox" id="test7" formControlName="WEDNESDAY"/>
-            <label for="test7">Wednesday</label>
-          </div>
-          <div class="col s12">
-            <input type="checkbox" id="test8" formControlName="THURSDAY"/>
-            <label for="test8">Thursday</label>
-          </div>
-          <div class="col s12">
-            <input type="checkbox" id="test9" formControlName="FRIDAY"/>
-            <label for="test9">Friday</label>
-          </div>
-          <div class="col s12">
-            <input type="checkbox" id="test10" formControlName="SATURDAY"/>
-            <label for="test10">Saturday</label>
-          </div>
-          <div class="col s12">
-            <input type="checkbox" id="test11" formControlName="SUNDAY"/>
-            <label for="test11">Sunday</label>
-          </div>
+    <div class="section">
+      <h5>Locatie</h5>
 
+      <div class="row">
+        <div class="col">
+          <input type="checkbox" id="customAddressCheckbox" formControlName="standardAddressBoolean"/>
+          <label for="customAddressCheckbox">Gebruik standaard adres van de club</label>
         </div>
       </div>
 
-      <div class="col s12">
-        <button class="btn" (click)="saveSingleEvent()">Save</button>
+      <div *ngIf="!(eventForm.value.standardAddressBoolean)">
+        <div class="row">
+          <div class="col s8 input-field">
+            <label for="addrStreet">Straat</label>
+            <input formControlName="street" id="addrStreet" type="text">
+          </div>
+          <div class="col s2 input-field">
+            <label for="addrStreet">Nummer</label>
+            <input formControlName="homeNumber" id="addrHomeNumber" type="number">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s2 input-field">
+            <label for="addrStreet">Postcode</label>
+            <input formControlName="postalCode" id="addrPostalCode" type="number">
+          </div>
+          <div class="col s4 input-field">
+            <label for="addrStreet">Stad</label>
+            <input formControlName="city" id="addrCity" type="text">
+          </div>
+          <div class="col s4 input-field">
+            <label for="addrStreet">Land</label>
+            <input formControlName="country" id="addrCountry" type="text">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="section">
+      <h5>Prijs</h5>
+
+      <div class="row">
+        <div class="col">
+          <input type="checkbox" id="customPriceCheckbox" formControlName="differentPricesBoolean"/>
+          <label for="customPriceCheckbox">Verschillende prijs voor volwassenen en kinderen</label>
+        </div>
       </div>
 
-    </form>
+      <div class="row" *ngIf="(eventForm.value.differentPricesBoolean)">
+        <div class="col s2 input-field">
+          <label for="priceChild">Prijs kinderen</label>
+          <input formControlName="pricePerChild" id="priceChild" type="number">
+        </div>
+        <div class="col s2 input-field">
+          <label for="priceAdult">Prijs volwassenen</label>
+          <input formControlName="pricePerAdult" id="priceAdult" type="number">
+        </div>
+      </div>
 
-    <p>
-      {{eventForm.value.standardAddressBoolean}}
-    </p>
+      <div class="row" *ngIf="(!eventForm.value.differentPricesBoolean)">
+        <div class="col s2 input-field">
+          <label for="priceGeneral">Prijs</label>
+          <input formControlName="priceGeneral" id="priceGeneral" type="number">
+        </div>
+      </div>
 
-    <p class="col s12">
-      {{eventForm.value | json}}
-    </p>
-    <p class="col s12">
-      {{event | json}}
-    </p>
-  </div>
+    </div>
+
+    <div class="section">
+      <div class="row">
+        <div class="col s12">
+          <button class="btn" (click)="saveSingleEvent()">Save</button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
 </div>
