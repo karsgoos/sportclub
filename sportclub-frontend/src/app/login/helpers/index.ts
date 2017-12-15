@@ -1,2 +1,2 @@
 export * from './fakeBackend';
-export * from './jwtInterceptors';
+export * from './auth.interceptor';
