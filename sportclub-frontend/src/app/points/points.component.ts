@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {AuthenticationService} from "../login/services/authenticationService";
+import {AuthenticationService} from "../login/services/authentication.service";
 
-@Pipe({ name: 'points' })
+// @Pipe({ name: 'points' })
 @Component({
   selector: 'app-points',
   templateUrl: './points.component.html',
@@ -18,7 +18,6 @@ export class PointsComponent implements OnInit {
   currentUserPoints: any = {};
 
   constructor(private _http: HttpClient, private authService: AuthenticationService) {}
-  // constructor(private _http: HttpClient) {}
 
   ngOnInit(): void {
     this._http.get('http://localhost:8080/points').subscribe((points:any[]) => this.updatePoints(points));
