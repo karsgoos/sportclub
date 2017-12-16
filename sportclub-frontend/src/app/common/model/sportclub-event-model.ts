@@ -13,7 +13,8 @@ export interface SportClubEvent {
   endDate: Date;
   address: Address;
   deadline: Date;
-  price: PriceModel;
+  priceAdult: number;
+  priceChild: number;
   minParticipants: number;
   maxParticipants: number;
   description : String;

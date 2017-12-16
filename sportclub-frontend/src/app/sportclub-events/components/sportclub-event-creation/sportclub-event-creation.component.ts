@@ -7,6 +7,7 @@ import {Moderator} from "../../model/moderator";
 import {EnrollmentTemp} from "../../model/enrollment-temp";
 import {ActivatedRoute} from "@angular/router";
 declare var $: any;
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-sportclub-event-creation',
@@ -72,7 +73,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
 
   eventId: number;
 
-  constructor(private route: ActivatedRoute, private eventService: SportClubEventService, private fb: FormBuilder) {
+  constructor(private route: ActivatedRoute, private router: Router, private eventService: SportClubEventService, private fb: FormBuilder) {
   }
 
   ngOnInit() {
@@ -309,7 +310,9 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       console.log(this.event);
       this.eventService.updateEvent(this.event);
     } else {
-      this.eventService.saveEvent(this.event);
+      this.eventService.saveEvent(this.event).subscribe(event => {
+        this.router.navigate(['/event', event.id]);
+      });
     }
     this.isFormSubmitted = true;
   }
