@@ -50,7 +50,8 @@ public class EventManagementServiceImpl implements EventManagementService {
 
         repository.save(eventsToCreate);
 
-        return event;
+        // fix by Jeroen for problem with routing when creating recurring events
+        return eventsToCreate.get(0);
     }
 
     private List<Event> calculateRecurrentEvents(Event event, boolean isUpdate) throws CouldNotCreateEventException {
@@ -112,7 +113,8 @@ public class EventManagementServiceImpl implements EventManagementService {
             throw new CouldNotCreateEventException("No events to create.");
         }
 
-        repository.save(eventsToCreate);
+        // put in comment by Jeroen, they are already begin saved in the create method I think?
+        //repository.save(eventsToCreate);
 
         return eventsToCreate;
 

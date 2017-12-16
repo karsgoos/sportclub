@@ -45,7 +45,7 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
 	}*/
 
 
-  saveEvent(event:SportClubCreationEvent) {
+  saveEvent(event:SportClubCreationEvent):Observable<SportClubCreationEvent> {
     return super.save(event);
   }
 

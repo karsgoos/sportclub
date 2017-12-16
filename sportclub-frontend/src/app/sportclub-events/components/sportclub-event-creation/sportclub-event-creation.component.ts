@@ -6,8 +6,8 @@ import {Address} from "../../model/address";
 import {Moderator} from "../../model/moderator";
 import {EnrollmentTemp} from "../../model/enrollment-temp";
 import {ActivatedRoute} from "@angular/router";
-declare var $: any;
 import {Router} from "@angular/router";
+declare var $: any;
 
 @Component({
   selector: 'app-sportclub-event-creation',
@@ -15,52 +15,9 @@ import {Router} from "@angular/router";
   styleUrls: ['./sportclub-event-creation.component.css']
 })
 export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
+
+  // variables
   private recurringEventId: number;
-
-  // hack for making date and time pickers work
-  ngAfterViewInit(): void {
-    let self = this;
-    document.getElementById('eventEndTime').onchange = function (event: any) {
-      self.eventForm.patchValue({"endtime": event.target.value});
-    };
-    document.getElementById('eventStartTime').onchange = function (event: any) {
-      self.eventForm.patchValue({"starttime": event.target.value});
-    };
-    document.getElementById('eventStartDate').onchange = function (event: any) {
-      self.eventForm.patchValue({"startday": self.convertDateString(event.target.value)});
-    };
-    document.getElementById('eventEndDate').onchange = function (event: any) {
-      self.eventForm.patchValue({"endday": self.convertDateString(event.target.value)});
-    };
-
-    document.getElementById('eventDeadlineTime').onchange = function (event: any) {
-      self.eventForm.patchValue({"deadlinetime": event.target.value});
-    };
-    document.getElementById('eventDeadlineDate').onchange = function (event: any) {
-      self.eventForm.patchValue({"deadlineday": self.convertDateString(event.target.value)});
-    };
-
-    document.getElementById('eventFirstDate').onchange = function (event: any) {
-      self.eventForm.patchValue({"firstEventDate": self.convertDateString(event.target.value)});
-    };
-
-    document.getElementById('eventLastDate').onchange = function (event: any) {
-      self.eventForm.patchValue({"lastEventDate": self.convertDateString(event.target.value)});
-    };
-
-    $('select').material_select();
-
-    document.getElementById('selectModeratorBox').onchange = function (event: any) {
-      self.responsible_id = event.target.value;
-    };
-
-    document.getElementById('selectEnrollmentBox').onchange = function (event: any) {
-      self.enrollment_id = event.target.value;
-    };
-  }
-
-  isFormSubmitted: boolean = false;
-
   event: SportClubCreationEvent = {};
   addr: Address = {};
   eventForm: FormGroup;
@@ -73,7 +30,51 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
 
   eventId: number;
 
-  constructor(private route: ActivatedRoute, private router: Router, private eventService: SportClubEventService, private fb: FormBuilder) {
+  isFormSubmitted:boolean;
+
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private eventService: SportClubEventService,
+              private fb: FormBuilder) {
+  }
+
+  // hack for making date and time pickers work
+  ngAfterViewInit(): void {
+    let self = this;
+    // manually adding change event listeners to adapt the FormGroup
+    document.getElementById('eventEndTime').onchange = function (event: any) {
+      self.eventForm.patchValue({"endtime": event.target.value});
+    };
+    document.getElementById('eventStartTime').onchange = function (event: any) {
+      self.eventForm.patchValue({"starttime": event.target.value});
+    };
+    document.getElementById('eventStartDate').onchange = function (event: any) {
+      self.eventForm.patchValue({"startday": self.convertDateString(event.target.value)});
+    };
+    document.getElementById('eventEndDate').onchange = function (event: any) {
+      self.eventForm.patchValue({"endday": self.convertDateString(event.target.value)});
+    };
+    document.getElementById('eventDeadlineTime').onchange = function (event: any) {
+      self.eventForm.patchValue({"deadlinetime": event.target.value});
+    };
+    document.getElementById('eventDeadlineDate').onchange = function (event: any) {
+      self.eventForm.patchValue({"deadlineday": self.convertDateString(event.target.value)});
+    };
+    document.getElementById('eventFirstDate').onchange = function (event: any) {
+      self.eventForm.patchValue({"firstEventDate": self.convertDateString(event.target.value)});
+    };
+    document.getElementById('eventLastDate').onchange = function (event: any) {
+      self.eventForm.patchValue({"lastEventDate": self.convertDateString(event.target.value)});
+    };
+
+    // to make the dropdown select boxes work
+    $('select').material_select();
+    document.getElementById('selectModeratorBox').onchange = function (event: any) {
+      self.responsible_id = event.target.value;
+    };
+    document.getElementById('selectEnrollmentBox').onchange = function (event: any) {
+      self.enrollment_id = event.target.value;
+    };
   }
 
   ngOnInit() {
@@ -86,6 +87,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
 
   static dateToPickerString(date: Date): string {
     const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -104,7 +106,10 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
   }
 
   loadForm() {
+    // create the formgroup
     this.createForm();
+
+    // if we are updating an event, we want the form to contain the previous values as a default.
     this.eventService.getCreationEvent(this.eventId).subscribe(event => {
       this.event.id = event.id;
 
@@ -171,31 +176,21 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /*
+  Function to initialize a formgroup that contains all of the fields that are needed for the creation (or update)
+   of an event
+   */
   createForm() {
     this.eventForm = this.fb.group({
+
       name:['',Validators.required],
       description:'',
-      street: ['', Validators.required],
-      homeNumber:['',Validators.required],
-      postalCode:['',Validators.required],
-      country:['',Validators.required],
-      city:'',
-      pricePerChild:['',Validators.required],
-      pricePerAdult:['',Validators.required],
-      priceGeneral:['',Validators.required],
-      startday:['',Validators.required],
-      starttime:['',Validators.required],
-      endday:['',Validators.required],
-      endtime:['',Validators.required],
-      deadlineday:['',Validators.required],
-      deadlinetime:['',Validators.required],
+
+      customMinMaxParticipantsBoolean: false,
       minParticipants:10, //['',Validators.required]
       maxParticipants:100, //['',Validators.required]
-      closed:false,
-      customAddressBoolean:false,
-      differentPricesBoolean:false,
+
       eventIsRecurring: false,
-      customMinMaxParticipantsBoolean: false,
       firstEventDate: '',
       lastEventDate: '',
       nrOfWeekdays : this.fb.group({
@@ -207,55 +202,53 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
         SATURDAY : false,
         SUNDAY : false
       }),
-      extraModeratorsBoolean:false,
-      customDeadlineBoolean: false
+      startday:['',Validators.required],
+      starttime:['',Validators.required],
+      endday:['',Validators.required],
+      endtime:['',Validators.required],
+      customDeadlineBoolean: false,
+      deadlineday:['',Validators.required],
+      deadlinetime:['',Validators.required],
+
+      customAddressBoolean:false,
+      street: ['', Validators.required],
+      homeNumber:['',Validators.required],
+      postalCode:['',Validators.required],
+      country:['',Validators.required],
+      city:'',
+
+
+      differentPricesBoolean:false,
+      pricePerChild:['',Validators.required],
+      pricePerAdult:['',Validators.required],
+      priceGeneral:['',Validators.required],
+
+      closed:false,
+
+      extraModeratorsBoolean:false
     });
   }
 
+  /*
+  A function to create an event that can be send to the api, by the values that were retrieved in the form
+   */
   prepareEventToSave(){
-    // if a custom address is wanted, set the address like specified in the form
-    if(this.eventForm.value.customAddressBoolean){
-      this.addr.street = this.eventForm.value.street;
-      this.addr.homeNumber = this.eventForm.value.homeNumber;
-      this.addr.country = this.eventForm.value.country;
-      this.addr.postalCode = this.eventForm.value.postalCode;
-      this.addr.city = this.eventForm.value.city;
-    }
-    // TODO: Make this the standard sportclub address
-    else{
-      this.addr.street = "SportClubStreet";
-      this.addr.homeNumber = "101";
-      this.addr.country = "SportClubCountry";
-      this.addr.postalCode = "1000";
-      this.addr.city = "SportClubCity";
-    }
-
-    if(this.eventForm.value.differentPricesBoolean){
-      this.event.priceChild = this.eventForm.value.pricePerChild;
-      this.event.priceAdult = this.eventForm.value.pricePerAdult;
-    }
-    else {
-      this.event.priceChild = this.eventForm.value.priceGeneral;
-      this.event.priceAdult = this.eventForm.value.priceGeneral;
-    }
 
     this.event.name = this.eventForm.value.name;
     this.event.description = this.eventForm.value.description;
-    this.event.address = this.addr;
-    this.event.responsibles = [];
-    this.event.enrollments = [];
-    this.event.closed = this.eventForm.value.closed;
 
-
-    if(this.eventForm.value.extraModeratorsBoolean){
-      this.event.responsibles = this.responsibles;
+    if(this.eventForm.value.customMinMaxParticipantsBoolean){
+      this.event.minParticipants = this.eventForm.value.minParticipants;
+      this.event.maxParticipants = this.eventForm.value.maxParticipants;
     }
-
-    if(this.eventForm.value.closed) {
-      this.event.enrollments = this.enrollments;
+    else{
+      //TODO: are these default values that are okay? How to show this on detail pages?
+      this.event.minParticipants = 1;
+      this.event.maxParticipants = 999999;
     }
 
     if(this.eventForm.value.eventIsRecurring){
+      // these values actually don't really matter anymore when facing recurring events, so we just take dates of the period
       this.event.startDate = this.eventForm.value.firstEventDate + " " + this.eventForm.value.starttime;
       this.event.endDate = this.eventForm.value.lastEventDate + " " + this.eventForm.value.endtime;
     }
@@ -263,28 +256,16 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       this.event.startDate = this.eventForm.value.startday + " " + this.eventForm.value.starttime;
       this.event.endDate = this.eventForm.value.endday + " " + this.eventForm.value.endtime;
     }
-
-    if(this.eventForm.value.customMinMaxParticipantsBoolean){
-      this.event.minParticipants = this.eventForm.value.minParticipants;
-      this.event.maxParticipants = this.eventForm.value.maxParticipants;
-    }
-    else{
-      this.event.minParticipants = 1;
-      this.event.maxParticipants = 999999;
-    }
-
+    // if we want a custom deadline take the values of the form, else set some default
     if(this.eventForm.value.customDeadlineBoolean){
       this.event.deadline = this.eventForm.value.deadlineday + " " + this.eventForm.value.deadlinetime;
     }
+    // is this a default that makes sense??
     else {
-      if (this.eventForm.value.eventIsRecurring) {
-        this.event.deadline = this.eventForm.value.firstEventDate + " 00:00";
-      }
-      else {
-        this.event.deadline = this.eventForm.value.startday + " 00:00";
-      }
-    }
+      this.event.deadline = this.eventForm.value.startday + " 00:00";
 
+    }
+    // create the recurrint event info if necessary, else it can just be null
     if (this.eventForm.value.eventIsRecurring) {
       let weekdays = [];
       var nrOfDays = this.eventForm.value.nrOfWeekdays;
@@ -295,6 +276,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
         }
       });
       this.event.recurringEventInfo = {
+        // this one important if we are updating a recurring event
         id: this.recurringEventId,
         startDate: this.eventForm.value.firstEventDate+" 00:00",
         endDate: this.eventForm.value.lastEventDate+ " 00:00",
@@ -302,20 +284,72 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       }
     }
 
+    // if a custom address is wanted, set the address like specified in the form
+    if(this.eventForm.value.customAddressBoolean){
+      this.addr.street = this.eventForm.value.street;
+      this.addr.homeNumber = this.eventForm.value.homeNumber;
+      this.addr.country = this.eventForm.value.country;
+      this.addr.postalCode = this.eventForm.value.postalCode;
+      this.addr.city = this.eventForm.value.city;
+    }
+    // TODO: Make this the standard sportclub address gotten out of some service
+    else{
+      this.addr.street = "SportClubStreet";
+      this.addr.homeNumber = "101";
+      this.addr.country = "SportClubCountry";
+      this.addr.postalCode = "1000";
+      this.addr.city = "SportClubCity";
+    }
+    this.event.address = this.addr;
+
+    if(this.eventForm.value.differentPricesBoolean){
+      this.event.priceChild = this.eventForm.value.pricePerChild;
+      this.event.priceAdult = this.eventForm.value.pricePerAdult;
+    }
+    else {
+      this.event.priceChild = this.eventForm.value.priceGeneral;
+      this.event.priceAdult = this.eventForm.value.priceGeneral;
+    }
+
+    if(this.eventForm.value.extraModeratorsBoolean){
+      this.event.responsibles = this.responsibles;
+    }
+    else{
+      this.event.responsibles = [];
+    }
+
+    this.event.closed = this.eventForm.value.closed;
+    if(this.eventForm.value.closed) {
+      this.event.enrollments = this.enrollments;
+    }
+    else{
+      this.event.enrollments = [];
+    }
   }
 
-  saveSingleEvent() {
+  saveEvent() {
+    // first create the object to be send to the backend
     this.prepareEventToSave();
+    // if we are updating
     if (this.eventId) {
       console.log(this.event);
       this.eventService.updateEvent(this.event);
-    } else {
+    }
+    // if we are creating
+    else {
       this.eventService.saveEvent(this.event).subscribe(event => {
+        console.log("id to surf to", event.id);
         this.router.navigate(['/event', event.id]);
       });
     }
+    // for the validation
+    //TODO: should be refactored such that this can be left out
     this.isFormSubmitted = true;
   }
+
+
+
+
 
   isFieldValid(field: string){
     return this.eventForm.get(field).valid;
@@ -335,6 +369,10 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     return {'color: red' : this.isFieldValidAndSubmitted(field)}
   }
 
+
+  /*
+  return all of the moderators to show them in a dropdown menu
+   */
   getAllModerators():Moderator[]{
     // TODO: make this call method from some userservice
     // for now this simply generates some mock data to show something in the form.
@@ -342,6 +380,9 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     return mockedModerators;
   }
 
+  /*
+  get one of the moderators by its id
+   */
   getModeratorById(id:number):Moderator{
     // TODO: make this call method from some userservice
     // for now this simply generates some mock data to show something in the form.
@@ -353,10 +394,16 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /*
+  add the moderator that is currently clicked to a list of responsibles
+   */
   addResponsibleModerator(){
     this.responsibles.push(this.getModeratorById(this.responsible_id));
   }
 
+  /*
+  clear the temporarily saved list of moderators
+   */
   clearResponsibleModerators(){
     this.responsibles = [];
   }
@@ -378,16 +425,26 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /*
+  add the enrollment that is currently clicked to a temporarily list
+   */
   addEnrollment(){
     this.enrollments.push(this.getEnrollmentById(this.enrollment_id));
   }
 
+  /*
+  clear the temporarily saved list of enrollments
+   */
   clearEnrollments(){
     this.enrollments = [];
   }
 
 
 
+  /*
+  Ugly method to convert a string that represents a date like it is coming from the used datepickers, to a string that
+  can be recognized in our backend api.
+   */
   convertDateString(dateString: string): string {
     let temp = dateString.split(" ");
     let day: string = temp[0];
