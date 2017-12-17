@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {SportClubCreationEvent} from "../../model/sportclub-event";
 import {SportClubEventService} from "../../service/sportclub-event.service";
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl} from "@angular/forms";
 import {Address} from "../../model/address";
 import {Moderator} from "../../model/moderator";
 import {EnrollmentTemp} from "../../model/enrollment-temp";
@@ -183,12 +183,12 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
   createForm() {
     this.eventForm = this.fb.group({
 
-      name:['',Validators.required],
+      name:['',[Validators.required, Validators.minLength(2)]],
       description:'',
 
       customMinMaxParticipantsBoolean: false,
-      minParticipants:10, //['',Validators.required]
-      maxParticipants:100, //['',Validators.required]
+      minParticipants:'',
+      maxParticipants:'',
 
       eventIsRecurring: false,
       firstEventDate: '',
@@ -207,27 +207,117 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       endday:['',Validators.required],
       endtime:['',Validators.required],
       customDeadlineBoolean: false,
-      deadlineday:['',Validators.required],
-      deadlinetime:['',Validators.required],
+      deadlineday:'',
+      deadlinetime:'',
 
       customAddressBoolean:false,
-      street: ['', Validators.required],
-      homeNumber:['',Validators.required],
-      postalCode:['',Validators.required],
-      country:['',Validators.required],
+      street:'',
+      homeNumber:'',
+      postalCode:'',
+      country:'',
       city:'',
 
 
       differentPricesBoolean:false,
-      pricePerChild:['',Validators.required],
-      pricePerAdult:['',Validators.required],
+      pricePerChild:'',
+      pricePerAdult:'',
       priceGeneral:['',Validators.required],
 
       closed:false,
 
       extraModeratorsBoolean:false
     });
+
+    //add some conditional validators
+    this.addConditionalValidatorsShortcut('minParticipants',
+      'customMinMaxParticipantsBoolean',
+      [Validators.required,Validators.pattern('[1-9][0-9]*')],
+      true);
+    this.addConditionalValidatorsShortcut('maxParticipants',
+      'customMinMaxParticipantsBoolean',
+      [Validators.required,Validators.pattern('[1-9][0-9]*')],
+      true);
+
+    this.addConditionalValidatorsShortcut('startday',
+      'eventIsRecurring',
+      [Validators.required],
+      false);
+    this.addConditionalValidatorsShortcut('endday',
+      'eventIsRecurring',
+      [Validators.required],
+      false);
+    this.addConditionalValidatorsShortcut('deadlineday',
+      'customDeadlineBoolean',
+      [Validators.required],
+      true);
+    this.addConditionalValidatorsShortcut('deadlinetime',
+      'customDeadlineBoolean',
+      [Validators.required],
+      true);
+    this.addConditionalValidatorsShortcut('firstEventDate',
+      'eventIsRecurring',
+      [Validators.required],
+      true);
+    this.addConditionalValidatorsShortcut('lastEventDate',
+      'eventIsRecurring',
+      [Validators.required],
+      true);
+
+    this.addConditionalValidatorsShortcut('street',
+      'customAddressBoolean',
+      [Validators.required, Validators.pattern('[^0-9]+')],
+      true);
+    this.addConditionalValidatorsShortcut('postalCode',
+      'customAddressBoolean',
+      [Validators.required, Validators.pattern('[0-9]+')],
+      true);
+    this.addConditionalValidatorsShortcut('city',
+      'customAddressBoolean',
+      [Validators.required, Validators.pattern('[^0-9]+')],
+      true);
+    this.addConditionalValidatorsShortcut('homeNumber',
+      'customAddressBoolean',
+      [Validators.required],
+      true);
+    this.addConditionalValidatorsShortcut('country',
+      'customAddressBoolean',
+      [Validators.required, Validators.pattern('[^0-9]+')],
+      true);
+
+    this.addConditionalValidatorsShortcut('priceGeneral',
+      'differentPricesBoolean',
+      [Validators.required],
+      false);
+    this.addConditionalValidatorsShortcut('priceChildren',
+      'differentPricesBoolean',
+      [Validators.required],
+      true);
+    this.addConditionalValidatorsShortcut('priceAdults',
+      'differentPricesBoolean',
+      [Validators.required],
+      true);
   }
+
+  addConditionalValidatorsShortcut(validatingElementName, conditionElementName, validators, obligedWhenChecked){
+    this.addConditionalValidators(this.eventForm.get(validatingElementName),
+        this.eventForm.get(conditionElementName),
+        validators,
+        obligedWhenChecked);
+  }
+
+  addConditionalValidators(validatingElement, conditionElement, validators, obligedWhenChecked){
+    conditionElement.valueChanges.subscribe(
+      (newValue:boolean)=>{
+        if(newValue==obligedWhenChecked){
+          validatingElement.setValidators(validators);
+        }
+        else{
+          validatingElement.setValidators([]);
+        }
+        validatingElement.updateValueAndValidity();
+    });
+  }
+
 
   /*
   A function to create an event that can be send to the api, by the values that were retrieved in the form

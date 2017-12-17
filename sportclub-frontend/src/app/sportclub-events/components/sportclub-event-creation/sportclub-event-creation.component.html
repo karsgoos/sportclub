@@ -9,7 +9,11 @@
         <div class="input-field col s6">
           <label for="eventName">Naam evenement</label>
           <input class="input-field" formControlName="name" type="text" id="eventName">
-          <span *ngIf= "isFieldValidAndSubmitted('name')" style="color: red">Name is required</span>
+          <div *ngIf="eventForm.get('name').invalid && (eventForm.get('name').dirty || eventForm.get('name').touched)"
+            class="alert alert-danger">
+            <span *ngIf= "eventForm.get('name').errors.required" style="color: red">Vul een naam in voor dit evenement</span>
+            <span *ngIf= "eventForm.get('name').errors.minlength" style="color: red">Een naam moet minstens 2 karakters tellen</span>
+          </div>
         </div>
       </div>
 
@@ -37,10 +41,21 @@
         <div class="col s4 input-field">
           <label for="minParticipantsField">Minimum aantal deelnemers</label>
           <input formControlName="minParticipants" id="minParticipantsField" type="number">
+          <div *ngIf="eventForm.get('minParticipants').invalid && (eventForm.get('minParticipants').dirty || eventForm.get('minParticipants').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('minParticipants').errors.required" style="color: red">Verplicht veld</span>
+            <span *ngIf= "eventForm.get('minParticipants').errors.pattern" style="color: red">Positief geheel getal verwacht</span>
+
+          </div>
         </div>
         <div class="col s4 input-field">
           <label for="maxParticipantsField">Maximum aantal deelnemers</label>
           <input formControlName="maxParticipants" id="maxParticipantsField" type="number">
+          <div *ngIf="eventForm.get('maxParticipants').invalid && (eventForm.get('maxParticipants').dirty || eventForm.get('maxParticipants').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('maxParticipants').errors.required" style="color: red">Verplicht veld</span>
+            <span *ngIf= "eventForm.get('maxParticipants').errors.pattern" style="color: red">Positief geheel getal verwacht</span>
+          </div>
         </div>
       </div>
 
@@ -98,7 +113,6 @@
         <div class="col s2">
           <label for="eventStartTime">Startuur evenement</label>
           <input id="eventStartTime" type="text" class="timepicker">
-          <span *ngIf= "isFieldValidAndSubmitted('starttime')" class="error">Start time is required</span>
         </div>
         <div class="col s4" [hidden]="(eventForm.value.eventIsRecurring)">
           <label for="eventEndDate">Einddatum evenement</label>
@@ -107,7 +121,6 @@
         <div class="col s2">
           <label for="eventEndTime">Einduur evenement</label>
           <input id="eventEndTime" type="text" class="timepicker">
-          <span *ngIf= "isFieldValidAndSubmitted('endtime')" class="error" >End time is required</span>
         </div>
         <div [hidden]="!(eventForm.value.eventIsRecurring)">
           <div class="col s4">
@@ -155,29 +168,49 @@
         <div class="row">
           <div class="col s8 input-field">
             <label for="addrStreet">Straat</label>
-            <input formControlName="street" id="addrStreet" type="text" [ngClass]="errorCss('street')">
-            <span *ngIf= "isFieldValidAndSubmitted('street')" style="color: red">Street is required</span>
+            <input formControlName="street" id="addrStreet" type="text">
+            <div *ngIf="eventForm.get('street').invalid && (eventForm.get('street').dirty || eventForm.get('street').touched)"
+                 class="alert alert-danger">
+              <span *ngIf= "eventForm.get('street').errors.required" style="color: red">Dit is een verplicht veld</span>
+              <span *ngIf= "eventForm.get('street').errors.pattern" style="color: red">Geen geldige invoer</span>
+            </div>
           </div>
           <div class="col s2 input-field">
             <label for="addrStreet">Nummer</label>
             <input formControlName="homeNumber" id="addrHomeNumber" type="text" [ngClass]="errorCss('homeNumber')">
-            <span *ngIf= "isFieldValidAndSubmitted('homeNumber')" style="color: red">HomeNumber is required</span>
+            <div *ngIf="eventForm.get('homeNumber').invalid && (eventForm.get('homeNumber').dirty || eventForm.get('homeNumber').touched)"
+                 class="alert alert-danger">
+              <span *ngIf= "eventForm.get('homeNumber').errors.required" style="color: red">Dit is een verplicht veld</span>
+            </div>
           </div>
         </div>
         <div class="row">
           <div class="col s2 input-field">
             <label for="addrStreet">Postcode</label>
-            <input formControlName="postalCode" id="addrPostalCode" type="number" [ngClass]="errorCss('postalCode')">
-            <span *ngIf= "isFieldValidAndSubmitted('postalCode')" style="color: red">Postalcode is required</span>
+            <input formControlName="postalCode" id="addrPostalCode" type="number">
+            <div *ngIf="eventForm.get('postalCode').invalid && (eventForm.get('postalCode').dirty || eventForm.get('postalCode').touched)"
+                 class="alert alert-danger">
+              <span *ngIf= "eventForm.get('postalCode').errors.required" style="color: red">Dit is een verplicht veld</span>
+              <span *ngIf= "eventForm.get('postalCode').errors.pattern" style="color: red">Geen geldige invoer</span>
+            </div>
           </div>
           <div class="col s4 input-field">
             <label for="addrStreet">Stad</label>
             <input formControlName="city" id="addrCity" type="text">
+            <div *ngIf="eventForm.get('city').invalid && (eventForm.get('city').dirty || eventForm.get('city').touched)"
+                 class="alert alert-danger">
+              <span *ngIf= "eventForm.get('city').errors.required" style="color: red">Dit is een verplicht veld</span>
+              <span *ngIf= "eventForm.get('city').errors.pattern" style="color: red">Geen geldige invoer</span>
+            </div>
           </div>
           <div class="col s4 input-field">
             <label for="addrStreet">Land</label>
-            <input formControlName="country" id="addrCountry" type="text" [ngClass]="errorCss('country')">
-            <span *ngIf= "isFieldValidAndSubmitted('country')" style="color: red">Country is required</span>
+            <input formControlName="country" id="addrCountry" type="text">
+            <div *ngIf="eventForm.get('country').invalid && (eventForm.get('country').dirty || eventForm.get('country').touched)"
+                 class="alert alert-danger">
+              <span *ngIf= "eventForm.get('country').errors.required" style="color: red">Dit is een verplicht veld</span>
+              <span *ngIf= "eventForm.get('country').errors.pattern" style="color: red">Geen geldige invoer</span>
+            </div>
           </div>
         </div>
       </div>
@@ -198,10 +231,18 @@
         <div class="col s2 input-field">
           <label for="priceChild">Prijs kinderen</label>
           <input formControlName="pricePerChild" id="priceChild" type="number">
+          <div *ngIf="eventForm.get('pricePerChild').invalid && (eventForm.get('pricePerChild').dirty || eventForm.get('pricePerChild').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('pricePerChild').errors.required" style="color: red">Dit is een verplicht veld</span>
+          </div>
         </div>
         <div class="col s2 input-field">
           <label for="priceAdult">Prijs volwassenen</label>
           <input formControlName="pricePerAdult" id="priceAdult" type="number">
+          <div *ngIf="eventForm.get('pricePerAdult').invalid && (eventForm.get('pricePerAdult').dirty || eventForm.get('pricePerAdult').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('pricePerAdult').errors.required" style="color: red">Dit is een verplicht veld</span>
+          </div>
         </div>
       </div>
 
@@ -209,6 +250,10 @@
         <div class="col s2 input-field">
           <label for="priceGeneral">Prijs</label>
           <input formControlName="priceGeneral" id="priceGeneral" type="number">
+          <div *ngIf="eventForm.get('priceGeneral').invalid && (eventForm.get('priceGeneral').dirty || eventForm.get('priceGeneral').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('priceGeneral').errors.required" style="color: red">Dit is een verplicht veld</span>
+          </div>
         </div>
       </div>
 
