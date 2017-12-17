@@ -30,7 +30,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
 
   eventId: number;
 
-  isFormSubmitted:boolean;
+  globalErrorMessages: string[] = [];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -288,11 +288,11 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       'differentPricesBoolean',
       [Validators.required],
       false);
-    this.addConditionalValidatorsShortcut('priceChildren',
+    this.addConditionalValidatorsShortcut('pricePerChild',
       'differentPricesBoolean',
       [Validators.required],
       true);
-    this.addConditionalValidatorsShortcut('priceAdults',
+    this.addConditionalValidatorsShortcut('pricePerAdult',
       'differentPricesBoolean',
       [Validators.required],
       true);
@@ -316,6 +316,79 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
         }
         validatingElement.updateValueAndValidity();
     });
+  }
+
+  /*
+  A function to check the more complex validation, which are more complicated to do on the components individually
+   */
+  checkGlobalValidation(){
+
+    // clear previous messages
+    this.globalErrorMessages = [];
+
+    //check if the asynchronous simple validation is okay
+    if(!this.eventForm.valid){
+      this.globalErrorMessages.push("Niet alle velden in het formulier zijn correct ingevuld");
+      //TODO maybe mark them as dirty then such that it is more clear which fields?
+    }
+
+    // check if the max number participants isn't lower then the min number
+    if(this.eventForm.value.maxParticipants<this.eventForm.value.minParticipants){
+      this.globalErrorMessages.push('Het minimum aantal deelnemers moet lager liggen dan het maximum aantal deelnemers');
+    }
+    // check if start date of the event isn't after the end date if single event
+    let startDate = new Date(this.eventForm.value.startday + " " + this.eventForm.value.starttime);
+    let endDate = new Date(this.eventForm.value.endday + " " + this.eventForm.value.endtime);
+    if(!this.eventForm.value.eventIsRecurring) {
+      if (endDate < startDate) {
+        this.globalErrorMessages.push("Een evenement kan niet eindigen voor het gestart is");
+      }
+    }
+    // check dates of the period if recurring event
+    else{
+      let startPeriod = new Date(this.eventForm.value.firstEventDate);
+      let endPeriod = new Date(this.eventForm.value.lastEventDate);
+      let startTime = new Date("01/01/2000 " + this.eventForm.value.starttime);
+      let endTime = new Date("01/01/2000 " + this.eventForm.value.endtime);
+      // check if end date is not before start date
+      if(startPeriod > endPeriod){
+        this.globalErrorMessages.push("De periode kan niet eindigen voor hij gestart is");
+      }
+      // check if start time is not after end time
+      else if(startTime > endTime){
+        this.globalErrorMessages.push("Het einduur kan niet voor het beginuur liggen");
+      }
+      else{
+        startPeriod.setDate(startPeriod.getDate()+7);
+        // check if period is longer then a week
+        if(startPeriod > endPeriod){
+          this.globalErrorMessages.push("De periode moet minstens een week in beslag nemen");
+        }
+        // check if at least one of the weekdays is selected
+        else if(!this.weekdaysSelected()){
+          this.globalErrorMessages.push("Er werden geen weekdagen geselecteerd voor het evenement");
+        }
+      }
+    }
+
+    // if there is a deadline, check if it is before the startdate of the event
+    let deadlineDate = new Date(this.eventForm.value.deadlineday + " " + this.eventForm.value.deadlinetime);
+    if(deadlineDate > startDate){
+      this.globalErrorMessages.push("De deadline moet voor de start van het evenement liggen");
+    }
+
+  }
+
+  weekdaysSelected(){
+    let weekdays = this.eventForm.value.nrOfWeekdays;
+    for(let day in weekdays){
+      if(weekdays.hasOwnProperty(day)){
+        if(weekdays[day]){
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
 
@@ -360,7 +433,6 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       let weekdays = [];
       var nrOfDays = this.eventForm.value.nrOfWeekdays;
       Object.entries(nrOfDays).forEach(([key, value]) =>{
-        console.log(key +"--"+value);
         if(value){
           weekdays.push(key);
         }
@@ -418,45 +490,25 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
   }
 
   saveEvent() {
-    // first create the object to be send to the backend
-    this.prepareEventToSave();
-    // if we are updating
-    if (this.eventId) {
-      console.log(this.event);
-      this.eventService.updateEvent(this.event);
+    this.checkGlobalValidation();
+    if(this.globalErrorMessages.length>0){
+      //do nothing, cause the information is not yet valid
     }
-    // if we are creating
     else {
-      this.eventService.saveEvent(this.event).subscribe(event => {
-        console.log("id to surf to", event.id);
-        this.router.navigate(['/event', event.id]);
-      });
+      //save the event
+      // first create the object to be send to the backend
+      this.prepareEventToSave();
+      // if we are updating
+      if (this.eventId) {
+        this.eventService.updateEvent(this.event);
+      }
+      // if we are creating
+      else {
+        this.eventService.saveEvent(this.event).subscribe(event => {
+          this.router.navigate(['/event', event.id]);
+        });
+      }
     }
-    // for the validation
-    //TODO: should be refactored such that this can be left out
-    this.isFormSubmitted = true;
-  }
-
-
-
-
-
-  isFieldValid(field: string){
-    return this.eventForm.get(field).valid;
-  }
-
-  isFieldValidAndSubmitted(field: string){
-    return !this.isFieldValid(field) && this.isFormSubmitted;
-  }
-
-  errorCss(field: string){
-    return {
-      'invalid' : this.isFieldValidAndSubmitted(field)
-    }
-  }
-
-  errorRedText(field: string){
-    return {'color: red' : this.isFieldValidAndSubmitted(field)}
   }
 
 

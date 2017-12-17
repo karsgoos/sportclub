@@ -1,7 +1,6 @@
 <div class="container">
   <form [formGroup]="eventForm">
 
-
     <div class="section">
       <h5>Algemeen</h5>
 
@@ -177,7 +176,7 @@
           </div>
           <div class="col s2 input-field">
             <label for="addrStreet">Nummer</label>
-            <input formControlName="homeNumber" id="addrHomeNumber" type="text" [ngClass]="errorCss('homeNumber')">
+            <input formControlName="homeNumber" id="addrHomeNumber" type="text">
             <div *ngIf="eventForm.get('homeNumber').invalid && (eventForm.get('homeNumber').dirty || eventForm.get('homeNumber').touched)"
                  class="alert alert-danger">
               <span *ngIf= "eventForm.get('homeNumber').errors.required" style="color: red">Dit is een verplicht veld</span>
@@ -343,6 +342,16 @@
         </div>
       </div>
 
+    </div>
+
+    <div class="section">
+      <div *ngIf="globalErrorMessages.length>0" class="alert alert-danger">
+        <ul>
+          <li *ngFor="let errorMessage of globalErrorMessages" style="color:red">
+            {{errorMessage}}
+          </li>
+        </ul>
+      </div>
     </div>
 
 
