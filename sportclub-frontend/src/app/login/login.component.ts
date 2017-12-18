@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.model.email, this.model.password)
       .then(
         data => {
+          this.router.navigate(['/points']);
         },
         error => {
           this.loading = false;

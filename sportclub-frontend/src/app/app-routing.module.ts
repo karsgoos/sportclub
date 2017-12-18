@@ -5,6 +5,7 @@ import {SportClubEventsComponent} from './sportclub-events/sportclub-events.comp
 import {ApiComponent} from './api/api.component';
 import {LoginComponent} from './login/login.component';
 import {PointsComponent} from './points/points.component';
+import {RegistrationComponent} from "./registration/registration.component";
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
   }, {
     path: 'points',
     component: PointsComponent
+  },
+  {
+    path: 'registration',
+    component: RegistrationComponent
   }
 ];
 

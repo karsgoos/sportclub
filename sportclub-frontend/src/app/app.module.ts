@@ -13,11 +13,16 @@ import {FormsModule} from '@angular/forms';
 import { PointsComponent } from './points/points.component';
 import {AuthInterceptor} from './login/services/auth.interceptor';
 import {AuthenticationService} from './login/services';
+import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { RegistrationComponent } from './registration/registration.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    PointsComponent
+    PointsComponent,
+    NavMenuComponent,
+    RegistrationComponent
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

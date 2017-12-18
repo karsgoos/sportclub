@@ -1,0 +1,19 @@
+<nav >
+  <div class="nav-wrapper">
+    <ul class="left">
+      <li><a routerLink="/user-management" routerLinkActive="active">User Management</a></li>
+      <li></li> <a routerLink="/events" routerLinkActive="active">Events</a>
+    </ul>
+    <ul class="right" *ngIf="!isLoggedIn()" >
+      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+      <li><a routerLink="/registration" routerLinkActive="active">Register</a></li>
+    </ul>
+    <ul class="right" *ngIf="isLoggedIn()">
+      <li><a routerLink="/points" routerLinkActive="active">Hello Nico</a></li>
+      <li><a (click)="logout()" routerLinkActive="active">Log out</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+
