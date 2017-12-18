@@ -29,6 +29,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         RegisteredUser registeredUser = registeredUserRepository.findByEmail(email);
 
+
         if (registeredUser != null) {
             List<GrantedAuthority> authorities = new ArrayList<>();
 
