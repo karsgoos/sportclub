@@ -7,6 +7,8 @@ import {Moderator} from "../../model/moderator";
 import {EnrollmentTemp} from "../../model/enrollment-temp";
 import {ActivatedRoute} from "@angular/router";
 import {Router} from "@angular/router";
+import {RequestOptions} from "@angular/http";
+import {HttpHeaders, HttpParams} from "@angular/common/http";
 declare var $: any;
 
 @Component({
@@ -31,6 +33,9 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
   eventId: number;
 
   globalErrorMessages: string[] = [];
+
+  attachedFile: File;
+  fileIsAttached:boolean = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -81,6 +86,18 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     document.getElementById('selectEnrollmentBox').onchange = function (event: any) {
       self.enrollment_id = event.target.value;
     };
+
+    // add change event for the file uploader
+    document.getElementById('attachmentFile').onchange = function(event:any){
+      let fileList: FileList = event.target.files;
+      if(fileList.length > 0){
+        self.fileIsAttached = true;
+        self.attachedFile = fileList[0];
+      }
+      else{
+        self.fileIsAttached = false;
+      }
+    }
   }
 
   ngOnInit() {
@@ -235,7 +252,9 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
 
       automaticReminderMailBoolean:false,
       reminderMailDate:'',
-      reminderMailTime:''
+      reminderMailTime:'',
+
+      addedFile:'',
     });
 
     //add some conditional validators
@@ -533,10 +552,23 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       }
       // if we are creating
       else {
+        /*
         this.eventService.saveEvent(this.event).subscribe(event => {
           this.router.navigate(['/event', event.id]);
         });
+        */
+        this.eventService.saveEvent(this.event).subscribe(event => this.eventService.saveAttachment(this.attachedFile, event.id));
+
       }
+    }
+  }
+
+  saveUploadedAttachment(){
+    if(this.fileIsAttached && this.event.id) {
+      this.eventService.saveAttachment(this.attachedFile, this.event.id);
+    }
+    else{
+      console.log("No event id or attachment was found: something went wrong");
     }
   }
 
