@@ -14,15 +14,6 @@ public class EventRepositoryImpl implements EventAttendeeRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<User> findAttendeesForEvent(Event event) {
-        String queryString = "SELECT DISTINCT u FROM Event e INNER JOIN e.attendancies a " +
-                "INNER JOIN a.ordr o INNER JOIN o.user u " +
-                "WHERE e.id = :eventId";
-        TypedQuery<User> query = entityManager.createQuery(queryString, User.class).setParameter("eventId", event.getId());
-        return query.getResultList();
-    }
-
-    @Override
     public List<User> findCancellationsForEvent(Event event) {
         String queryString = "SELECT DISTINCT u FROM Event e INNER JOIN e.attendancies a " +
                 "INNER JOIN a.ordr o INNER JOIN o.user u " +
