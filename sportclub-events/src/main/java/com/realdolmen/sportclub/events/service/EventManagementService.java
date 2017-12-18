@@ -2,11 +2,8 @@ package com.realdolmen.sportclub.events.service;
 
 import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.common.entity.User;
-import com.realdolmen.sportclub.events.exceptions.AttachmentNotFoundException;
-import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
-import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
-import com.realdolmen.sportclub.events.exceptions.EventExportException;
-import com.realdolmen.sportclub.events.exceptions.EventNotFoundException;
+import com.realdolmen.sportclub.events.DTO.AttendEventDTO;
+import com.realdolmen.sportclub.events.exceptions.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -60,6 +57,13 @@ public interface EventManagementService {
      * @throws EventExportException If the Event cannot be exported.
      */
     byte[] exportAttendanceList(Long id) throws EventNotFoundException, EventExportException;
+
+    /**
+     * Return a list attendees of the Event with ID (@code id) to an api call
+     * @param id The id of the event
+     * @return A Json file of attendees
+     */
+    List<AttendEventDTO> findParticipantsOfEvent(Long id);
 
     /**
      * Obtain a list of cancelled attendances for a given event.

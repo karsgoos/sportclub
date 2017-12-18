@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -73,7 +73,6 @@ public class MailSenderServiceImpl implements MailSenderService {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 
         try {
-
             helper.setFrom(emailAddress);
             helper.setTo(guest.getEmail());
             String subject = "Confirmation attending " + event.getName();
@@ -81,13 +80,15 @@ public class MailSenderServiceImpl implements MailSenderService {
             String content = mailContentBuilder.buildMailGuestAttendPublicEvent(guest, event, sportclub, unsubscribeLink);
             helper.setText(content, true);
         } catch (MessagingException e){
-
-            logger.error("There went someting wrong while generating the email ...");
+            logger.error("There went something wrong while generating the email ...");
         }
         logger.info("mail sending");
 
-        javaMailSender.send(mimeMessage);
-        
+        try {
+            javaMailSender.send(mimeMessage);
+        } catch (MailSendException ignored) {
+            logger.error("Sending mail failed, maybe you're blocked by a Firewall");
+        }
         logger.info("done");
     }
 

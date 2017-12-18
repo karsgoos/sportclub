@@ -54,7 +54,6 @@ public class EventController {
 			catch (ConstraintViolationException c){
 				return ResponseEntity.badRequest().body("een of meerdere parameters voldoen niet aan de voorwaarden");
 			}
-
 		}
 		//open event registered user
 		else{
