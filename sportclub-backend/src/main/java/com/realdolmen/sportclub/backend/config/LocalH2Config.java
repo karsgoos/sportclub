@@ -17,6 +17,7 @@ class LocalH2Config extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         String path = this.console.getPath();
         String antPattern = (path.endsWith("/") ? path + "**" : path + "/**");
+        
         HttpSecurity h2Console = http.antMatcher(antPattern);
         h2Console.csrf().disable();
         h2Console.httpBasic();
