@@ -41,6 +41,20 @@ public class RegisteredUser extends User {
     @Column
     private int totalPoints;
 
+    @NotNull
+    private boolean isOnAutomaticMailList;
+
+    @NotNull
+    private boolean isSelfManaged;
+
+    public boolean isOnAutomaticMailList() {
+        return isOnAutomaticMailList;
+    }
+
+    public void setOnAutomaticMailList(boolean onAutomaticMailList) {
+        isOnAutomaticMailList = onAutomaticMailList;
+    }
+
     private String nonEditableField;
 
     public RegisteredUser(){
@@ -129,5 +143,13 @@ public class RegisteredUser extends User {
 
     public void setNonEditableField(String nonEditableField) {
         this.nonEditableField = nonEditableField;
+    }
+    
+    public boolean isSelfManaged() {
+        return isSelfManaged;
+    }
+
+    public void setSelfManaged(boolean selfManaged) {
+        isSelfManaged = selfManaged;
     }
 }
