@@ -26,6 +26,7 @@ public class RegisteredUserBuilder extends User {
     private int totalPoints = 5;
     private boolean isOnAutomaticMailList = false;
     private String nonEditableField = "KIDJQF";
+    private boolean isSelfManaged;
     public RegisteredUserBuilder(){
 
     }
@@ -105,6 +106,11 @@ public class RegisteredUserBuilder extends User {
         return this;
     }
 
+    public RegisteredUserBuilder isSelfManaged(boolean isSelfManaged){
+        this.isSelfManaged = isSelfManaged;
+        return this;
+    }
+
     public RegisteredUser build(){
         RegisteredUser user = new RegisteredUser();
         user.setEmail(this.email);
@@ -122,6 +128,7 @@ public class RegisteredUserBuilder extends User {
         user.setTotalPoints(this.totalPoints);
         user.setOnAutomaticMailList(this.isOnAutomaticMailList);
         user.setNonEditableField(this.nonEditableField);
+        user.setSelfManaged(this.isSelfManaged);
         return user;
     }
 
