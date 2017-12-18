@@ -309,6 +309,43 @@ public class EventManagementServiceImplTest {
         Assert.assertEquals(users, result);
     }
 
+    @Test
+    public void canObtainCancellationsForEventAndReturnsCorrectCount() throws EventNotFoundException {
+        List<User> users = new ArrayList<>();
+        Event event = createValidEvent();
+        // Cancellations
+        for (int i = 0; i < 10; i++) {
+            Attendance attendance = new Attendance();
+            User user = new RegisteredUser();
+            Order order = new Order();
+
+            order.setUser(user);
+            attendance.setOrdr(order);
+            attendance.setCancelled(true);
+            order.addOrderable(attendance);
+            event.addAttendance(attendance);
+
+            users.add(user);
+        }
+        // Non cancellations
+        for (int i = 0; i < 5; i++) {
+            Attendance attendance = new Attendance();
+            User user = new Guest();
+            Order order = new Order();
+
+            order.setUser(user);
+            attendance.setOrdr(order);
+            attendance.setCancelled(false);
+            order.addOrderable(attendance);
+            event.addAttendance(attendance);
+        }
+        Mockito.when(repository.findOne(1L)).thenReturn(event);
+        List<User> result = service.findCancellations(1L);
+        Assert.assertNotNull(result);
+        // Only the cancellations were added to users, so we should only get those
+        Assert.assertEquals(users, result);
+    }
+
     private Event createValidEvent() {
         Event event = new Event();
         event.setStartDate(LocalDateTime.now());
