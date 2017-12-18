@@ -1,23 +1,12 @@
 package com.realdolmen.sportclub.events.controller;
 
-import com.realdolmen.sportclub.common.entity.Address;
-import com.realdolmen.sportclub.common.entity.Event;
-import com.realdolmen.sportclub.common.entity.Guest;
-import com.realdolmen.sportclub.common.entity.Sportclub;
-import com.realdolmen.sportclub.events.service.MailSenderService;
-import com.realdolmen.sportclub.events.service.MailSenderServiceImpl;
+import com.realdolmen.sportclub.events.service.mail.MailSenderServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.mail.MailSender;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * Created by FVDBF69 on 13/12/2017.

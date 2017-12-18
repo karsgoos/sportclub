@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 @ComponentScan(basePackages = {"com.realdolmen.sportclub"})
 @EnableJpaRepositories("com.realdolmen.sportclub")
 @EntityScan("com.realdolmen.sportclub")
+@EnableScheduling
 public class Application {
 
     @Autowired
