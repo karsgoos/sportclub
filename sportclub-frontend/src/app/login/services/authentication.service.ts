@@ -34,7 +34,7 @@ export class AuthenticationService {
 
       localStorage.setItem('authorities', authorities.join(','));
 
-      this.fetchUser();
+      return this.fetchUser();
     }).catch(error => console.log(error));
   }
 
