@@ -37,8 +37,7 @@ public class ProductionResourceServerConfig extends ResourceServerConfigurerAdap
                 .antMatchers("/api/register/**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/oauth/token").permitAll()
                 .anyRequest().permitAll()
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }

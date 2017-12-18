@@ -40,12 +40,11 @@ public class LocalResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .anyRequest().permitAll()
-                .antMatchers("/api/**").authenticated()
                 .antMatchers("/api/register/**").permitAll()
+                .antMatchers("/api/**").authenticated()
                 .antMatchers(HttpMethod.OPTIONS, "/oauth/token").permitAll()
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .anyRequest().permitAll()
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable();
     }
 }
