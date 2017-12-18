@@ -8,7 +8,7 @@ export interface SportClubEvent {
   id: number;
   responsibles: Array<RegisteredUser>;
   enrollments: Array<Enrollment>;
-  imageUrl: String;
+  imageMimeType: string;
   startDate: Date;
   endDate: Date;
   address: Address;

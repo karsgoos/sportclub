@@ -3,6 +3,7 @@ import {SportClubEvent} from "../../common/model/sportclub-event-model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SportClubEventService} from "../service/sportclub-event.service";
 import {AttendingModalComponent} from "../attending-modal/attending-modal.component";
+import {environment} from "../../../environments/environment";
 
 declare var $: any;
 
@@ -39,6 +40,10 @@ export class EventDetailComponent implements OnInit {
 
   editEvent() {
     this.router.navigate(['/events/edit', this.eventModel.id]);
+  }
+
+  getImageUrl() {
+    return environment.eventApiUrl + "/" + this.eventModel.id + "/image";
   }
 
 

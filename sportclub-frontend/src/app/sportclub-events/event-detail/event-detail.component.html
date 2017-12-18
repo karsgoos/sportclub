@@ -12,8 +12,8 @@
     <div class="row">
       <div class="col s12 m6 l3"><p> </p></div>
       <!-- If there is an image else... -->
-      <div class="col s12 m6 l3" *ngIf="eventModel?.imageUrl != null; else noImage">
-        <img class="materialboxed" width="200" src="{{eventModel?.imageUrl}}" alt="event image">
+      <div class="col s12 m6 l3" *ngIf="eventModel?.imageMimeType != null; else noImage">
+        <img class="materialboxed" width="200" [src]="getImageUrl()" alt="event image">
       </div>
       <ng-template #noImage><div class="col s12 m6 l3"><img class="materialboxed" width="200" height="150" src="https://upload.wikimedia.org/wikipedia/commons/6/6c/No_image_3x4.svg" alt="no event image"></div></ng-template>
 
