@@ -21,7 +21,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         return Observable.of(null).mergeMap(() => {
 
             // authenticate
-            if (request.url.endsWith('/api/authenticate') && request.method === 'POST') {
+            if (request.url.endsWith('/oauth/token') && request.method === 'POST') {
                 // find if any user matches login credentials
                 var filteredUsers = users.filter(user => {
                     return user.email === request.body.email && user.password === request.body.password;
@@ -91,8 +91,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 return Observable.of(new HttpResponse({ status: 200 }));
             }
 
-            // devare user
-            if (request.url.match(/\/api\/users\/\d+$/) && request.method === 'DEvarE') {
+            // delete user
+            if (request.url.match(/\/api\/users\/\d+$/) && request.method === 'DELETE') {
                 // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
                 if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
                     // find user by id in users array
@@ -118,7 +118,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
             // pass through any requests not handled above
             return next.handle(request);
-            
+
         })
 
         // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)

@@ -11,14 +11,20 @@ import {ApiModule} from './api/api.module';
 import {LoginModule} from './login/login.module';
 import {FormsModule} from '@angular/forms';
 import { PointsComponent } from './points/points.component';
-import {AuthenticationService} from './login/services/authentication.service';
+import {AuthInterceptor} from './login/services/auth.interceptor';
+import {AuthenticationService} from './login/services';
 
 @NgModule({
   declarations: [
     AppComponent,
     PointsComponent
   ],
-  providers: [AuthenticationService],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  },
+  AuthenticationService],
   imports: [
     BrowserModule,
     ApiModule,

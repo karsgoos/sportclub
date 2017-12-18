@@ -24,8 +24,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .authorizedGrantTypes("password", "refresh_token")
                 .authorities("ROLE_CLIENT")
                 .scopes("read", "write", "trust")
-                .accessTokenValiditySeconds(100)
-                .secret("secret").refreshTokenValiditySeconds(3000);
+                .accessTokenValiditySeconds(5)
+                .secret("secret").refreshTokenValiditySeconds(20);
     }
 
     @Bean

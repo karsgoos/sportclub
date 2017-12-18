@@ -32,7 +32,7 @@ export class PointsComponent implements OnInit {
   updatePoints(points: any[]){
     this.points = points;
     for(let pt of points){
-      if(pt.email === this.authService.getCurrentUsername()){
+      if(pt.email === this.authService.getCurrentUser().points){
         this.currentUserPoints = pt;
         break;
       }

@@ -25,16 +25,18 @@ public class LocalResourceServerConfig extends ResourceServerConfigurerAdapter {
         auth.inMemoryAuthentication()
                 .withUser("bert").password("kek").authorities("CAN_DO_SOMETHING", "CAN_DO_NOTHING")
                 .and()
-                .withUser("user")
-                .password("").roles("USER");
+                .withUser("user@user.user")
+                .password("user").roles("USER");
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .anyRequest().permitAll()
+                .antMatchers("/api/**").authenticated()
+                .antMatchers("/api/register/**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/oauth/token").permitAll()
+                .anyRequest().permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf()

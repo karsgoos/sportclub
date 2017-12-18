@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
+import {AuthenticationService} from './services';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers:  []
+  providers:  [AuthenticationService]
 })
 export class LoginComponent implements OnInit {
   model: any = {};
@@ -13,7 +14,8 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
 
   constructor(private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private authService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -21,6 +23,13 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loading = true;
+    this.authService.login(this.model.email, this.model.password)
+      .then(
+        data => {
+        },
+        error => {
+          this.loading = false;
+        });
   }
 
 }

@@ -27,14 +27,13 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    @PreAuthorize("hasAuthority('CAN_DO_SOMETHING')")
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
 
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
 
-        System.out.println(user.getUsername());
+        System.out.println(user.toString());
 
         return registeredUserRepository.findByEmail(user.getUsername());
     }

@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpRequest} from '@angular/common/http';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/observable/throw';
+import {User} from '../../common/user';
 
 @Injectable()
 export class AuthenticationService {
@@ -10,25 +13,33 @@ export class AuthenticationService {
   // NICO: Attempt login
   login(username: string, password: string) {
     const headers = new HttpHeaders();
-    headers.set('Content-Type', 'application/x-www-form-urlencoded');
 
     const data = 'grant_type=password&username=' + username + '&password=' + password;
 
     return this.http.post<any>('http://localhost:8080/oauth/token', data, {
       headers: headers,
       withCredentials: true
-    }).map(user => {
-      localStorage.setItem('access_token', user.access_token);
-      localStorage.setItem('refresh_token', user.refresh_token);
+    }).toPromise().then(authorization => {
+      localStorage.setItem('access_token', authorization.access_token);
+      localStorage.setItem('refresh_token', authorization.refresh_token);
 
       var authorities: string[] = [];
 
-      for (const authority of user.authorities) {
+      for (const authority of authorization.authorities) {
         authorities.push(authority['authority']);
       }
 
       localStorage.setItem('authorities', authorities.join(','));
-    });
+
+      this.fetchUser();
+    }).catch(error => console.log(error));
+  }
+
+  fetchUser() {
+    return this.http.get('http://localhost:8080/api/user')
+      .toPromise().then(user => {
+        localStorage.setItem('user', JSON.stringify(user));
+      }).catch(error => console.log(error));
   }
 
   // NICO: Try refreshing access token
@@ -38,13 +49,13 @@ export class AuthenticationService {
 
     localStorage.removeItem('access_token');
 
-    const data = 'grant_type=refresh_token&token=' + localStorage.getItem('refresh_token');
+    const data = 'grant_type=refresh_token&refresh_token=' + localStorage.getItem('refresh_token');
 
     return this.http.post<any>('http://localhost:8080/oauth/token', data, {
       headers: headers,
       withCredentials: true
-    }).map(data => {
-      localStorage.setItem('access_token', data.access_token);
+    }).do(authorization => {
+      localStorage.setItem('access_token', authorization.access_token);
     });
   }
 
@@ -56,8 +67,16 @@ export class AuthenticationService {
     localStorage.removeItem('user');
   }
 
-  getCurrentUsername(): string {
-    // TODO get actual current user!!!
-    return "user@user.user";
+  getCurrentUser() {
+    const jsonUser = localStorage.getItem('user');
+
+    if (jsonUser) {
+      const currentUser: User = JSON.parse(jsonUser);
+
+      return currentUser;
+    } else {
+      return null;
+    }
   }
+
 }
