@@ -9,21 +9,15 @@ public class MessageDto {
     //this is the standard response object for API calls. if error is empty, the call succeeded, and the response will be in the value field
     private String error;
 
-    //this field is where the response will be if no errors. The constructor in MessageDto converts any object to json for your convenience.
-    private String value;
+    //this field is where the response will be if no errors.
+    private Object value;
 
     public MessageDto(String error, Object value) {
 
         ObjectMapper mapper = new ObjectMapper();
 
         this.error = error;
-        try {
-            this.value = mapper.writeValueAsString(value);
-
-        }catch(JsonProcessingException e){
-            this.error = e.getMessage();
-            this.value="";
-        }
+        this.value = value;
     }
 
     public String getError() {
@@ -34,11 +28,11 @@ public class MessageDto {
         this.error = error;
     }
 
-    public String getValue() {
+    public Object getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(Object value) {
         this.value = value;
     }
 }
