@@ -37,8 +37,13 @@ export class EventOverviewModalComponent implements OnInit {
   }
 
   private getEvents() {
-    this.sportClubEventService.getEventsTimeline(this.currentPage, this.PAGE_SIZE).subscribe(events => {
-      this.events = events;
+    this.sportClubEventService.getEventsTimeline(this.currentPage, this.PAGE_SIZE).subscribe(message => {
+      if (message.error) {
+        console.error(message.error);
+        this.events = [];
+      } else {
+        this.events = JSON.parse(message.value);
+      }
     });
   }
 

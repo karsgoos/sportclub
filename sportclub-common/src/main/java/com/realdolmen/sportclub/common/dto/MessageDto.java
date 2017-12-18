@@ -12,17 +12,30 @@ public class MessageDto {
     //this field is where the response will be if no errors. The constructor in MessageDto converts any object to json for your convenience.
     private String value;
 
-    public MessageDto(String error, Object value) {
+    public MessageDto(String error) {
+        this.error = error;
+        this.value = "";
+    }
 
+    public MessageDto(Object value) {
         ObjectMapper mapper = new ObjectMapper();
+        try {
+            this.value = mapper.writeValueAsString(value);
+            this.error = "";
+        } catch (JsonProcessingException e) {
+            this.error = e.getMessage();
+            this.value = "";
+        }
+    }
 
+    public MessageDto(String error, Object value) {
+        ObjectMapper mapper = new ObjectMapper();
         this.error = error;
         try {
             this.value = mapper.writeValueAsString(value);
-
-        }catch(JsonProcessingException e){
+        } catch (JsonProcessingException e) {
             this.error = e.getMessage();
-            this.value="";
+            this.value = "";
         }
     }
 
