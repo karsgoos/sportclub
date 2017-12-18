@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {SportClubEventService} from './service/sportclub-event.service';
 import {SportClubEvent} from '../common/model/sportclub-event-model';
 import {EventOverviewModalComponent} from "./event-overview-modal/event-overview-modal.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-sportclub-events',
@@ -14,7 +15,7 @@ export class SportClubEventsComponent implements OnInit {
 
   @ViewChild(EventOverviewModalComponent) overviewModal: EventOverviewModalComponent;
 
-  constructor(private eventService: SportClubEventService) {
+  constructor(private router: Router, private eventService: SportClubEventService) {
   }
 
   ngOnInit() {
@@ -23,6 +24,10 @@ export class SportClubEventsComponent implements OnInit {
 
   eventOverviewModal() {
     this.overviewModal.show();
+  }
+
+  goToEventCreation() {
+    this.router.navigate(['/events/creation'])
   }
 
 }
