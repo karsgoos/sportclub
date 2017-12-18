@@ -85,11 +85,4 @@ public class Enrollment {
         this.endDate = endDate;
     }
 
-    public MembershipType getMembershipType() {
-        return membershipType;
-    }
-
-    public void setMembershipType(MembershipType membershipType) {
-        this.membershipType = membershipType;
-    }
 }

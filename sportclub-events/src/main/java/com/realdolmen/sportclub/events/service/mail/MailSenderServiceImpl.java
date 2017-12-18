@@ -15,6 +15,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Created by FVDBF69 on 13/12/2017.
@@ -101,6 +102,17 @@ public class MailSenderServiceImpl implements MailSenderService {
         }
 
 
+    }
+
+    @Override
+    public void sendReminderMails(Event event){
+        //TODO: This is now one mail per attendancy, should be changed to one mail per user
+        List<Attendance> attendancies = event.getAttendancies();
+        for(Attendance attendance: attendancies){
+            User receiver = attendance.getOrdr().getUser();
+            String content = mailContentBuilder.buildReminderOfEventMail(receiver, event);
+            this.storeAndSendMail(receiver, event.getName(), content);
+        }
     }
 
 }

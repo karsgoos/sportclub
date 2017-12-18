@@ -63,4 +63,20 @@ public class MailContentBuilder {
         context.setVariable("sportclub", sportclub);
         return templateEngine.process("enrollementEnding", context);
     }
+
+    public String buildReminderOfEventMail(User user, Event event){
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        Context context = new Context();
+
+        context.setVariable("user", user);
+        context.setVariable("sportclub", sportclub);
+        context.setVariable("event", event);
+        context.setVariable("startDatum", event.getStartDate().format(formatter));
+        context.setVariable("startUur", event.getStartDate().format(timeFormatter));
+
+        return templateEngine.process("eventReminder", context);
+    }
 }
