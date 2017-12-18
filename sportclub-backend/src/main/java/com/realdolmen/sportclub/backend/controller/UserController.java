@@ -3,6 +3,7 @@ package com.realdolmen.sportclub.backend.controller;
 import com.realdolmen.sportclub.backend.dao.UserPointsDao;
 import com.realdolmen.sportclub.common.entity.RegisteredUser;
 import com.realdolmen.sportclub.common.entity.User;
+import com.realdolmen.sportclub.common.entity.authentication.AuthenticatedUser;
 import com.realdolmen.sportclub.common.repository.RegisteredUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,20 +28,15 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public User getCurrentUser() {
+    public AuthenticatedUser getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
 
-        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+        RegisteredUser user = registeredUserRepository.findByEmail(((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername());
 
-        System.out.println(user.toString());
+        AuthenticatedUser authenticatedUser = new AuthenticatedUser(user.getEmail(), user.getFirstName(), user.getLastName(), user.getTotalPoints());
 
-        return registeredUserRepository.findByEmail(user.getUsername());
-    }
-
-    @GetMapping("/user-points")
-    public int getCurrentUserPoints(){
-        return ((RegisteredUser)getCurrentUser()).getTotalPoints();
+        return authenticatedUser;
     }
 
     @GetMapping("/points")

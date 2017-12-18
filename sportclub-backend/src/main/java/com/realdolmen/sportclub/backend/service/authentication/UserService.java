@@ -3,6 +3,7 @@ package com.realdolmen.sportclub.backend.service.authentication;
 import com.realdolmen.sportclub.common.entity.Privilege;
 import com.realdolmen.sportclub.common.entity.RegisteredUser;
 import com.realdolmen.sportclub.common.repository.RegisteredUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,10 +19,10 @@ import java.util.List;
 @Service
 @Primary
 public class UserService implements UserDetailsService {
-    private final RegisteredUserRepository registeredUserRepository;
+    @Autowired
+    private RegisteredUserRepository registeredUserRepository;
 
-    public UserService(RegisteredUserRepository registeredUserRepository) {
-        this.registeredUserRepository = registeredUserRepository;
+    public UserService() {
     }
 
     @Override

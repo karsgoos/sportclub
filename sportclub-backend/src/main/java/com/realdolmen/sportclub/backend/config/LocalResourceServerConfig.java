@@ -23,8 +23,6 @@ public class LocalResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("bert").password("kek").authorities("CAN_DO_SOMETHING", "CAN_DO_NOTHING")
-                .and()
                 .withUser("user@user.user")
                 .password("user").roles("USER");
     }
@@ -39,7 +37,6 @@ public class LocalResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .anyRequest().permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                .and().csrf().disable();
     }
 }
