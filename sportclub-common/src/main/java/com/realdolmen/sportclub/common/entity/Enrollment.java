@@ -76,4 +76,12 @@ public class Enrollment {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+
+    public MembershipType getMembershipType() {
+        return membershipType;
+    }
+
+    public void setMembershipType(MembershipType membershipType) {
+        this.membershipType = membershipType;
+    }
 }
