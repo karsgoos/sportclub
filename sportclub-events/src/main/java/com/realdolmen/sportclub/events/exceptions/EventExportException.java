@@ -4,5 +4,6 @@ import java.io.IOException;
 
 public class EventExportException extends Exception {
     public EventExportException(IOException e) {
+        super(e.getMessage());
     }
 }

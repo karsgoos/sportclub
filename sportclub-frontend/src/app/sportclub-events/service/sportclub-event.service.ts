@@ -5,6 +5,7 @@ import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/c
 import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs/Observable";
 import {SportClubCreationEvent} from "../model/sportclub-event";
+import {Message} from "../../common/model/message-model";
 
 @Injectable()
 export class SportClubEventService extends AbstractRestService<SportClubCreationEvent> {
@@ -21,7 +22,7 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
     return this.http.get<SportClubEvent[]>(environment.eventApiUrl);
   }
 
-  getEventsTimeline(page, pageSize): Observable<SportClubEvent[]> {
+  getEventsTimeline(page, pageSize): Observable<Message<string>> {
     return this.http.get<SportClubEvent[]>(environment.eventApiUrl + '/timeline',
       {params: new HttpParams().set('page', page).set('pageSize', pageSize)});
   }
@@ -51,7 +52,7 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
 	}*/
 
 
-  saveEvent(event: SportClubCreationEvent): Observable<SportClubCreationEvent> {
+  saveEvent(event: SportClubCreationEvent): Observable<Message<string>> {
     return super.save(event);
   }
 
@@ -73,7 +74,7 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
 
   }
 
-  updateEvent(event: SportClubCreationEvent) {
+  updateEvent(event: Message<string>) {
     super.update(event).subscribe();
   }
 

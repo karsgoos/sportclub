@@ -566,7 +566,13 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       }
       // if we are creating
       else {
-        this.eventService.saveEvent(this.event).subscribe(event => {
+        this.eventService.saveEvent(this.event).subscribe(message => {
+          console.log(message);
+          if (message.error) {
+            console.error(message.error);
+            return;
+          }
+          let event = JSON.parse(message.value);
           let id = event.id;
           if(this.fileIsAttached){
             this.eventService.saveAttachment(this.attachedFile, id).subscribe();
@@ -577,7 +583,6 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
           //TODO: make sure this only happen when both the file and the image are loaded
           this.router.navigate(['/event', id]);
         });
-
       }
     }
   }

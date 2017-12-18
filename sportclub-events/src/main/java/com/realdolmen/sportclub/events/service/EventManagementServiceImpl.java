@@ -36,7 +36,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     @Transactional
     public Event create(Event event) throws CouldNotCreateEventException {
         if (event == null) {
-            throw new CouldNotCreateEventException(new IllegalArgumentException("Event cannot be null."));
+            throw new CouldNotCreateEventException(new IllegalArgumentException("Het evenement mag niet leeg zijn."));
         }
 
         try {
@@ -124,7 +124,7 @@ public class EventManagementServiceImpl implements EventManagementService {
         }
 
         if (eventsToCreate.isEmpty()) {
-            throw new CouldNotCreateEventException("No events to create.");
+            throw new CouldNotCreateEventException("Er waren geen evenementen om aan te maken.");
         }
 
         return eventsToCreate;
@@ -135,7 +135,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     @Transactional
     public Event update(Event event) throws CouldNotUpdateEventException {
         if (event == null) {
-            throw new CouldNotUpdateEventException(new IllegalArgumentException("Event cannot be null."));
+            throw new CouldNotUpdateEventException(new IllegalArgumentException("Het evenement mag niet leeg zijn."));
         }
 
         try {
@@ -160,7 +160,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     @Transactional
     public Event find(Long id) throws EventNotFoundException {
         if (id == null) {
-            throw new EventNotFoundException(new IllegalArgumentException("Id cannot be null."));
+            throw new EventNotFoundException(new IllegalArgumentException("Het evenement-id mag niet leeg zijn."));
         }
 
         Event result = repository.findOne(id);
@@ -198,7 +198,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     @Transactional
     public void saveAttachment(Long id, MultipartFile mpf) throws IOException {
         if(!mpf.getContentType().toLowerCase().equals("application/pdf")){
-            throw new IllegalArgumentException("Invalid file type");
+            throw new IllegalArgumentException("Ongeldig bestandstype. Enkel PDF is toegelaten.");
         }
         Event event = repository.findOne(id);
         event.setAttachement(mpf.getBytes());
@@ -284,42 +284,42 @@ public class EventManagementServiceImpl implements EventManagementService {
      */
     private void validate(Event event) throws InvalidEventException {
         if (event.getStartDate() == null || event.getEndDate() == null) {
-            throw new InvalidEventException("Start and end date cannot be null.");
+            throw new InvalidEventException("Begin- en einddatum mogen niet ontbreken.");
         }
         if (event.getEndDate().isBefore(event.getStartDate())) {
-            throw new InvalidEventException("End date can not be before the start date.");
+            throw new InvalidEventException("De einddatum moet na de startdatum liggen.");
         }
         //uncomment this part when we can add the current moderator in the frontend
         if (event.getResponsibles() == null /*|| event.getResponsibles().size() == 0*/) {
-            throw new InvalidEventException("The event should have at least one responsible.");
+            throw new InvalidEventException("Een evenement moet minstens één verantwoordelijke hebben.");
         }
         if (event.getEnrollments() == null) {
-            throw new InvalidEventException("Enrollments cannot be null.");
+            throw new InvalidEventException("De inschrijvingen mogen niet leeg zijn.");
         }
         if (event.getAddress() == null) {
-            throw new InvalidEventException("Address cannot be null.");
+            throw new InvalidEventException("Het adres mag niet leeg zijn.");
         }
         validate(event.getAddress());
         if (event.getPriceAdult() == null) {
-            throw new InvalidEventException("Adult price cannot be null.");
+            throw new InvalidEventException("De prijs voor volwassenen moet opgegeven zijn.");
         }
         if (event.getPriceChild() == null) {
-            throw new InvalidEventException("Child price cannot be null.");
+            throw new InvalidEventException("De prijs voor kinderen moet opgegeven zijn.");
         }
         if (event.getName() == null) {
-            throw new InvalidEventException("Name cannot be null.");
+            throw new InvalidEventException("Het evenement moet een naam hebben.");
         }
         if (event.getMaxParticipants() < 0) {
-            throw new InvalidEventException("Max participants must be greater than zero.");
+            throw new InvalidEventException("Het maximaal aantal deelnemers moet groter dan of gelijk aan nul zijn.");
         }
         if (event.getMinParticipants() < 1) {
-            throw new InvalidEventException("Min participants must be greater than one.");
+            throw new InvalidEventException("Het minimaal aantal deelnemers moet groter dan of gelijk aan één zijn.");
         }
         if (event.getMinParticipants() > event.getMaxParticipants()) {
-            throw new InvalidEventException("Min participants must be smaller than or equal to max participants.");
+            throw new InvalidEventException("Het minimaal aantal deelnemers mag niet groter zijn dan het maximaal aantal deelnemers.");
         }
         if (event.getPoints() < 0) {
-            throw new InvalidEventException("An event should be worth at least 0 points.");
+            throw new InvalidEventException("Een evenement moet een positief aantal punten waard zijn.");
         }
     }
 
@@ -328,16 +328,19 @@ public class EventManagementServiceImpl implements EventManagementService {
      */
     private void validate(Address address) throws InvalidEventException {
         if (address.getCountry() == null) {
-            throw new InvalidEventException("Address country cannot be null.");
+            throw new InvalidEventException("Het land mag niet ontbreken in een adres.");
+        }
+        if (address.getCity() == null) {
+            throw new InvalidEventException("De stad mag niet ontbreken in een adres.");
         }
         if (address.getPostalCode() == null) {
-            throw new InvalidEventException("Address postal code cannot be null.");
+            throw new InvalidEventException("De postcode mag niet ontbreken in een adres.");
         }
         if (address.getStreet() == null) {
-            throw new InvalidEventException("Address street cannot be null.");
+            throw new InvalidEventException("De straatnaam mag niet ontbreken in een adres.");
         }
         if (address.getHomeNumber() == null) {
-            throw new InvalidEventException("Address home number cannot be null.");
+            throw new InvalidEventException("Het huisnummer mag niet ontbreken in een adres.");
         }
     }
 

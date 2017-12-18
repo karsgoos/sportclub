@@ -355,6 +355,7 @@ public class EventManagementServiceImplTest {
         address.setCountry("BE");
         address.setPostalCode("9000");
         address.setStreet("Sportstraat");
+        address.setCity("Gent");
         address.setHomeNumber("1");
         event.setAddress(address);
         event.setName("Test Event");

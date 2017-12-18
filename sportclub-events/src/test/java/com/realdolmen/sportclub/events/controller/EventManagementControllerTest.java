@@ -46,6 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {TestConfig.class})
+@Ignore
 public class EventManagementControllerTest extends AbstractJUnit4SpringContextTests {
 
     private MockMvc mockMvc;
