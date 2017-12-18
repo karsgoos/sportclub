@@ -9,4 +9,8 @@ public class AttachmentNotFoundException extends Exception {
     public AttachmentNotFoundException() {
 
     }
+
+    public AttachmentNotFoundException(EventNotFoundException e) {
+        super(e);
+    }
 }

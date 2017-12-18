@@ -78,6 +78,34 @@ public class EventManagementController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    @PostMapping("events/{id}/image")
+    public @ResponseBody
+    ResponseEntity<?> uploadImage(@PathVariable("id") Long id, @RequestParam("file") MultipartFile attachment) {
+        if (attachment.isEmpty()) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            service.saveImage(id, attachment);
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "events/{id}/image")
+    public ResponseEntity<byte[]> downloadImage(@PathVariable("id") Long id) throws AttachmentNotFoundException {
+        HttpHeaders headers = new HttpHeaders();
+        try {
+            headers.setContentType(service.getImageMimeTypeForEvent(id));
+        } catch (EventNotFoundException e) {
+            throw new AttachmentNotFoundException(e);
+        }
+        ResponseEntity<byte[]> entity = new ResponseEntity<>(service.findImage(id), headers, HttpStatus.OK);
+        return entity;
+    }
+
     @GetMapping(value = "events/{id}/attachment", produces = MediaType.APPLICATION_PDF_VALUE)
     public byte[] downloadAttachment(@PathVariable("id") Long id) throws AttachmentNotFoundException {
         return service.findAttachment(id);

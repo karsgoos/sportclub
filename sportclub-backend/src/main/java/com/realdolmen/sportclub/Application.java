@@ -49,7 +49,6 @@ public class Application {
         e.setStartDate(LocalDateTime.of(2017,12,16,12,0,0));
         e.setEndDate(LocalDateTime.of(2017,12,16,14,0,0));
         e.setDeadline(LocalDateTime.of(2017,12,15,12,0,0));
-        e.setImageUrl("http://www.adpoly.ac.ae/En/Academics/AbuDhabiMainCampus/ISET/CODATHON/Documents/CODE%20%20%20DS-01.png");
         Address address = new Address();
         address.setCountry("Belgium");
         address.setStreet("somewhere");

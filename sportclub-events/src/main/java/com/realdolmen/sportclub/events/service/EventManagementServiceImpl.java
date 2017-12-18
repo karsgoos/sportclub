@@ -7,6 +7,7 @@ import com.realdolmen.sportclub.events.repository.RecurringEventInfoRepository;
 import com.realdolmen.sportclub.events.service.export.EventExcelExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -91,7 +92,9 @@ public class EventManagementServiceImpl implements EventManagementService {
                     newEvent.setDescription(event.getDescription());
                     newEvent.setName(event.getName());
                     newEvent.setAttachement(event.getAttachement());
-                    newEvent.setImageUrl(event.getImageUrl());
+                    newEvent.setImage(event.getImage());
+                    newEvent.setPoints(event.getPoints());
+                    newEvent.setImageMimeType(event.getImageMimeType());
 
                     newEvent.setStartDate(newEventStartDateTime);
                     newEvent.setEndDate(newEventEndDateTime);
@@ -197,7 +200,32 @@ public class EventManagementServiceImpl implements EventManagementService {
         if(attachment==null){
             throw new AttachmentNotFoundException();
         }
-        return event.getAttachement();
+        return attachment;
+    }
+
+    @Override
+    public void saveImage(Long id, MultipartFile image) throws IOException {
+        Event event = repository.findOne(id);
+        event.setImage(image.getBytes());
+        event.setImageMimeType(image.getContentType().toLowerCase());
+        repository.save(event);
+    }
+
+    @Override
+    public byte[] findImage(Long id) throws AttachmentNotFoundException {
+        Event event = repository.findOne(id);
+        byte[] image = event.getImage();
+        if(image==null){
+            throw new AttachmentNotFoundException();
+        }
+        return image;
+    }
+
+    @Override
+    public MediaType getImageMimeTypeForEvent(Long id) throws EventNotFoundException {
+        Event event = find(id);
+        String[] mediaType = event.getImageMimeType().split("/");
+        return new MediaType(mediaType[0], mediaType[1]);
     }
 
     @Override

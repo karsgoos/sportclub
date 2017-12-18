@@ -35,8 +35,10 @@ public class Event implements Serializable {
 
     private List<Enrollment> enrollments = new ArrayList<>();
 
-    @Column
-    private String imageUrl;
+    @JsonIgnore
+    @Lob
+    private byte[] image;
+    private String imageMimeType;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -133,14 +135,6 @@ public class Event implements Serializable {
 
     public void setEnrollments(List<Enrollment> enrollments) {
         this.enrollments = enrollments;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     public LocalDateTime getStartDate() {
@@ -266,5 +260,21 @@ public class Event implements Serializable {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageMimeType() {
+        return imageMimeType;
+    }
+
+    public void setImageMimeType(String imageMimeType) {
+        this.imageMimeType = imageMimeType;
     }
 }
