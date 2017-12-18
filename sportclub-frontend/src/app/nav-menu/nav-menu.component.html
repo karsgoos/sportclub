@@ -9,7 +9,7 @@
       <li><a routerLink="/registration" routerLinkActive="active">Register</a></li>
     </ul>
     <ul class="right" *ngIf="isLoggedIn()">
-      <li><a routerLink="/points" routerLinkActive="active">Hello Nico</a></li>
+      <li><a routerLink="/points" routerLinkActive="active">Hello {{getUser().firstName}}</a></li>
       <li><a (click)="logout()" routerLinkActive="active">Log out</a></li>
     </ul>
   </div>

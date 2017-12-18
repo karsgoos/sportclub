@@ -1,5 +1,6 @@
 import {Component, OnInit, Injectable} from '@angular/core';
-import {AuthenticationService} from "../login/services/authentication.service";
+import {AuthenticationService} from '../login/services/authentication.service';
+
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
@@ -7,19 +8,19 @@ import {AuthenticationService} from "../login/services/authentication.service";
 })
 
 @Injectable()
-export class NavMenuComponent implements OnInit {
+export class NavMenuComponent {
+  constructor(private auth: AuthenticationService) {
+  }
 
-  constructor(private auth : AuthenticationService) { }
+  getUser() {
+    return this.auth.getCurrentUser();
+  }
 
-  isLoggedIn(){
+  isLoggedIn() {
     return this.auth.isAuthenticated();
   }
 
-  logout(){
+  logout() {
     this.auth.logout();
   }
-
-  ngOnInit() {
-  }
-
 }
