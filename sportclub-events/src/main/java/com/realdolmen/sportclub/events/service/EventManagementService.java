@@ -89,4 +89,6 @@ public interface EventManagementService {
     byte[] findImage(Long id) throws AttachmentNotFoundException;
 
     MediaType getImageMimeTypeForEvent(Long id) throws EventNotFoundException;
+
+    void delete(Long id) throws EventNotFoundException;
 }

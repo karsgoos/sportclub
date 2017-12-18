@@ -46,6 +46,18 @@ public class EventManagementServiceImplTest {
         Mockito.when(repository.findOne(Mockito.anyLong())).thenReturn(new Event());
 
         // Repository.save returns its argument
+        Mockito.when(repository.save((Iterable<Event>) Mockito.any())).thenAnswer(new Answer<Iterable<Event>>() {
+            @Override
+            public Iterable<Event> answer(InvocationOnMock invocation) throws Throwable {
+                long id = 1L;
+                for(Event event : (Iterable<Event>)invocation.getArgument(0)) {
+                    event.setId(id++);
+                }
+                return invocation.getArgument(0);
+            }
+        });
+
+        // Repository.save returns its argument
         Mockito.when(recurringEventInfoRepository.save((RecurringEventInfo) Mockito.any())).thenAnswer(new Answer<RecurringEventInfo>() {
             @Override
             public RecurringEventInfo answer(InvocationOnMock invocation) throws Throwable {
@@ -344,6 +356,24 @@ public class EventManagementServiceImplTest {
         Assert.assertNotNull(result);
         // Only the cancellations were added to users, so we should only get those
         Assert.assertEquals(users, result);
+    }
+
+    @Test
+    public void canDeleteEvent() throws CouldNotCreateEventException, EventNotFoundException {
+        Event event = createValidEvent();
+        event = service.create(event);
+        service.delete(event.getId());
+        try {
+            service.find(event.getId());
+        } catch (EventNotFoundException e) {
+            // OKAY!
+        }
+    }
+
+    @Test(expected = EventNotFoundException.class)
+    public void cannotDeleteNonExistingEvent() throws EventNotFoundException {
+        Mockito.when(repository.findOne(1L)).thenReturn(null);
+        service.delete(1L);
     }
 
     private Event createValidEvent() {

@@ -277,4 +277,8 @@ public class Event implements Serializable {
     public void setImageMimeType(String imageMimeType) {
         this.imageMimeType = imageMimeType;
     }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

@@ -1,6 +1,8 @@
 package com.realdolmen.sportclub.events.service;
 
 import com.realdolmen.sportclub.common.entity.*;
+import com.realdolmen.sportclub.common.repository.AttendanceRepository;
+import com.realdolmen.sportclub.common.repository.OrderRepository;
 import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.events.repository.EventRepository;
 import com.realdolmen.sportclub.events.repository.RecurringEventInfoRepository;
@@ -31,6 +33,10 @@ public class EventManagementServiceImpl implements EventManagementService {
     private EventRepository repository;
     @Autowired
     private RecurringEventInfoRepository recurringEventInfoRepository;
+    @Autowired
+    private AttendanceRepository attendanceRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Override
     @Transactional
@@ -47,10 +53,11 @@ public class EventManagementServiceImpl implements EventManagementService {
 
         List<Event> eventsToCreate = calculateRecurrentEvents(event, false);
 
-        repository.save(eventsToCreate);
+        List<Event> result = new ArrayList<>();
+        repository.save(eventsToCreate).forEach(result::add);
 
         // fix by Jeroen for problem with routing when creating recurring events
-        return eventsToCreate.get(0);
+        return result.get(0);
     }
 
     private List<Event> calculateRecurrentEvents(Event event, boolean isUpdate) throws CouldNotCreateEventException {
@@ -239,6 +246,16 @@ public class EventManagementServiceImpl implements EventManagementService {
         Event event = find(id);
         String[] mediaType = event.getImageMimeType().split("/");
         return new MediaType(mediaType[0], mediaType[1]);
+    }
+
+    @Override
+    public void delete(Long id) throws EventNotFoundException {
+        Event event = find(id);
+        for(Attendance attendance : event.getAttendancies()) {
+            attendanceRepository.delete(attendance);
+            orderRepository.delete(attendance.getOrdr());
+        }
+        repository.delete(event);
     }
 
     @Override
