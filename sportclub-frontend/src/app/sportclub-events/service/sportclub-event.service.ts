@@ -77,18 +77,22 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
     super.update(event).subscribe();
   }
 
-  saveAttachment(file: File, eventId: number){
+  saveAttachment(file: File, eventId: number, enable:boolean){
 
-    let params = new HttpParams();
-    let formData = new FormData();
-    formData.append('file', file);
-    const options = {
-      headers: new HttpHeaders(),
-      params: params,
+    if(enable){
+      let params = new HttpParams();
+      let formData = new FormData();
+      formData.append('file', file);
+      const options = {
+        headers: new HttpHeaders(),
+        params: params,
+      }
+
+      return this.http.post('http://localhost:8080/api/events/'+eventId+'/attachment', formData, options);//teardown
     }
-
-    this.http.post('http://localhost:8080/api/events/'+eventId+'/attachment', formData, options)
-      .subscribe();//teardown
+    else{
+      //do nothing, no file was present
+    }
   }
 
 }

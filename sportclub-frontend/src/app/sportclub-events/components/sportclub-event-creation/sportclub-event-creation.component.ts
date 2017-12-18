@@ -555,23 +555,13 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       }
       // if we are creating
       else {
-        /*
         this.eventService.saveEvent(this.event).subscribe(event => {
-          this.router.navigate(['/event', event.id]);
+          let id = event.id;
+          this.eventService.saveAttachment(this.attachedFile, id, this.fileIsAttached).subscribe();
+          this.router.navigate(['/event', id]);
         });
-        */
-        this.eventService.saveEvent(this.event).subscribe(event => this.eventService.saveAttachment(this.attachedFile, event.id));
 
       }
-    }
-  }
-
-  saveUploadedAttachment(){
-    if(this.fileIsAttached && this.event.id) {
-      this.eventService.saveAttachment(this.attachedFile, this.event.id);
-    }
-    else{
-      console.log("No event id or attachment was found: something went wrong");
     }
   }
 
