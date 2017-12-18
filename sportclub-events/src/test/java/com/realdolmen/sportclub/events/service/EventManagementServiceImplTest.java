@@ -42,14 +42,6 @@ public class EventManagementServiceImplTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        // Repository.save returns its argument
-        Mockito.when(repository.save((Event) Mockito.any())).thenAnswer(new Answer<Event>() {
-            @Override
-            public Event answer(InvocationOnMock invocation) throws Throwable {
-                return invocation.getArgument(0);
-            }
-        });
-
         // Find one returns an empty event
         Mockito.when(repository.findOne(Mockito.anyLong())).thenReturn(new Event());
 
@@ -284,13 +276,34 @@ public class EventManagementServiceImplTest {
     @Test
     public void canObtainCancellationsForEvent() throws EventNotFoundException {
         List<User> users = new ArrayList<>();
+        Event event = createValidEvent();
         for (int i = 0; i < 10; i++) {
-            users.add(new RegisteredUser());
+            Attendance attendance = new Attendance();
+            User user = new RegisteredUser();
+            Order order = new Order();
+
+            order.setUser(user);
+            attendance.setOrdr(order);
+            attendance.setCancelled(true);
+            order.addOrderable(attendance);
+            event.addAttendance(attendance);
+
+            users.add(user);
         }
         for (int i = 0; i < 5; i++) {
-            users.add(new Guest());
+            Attendance attendance = new Attendance();
+            User user = new Guest();
+            Order order = new Order();
+
+            order.setUser(user);
+            attendance.setOrdr(order);
+            attendance.setCancelled(true);
+            order.addOrderable(attendance);
+            event.addAttendance(attendance);
+
+            users.add(user);
         }
-        Mockito.when(repository.findCancellationsForEvent(Mockito.any())).thenReturn(users);
+        Mockito.when(repository.findOne(1L)).thenReturn(event);
         List<User> result = service.findCancellations(1L);
         Assert.assertNotNull(result);
         Assert.assertEquals(users, result);

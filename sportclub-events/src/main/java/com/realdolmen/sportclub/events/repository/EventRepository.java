@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface EventRepository extends JpaRepository<Event, Long>, EventAttendeeRepository {
+public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findByStartDateBeforeOrderByStartDateDesc(LocalDateTime localDateTime, Pageable pageable);
     List<Event> findByStartDateAfterOrderByStartDateAsc(LocalDateTime localDateTime, Pageable pageable);
     void deleteByStartDateAfterAndRecurringEventInfoEquals(LocalDateTime localDateTime, RecurringEventInfo info);

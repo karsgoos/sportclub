@@ -217,7 +217,10 @@ public class EventManagementServiceImpl implements EventManagementService {
     @Transactional
     public List<User> findCancellations(Long id) throws EventNotFoundException {
         Event event = find(id);
-        return repository.findCancellationsForEvent(event);
+        return event.getAttendancies().stream()
+                .filter((a) -> a.isCancelled())
+                .map((a) -> a.getOrdr().getUser())
+                .collect(Collectors.toList());
     }
 
     @Override
