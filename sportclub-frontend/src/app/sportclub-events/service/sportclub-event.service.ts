@@ -77,9 +77,8 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
     super.update(event).subscribe();
   }
 
-  saveAttachment(file: File, eventId: number, enable:boolean){
+  saveAttachment(file: File, eventId: number){
 
-    if(enable){
       let params = new HttpParams();
       let formData = new FormData();
       formData.append('file', file);
@@ -88,11 +87,21 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
         params: params,
       }
 
-      return this.http.post('http://localhost:8080/api/events/'+eventId+'/attachment', formData, options);//teardown
+      return this.http.post('http://localhost:8080/api/events/'+eventId+'/attachment', formData, options);
+  }
+
+  saveImage(image: File, eventId: number){
+
+    let params = new HttpParams();
+    let formData = new FormData();
+    formData.append('file', image);
+    const options = {
+      headers: new HttpHeaders(),
+      params: params,
     }
-    else{
-      //do nothing, no file was present
-    }
+
+    return this.http.post('http://localhost:8080/api/events/'+eventId+'/image', formData, options);
+
   }
 
 }

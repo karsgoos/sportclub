@@ -36,6 +36,8 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
 
   attachedFile: File;
   fileIsAttached:boolean = false;
+  attachedImage: File;
+  imageIsAttached:boolean = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -97,7 +99,19 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       else{
         self.fileIsAttached = false;
       }
-    }
+    };
+
+    // add change event for the image uploader
+    document.getElementById('eventImage').onchange = function(event:any){
+      let fileList: FileList = event.target.files;
+      if(fileList.length > 0){
+        self.imageIsAttached = true;
+        self.attachedImage = fileList[0];
+      }
+      else{
+        self.imageIsAttached = false;
+      }
+    };
   }
 
   ngOnInit() {
@@ -557,7 +571,13 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       else {
         this.eventService.saveEvent(this.event).subscribe(event => {
           let id = event.id;
-          this.eventService.saveAttachment(this.attachedFile, id, this.fileIsAttached).subscribe();
+          if(this.fileIsAttached){
+            this.eventService.saveAttachment(this.attachedFile, id).subscribe();
+          }
+          if(this.imageIsAttached){
+            this.eventService.saveImage(this.attachedImage, id).subscribe();
+          }
+          //TODO: make sure this only happen when both the file and the image are loaded
           this.router.navigate(['/event', id]);
         });
 
