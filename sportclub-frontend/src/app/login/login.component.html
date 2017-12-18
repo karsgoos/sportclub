@@ -20,12 +20,14 @@
  				<div class="input-field col s12"  >
  					<i class="material-icons lock"></i>
  					<input id="password" name="password" type="password" [(ngModel)]="model.password" #password="ngModel" [ngClass]="{'invalid' : f.submitted && !password.valid}"  required>
- 					<label for="password" data-error="wrong" data-success="right">Password</label>
+ 					<label for="password" data-error="wrong" data-success="right">
+            <div class="vpn_key-effect vpn_key-light left" data-error="wrong" data-success="right" type="submit"><i class="material-icons right">vpn_key</i></div>Password
+          </label>
  				</div>
  			</div>
  			<div class="row">
- 				<div class="col s6">
- 					<p>
+ 				<div class="col s6 ">
+ 					<p class="hide">
  						<input type="checkbox" class="filled-in" id="filled-in-box">
  						<label for="filled-in-box">Wachtwoord onthouden</label>
  					</p>

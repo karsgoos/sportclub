@@ -1,24 +1,27 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpRequest} from '@angular/common/http';
+
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/observable/throw';
 import {User} from '../../common/user';
+import {Router} from "@angular/router";
 
 @Injectable()
 export class AuthenticationService {
-  constructor(private http: HttpClient) {
+
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   // NICO: Attempt login
   login(username: string, password: string) {
-    const headers = new HttpHeaders();
-
     const data = 'grant_type=password&username=' + username + '&password=' + password;
 
+    //centrale pad instellen (basepath + api url)
     return this.http.post<any>('http://localhost:8080/oauth/token', data, {
-      headers: headers,
+      headers: new HttpHeaders(),
       withCredentials: true
+      /*Observable in plaats van promise*/
     }).toPromise().then(authorization => {
       localStorage.setItem('access_token', authorization.access_token);
       localStorage.setItem('refresh_token', authorization.refresh_token);
@@ -35,6 +38,7 @@ export class AuthenticationService {
     }).catch(error => console.log(error));
   }
 
+    /*USER api method voorzien waarbij je de usergegevens zonder pwd krijgt*/
   fetchUser() {
     return this.http.get('http://localhost:8080/api/user')
       .toPromise().then(user => {
@@ -65,6 +69,12 @@ export class AuthenticationService {
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('authorities');
     localStorage.removeItem('user');
+
+    this.router.navigate(['/login']);
+  }
+
+  isAuthenticated(){
+    return !!localStorage.getItem('user');
   }
 
   getCurrentUser() {
