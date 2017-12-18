@@ -37,5 +37,9 @@ export class EventDetailComponent implements OnInit {
     this.modal.show();
   }
 
+  editEvent() {
+    this.router.navigate(['/events/edit', this.eventModel.id]);
+  }
+
 
 }

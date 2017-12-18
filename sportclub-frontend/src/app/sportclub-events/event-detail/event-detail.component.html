@@ -7,7 +7,7 @@
 
 <div class="container">
   <div class="card-panel hoverable large">
-
+    <a class="right btn-floating btn-large waves-effect waves-light" (click)="editEvent()" ><i class="material-icons">edit</i></a>
 
     <div class="row">
       <div class="col s12 m6 l3"><p> </p></div>
@@ -82,7 +82,7 @@
         <a class="waves-effect waves-light btn" (click)="subscribeModal()" class="btn modal-trigger" data-target="modal1" >Inschrijven</a><br/>
         <span><b>Inschrijven voor: {{eventModel?.deadline}}</b></span>
       </div>
-      <div class="col s12 m6 l3"><p>  </p></div>
+
     </div>
     <!-- Modal Structure  -->
 

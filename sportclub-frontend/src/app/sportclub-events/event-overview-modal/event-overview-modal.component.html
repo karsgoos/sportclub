@@ -3,7 +3,18 @@
     <ul class="collection with-header">
       <li class="collection-header"><h4>Overzicht evenementen</h4>
       </li>
-      <li *ngFor="let event of events" class="collection-item"><div>{{ event.name }} - {{ event.startDate }}<span class="secondary-content"><a style="cursor: pointer" (click)="showEvent(event.id)"><i class="material-icons">visibility</i></a> </span></div></li>
+      <li *ngFor="let event of events" class="collection-item">
+        <div>{{ event.name }} - {{ event.startDate }}
+          <span class="secondary-content">
+            <a style="cursor: pointer" (click)="editEvent(event.id)">
+              <i class="material-icons">edit</i>
+            </a>
+            <a style="cursor: pointer" (click)="showEvent(event.id)">
+              <i class="material-icons">visibility</i>
+            </a>
+          </span>
+        </div>
+      </li>
       <li class="collection-item" *ngIf="events.length == 0">Geen evenementen gevonden.</li>
     </ul>
 

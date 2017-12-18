@@ -47,4 +47,9 @@ export class EventOverviewModalComponent implements OnInit {
     this.router.navigate(['/event', eventId]);
   }
 
+  editEvent(eventId) {
+    $('#modal1').modal('close');
+    this.router.navigate(['/events/edit', eventId]);
+  }
+
 }
