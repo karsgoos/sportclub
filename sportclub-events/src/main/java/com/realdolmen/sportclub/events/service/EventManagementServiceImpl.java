@@ -1,10 +1,7 @@
 package com.realdolmen.sportclub.events.service;
 
-import com.realdolmen.sportclub.common.entity.Address;
-import com.realdolmen.sportclub.common.entity.Event;
-import com.realdolmen.sportclub.common.entity.RecurringEventInfo;
+import com.realdolmen.sportclub.common.entity.*;
 import com.realdolmen.sportclub.events.exceptions.*;
-import com.realdolmen.sportclub.common.entity.User;
 import com.realdolmen.sportclub.events.repository.EventRepository;
 import com.realdolmen.sportclub.events.repository.RecurringEventInfoRepository;
 import com.realdolmen.sportclub.events.service.export.EventExcelExporter;
@@ -23,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -112,9 +110,6 @@ public class EventManagementServiceImpl implements EventManagementService {
         if (eventsToCreate.isEmpty()) {
             throw new CouldNotCreateEventException("No events to create.");
         }
-
-        // put in comment by Jeroen, they are already begin saved in the create method I think?
-        //repository.save(eventsToCreate);
 
         return eventsToCreate;
 
@@ -209,7 +204,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     @Transactional
     public byte[] exportAttendanceList(Long id) throws EventNotFoundException, EventExportException {
         Event event = find(id);
-        List<User> attendees = repository.findAttendeesForEvent(event);
+        List<User> attendees = event.getAttendancies().stream().map((a) -> a.getOrdr().getUser()).collect(Collectors.toList());
 
         try {
             return EventExcelExporter.export(attendees);
@@ -222,7 +217,10 @@ public class EventManagementServiceImpl implements EventManagementService {
     @Transactional
     public List<User> findCancellations(Long id) throws EventNotFoundException {
         Event event = find(id);
-        return repository.findCancellationsForEvent(event);
+        return event.getAttendancies().stream()
+                .filter((a) -> a.isCancelled())
+                .map((a) -> a.getOrdr().getUser())
+                .collect(Collectors.toList());
     }
 
     @Override
