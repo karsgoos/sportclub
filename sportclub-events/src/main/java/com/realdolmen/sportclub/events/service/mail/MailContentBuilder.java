@@ -1,8 +1,7 @@
 package com.realdolmen.sportclub.events.service.mail;
 
-import com.realdolmen.sportclub.common.entity.Event;
-import com.realdolmen.sportclub.common.entity.Guest;
-import com.realdolmen.sportclub.common.entity.Sportclub;
+import com.realdolmen.sportclub.common.entity.*;
+import com.realdolmen.sportclub.common.repository.SportclubRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -27,29 +26,17 @@ import java.util.Locale;
 public class MailContentBuilder {
     private TemplateEngine templateEngine;
 
+    private Sportclub sportclub;
 
     @Autowired
-    public MailContentBuilder(TemplateEngine templateEngine){
+    public MailContentBuilder(TemplateEngine templateEngine,   SportclubRepository sportclubRepository){
         super();
         this.templateEngine = templateEngine;
-    }
-
-    public String buildTest() {
-        String name = "Frederik";
-        String message = "My message";
-        Event event = new Event();
-        event.setName("Sporty event");
-
-        Context context = new Context();
-        context.setVariable("name", name);
-        context.setVariable("message", message);
-        context.setVariable("event", event);
-
-        return templateEngine.process("mailTemplate", context);
+        this.sportclub = sportclubRepository.findOne(1L);
     }
 
 
-    public String buildMailGuestAttendPublicEvent(Guest guest, Event event, Sportclub sportclub,  String unsubscribeLink) {
+    public String buildMailGuestAttendPublicEvent(Guest guest, Event event, String unsubscribeLink) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -66,5 +53,14 @@ public class MailContentBuilder {
         context.setVariable("unsubscribeLink", unsubscribeLink);
 
         return templateEngine.process("guestAttendPublicEventTemplate", context);
+    }
+
+    public String buildMailEnrollmentEnding(User user, MembershipType membershipType){
+        Context context = new Context();
+
+        context.setVariable("user", user);
+        context.setVariable("membershipType", membershipType);
+        context.setVariable("sportclub", sportclub);
+        return templateEngine.process("enrollementEnding", context);
     }
 }
