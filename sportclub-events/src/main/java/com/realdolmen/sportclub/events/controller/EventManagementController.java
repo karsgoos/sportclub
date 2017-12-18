@@ -65,7 +65,7 @@ public class EventManagementController {
     public @ResponseBody
     ResponseEntity<?> uploadAttachement(@PathVariable("id") Long id, @RequestParam("file") MultipartFile attachment) {
         if (attachment.isEmpty()) {
-            return new ResponseEntity("please select a file!", HttpStatus.OK);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -75,8 +75,7 @@ public class EventManagementController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity("Successfully uploaded - " +
-                attachment.getOriginalFilename(), new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @GetMapping(value = "events/{id}/attachment", produces = MediaType.APPLICATION_PDF_VALUE)
