@@ -21,4 +21,5 @@ export interface SportClubEvent {
   name: String;
   recurringEventInfo: RecurringEventInfo;
   closed: boolean;
+  points: number;
 }

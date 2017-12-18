@@ -215,6 +215,20 @@
       </div>
     </div>
 
+    <div class="section">
+      <h5>Punten</h5>
+      <div class="row">
+        <div class="col s2 input-field">
+          <label for="points">Punten</label>
+          <input formControlName="points" id="points" type="number" min="0" value="0">
+          <div *ngIf="eventForm.get('points').invalid && (eventForm.get('points').dirty || eventForm.get('points').touched)"
+               class="alert alert-danger">
+            <span style="color: red">Het aantal punten moet groter zijn dan 0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <div class="section">
       <h5>Prijs</h5>

@@ -8,6 +8,7 @@ import { EventCalendarComponent } from './event-calendar/event-calendar.componen
 import {SportclubEventCreationComponent} from "./components/sportclub-event-creation/sportclub-event-creation.component";
 import {ReactiveFormsModule,FormsModule} from '@angular/forms';
 import {AngularDateTimePickerModule} from "angular2-datetimepicker";
+import {EventOverviewModalComponent} from "./event-overview-modal/event-overview-modal.component";
 
 
 @NgModule({
@@ -18,7 +19,7 @@ import {AngularDateTimePickerModule} from "angular2-datetimepicker";
     AngularDateTimePickerModule,
   ],
   declarations: [SportClubEventsComponent,
-        SportclubEventCreationComponent, EventCalendarComponent],
+        SportclubEventCreationComponent, EventCalendarComponent, EventOverviewModalComponent],
   providers: [SportClubEventService]
 })
 export class SportClubEventsModule {
