@@ -1,13 +1,21 @@
 <div class="container">
   <!-- TODO: only show when moderator -->
-  <div class="row">
-    <a class="waves-effect waves-light btn" (click)="goToEventCreation()" class="btn">Evenement aanmaken</a>
-    <a class="waves-effect waves-light btn" (click)="eventOverviewModal()" class="btn modal-trigger"
-       data-target="modal1">Overzicht evenementen</a><br/>
+  <div class="section">
+    <div class="row">
+      <div class="col">
+        <a class="waves-effect waves-light btn" (click)="goToEventCreation()" class="btn">Evenement aanmaken</a>
+      </div>
+      <div class="col">
+        <a class="waves-effect waves-light btn" (click)="eventOverviewModal()" class="btn modal-trigger"
+           data-target="modal1">Overzicht evenementen</a>
+      </div>
+    </div>
   </div>
 
-  <div class="row">
-    <app-event-calendar></app-event-calendar>
+  <div class="section">
+    <div class="row">
+      <app-event-calendar></app-event-calendar>
+    </div>
   </div>
 
   <app-event-overview-modal></app-event-overview-modal>

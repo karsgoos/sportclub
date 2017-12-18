@@ -113,6 +113,8 @@ public class Event implements Serializable {
     @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
     private LocalDateTime reminderDate;
 
+    private int points;
+
     public Long getId() {
         return id;
     }
@@ -256,5 +258,13 @@ public class Event implements Serializable {
 
     public void setReminderDate(LocalDateTime reminderDate) {
         this.reminderDate = reminderDate;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }

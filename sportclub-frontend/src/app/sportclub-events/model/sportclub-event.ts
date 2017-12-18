@@ -19,4 +19,5 @@ export interface SportClubCreationEvent {
   name?:string;
   recurringEventInfo?: RecurringEventInfo;
   reminderDate?: string;
+  points?: number;
 }

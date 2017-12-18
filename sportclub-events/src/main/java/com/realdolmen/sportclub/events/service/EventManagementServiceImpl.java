@@ -277,6 +277,9 @@ public class EventManagementServiceImpl implements EventManagementService {
         if (event.getMinParticipants() > event.getMaxParticipants()) {
             throw new InvalidEventException("Min participants must be smaller than or equal to max participants.");
         }
+        if (event.getPoints() < 0) {
+            throw new InvalidEventException("An event should be worth at least 0 points.");
+        }
     }
 
     /**

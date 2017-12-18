@@ -68,10 +68,10 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     };
     document.getElementById('reminderMailDate').onchange = function(event:any) {
       self.eventForm.patchValue({"reminderMailDate": self.convertDateString(event.target.value)});
-    }
+    };
     document.getElementById('reminderMailTime').onchange = function(event:any){
       self.eventForm.patchValue({'reminderMailTime': event.target.value});
-    }
+    };
 
     // to make the dropdown select boxes work
     $('select').material_select();
@@ -150,6 +150,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
         nrOfWeekdays: nrOfWeekdays,
         closed: event.closed,
         extraModeratorsBoolean: event.responsibles.length > 1,
+        points: event.points,
       });
       // Dates and times need to be set manually
       // Additionally, so that angular picks up the date and time values, we need to trigger an onchange event
@@ -223,6 +224,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       country:'',
       city:'',
 
+      points:['0', Validators.min(0)],
 
       differentPricesBoolean:false,
       pricePerChild:'',
@@ -452,6 +454,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       this.event.deadline = this.eventForm.value.startday + " 00:00";
 
     }
+    this.event.points = this.eventForm.value.points;
     // create the recurrint event info if necessary, else it can just be null
     if (this.eventForm.value.eventIsRecurring) {
       let weekdays = [];
