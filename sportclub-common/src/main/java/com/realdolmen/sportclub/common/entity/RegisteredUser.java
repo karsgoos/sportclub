@@ -40,6 +40,17 @@ public class RegisteredUser extends User {
     @Column
     private int totalPoints;
 
+    @NotNull
+    private boolean isOnAutomaticMailList;
+
+    public boolean isOnAutomaticMailList() {
+        return isOnAutomaticMailList;
+    }
+
+    public void setOnAutomaticMailList(boolean onAutomaticMailList) {
+        isOnAutomaticMailList = onAutomaticMailList;
+    }
+
     private String nonEditableField;
 
     public RegisteredUser(){
