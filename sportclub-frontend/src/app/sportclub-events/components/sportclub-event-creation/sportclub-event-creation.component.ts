@@ -66,6 +66,12 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     document.getElementById('eventLastDate').onchange = function (event: any) {
       self.eventForm.patchValue({"lastEventDate": self.convertDateString(event.target.value)});
     };
+    document.getElementById('reminderMailDate').onchange = function(event:any) {
+      self.eventForm.patchValue({"reminderMailDate": self.convertDateString(event.target.value)});
+    }
+    document.getElementById('reminderMailTime').onchange = function(event:any){
+      self.eventForm.patchValue({'reminderMailTime': event.target.value});
+    }
 
     // to make the dropdown select boxes work
     $('select').material_select();
@@ -225,7 +231,11 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
 
       closed:false,
 
-      extraModeratorsBoolean:false
+      extraModeratorsBoolean:false,
+
+      automaticReminderMailBoolean:false,
+      reminderMailDate:'',
+      reminderMailTime:''
     });
 
     //add some conditional validators
@@ -296,6 +306,11 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       'differentPricesBoolean',
       [Validators.required],
       true);
+
+    this.addConditionalValidatorsShortcut('reminderMailDate',
+      "automaticReminderMailBoolean",
+      [Validators.required],
+      true);
   }
 
   addConditionalValidatorsShortcut(validatingElementName, conditionElementName, validators, obligedWhenChecked){
@@ -359,9 +374,10 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
         this.globalErrorMessages.push("Het einduur kan niet voor het beginuur liggen");
       }
       else{
-        startPeriod.setDate(startPeriod.getDate()+7);
+        let tempDate = new Date();
+        tempDate.setDate(startPeriod.getDate()+7);
         // check if period is longer then a week
-        if(startPeriod > endPeriod){
+        if(tempDate > endPeriod){
           this.globalErrorMessages.push("De periode moet minstens een week in beslag nemen");
         }
         // check if at least one of the weekdays is selected
@@ -375,6 +391,14 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     let deadlineDate = new Date(this.eventForm.value.deadlineday + " " + this.eventForm.value.deadlinetime);
     if(deadlineDate > startDate){
       this.globalErrorMessages.push("De deadline moet voor de start van het evenement liggen");
+    }
+
+    // if mailtime is set, check if it is before the start
+    if(this.eventForm.value.automaticReminderMailBoolean){
+      let mailDate = new Date(this.eventForm.value.reminderMailDate + " " + this.eventForm.value.reminderMailTime);
+      if(mailDate > startDate){
+        this.globalErrorMessages.push("Je kan geen mail verzenden nadat het evenement is gestart");
+      }
     }
 
   }
@@ -486,6 +510,11 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     }
     else{
       this.event.enrollments = [];
+    }
+
+    // if a reminder email should be send, add the info for it in the object
+    if(this.eventForm.value.automaticReminderMailBoolean){
+      this.event.reminderDate = this.eventForm.value.reminderMailDate + " " + this.eventForm.value.reminderMailTime;
     }
   }
 
