@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AbstractRestService} from '../../common/abstract-rest-service.service';
 import {SportClubEvent} from '../../common/model/sportclub-event-model';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs/Observable";
 import {SportClubCreationEvent} from "../model/sportclub-event";
@@ -75,6 +75,24 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
 
   updateEvent(event: SportClubCreationEvent) {
     super.update(event).subscribe();
+  }
+
+  saveAttachment(file: File, eventId: number, enable:boolean){
+
+    if(enable){
+      let params = new HttpParams();
+      let formData = new FormData();
+      formData.append('file', file);
+      const options = {
+        headers: new HttpHeaders(),
+        params: params,
+      }
+
+      return this.http.post('http://localhost:8080/api/events/'+eventId+'/attachment', formData, options);//teardown
+    }
+    else{
+      //do nothing, no file was present
+    }
   }
 
 }
