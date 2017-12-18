@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {SportClubEventService} from "../service/sportclub-event.service";
 import {AttendingModalComponent} from "../attending-modal/attending-modal.component";
 
-declare var $ :any;
+declare var $: any;
 
 @Component({
   selector: 'event-detail',
@@ -17,7 +17,8 @@ export class EventDetailComponent implements OnInit {
 
   @ViewChild(AttendingModalComponent) modal: AttendingModalComponent;
 
-  constructor(private route: ActivatedRoute, private router:Router, private sportClubEventService :SportClubEventService) {  }
+  constructor(private route: ActivatedRoute, private router: Router, private sportClubEventService: SportClubEventService) {
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -27,13 +28,12 @@ export class EventDetailComponent implements OnInit {
   }
 
 
-
-  subscribe(){
-    this.router.navigate(['/event/'+this.eventModel.id+'/subscribe']);
+  subscribe() {
+    this.router.navigate(['/event/' + this.eventModel.id + '/subscribe']);
 
   }
 
-  subscribeModal(){
+  subscribeModal() {
     this.modal.show();
   }
 
