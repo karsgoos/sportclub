@@ -344,6 +344,29 @@
 
     </div>
 
+
+    <div class="section">
+      <h5>Automatische emails</h5>
+
+      <div class="row">
+        <div class="col">
+          <input type="checkbox" id="automaticReminderMailCheckbox" formControlName="automaticReminderMailBoolean"/>
+          <label for="automaticReminderMailCheckbox">Stuur automatisch een herinneringsmail naar de deelnemers</label>
+        </div>
+      </div>
+
+      <div class="row" [hidden]="!(eventForm.value.automaticReminderMailBoolean)">
+        <div class="col s4" id="reminderDateTime">
+          <label for="reminderMailDate">Datum verzending</label>
+          <input id="reminderMailDate" type="text" class="eventDatepicker">
+        </div>
+        <div class="col s2">
+          <label for="reminderMailTime">Tijdstip verzending</label>
+          <input id="reminderMailTime" type="text" class="timepicker">
+        </div>
+      </div>
+    </div>
+
     <div class="section">
       <div *ngIf="globalErrorMessages.length>0" class="alert alert-danger">
         <ul>
@@ -362,6 +385,11 @@
         </div>
       </div>
     </div>
+
+    <p>
+      {{this.event | json}}
+    </p>
+
 
   </form>
 </div>
