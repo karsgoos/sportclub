@@ -91,15 +91,28 @@ public class EventManagementServiceImpl implements EventManagementService {
                     newEvent.setClosed(event.isClosed());
                     newEvent.setDescription(event.getDescription());
                     newEvent.setName(event.getName());
-                    newEvent.setAttachement(event.getAttachement());
-                    newEvent.setImage(event.getImage());
                     newEvent.setPoints(event.getPoints());
-                    newEvent.setImageMimeType(event.getImageMimeType());
 
                     newEvent.setStartDate(newEventStartDateTime);
                     newEvent.setEndDate(newEventEndDateTime);
 
                     newEvent.setRecurringEventInfo(event.getRecurringEventInfo());
+
+                    // Attachments and images are special:
+                    // When updating, the user doesn't have to reupload the
+                    // same attachment or image again.
+                    // For this reason, we want to load the current event
+                    // from the repository and obtain its attachment and image
+                    if (isUpdate) {
+                        Event fromRepository = repository.findOne(event.getId());
+                        newEvent.setAttachement(fromRepository.getAttachement());
+                        newEvent.setImageMimeType(fromRepository.getImageMimeType());
+                        newEvent.setImage(fromRepository.getImage());
+                    } else {
+                        newEvent.setAttachement(event.getAttachement());
+                        newEvent.setImage(event.getImage());
+                        newEvent.setImageMimeType(event.getImageMimeType());
+                    }
 
                     eventsToCreate.add(newEvent);
                 }
