@@ -8,13 +8,14 @@
 </div>
 <div>
     Geachte,
-    <span th:text="${guest.getFirstName()} "></span>
+    <span th:text="${user.getFirstName()} "></span>
 
-    <span th:text="${guest.getLastName()}"></span>
+    <span th:text="${user.getLastName()}"></span>
     <br/>
     <br />
 
-    ${content}
+  Uw lidmaatschap van <span th:text="${membershipType.getName()}"></span> eindigt over een maand. Schrijf u opnieuw in indien u lid wil blijven.
+
 </div>
 
 

@@ -12,18 +12,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 @SpringBootApplication
 @EnableAutoConfiguration
 @ComponentScan(basePackages = {"com.realdolmen.sportclub"})
 @EnableJpaRepositories("com.realdolmen.sportclub")
 @EntityScan("com.realdolmen.sportclub")
+@EnableScheduling
 public class Application {
 
     @Autowired
@@ -87,7 +90,7 @@ public class Application {
         u.setPassword("abc");
         Role r = new Role();
         r.setName("guest");
-        r.setPrivileges(new ArrayList<>());
+        r.setPrivileges(new HashSet<>());
         roleRepository.save(r);
         u.setRole(r);
         userRepository.save(u);

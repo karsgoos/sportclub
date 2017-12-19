@@ -6,6 +6,7 @@ import com.realdolmen.sportclub.common.repository.OrderRepository;
 import com.realdolmen.sportclub.common.repository.UserRepository;
 import com.realdolmen.sportclub.events.repository.EventRepository;
 import com.realdolmen.sportclub.common.repository.*;
+import com.realdolmen.sportclub.events.service.mail.MailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -87,7 +88,7 @@ public class EventServiceImpl implements EventService {
 		attendOpenEvent(guest.getId().toString(),eventId,nrOfAdults,nrOfChildren);
 		
 		//TODO: unsubscribe link
-		mailSenderService.sendMailGuestAttendPublicEvent(guest,eventRepository.findOne(Long.parseLong(eventId)),sportclubRepository.findOne(1L),"http://www.realdolmen.com");
+		mailSenderService.sendMailGuestAttendPublicEvent(guest,eventRepository.findOne(Long.parseLong(eventId)),"http://www.realdolmen.com");
 	}
 	
 	@Override

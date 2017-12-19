@@ -5,6 +5,8 @@ import javax.validation.constraints.NotNull;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Entity
 public class Role {
@@ -19,7 +21,7 @@ public class Role {
     @ElementCollection(targetClass = Privilege.class)
     @NotNull
     @Enumerated(EnumType.STRING)
-    private List<Privilege> privileges = new ArrayList<>();
+    private Set<Privilege> privileges = new TreeSet<>();
 
     public Long getId() {
         return id;
@@ -33,11 +35,11 @@ public class Role {
         this.name = name;
     }
 
-    public List<Privilege> getPrivileges() {
+    public Set<Privilege> getPrivileges() {
         return privileges;
     }
 
-    public void setPrivileges(List<Privilege> privileges) {
+    public void setPrivileges(Set<Privilege> privileges) {
         this.privileges = privileges;
     }
 }

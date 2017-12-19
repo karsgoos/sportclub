@@ -8,13 +8,13 @@
 </div>
 <div>
     Geachte,
-    <span th:text="${guest.getFirstName()} "></span>
+    <span th:text="${user.getFirstName()} "></span>
 
-    <span th:text="${guest.getLastName()}"></span>
+    <span th:text="${user.getLastName()}"></span>
     <br/>
     <br />
 
-    ${content}
+    Uw betaling voor <span th:text="${eventName} "></span> op <span th:text="${date} "></span> (<span th:text="${time} "></span>) werd succesvol ontvangen. Veel plezier!
 </div>
 
 
