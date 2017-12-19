@@ -12,7 +12,7 @@ export class EventListParticipantsService {
 
   }
 
-     getParticipantsByEventId(id: number): Observable<Participant[]> {
+  getParticipantsByEventId(id: number): Observable<Participant[]> {
      var url = environment.eventApiUrl + "/" + id + "/participants";
 
      return this.http.get<Participant[]>(url);
@@ -21,6 +21,12 @@ export class EventListParticipantsService {
   //getParticipantsByEventId(id: number): Participant[] {
 
   //  return this.participants;
+  }
+
+  exportList(id: number) {
+    var url = environment.eventApiUrl + id + "/attendees";
+
+    window.open(url, "_blank");
   }
 
   private participants: Participant[] = [
@@ -36,7 +42,7 @@ export class EventListParticipantsService {
     numberOfAdults: 3,
     numberOfChildren: 0
   }
-];
+  ];
 
 
 }

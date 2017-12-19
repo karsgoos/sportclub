@@ -32,4 +32,10 @@ export class EventListParticipantsComponent implements OnInit {
     $('#participantsModal').modal();
 
   }
+
+  exportList() {
+    this.eventListParticipantsService.exportList(this.paramId);
+  }
+
+
 }
