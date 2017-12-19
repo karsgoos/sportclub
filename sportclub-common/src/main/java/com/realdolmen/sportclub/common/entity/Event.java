@@ -11,6 +11,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -115,10 +116,20 @@ public class Event implements Serializable {
     @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
     private LocalDateTime reminderDate;
 
-    private int points;
-
     // when reached this number of participants the moderators of this event want to get a mail
     private int numberParticipantsToSendMail;
+
+    
+    @Min(0)
+    private int points;
+    
+    public int getPoints() {
+        return points;
+    }
+    
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
     public Long getId() {
         return id;
@@ -255,14 +266,6 @@ public class Event implements Serializable {
 
     public void setReminderDate(LocalDateTime reminderDate) {
         this.reminderDate = reminderDate;
-    }
-
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
     }
 
     public byte[] getImage() {

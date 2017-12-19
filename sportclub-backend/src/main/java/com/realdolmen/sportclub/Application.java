@@ -22,7 +22,7 @@ import javax.annotation.PostConstruct;
 @ComponentScan(basePackages = {"com.realdolmen.sportclub"})
 @EnableJpaRepositories("com.realdolmen.sportclub")
 @EntityScan("com.realdolmen.sportclub")
-@EnableScheduling
+@EnableScheduling   //necessary for scheduling of mails and points
 public class Application {
 
     @Autowired
