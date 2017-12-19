@@ -1,0 +1,56 @@
+<div class='panel panel-primary'>
+  <div class='panel-body'>
+    <div class='panel-body1'>
+      <div class="row">
+        <div class="col s12">
+          {{pageTitle}}
+        </div>
+      </div>
+    </div>
+    <div class='row'>
+      <div class="col s2">Lid zoeken:</div>
+      <div class="col s2">
+        <form>
+          <input type='text' [(ngModel)]='searchTerm' name="userSearch" (ngModelChange)="getSearch()"
+                 placeholder='search'/>
+        </form>
+      </div>
+      <div class="col s6"></div>
+      <div class="col s2" id="id1">Totaal punten: {{subTotal}}</div>
+    </div>
+    <div class='row'>
+      <div class="col s10"></div>
+      <div class="col s2" id="id2">Mijn punten: {{getMyPoints()}}</div>
+    </div>
+  </div>
+  <!--div class="row">
+    <div class="col-md-6">
+      <h3>Filtered by:</h3>
+    </div>
+  </div-->
+  <div class="table-responsive" *ngIf="points && points.length">
+    <table class="bordered">
+      <thead class="bordered1">
+      <tr>
+        <th>Ranking</th>
+        <th>Naam</th>
+        <th>Totaal punten</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let pt of filteredSortedPoints">
+        <td>{{sortedPoints.indexOf(pt) + 1}}</td>
+        <td>{{pt.fullName}}</td>
+        <td>{{pt.points}}</td>
+      </tr>
+
+      <!--<div>{{'Total totalPoints :'+getTotalSum()}}</div>-->
+
+
+      </tbody>
+    </table>
+
+  </div>
+
+</div>
+

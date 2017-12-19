@@ -3,6 +3,10 @@ import {RouterModule, Routes} from '@angular/router';
 import {SportClubUserManagementComponent} from './sportclub-user-management/sportclub-user-management.component';
 import {SportClubEventsComponent} from './sportclub-events/sportclub-events.component';
 import {RoleManagementPanelComponent} from './role-management-panel/role-management-panel.component';
+import {LoginComponent} from './login/login.component';
+import {PointsComponent} from './points/points.component';
+import {RegistrationComponent} from "./registration/registration.component";
+import {RegisteredUserGuard} from './guard/registered-user.guard';
 
 import {AppComponent} from "./app.component";
 import {SportclubEventCreationComponent} from "./sportclub-events/components/sportclub-event-creation/sportclub-event-creation.component";
@@ -38,11 +42,24 @@ const routes: Routes = [
     path: 'event/:id',pathMatch: 'full',
     component : EventDetailComponent
   },
-
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'points',
+    component: PointsComponent,
+    canActivate: [RegisteredUserGuard]
+  },
+  {
+    path: 'registration',
+    component: RegistrationComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

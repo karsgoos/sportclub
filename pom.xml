@@ -24,11 +24,12 @@
 
     <modules>
         <!--<module>sportclub-album</module>-->
+
+        <module>sportclub-frontend</module>
         <module>sportclub-backend</module>
         <module>sportclub-common</module>
         <!--<module>sportclub-communication-batch</module>-->
         <module>sportclub-events</module>
-        <module>sportclub-frontend</module>
         <!--<module>sportclub-payment</module>
         <module>sportclub-points</module>
         <module>sportclub-template</module>
@@ -40,6 +41,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <sportclub.version>${project.version}</sportclub.version>
+        <start-class>com.realdolmen.sportclub.Application</start-class>
     </properties>
 
     <dependencyManagement>

@@ -13,7 +13,7 @@ public class RoleBuilder {
 
     private String name = "REGISTERED_USER";
 
-    private Set<Privilege> privileges = EnumSet.of(Privilege.CAN_CHANGE_PRIVILEGES);
+    private Set<Privilege> privileges = new LinkedHashSet<>();
 
     public RoleBuilder id(Long id){
         this.id = id;
@@ -27,7 +27,7 @@ public class RoleBuilder {
 
     public RoleBuilder addPrivilege(Privilege privilege){
         this.privileges.add(privilege);
-        this.privileges.add((Privilege.CAN_CHANGE_PRIVILEGES));
+
         return this;
     }
 
