@@ -126,6 +126,9 @@ public class EventServiceImpl implements EventService {
 		attendance.setOrdr(order);
 		order.addOrderable(attendance);
 		event.addAttendance(attendance);
+		if(event.getAttendancies().size() == event.getNumberParticipantsToSendMail()){
+			mailSenderService.sendMailNrParticipantsReached(event);
+		}
 		attendance.setOrdr(order);
 
 		orderRepository.save(order); // <<- saving the transient instance before flushing
