@@ -21,7 +21,7 @@
   <profiles>
     <profile>
       <id>build-frontend</id>
-      
+
       <activation>
         <activeByDefault>false</activeByDefault>
         <property>
