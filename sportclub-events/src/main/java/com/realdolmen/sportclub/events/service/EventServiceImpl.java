@@ -60,8 +60,11 @@ public class EventServiceImpl implements EventService {
 		for(int i=0;i<nrOfChildren;i++){
 			singleAttendanceToEvent(event,order,AgeCategory.CHILD);
 		}
-		
-		orderRepository.save(order);
+
+
+		if (nrOfAdults==0 && nrOfChildren==0) {
+			orderRepository.save(order);
+		}
 		eventRepository.save(event);
 		//TODO: send email
 	}
@@ -95,8 +98,8 @@ public class EventServiceImpl implements EventService {
 		Event event= eventRepository.findOne(Long.parseLong(eventId));
 		
 		singleAttendanceToEvent(event,order,AgeCategory.DEFAULT);
-		
-		orderRepository.save(order);
+
+
 		eventRepository.save(event);
 		//TODO: send email
 	}
@@ -119,10 +122,15 @@ public class EventServiceImpl implements EventService {
 			attendance.setAgeCategory(AgeCategory.DEFAULT);
 			attendance.setDescription(event.getName());
 		}
-		
-		attendanceRepository.save(attendance);
+
+		attendance.setOrdr(order);
 		order.addOrderable(attendance);
 		event.addAttendance(attendance);
+
+		orderRepository.save(order); // <<- saving the transient instance before flushing
+		attendanceRepository.save(attendance);
+
+
 	}
 	
 }

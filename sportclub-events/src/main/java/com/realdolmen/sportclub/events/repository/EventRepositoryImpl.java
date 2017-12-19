@@ -1,6 +1,5 @@
 package com.realdolmen.sportclub.events.repository;
 
-import com.realdolmen.sportclub.common.entity.Attendance;
 import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.common.entity.User;
 
