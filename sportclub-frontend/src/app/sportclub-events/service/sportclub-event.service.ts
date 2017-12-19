@@ -92,7 +92,7 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
       const options = {
         headers: new HttpHeaders(),
         params: params,
-      }
+      };
 
       return this.http.post('http://localhost:8080/api/events/'+eventId+'/attachment', formData, options);
   }

@@ -222,7 +222,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
         this.event.id = this.eventId;
         this.eventService.updateEvent(this.event).subscribe(message => {
           let event = message.value;
-          this.router.navigate(['/event', this.eventId]);
+          this.uploadAttachments(event);
         });
       }
       // if we are creating
@@ -233,34 +233,48 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
             return;
           }
           let event = message.value;
-          let id = event.id;
-          if(this.fileIsAttached){
-            this.eventService.saveAttachment(this.attachedFile, id).subscribe(
-              success => {},
-              error => {
-                if (error.error.error) {
-                  this.globalErrorMessages.push(error.error.error);
-                }
-              });
-          }
-          if(this.imageIsAttached){
-            this.eventService.saveImage(this.attachedImage, id).subscribe(
-              success => {},
-              error => {
-                if (error.error) {
-                  this.globalErrorMessages.push(error.error);
-                }
-              });
-          }
-          //TODO: make sure this only happen when both the file and the image are loaded
-          if (this.globalErrorMessages.length === 0) {
-            this.router.navigate(['/event', id]);
-          }
+          this.uploadAttachments(event);
         });
       }
     }
   }
 
+  private uploadAttachments(event: SportClubCreationEvent) {
+    let id = event.id;
+    if (this.fileIsAttached) {
+      this.eventService.saveAttachment(this.attachedFile, id).subscribe(
+        success => {
+          this.uploadImage(id);
+        },
+        error => {
+          if (error.error.error) {
+            this.globalErrorMessages.push(error.error.error);
+          }
+        });
+    } else {
+      this.uploadImage(id);
+    }
+  }
+
+  private uploadImage(id: any) {
+    if (this.imageIsAttached) {
+      this.eventService.saveImage(this.attachedImage, id).subscribe(
+        success => {
+          if (this.globalErrorMessages.length === 0) {
+            this.router.navigate(['/event', id]);
+          }
+        },
+        error => {
+          if (error.error) {
+            this.globalErrorMessages.push(error.error);
+          }
+        });
+    } else {
+      if (this.globalErrorMessages.length === 0) {
+        this.router.navigate(['/event', id]);
+      }
+    }
+  }
 
   /*
   return all of the moderators to show them in a dropdown menu

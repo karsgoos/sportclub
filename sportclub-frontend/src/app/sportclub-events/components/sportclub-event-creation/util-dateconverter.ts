@@ -55,8 +55,8 @@ export function convertDateString(input:string):string{
 }
 
 export function dateToPickerString(date: Date): string {
-  const monthNames = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+  const monthNames = ["Januari", "Februari", "Maart", "April", "Mei", "Juni",
+    "Juli", "Augustus", "September", "Oktober", "November", "December"
   ];
 
   let value = String(date.getDate()) + ' ' + monthNames[date.getMonth()] + ', ' + date.getFullYear();
