@@ -7,7 +7,9 @@
 
 <div class="container">
   <div class="card-panel hoverable large">
-    <a class="right btn-floating btn-large waves-effect waves-light" (click)="editEvent()" ><i class="material-icons">edit</i></a>
+    <!-- TODO hide if not moderator -->
+    <a class="right btn-floating btn-large waves-effect waves-light red modal-trigger" (click)="deleteEvent()" data-target="deleteModal" ><i class="material-icons">delete</i></a>
+    <a class="right btn-floating btn-large waves-effect waves-light" style="margin-right: 1ex" (click)="editEvent()" ><i class="material-icons">edit</i></a>
 
     <div class="row">
       <div class="col s12 m6 l3"><p> </p></div>
@@ -88,6 +90,7 @@
 
     <app-attending-modal> </app-attending-modal>
 
+    <app-delete-modal></app-delete-modal>
 
   </div>
 </div>

@@ -249,13 +249,14 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
-    public void delete(Long id) throws EventNotFoundException {
+    public Event delete(Long id) throws EventNotFoundException {
         Event event = find(id);
         for(Attendance attendance : event.getAttendancies()) {
             attendanceRepository.delete(attendance);
             orderRepository.delete(attendance.getOrdr());
         }
         repository.delete(event);
+        return event;
     }
 
     @Override

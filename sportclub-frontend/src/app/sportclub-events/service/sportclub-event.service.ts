@@ -74,8 +74,12 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
 
   }
 
-  updateEvent(event: Message<string>) {
+  updateEvent(event: SportClubCreationEvent) {
     super.update(event).subscribe();
+  }
+
+  deleteEvent(eventId: number) {
+    return this.http.delete(environment.eventApiUrl + '/' + eventId);
   }
 
   saveAttachment(file: File, eventId: number){

@@ -48,6 +48,17 @@ public class EventManagementController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "events/{id}")
+    public @ResponseBody
+    MessageDto delete(@PathVariable("id") Long id) {
+        try {
+            Event deleted = service.delete(id);
+            return new MessageDto(deleted);
+        } catch (EventNotFoundException e) {
+            return new MessageDto(e.getMessage());
+        }
+    }
+
     @RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "events/detail/{id}")
     public @ResponseBody
     MessageDto findEvent(@PathVariable("id") Long id) {

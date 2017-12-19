@@ -13,6 +13,7 @@ import {MenuBarComponent} from './menu-bar/menu-bar.component';
 import {RoleManagementPanelComponent} from './role-management-panel/role-management-panel.component';
 
 import {AttendingModalComponent} from "./sportclub-events/attending-modal/attending-modal.component";
+import {DeleteModalComponent} from "./sportclub-events/delete-modal/delete-modal.component";
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import {AttendingModalComponent} from "./sportclub-events/attending-modal/attend
     EventDetailComponent,
     AttendingModalComponent,
     RoleManagementPanelComponent,
+    DeleteModalComponent
   ],
   imports: [
     BrowserModule,
