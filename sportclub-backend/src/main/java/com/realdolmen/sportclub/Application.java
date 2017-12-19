@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -89,7 +90,7 @@ public class Application {
         u.setPassword("abc");
         Role r = new Role();
         r.setName("guest");
-        r.setPrivileges(new ArrayList<>());
+        r.setPrivileges(new HashSet<>());
         roleRepository.save(r);
         u.setRole(r);
         userRepository.save(u);

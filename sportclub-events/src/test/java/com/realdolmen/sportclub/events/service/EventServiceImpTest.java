@@ -164,7 +164,7 @@ public class EventServiceImpTest {
         assertEquals(3, nrOfChildren);
         Mockito.verify(userRepository).save(any(User.class));
         //TODO: test unsubscribelink
-        Mockito.verify(mailSenderService).sendMailGuestAttendPublicEvent(u, e, s, "http://www.realdolmen.com");
+        Mockito.verify(mailSenderService).sendMailGuestAttendPublicEvent(u, e,  "http://www.realdolmen.com");
     }
 
     @Test
