@@ -79,7 +79,7 @@
                   <goal>copy-resources</goal>
                 </goals>
                 <configuration>
-                  <outputDirectory>../sportclub-backend/target/classes/static</outputDirectory>
+                  <outputDirectory>../sportclub-backend/src/main/resources/static</outputDirectory>
                   <resources>
                     <resource>
                       <directory>dist</directory>
