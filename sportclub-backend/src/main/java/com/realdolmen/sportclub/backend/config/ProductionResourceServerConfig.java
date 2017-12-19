@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
-@Profile("production")
 @EnableResourceServer
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -33,8 +32,8 @@ public class ProductionResourceServerConfig extends ResourceServerConfigurerAdap
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/api/**").authenticated()
                 .antMatchers("/api/register/**").permitAll()
+                .antMatchers("/api/**").authenticated()
                 .antMatchers(HttpMethod.OPTIONS, "/oauth/token").permitAll()
                 .anyRequest().permitAll()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
