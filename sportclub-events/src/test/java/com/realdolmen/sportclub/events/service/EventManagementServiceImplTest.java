@@ -1,11 +1,11 @@
 package com.realdolmen.sportclub.events.service;
 
 import com.realdolmen.sportclub.common.entity.*;
+import com.realdolmen.sportclub.common.repository.EventRepository;
+import com.realdolmen.sportclub.common.repository.RecurringEventInfoRepository;
 import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
 import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
 import com.realdolmen.sportclub.events.exceptions.EventNotFoundException;
-import com.realdolmen.sportclub.events.repository.EventRepository;
-import com.realdolmen.sportclub.events.repository.RecurringEventInfoRepository;
 import com.realdolmen.sportclub.events.service.mail.MailSenderService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,7 +18,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
@@ -52,7 +51,7 @@ public class EventManagementServiceImplTest {
             @Override
             public Iterable<Event> answer(InvocationOnMock invocation) throws Throwable {
                 long id = 1L;
-                for(Event event : (Iterable<Event>)invocation.getArgument(0)) {
+                for (Event event : (Iterable<Event>) invocation.getArgument(0)) {
                     event.setId(id++);
                 }
                 return invocation.getArgument(0);

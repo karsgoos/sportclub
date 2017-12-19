@@ -42,7 +42,7 @@ export class EventOverviewModalComponent implements OnInit {
         console.error(message.error);
         this.events = [];
       } else {
-        this.events = JSON.parse(message.value);
+        this.events = message.value;
       }
     });
   }

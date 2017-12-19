@@ -1,8 +1,5 @@
 package com.realdolmen.sportclub.common.dto;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 // Use this to return json messages in controllers
 public class MessageDto {
 
@@ -12,31 +9,9 @@ public class MessageDto {
     //this field is where the response will be if no errors.
     private Object value;
 
-    public MessageDto(String error) {
-        this.error = error;
-        this.value = "";
-    }
-
-    public MessageDto(Object value) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            this.value = mapper.writeValueAsString(value);
-            this.error = "";
-        } catch (JsonProcessingException e) {
-            this.error = e.getMessage();
-            this.value = "";
-        }
-    }
-
     public MessageDto(String error, Object value) {
-        ObjectMapper mapper = new ObjectMapper();
         this.error = error;
-        try {
-            this.value = mapper.writeValueAsString(value);
-        } catch (JsonProcessingException e) {
-            this.error = e.getMessage();
-            this.value = "";
-        }
+        this.value = value;
     }
 
     public String getError() {

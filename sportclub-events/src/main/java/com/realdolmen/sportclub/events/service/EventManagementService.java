@@ -90,7 +90,7 @@ public interface EventManagementService {
 
     MediaType getImageMimeTypeForEvent(Long id) throws EventNotFoundException;
 
-    Event delete(Long id) throws EventNotFoundException;
+    void delete(Long id) throws EventNotFoundException;
 
     List<Event> getAllEventsWithReminderDateInLastHour();
 }
