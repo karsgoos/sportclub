@@ -7,15 +7,14 @@ import {SportClubUserManagementModule} from './sportclub-user-management/sportcl
 import {HttpModule} from '@angular/http';
 import {SportClubEventsModule} from './sportclub-events/sportclub-events.module';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {ApiModule} from './api/api.module';
 import {LoginModule} from './login/login.module';
 import {FormsModule} from '@angular/forms';
-import { PointsComponent } from './points/points.component';
+import {PointsComponent} from './points/points.component';
 import {AuthInterceptor} from './login/services/auth.interceptor';
 import {AuthenticationService} from './login/services';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { RegistrationComponent } from './registration/registration.component';
-
+import {NavMenuComponent} from './nav-menu/nav-menu.component';
+import {RegistrationComponent} from './registration/registration.component';
+import {RegisteredUserGuard} from './guard/registered-user.guard';
 
 @NgModule({
   declarations: [
@@ -29,10 +28,10 @@ import { RegistrationComponent } from './registration/registration.component';
     useClass: AuthInterceptor,
     multi: true
   },
-  AuthenticationService],
+    RegisteredUserGuard,
+    AuthenticationService],
   imports: [
     BrowserModule,
-    ApiModule,
     HttpModule,
     LoginModule,
     HttpClientModule,
@@ -43,5 +42,6 @@ import { RegistrationComponent } from './registration/registration.component';
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
 }

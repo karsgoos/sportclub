@@ -16,7 +16,7 @@ export class PointsComponent implements OnInit {
   subTotal: number = 0;
   points: any[] = [];
 
-  constructor(private _http: HttpClient, private authService: AuthenticationService) {
+  constructor(private _http: HttpClient, public authService: AuthenticationService) {
   }
 
   ngOnInit(): void {

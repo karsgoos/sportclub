@@ -10,6 +10,9 @@ import {Router} from "@angular/router";
 
 @Injectable()
 export class AuthenticationService {
+  private access_token: string;
+  private refresh_token: string;
+  private authorities: string;
 
   constructor(private http: HttpClient, private router: Router) {
   }
@@ -32,6 +35,7 @@ export class AuthenticationService {
         authorities.push(authority['authority']);
       }
 
+      this.authorities = authorities.join(',');
       localStorage.setItem('authorities', authorities.join(','));
     });
   }
@@ -39,7 +43,7 @@ export class AuthenticationService {
     /*USER api method voorzien waarbij je de usergegevens zonder pwd krijgt*/
   fetchUser() {
     return this.http.get('http://localhost:8080/api/user')
-      .map(user => localStorage.setItem('user', JSON.stringify(user)), () => localStorage.removeItem('access_token'));
+      .map(user => localStorage.setItem('user', JSON.stringify(user)));
   }
 
   // NICO: Try refreshing access token
@@ -85,4 +89,15 @@ export class AuthenticationService {
     }
   }
 
+  getCurrentAuthorities(): string[] {
+    const authorities = localStorage.getItem('authorities');
+
+    let currentAuthorities: string[];
+
+    if (authorities) {
+      currentAuthorities = authorities.split(',');
+    }
+
+    return currentAuthorities;
+  }
 }
