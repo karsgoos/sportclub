@@ -11,11 +11,11 @@ import {AttendingModalComponent} from "./sportclub-events/attending-modal/attend
 
 const routes: Routes = [
   {
-    path: 'events/creation',
+    path: 'evenementen/aanmaken',
     component: SportclubEventCreationComponent
   },
   {
-    path: 'events/edit/:id', pathMatch: 'full',
+    path: 'evenementen/aanpassen/:id', pathMatch: 'full',
     component: SportclubEventCreationComponent
   },
   {

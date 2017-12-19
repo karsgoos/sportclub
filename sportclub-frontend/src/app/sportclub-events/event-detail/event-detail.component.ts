@@ -42,7 +42,7 @@ export class EventDetailComponent implements OnInit {
   }
 
   editEvent() {
-    this.router.navigate(['/events/edit', this.eventModel.id]);
+    this.router.navigate(['/evenementen/aanpassen', this.eventModel.id]);
   }
 
   deleteEvent() {
