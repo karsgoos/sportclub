@@ -16,33 +16,13 @@ export class EventListParticipantsService {
      var url = environment.eventApiUrl + "/" + id + "/participants";
 
      return this.http.get<Participant[]>(url);
-
-  //fake data as long as the service doesn't work
-  //getParticipantsByEventId(id: number): Participant[] {
-
-  //  return this.participants;
   }
 
   exportList(id: number) {
-    var url = environment.eventApiUrl + id + "/attendees";
+    var url = environment.eventApiUrl + "/" + id + "/attendees";
 
     window.open(url, "_blank");
   }
-
-  private participants: Participant[] = [
-  {
-    firstName: "Marcske",
-    lastName: "Vertongen",
-    numberOfAdults: 5,
-    numberOfChildren: 2
-  },
-  {
-    firstName: "Balthazar",
-    lastName: "Boma",
-    numberOfAdults: 3,
-    numberOfChildren: 0
-  }
-  ];
 
 
 }
