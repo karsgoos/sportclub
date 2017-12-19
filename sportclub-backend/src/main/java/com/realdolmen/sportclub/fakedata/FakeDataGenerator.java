@@ -154,6 +154,23 @@ public class FakeDataGenerator {
             registeredUserRepository.save(parentBuilder.build());
         }
 
+
+        Address address = new AddressBuilder().build();
+        RegisteredUserBuilder parentBuilder = new RegisteredUserBuilder()
+                .firstName("Bert")
+                .lastName("Vermeulen")
+                .email("bv@gmail.com")
+                .address(address)
+                .gender(Gender.MAN)
+                .role(registeredUser)
+                .addEnrollment(enrollment)
+                .phoneNumber("0494daziedevanhier")
+                .password("test")
+                .totalPoints(100)
+                .isSelfManaged(true);
+
+        registeredUserRepository.save(parentBuilder.build());
+
         // TODO: Fix proper way of adding parents to childs and vice versa
         /*for (int j = 0; j <= CHILDSPERPARENT; j++) {
             String childFirstName = "Child" + j;

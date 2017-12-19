@@ -10,6 +10,10 @@ export class RegisteredUserGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this.authService.getCurrentAuthorities().includes('REGISTERED_USER_PRIVILEGES');
+    if (!!this.authService.getCurrentAuthorities()) {
+      return this.authService.getCurrentAuthorities().includes('REGISTERED_USER_PRIVILEGES');
+    }
+
+    return !!this.authService.getCurrentAuthorities();
   }
 }

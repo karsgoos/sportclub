@@ -11,7 +11,6 @@ public class MessageDto {
     private Object value;
 
     public MessageDto(String error, Object value) {
-
         this.error = error;
         this.value = value;
     }
