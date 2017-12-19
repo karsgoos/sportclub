@@ -41,13 +41,6 @@ public class Enrollment {
     @ManyToOne
     private MembershipType membershipType;
 
-    public MembershipType getMembershipType() {
-        return membershipType;
-    }
-
-    public void setMembershipType(MembershipType membershipType) {
-        this.membershipType = membershipType;
-    }
 
     public Long getId() {
         return id;

@@ -10,6 +10,10 @@ public interface MailSenderService {
 
     void sendMailGuestAttendPublicEvent(Guest guest, Event event, String unsubscribeLink);
 
+    void sendMailPaymentEventReceived(User user, Event event);
+
+    void sendMailPaymentEnrollmentReceived(UserEnrollment userEnrollment);
+
     void sendMailEnrollmentEnding(UserEnrollment userEnrollment);
 
     void sendMail(Email email);

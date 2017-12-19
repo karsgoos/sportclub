@@ -29,7 +29,7 @@ public class MailContentBuilder {
     private Sportclub sportclub;
 
     @Autowired
-    public MailContentBuilder(TemplateEngine templateEngine,   SportclubRepository sportclubRepository){
+    public MailContentBuilder(TemplateEngine templateEngine, SportclubRepository sportclubRepository) {
         super();
         this.templateEngine = templateEngine;
         this.sportclub = sportclubRepository.findOne(1L);
@@ -55,12 +55,33 @@ public class MailContentBuilder {
         return templateEngine.process("guestAttendPublicEventTemplate", context);
     }
 
-    public String buildMailEnrollmentEnding(User user, MembershipType membershipType){
+    public String buildMailEnrollmentEnding(User user, MembershipType membershipType) {
         Context context = new Context();
 
         context.setVariable("user", user);
         context.setVariable("membershipType", membershipType);
         context.setVariable("sportclub", sportclub);
-        return templateEngine.process("enrollementEnding", context);
+        return templateEngine.process("enrollmentEnding", context);
+    }
+
+    public String buildMailPaymentForEventReceived(User user, Event event) {
+        Context context = new Context();
+
+        context.setVariable("user", user);
+        context.setVariable("event", event);
+        context.setVariable("sportclub", sportclub);
+        if (event.getRecurringEventInfo() == null) {
+            return templateEngine.process("paymentForSingleEventReceived", context);
+        }
+        return templateEngine.process("paymentForRecurringEventReceived", context);
+    }
+
+    public String buildMailPaymentForEnrollmentReceived(User user, Enrollment enrollment) {
+        Context context = new Context();
+
+        context.setVariable("user", user);
+        context.setVariable("enrollment", enrollment);
+        context.setVariable("sportclub", sportclub);
+                return templateEngine.process("paymentForEnrollmentReceived", context);
     }
 }

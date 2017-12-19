@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body style="text-align: center;">
+<div style="background-color: #ee6e73; height: 3em;">
+    <h3><span th:text="${sportclub.getName()}"></span></h3>
+</div>
+<div>
+    Geachte,
+    <span th:text="${user.getFirstName()} "></span>
+
+    <span th:text="${user.getLastName()}"></span>
+    <br/>
+    <br />
+
+    Uw betaling voor ${event.getName()} voor de periode ${event.getRecurringEventInfo.getStartDate()} - ${event.getRecurringEventInfo.getEndDate()} - werd succesvol ontvangen. Veel plezier!
+</div>
+
+
+</body>
+</html>
