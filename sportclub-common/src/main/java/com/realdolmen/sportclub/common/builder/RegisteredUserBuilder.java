@@ -22,11 +22,17 @@ public class RegisteredUserBuilder extends User {
     private String mobileNumber = "0470893956";
     private String password = "oo-la-la";
     private List<User> childAccounts = new ArrayList<>();
+    private RegisteredUser parent;
     private List<Enrollment> enrollments = new ArrayList<>();
     private int totalPoints = 5;
     private boolean isOnAutomaticMailList = false;
     private String nonEditableField = "KIDJQF";
     private boolean isSelfManaged;
+
+    public String getEmail() {
+        return this.email;
+    }
+
     public RegisteredUserBuilder(){
 
     }
@@ -48,6 +54,11 @@ public class RegisteredUserBuilder extends User {
 
     public RegisteredUserBuilder role(Role role){
         this.role = role;
+        return this;
+    }
+
+    public RegisteredUserBuilder parent(RegisteredUser parent){
+        this.parent = parent;
         return this;
     }
 
@@ -129,8 +140,29 @@ public class RegisteredUserBuilder extends User {
         user.setOnAutomaticMailList(this.isOnAutomaticMailList);
         user.setNonEditableField(this.nonEditableField);
         user.setSelfManaged(this.isSelfManaged);
+        user.setParent(null);
         return user;
     }
 
-
+    public RegisteredUser build(RegisteredUser parent){
+        RegisteredUser user = new RegisteredUser();
+        user.setEmail(this.email);
+        user.setFirstName(this.firstName);
+        user.setLastName(this.lastName);
+        user.setRole(this.role);
+        user.setDateOfBirth(this.dateOfBirth);
+        user.setGender(this.gender);
+        user.setAddress(this.address);
+        user.setPhoneNumber(this.phoneNumber);
+        user.setMobileNumber(this.mobileNumber);
+        user.setPassword(this.password);
+        user.setChildAccounts(this.childAccounts);
+        user.setEnrollments(this.enrollments);
+        user.setTotalPoints(this.totalPoints);
+        user.setOnAutomaticMailList(this.isOnAutomaticMailList);
+        user.setNonEditableField(this.nonEditableField);
+        user.setSelfManaged(this.isSelfManaged);
+        user.setParent(parent);
+        return user;
+    }
 }
