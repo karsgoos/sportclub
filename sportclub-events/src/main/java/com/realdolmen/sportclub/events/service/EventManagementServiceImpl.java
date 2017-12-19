@@ -228,10 +228,18 @@ public class EventManagementServiceImpl implements EventManagementService {
 
     @Override
     public void saveImage(Long id, MultipartFile image) throws IOException {
-        Event event = repository.findOne(id);
-        event.setImage(image.getBytes());
-        event.setImageMimeType(image.getContentType().toLowerCase());
-        repository.save(event);
+        if(isImage(image)) {
+            Event event = repository.findOne(id);
+            event.setImage(image.getBytes());
+            event.setImageMimeType(image.getContentType().toLowerCase());
+            repository.save(event);
+        } else {
+            throw new IllegalArgumentException("Het bestand moet een geldige afbeelding zijn.");
+        }
+    }
+
+    private boolean isImage(MultipartFile image) {
+        return image.getContentType().toLowerCase().startsWith("image");
     }
 
     @Override

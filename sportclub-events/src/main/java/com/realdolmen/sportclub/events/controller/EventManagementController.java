@@ -105,6 +105,8 @@ public class EventManagementController {
             service.saveAttachment(id, attachment);
         } catch (IOException e) {
             return new ResponseEntity<>(new MessageDto(null), HttpStatus.BAD_REQUEST);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(new MessageDto("Het opgegeven bestand moet in PDF formaat zijn."), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity(new MessageDto(null), HttpStatus.CREATED);
@@ -121,6 +123,8 @@ public class EventManagementController {
             service.saveImage(id, attachment);
         } catch (IOException e) {
             return new ResponseEntity<>(new MessageDto(null), HttpStatus.BAD_REQUEST);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(new MessageDto("Het opgegeven bestand moet een afbeelding zijn (GIF/JPG/PNG)."), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity(new MessageDto(null), HttpStatus.CREATED);
@@ -149,4 +153,6 @@ public class EventManagementController {
     byte[] exportAttendees(@PathVariable("id") Long id) throws EventExportException, EventNotFoundException {
         return service.exportAttendanceList(id);
     }
+
+
 }

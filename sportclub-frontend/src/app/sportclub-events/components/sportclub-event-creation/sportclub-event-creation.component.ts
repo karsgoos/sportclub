@@ -575,13 +575,27 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
           let event = JSON.parse(message.value);
           let id = event.id;
           if(this.fileIsAttached){
-            this.eventService.saveAttachment(this.attachedFile, id).subscribe();
+            this.eventService.saveAttachment(this.attachedFile, id).subscribe(
+              success => {},
+              error => {
+                if (error.error.error) {
+                  this.globalErrorMessages.push(error.error.error);
+                }
+              });
           }
           if(this.imageIsAttached){
-            this.eventService.saveImage(this.attachedImage, id).subscribe();
+            this.eventService.saveImage(this.attachedImage, id).subscribe(
+              success => {},
+              error => {
+                if (error.error) {
+                  this.globalErrorMessages.push(error.error);
+                }
+              });
           }
           //TODO: make sure this only happen when both the file and the image are loaded
-          this.router.navigate(['/event', id]);
+          if (this.globalErrorMessages.length === 0) {
+            this.router.navigate(['/event', id]);
+          }
         });
       }
     }
