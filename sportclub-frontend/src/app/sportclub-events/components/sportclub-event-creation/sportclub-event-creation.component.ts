@@ -244,26 +244,35 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
     if (this.fileIsAttached) {
       this.eventService.saveAttachment(this.attachedFile, id).subscribe(
         success => {
+          this.uploadImage(id);
         },
         error => {
           if (error.error.error) {
             this.globalErrorMessages.push(error.error.error);
           }
         });
+    } else {
+      this.uploadImage(id);
     }
+  }
+
+  private uploadImage(id: any) {
     if (this.imageIsAttached) {
       this.eventService.saveImage(this.attachedImage, id).subscribe(
         success => {
+          if (this.globalErrorMessages.length === 0) {
+            this.router.navigate(['/event', id]);
+          }
         },
         error => {
           if (error.error) {
             this.globalErrorMessages.push(error.error);
           }
         });
-    }
-    //TODO: make sure this only happen when both the file and the image are loaded
-    if (this.globalErrorMessages.length === 0) {
-      this.router.navigate(['/event', id]);
+    } else {
+      if (this.globalErrorMessages.length === 0) {
+        this.router.navigate(['/event', id]);
+      }
     }
   }
 

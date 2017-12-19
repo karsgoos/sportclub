@@ -62,9 +62,17 @@ public class EventManagementServiceImpl implements EventManagementService {
     private List<Event> calculateRecurrentEvents(Event event, boolean isUpdate) throws CouldNotCreateEventException {
         List<Event> eventsToCreate = new ArrayList<>();
         // Also copy all attendancies to the new event from the repository.
+        // Don't remove attachments if this is an update.
         if (isUpdate) {
             Event fromRepository = repository.findOne(event.getId());
             fromRepository.getAttendancies().forEach(event::addAttendance);
+            if (event.getAttachement() == null) {
+                event.setAttachement(fromRepository.getAttachement());
+            }
+            if (event.getImageMimeType() == null) {
+                event.setImageMimeType(fromRepository.getImageMimeType());
+                event.setImage(fromRepository.getImage());
+            }
         }
         if (event.getRecurringEventInfo() != null) {
             event.setRecurringEventInfo(recurringEventInfoRepository.save(event.getRecurringEventInfo()));
@@ -114,11 +122,16 @@ public class EventManagementServiceImpl implements EventManagementService {
                     // same attachment or image again.
                     // For this reason, we want to load the current event
                     // from the repository and obtain its attachment and image.
+                    // Unless... the new event has an attachment or image set.
                     if (isUpdate) {
                         Event fromRepository = repository.findOne(event.getId());
-                        newEvent.setAttachement(fromRepository.getAttachement());
-                        newEvent.setImageMimeType(fromRepository.getImageMimeType());
-                        newEvent.setImage(fromRepository.getImage());
+                        if (event.getAttachement() == null) {
+                            newEvent.setAttachement(fromRepository.getAttachement());
+                        }
+                        if (event.getImageMimeType() == null) {
+                            newEvent.setImageMimeType(fromRepository.getImageMimeType());
+                            newEvent.setImage(fromRepository.getImage());
+                        }
                     } else {
                         newEvent.setAttachement(event.getAttachement());
                         newEvent.setImage(event.getImage());
