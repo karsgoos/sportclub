@@ -188,16 +188,11 @@ public class EventManagementServiceImpl implements EventManagementService {
 
     @Override
     @Transactional
-    public List<AttendEventDTO> findParticipantsOfEvent(Long id) {
-        Event event = repository.findOne(id);
-
-
+    public List<AttendEventDTO> findParticipantsOfEvent(Long eventId) {
+        Event event = repository.findOne(eventId);
 
         List<Attendance> attendanceList = event.getAttendancies();
-
-
         Map<Long, AttendEventDTO> attendEventDTOMap = new HashMap<>();
-
 
         for (Attendance attendance : attendanceList) {
             User user = attendance.getOrdr().getUser();
@@ -209,7 +204,7 @@ public class EventManagementServiceImpl implements EventManagementService {
 
             attendEventDTO.setUserId(String.valueOf(user.getId()));
             attendEventDTO.setEmail(user.getEmail());
-            attendEventDTO.setEventId(String.valueOf(id));
+            attendEventDTO.setEventId(String.valueOf(eventId));
             attendEventDTO.setFirstName(user.getFirstName());
             attendEventDTO.setLastName(user.getLastName());
 
@@ -222,16 +217,13 @@ public class EventManagementServiceImpl implements EventManagementService {
                 attendEventDTO.setNrOfChildren(attendEventDTO.getNrOfChildren() + 1);
             }
 
-
             attendEventDTOMap.put(user.getId(), attendEventDTO);
         }
 
         List<AttendEventDTO> attendEventDTOList = new ArrayList<>();
-        for (Long dtoId : attendEventDTOMap.keySet()){
+        for (Long dtoId : attendEventDTOMap.keySet()) {
             attendEventDTOList.add(attendEventDTOMap.get(dtoId));
         }
-
-
         return attendEventDTOList;
     }
 

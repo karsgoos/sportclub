@@ -62,7 +62,8 @@
       </div>
 
       <div class="col s12 m6 l3">
-        <span>Beschikbare plaatsen: {{eventModel?.maxParticipants}}</span>
+        <span *ngIf="eventModel?.attendancies != undefined">Beschikbare plaatsen: {{calculateAvailableSpace()}}</span>
+        <span *ngIf="eventModel?.attendancies == undefined">Beschikbare plaatsen: {{eventModel?.maxParticipants}}</span>
       </div>
 
       <div class="col s12 m6 l3"><p> </p></div>

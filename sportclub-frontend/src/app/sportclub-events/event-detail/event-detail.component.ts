@@ -3,8 +3,9 @@ import {SportClubEvent} from "../../common/model/sportclub-event-model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SportClubEventService} from "../service/sportclub-event.service";
 import {AttendingModalComponent} from "../attending-modal/attending-modal.component";
+import {isNullOrUndefined} from "util";
 
-declare var $ :any;
+declare var $: any;
 
 @Component({
   selector: 'event-detail',
@@ -17,7 +18,8 @@ export class EventDetailComponent implements OnInit {
 
   @ViewChild(AttendingModalComponent) modal: AttendingModalComponent;
 
-  constructor(private route: ActivatedRoute, private router:Router, private sportClubEventService :SportClubEventService) {  }
+  constructor(private route: ActivatedRoute, private router: Router, private sportClubEventService: SportClubEventService) {
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -26,14 +28,35 @@ export class EventDetailComponent implements OnInit {
     $('.materialboxed').materialbox();
   }
 
+  calculateAvailableSpace() {
+    var currentTotal = 0;
+    var countAttendancies = 0;
 
+    if (!isNullOrUndefined(this.eventModel.attendancies)) {
 
-  subscribe(){
-    this.router.navigate(['/event/'+this.eventModel.id+'/subscribe']);
+      //Only calculate the attendacies that are not cancelled
+      for (var i = 0; i < this.eventModel.attendancies.length; i++) {
+
+        if (!this.eventModel.attendancies[i].cancelled) {
+          countAttendancies += 1;
+        }
+      }
+    }
+
+    currentTotal = this.eventModel.maxParticipants - countAttendancies;
+
+    if (currentTotal < 0) {
+      return 0;
+    }
+    return currentTotal;
+  }
+
+  subscribe() {
+    this.router.navigate(['/event/' + this.eventModel.id + '/subscribe']);
 
   }
 
-  subscribeModal(){
+  subscribeModal() {
     this.modal.show();
   }
 

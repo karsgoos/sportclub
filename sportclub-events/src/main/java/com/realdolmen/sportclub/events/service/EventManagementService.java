@@ -60,10 +60,10 @@ public interface EventManagementService {
 
     /**
      * Return a list attendees of the Event with ID (@code id) to an api call
-     * @param id The id of the event
+     * @param eventId The id of the event
      * @return A Json file of attendees
      */
-    List<AttendEventDTO> findParticipantsOfEvent(Long id);
+    List<AttendEventDTO> findParticipantsOfEvent(Long eventId);
 
     /**
      * Obtain a list of cancelled attendances for a given event.

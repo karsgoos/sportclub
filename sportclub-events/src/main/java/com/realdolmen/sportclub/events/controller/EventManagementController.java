@@ -88,14 +88,13 @@ public class EventManagementController {
     /**
      * Returns a Json list of event participants including number of adults and children
      *
-     * @param id  event id
+     * @param id event id
      * @return json list of event participants
      * @throws EventNotFoundException
      */
     @RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "events/{id}/participants")
     public @ResponseBody
     List<AttendEventDTO> findParticipantsOnEvent(@PathVariable("id") Long id) throws EventNotFoundException {
-        // TODO participants REST return
         return service.findParticipantsOfEvent(id);
     }
 
