@@ -38,12 +38,12 @@ public class Event implements Serializable {
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
     private LocalDateTime startDate;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
     private LocalDateTime endDate;
 
     @Embedded
@@ -52,7 +52,7 @@ public class Event implements Serializable {
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
     private LocalDateTime deadline;
 
     @NotNull
@@ -98,16 +98,17 @@ public class Event implements Serializable {
     @ManyToOne
     private RecurringEventInfo recurringEventInfo;
 
-    @OneToMany
+    @OneToMany(mappedBy = "event")
     @JsonIgnoreProperties("event")
     private List<Attendance> attendancies = new ArrayList<>();
 
-    @JsonIgnore @Lob
+    @JsonIgnore
+    @Lob
     private byte[] attachement;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
     private LocalDateTime reminderDate;
 
     public Long getId() {

@@ -1,8 +1,12 @@
+// ------ Initialiseren --------
+
 $( document ).ready(function() {
 
+  // Init Sidenav (Menu header)
   $(".button-collapse").sideNav();
 
 
+  // Init Dropdown
   $('.dropdown-button').dropdown({
       inDuration: 300,
       outDuration: 225,
@@ -14,4 +18,9 @@ $( document ).ready(function() {
       stopPropagation: false // Stops event propagation
     }
   );
+
+  // Init select box (combobox)
+  $(document).ready(function() {
+    $('select').material_select();
+  });
 });

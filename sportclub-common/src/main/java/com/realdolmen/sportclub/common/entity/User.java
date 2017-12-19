@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.persistence.*;
 
 @Entity
-@Inheritance
+@Inheritance(strategy=InheritanceType.JOINED)
 public abstract class User {
 
     @Id

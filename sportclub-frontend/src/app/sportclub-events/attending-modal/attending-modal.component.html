@@ -1,0 +1,100 @@
+<div id="modal1" class="modal">
+  <div class="modal-content">
+<div *ngIf="!naam; else forminfo">
+  <form [formGroup]="rForm">
+    <div class="form-container">
+      <div class="row columns">
+        <p *ngIf="eventModel !=null">
+          Inschrijven in {{eventModel.name}} op {{eventModel.startDate}}
+        </p>
+        <label>
+          Naam <input type="text" formControlName="naam">
+
+        </label>
+        <div class="alert" *ngIf="rForm.get('naam').errors?.required && rForm.get('naam').dirty">
+
+          Dit is een verplicht veld
+        </div>
+        <div class="alert" *ngIf="rForm.get('naam').errors?.pattern && rForm.get('naam').dirty">
+          Geen geldige naam
+        </div>
+
+        <label>
+          Voornaam <input type="text" formControlName="voornaam">
+
+        </label>
+        <div class="alert" *ngIf="rForm.get('voornaam').errors?.required && rForm.get('voornaam').dirty">
+          Dit is een verplicht veld
+      </div>
+        <div class="alert" *ngIf="rForm.get('voornaam').errors?.pattern && rForm.get('voornaam').dirty">
+          Geen geldige voornaam
+        </div>
+        <label>
+          E-mailadres <input type="email" formControlName="email">
+
+        </label>
+        <div class="alert" *ngIf="rForm.get('email').errors?.required && rForm.get('email').touched">
+          Dit is een verplicht veld
+        </div>
+        <div class="alert" *ngIf="rForm.get('email').errors?.pattern && rForm.get('email').touched">
+          Vul een geldig e-mailadres in
+        </div>
+
+        <label>
+          Aantal volwassenen <input type="number" formControlName="numberOfAdults">
+
+        </label>
+        <div class="alert" *ngIf="rForm.get('numberOfAdults').errors?.required && rForm.get('numberOfAdults').dirty">
+          Dit is een verplicht veld
+        </div>
+        <div class="alert" *ngIf="rForm.get('numberOfAdults').errors?.pattern && rForm.get('numberOfAdults').dirty">
+          Vul een aantal in
+        </div>
+        <label>
+          Aantal kinderen <input type="number" formControlName="numberOfChildren">
+
+        </label>
+
+        <div class="alert" *ngIf="rForm.get('numberOfChildren').errors?.required && rForm.get('numberOfChildren').dirty">
+          Dit is een verplicht veld
+        </div>
+        <div class="alert" *ngIf="rForm.get('numberOfChildren').errors?.pattern && rForm.get('numberOfChildren').dirty">
+          Vul een aantal in
+        </div>
+
+            <div *ngIf="!rForm.valid">
+              <a class="btn disabled waves-effect waves-light btn" (click)="addEvent(rForm.value)">Inschrijven</a>
+            </div>
+
+            <div *ngIf="rForm.valid">
+              <a class="waves-effect waves-light btn modal-close" (click)="addEvent(rForm.value)">Inschrijven</a>
+            </div>
+
+
+            <!--<input type="button" class="button expanded" value="Inschrijvin" [disabled]="!rForm.valid" (click)="addEvent(rForm.value)">-->
+
+          </div>
+
+
+        </div>
+
+      </form>
+
+
+    </div>
+  </div>
+</div>
+
+<ng-template #forminfo>
+  <div class="form-container">
+    <div class="row columns">
+
+
+    </div>
+
+
+  </div>
+
+
+</ng-template>
+
