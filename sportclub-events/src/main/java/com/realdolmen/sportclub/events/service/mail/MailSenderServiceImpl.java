@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
@@ -19,6 +21,7 @@ import java.time.LocalDateTime;
  * Created by FVDBF69 on 13/12/2017.
  */
 @Component("javasampleapproachMailSender")
+@EnableAsync
 public class MailSenderServiceImpl implements MailSenderService {
 
 
@@ -84,6 +87,7 @@ public class MailSenderServiceImpl implements MailSenderService {
         sendMail(email);
     }
 
+    @Async
     public void sendMail(Email email) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);

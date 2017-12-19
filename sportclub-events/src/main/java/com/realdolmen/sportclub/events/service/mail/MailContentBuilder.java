@@ -90,4 +90,21 @@ public class MailContentBuilder {
         context.setVariable("endDate", enrollment.getEndDate().format(formatter));
         return templateEngine.process("paymentForEnrollmentReceived", context);
     }
+
+    public String buildGuestMailEventChanged(Guest guest, Event event, Sportclub sportclub, String unsubscribeLink) {
+
+        Context context = new Context();
+
+        context.setVariable("guest", guest);
+        context.setVariable("event", event);
+        context.setVariable("startDatum", event.getStartDate().format(formatter));
+        context.setVariable("startUur", event.getStartDate().format(timeFormatter));
+        context.setVariable("eindDatum", event.getEndDate().format(formatter));
+        context.setVariable("eindUur", event.getEndDate().format(timeFormatter));
+        context.setVariable("sportclub", sportclub);
+        context.setVariable("unsubscribeLink", unsubscribeLink);
+
+        return templateEngine.process("guestAttendPublicEventTemplate", context);
+    }
+
 }
