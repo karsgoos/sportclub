@@ -1,5 +1,7 @@
 package com.realdolmen.sportclub.common.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import javax.validation.constraints.NotNull;
@@ -18,6 +20,7 @@ public abstract class Orderable {
     private String description;
 
     @ManyToOne
+    @JsonIgnoreProperties("orderables")
     private Order ordr;
 
     public Long getId() {

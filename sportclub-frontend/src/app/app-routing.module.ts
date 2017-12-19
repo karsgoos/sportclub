@@ -7,6 +7,8 @@ import {PointsComponent} from './points/points.component';
 import {RegistrationComponent} from "./registration/registration.component";
 import {RegisteredUserGuard} from './guard/registered-user.guard';
 
+
+
 const routes: Routes = [
   {
     path: 'user-management',

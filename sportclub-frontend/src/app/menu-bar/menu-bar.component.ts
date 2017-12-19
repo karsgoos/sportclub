@@ -1,14 +1,12 @@
-import {Component, Injectable} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthenticationService} from '../login/services/authentication.service';
 
 @Component({
-  selector: 'app-nav-menu',
-  templateUrl: './nav-menu.component.html',
-  styleUrls: ['./nav-menu.component.css']
+  selector: 'app-menu-bar',
+  templateUrl: './menu-bar.component.html',
+  styleUrls: ['./menu-bar.component.css']
 })
-
-@Injectable()
-export class NavMenuComponent {
+export class MenuBarComponent {
   constructor(private auth: AuthenticationService) {
   }
 

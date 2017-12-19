@@ -1,0 +1,31 @@
+<nav>
+  <div class="nav-wrapper">
+    <ul class="left hide-on-med-and-down">
+      <a class='dropdown-button btn' href='#' data-activates='dropdown1'><i class="material-icons">menu</i></a>
+      <ul id='dropdown1' class='dropdown-content'>
+        <li><a href="#">Leden beheer<i class="material-icons">build</i></a></li>
+        <li><a href="#">Punten beheer<i class="material-icons">build</i></a></li>
+        <li><a href="#">Club info<i class="material-icons">info_outline</i></a></li>
+        <li><a href="#">Print registratie <i class="material-icons">print</i></a></li>
+      </ul>
+      <!-- Hier extra links toevoegen-->
+    </ul>
+    <!-- Slider navigatie bij mobiele schermen -->
+    <ul class="side-nav" id="mobile-demo">
+      <li><a href="#">Leden beheer<i class="material-icons">build</i></a></li>
+      <li><a href="#">Punten beheer<i class="material-icons">build</i></a></li>
+      <li><a href="#">Club info<i class="material-icons">info_outline</i></a></li>
+      <li><a href="#">Print registratie <i class="material-icons">print</i></a></li>
+      <!-- Hier extra links toevoegen-->
+    </ul>
+
+    <ul class="right" *ngIf="!isLoggedIn()" >
+      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+      <li><a routerLink="/registration" routerLinkActive="active">Register</a></li>
+    </ul>
+    <ul class="right" *ngIf="isLoggedIn()">
+      <li><a routerLink="/points" routerLinkActive="active">Hello {{getUser().firstName}}</a></li>
+      <li><a (click)="logout()" routerLinkActive="active">Log out</a></li>
+    </ul>
+  </div>
+</nav>

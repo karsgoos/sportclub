@@ -10,7 +10,7 @@ public class Address {
     private String street;
 
     @NotNull
-    private int homeNumber;
+    private String homeNumber;
 
     @NotNull
     private String postalCode;
@@ -29,11 +29,11 @@ public class Address {
         this.street = street;
     }
 
-    public int getHomeNumber() {
+    public String getHomeNumber() {
         return homeNumber;
     }
 
-    public void setHomeNumber(int homeNumber) {
+    public void setHomeNumber(String homeNumber) {
         this.homeNumber = homeNumber;
     }
 
