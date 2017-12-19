@@ -5,6 +5,7 @@ import com.realdolmen.sportclub.common.repository.AttendanceRepository;
 import com.realdolmen.sportclub.common.repository.EventRepository;
 import com.realdolmen.sportclub.common.repository.OrderRepository;
 import com.realdolmen.sportclub.common.repository.RecurringEventInfoRepository;
+import com.realdolmen.sportclub.events.DTO.AttendEventDTO;
 import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.events.service.export.EventExcelExporter;
 import com.realdolmen.sportclub.events.service.mail.MailSenderService;
@@ -20,10 +21,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -290,6 +288,47 @@ public class EventManagementServiceImpl implements EventManagementService {
         } catch (IOException e) {
             throw new EventExportException(e);
         }
+    }
+
+    @Override
+    @Transactional
+    public List<AttendEventDTO> findParticipantsOfEvent(Long eventId) {
+        Event event = repository.findOne(eventId);
+
+        List<Attendance> attendanceList = event.getAttendancies();
+        Map<Long, AttendEventDTO> attendEventDTOMap = new HashMap<>();
+
+        for (Attendance attendance : attendanceList) {
+            User user = attendance.getOrdr().getUser();
+            AttendEventDTO attendEventDTO = attendEventDTOMap.get(user.getId());
+
+            if (attendEventDTO == null) {
+                attendEventDTO = new AttendEventDTO();
+            }
+
+            attendEventDTO.setUserId(String.valueOf(user.getId()));
+            attendEventDTO.setEmail(user.getEmail());
+            attendEventDTO.setEventId(String.valueOf(eventId));
+            attendEventDTO.setFirstName(user.getFirstName());
+            attendEventDTO.setLastName(user.getLastName());
+
+
+            if (attendance.getAgeCategory() == AgeCategory.ADULT) {
+                attendEventDTO.setNrOfAdults(attendEventDTO.getNrOfAdults() + 1);
+            }
+
+            if (attendance.getAgeCategory() == AgeCategory.CHILD) {
+                attendEventDTO.setNrOfChildren(attendEventDTO.getNrOfChildren() + 1);
+            }
+
+            attendEventDTOMap.put(user.getId(), attendEventDTO);
+        }
+
+        List<AttendEventDTO> attendEventDTOList = new ArrayList<>();
+        for (Long dtoId : attendEventDTOMap.keySet()) {
+            attendEventDTOList.add(attendEventDTOMap.get(dtoId));
+        }
+        return attendEventDTOList;
     }
 
     @Override

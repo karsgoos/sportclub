@@ -6,92 +6,111 @@
 <br/>
 
 <div class="container">
-  <div class="card-panel hoverable large">
-    <!-- TODO hide if not moderator -->
-    <a class="right btn-floating btn-large waves-effect waves-light red modal-trigger" (click)="deleteEvent()" data-target="deleteModal" ><i class="material-icons">delete</i></a>
-    <a class="right btn-floating btn-large waves-effect waves-light" style="margin-right: 1ex" (click)="editEvent()" ><i class="material-icons">edit</i></a>
-
-    <div class="row">
-      <div class="col s12 m6 l3"><p> </p></div>
-      <!-- If there is an image else... -->
-      <div class="col s12 m6 l3" *ngIf="eventModel?.imageMimeType != null; else noImage">
-        <img class="materialboxed" width="200" [src]="getImageUrl()" alt="event image">
-      </div>
-      <ng-template #noImage><div class="col s12 m6 l3"><img class="materialboxed" width="200" height="150" src="https://upload.wikimedia.org/wikipedia/commons/6/6c/No_image_3x4.svg" alt="no event image"></div></ng-template>
 
 
-      <!--if it is a closed event else... -->
-      <div class="col s12 m6 l3">
+  <div class="row">
+    <div class="col s12 m4 l9">
+      <div class="card-panel hoverable large">
+        <a class="right btn-floating btn-large waves-effect waves-light red modal-trigger" (click)="deleteEvent()"
+           data-target="deleteModal"><i class="material-icons">delete</i></a>
+        <a class="right btn-floating btn-large waves-effect waves-light" style="margin-right: 1ex"
+           (click)="editEvent()"><i class="material-icons">edit</i></a>
+
+
+        <div class="row">
+          <div class="col s12 m6 l3"><p></p></div>
+          <!-- If there is an image else... -->
+          <div class="col s12 m6 l3" *ngIf="eventModel?.imageMimeType != null; else noImage">
+            <img class="materialboxed" width="200" src="{{getImageUrl()}}" alt="event image">
+          </div>
+          <ng-template #noImage>
+            <div class="col s12 m6 l3"><img class="materialboxed" width="200" height="150"
+                                            src="https://upload.wikimedia.org/wikipedia/commons/6/6c/No_image_3x4.svg"
+                                            alt="no event image"></div>
+          </ng-template>
+
+
+          <!--if it is a closed event else... -->
+          <div class="col s12 m6 l3">
     <span *ngIf="eventModel?.closed == true; else openEvent">
       <i class="medium material-icons">person</i><br/><b>Gesloten evenement</b>
     </span>
-        <ng-template #openEvent>
-          <i class="medium material-icons">people</i><br/><b>Openbaar evenement</b>
-        </ng-template>
-        <br/>
+            <ng-template #openEvent>
+              <i class="medium material-icons">people</i><br/><b>Openbaar evenement</b>
+            </ng-template>
+            <br/>
 
-        <span *ngIf="eventModel?.recurringEventInfo != null; else singleEvent"><b>Recursief evenement</b></span>
-        <ng-template #singleEvent><b>Enkelvoudig evenement</b></ng-template>
+            <span *ngIf="eventModel?.recurringEventInfo != null; else singleEvent"><b>Recursief evenement</b></span>
+            <ng-template #singleEvent><b>Enkelvoudig evenement</b></ng-template>
+
+          </div>
+
+
+          <div class="col s12 m6 l3"></div>
+
+        </div>
+
+        <div class="row">
+          <div class="col s12 m6 l3"><p></p></div>
+          <div class="col s12 m6 l3"><p><b>{{eventModel?.name}}</b><br/>
+            Vanaf: {{eventModel?.startDate}}<br/>
+            Tot: {{eventModel?.endDate}}
+          </p>
+          </div>
+          <!-- TODO replace static price with dynamic after big decimal issue has been resolved-->
+          <div class="col s12 m6 l3"><p>Prijs volwassenen: &euro; {{eventModel?.priceAdult}}<br/>Prijs kinderen: &euro;
+            {{eventModel?.priceChild}}</p></div>
+          <div class="col s12 m6 l3"><p></p></div>
+        </div>
+
+
+        <div class="row">
+          <div class="col s12 m6 l3"><p></p></div>
+          <div class="col s12 m6 l3">
+            <span>Beschrijving: {{eventModel?.description}}</span>
+          </div>
+
+          <div class="col s12 m6 l3">
+            <span
+              *ngIf="eventModel?.attendancies != undefined">Beschikbare plaatsen: {{calculateAvailableSpace()}}</span>
+            <span
+              *ngIf="eventModel?.attendancies == undefined">Beschikbare plaatsen: {{eventModel?.maxParticipants}}</span>
+          </div>
+
+          <div class="col s12 m6 l3"><p></p></div>
+        </div>
+
+
+        <div class="row">
+          <div class="col s12 m6 l3"><p></p></div>
+          <div class="col s12 m6 l3">
+            <span>Locatie:</span><br/>
+            <span>{{eventModel?.address.street}} {{eventModel?.address.homeNumber}}</span>
+            <br/>
+            <span>{{eventModel?.address.postalCode}}</span> <span>{{eventModel?.address.country}}</span>
+          </div>
+          <div class="col s12 m6 l3">
+            <a class="waves-effect waves-light btn" (click)="subscribeModal()" class="btn modal-trigger"
+               data-target="modal1">Inschrijven</a><br/>
+            <span><b>Inschrijven voor: {{eventModel?.deadline}}</b></span>
+          </div>
+          <div class="col s12 m6 l3"><p></p></div>
+        </div>
+        <!-- Modal Structure  -->
+
+        <app-attending-modal></app-attending-modal>
+
+        <app-delete-modal></app-delete-modal>
+        <app-event-list-participants></app-event-list-participants>
 
       </div>
-
-
-      <div class="col s12 m6 l3"></div>
-
     </div>
-
-    <div class="row">
-      <div class="col s12 m6 l3"><p>  </p></div>
-      <div class="col s12 m6 l3"><p><b>{{eventModel?.name}}</b><br/>
-        Vanaf: {{eventModel?.startDate}}<br/>
-        Tot: {{eventModel?.endDate}}
-      </p>
+    <div class="col s12 m4 l3">
+      <div>
+        <a class="waves-effect waves-light btn modal-trigger" (click)="showParticipantsModal()"
+           class="btn modal-trigger" data-target="participantsModal">Deelnemer zien</a>
       </div>
-      <!-- TODO replace static price with dynamic after big decimal issue has been resolved-->
-      <div class="col s12 m6 l3"><p>Prijs volwassenen: &euro; {{eventModel?.priceAdult}}<br/>Prijs kinderen: &euro; {{eventModel?.priceChild}}</p></div>
-      <div class="col s12 m6 l3"><p>  </p></div>
     </div>
-
-
-
-
-
-
-    <div class="row">
-      <div class="col s12 m6 l3"><p>  </p></div>
-      <div class="col s12 m6 l3">
-        <span>Beschrijving: {{eventModel?.description}}</span>
-      </div>
-
-      <div class="col s12 m6 l3">
-        <span>Beschikbare plaatsen: {{eventModel?.maxParticipants}}</span>
-      </div>
-
-      <div class="col s12 m6 l3"><p> </p></div>
-    </div>
-
-
-
-    <div class="row">
-      <div class="col s12 m6 l3"><p></p></div>
-      <div class="col s12 m6 l3">
-        <span>Locatie:</span><br/>
-        <span>{{eventModel?.address.street}} {{eventModel?.address.homeNumber}}</span>
-        <br/>
-        <span>{{eventModel?.address.postalCode}}</span> <span>{{eventModel?.address.country}}</span>
-      </div>
-      <div class="col s12 m6 l3">
-        <a class="waves-effect waves-light btn" (click)="subscribeModal()" class="btn modal-trigger" data-target="modal1" >Inschrijven</a><br/>
-        <span><b>Inschrijven voor: {{eventModel?.deadline}}</b></span>
-      </div>
-
-    </div>
-    <!-- Modal Structure  -->
-
-    <app-attending-modal> </app-attending-modal>
-
-    <app-delete-modal></app-delete-modal>
-
   </div>
 </div>
 <br/>

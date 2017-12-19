@@ -16,8 +16,8 @@ public class Attendance extends Orderable {
     @ManyToOne
     @JsonIgnoreProperties("attendancies")
     private Event event;
-    
-    private boolean cancelled =false;
+
+    private boolean cancelled = false;
 
     public AgeCategory getAgeCategory() {
         return ageCategory;

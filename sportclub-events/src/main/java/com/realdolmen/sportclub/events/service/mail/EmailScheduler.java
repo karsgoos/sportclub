@@ -22,12 +22,12 @@ public class EmailScheduler {
     @Autowired
     private MailSenderService mailSenderService;
 
-    @Scheduled(fixedDelay = 1800000)
-    public void sendScheduledMails(){
+    @Scheduled(initialDelay = 60000, fixedDelay = 1800000)
+    public void sendScheduledMails() {
 
         Set<Email> emails = emailService.getEmailsToSend();
 
-        for(Email email : emails){
+        for (Email email : emails) {
             mailSenderService.sendMail(email);
         }
     }

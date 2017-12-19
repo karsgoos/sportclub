@@ -12,7 +12,11 @@ public interface MailSenderService {
 
     void sendMailGuestAttendPublicEvent(Guest guest, Event event, String unsubscribeLink);
 
-    void sendMailEnrollmentEnding(UserEnrollment userEnrollment);
+    void sendMailPaymentEventReceived(User user, Event event);
+
+    void sendMailPaymentEnrollmentReceived(UserEnrollment userEnrollment);
+
+    void scheduleMailEnrollmentEnding(UserEnrollment userEnrollment);
 
     void sendMail(Email email);
 

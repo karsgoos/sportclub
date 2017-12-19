@@ -3,6 +3,7 @@ package com.realdolmen.sportclub.events.controller;
 import com.realdolmen.sportclub.common.dto.MessageDto;
 import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.common.entity.User;
+import com.realdolmen.sportclub.events.DTO.AttendEventDTO;
 import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.events.service.EventManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,6 +148,18 @@ public class EventManagementController {
         return service.findAttachment(id);
     }
 
+    /**
+     * Returns a Json list of event participants including number of adults and children
+     *
+     * @param id event id
+     * @return json list of event participants
+     * @throws EventNotFoundException
+     */
+    @RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "events/{id}/participants")
+    public @ResponseBody
+    List<AttendEventDTO> findParticipantsOnEvent(@PathVariable("id") Long id) throws EventNotFoundException {
+        return service.findParticipantsOfEvent(id);
+    }
 
     @RequestMapping(produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", method = RequestMethod.GET, value = "events/{id}/attendees")
     public @ResponseBody

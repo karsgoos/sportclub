@@ -14,6 +14,9 @@ import {RoleManagementPanelComponent} from './role-management-panel/role-managem
 
 import {AttendingModalComponent} from "./sportclub-events/attending-modal/attending-modal.component";
 import {DeleteModalComponent} from "./sportclub-events/delete-modal/delete-modal.component";
+import {EventListParticipantsComponent} from "./sportclub-events/event-list-participants/event-list-participants.component";
+import {EventListParticipantsService} from "./sportclub-events/service/event-list-participants.service";
+import {SportClubEventService} from "./sportclub-events/service/sportclub-event.service";
 
 @NgModule({
   declarations: [
@@ -22,7 +25,9 @@ import {DeleteModalComponent} from "./sportclub-events/delete-modal/delete-modal
     EventDetailComponent,
     AttendingModalComponent,
     RoleManagementPanelComponent,
-    DeleteModalComponent
+    DeleteModalComponent,
+    AttendingModalComponent,
+    EventListParticipantsComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +38,11 @@ import {DeleteModalComponent} from "./sportclub-events/delete-modal/delete-modal
     ReactiveFormsModule,
     FormsModule
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [
+    SportClubEventService,
+    EventListParticipantsService
+  ]
 })
 export class AppModule {
 }

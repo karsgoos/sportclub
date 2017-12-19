@@ -1,7 +1,6 @@
 package com.realdolmen.sportclub.events.service.mail;
 
 import com.realdolmen.sportclub.common.entity.*;
-import com.realdolmen.sportclub.common.repository.SportclubRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,6 @@ public class MailSenderServiceImpl implements MailSenderService {
     EmailService emailService;
 
 
-
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
@@ -51,13 +49,29 @@ public class MailSenderServiceImpl implements MailSenderService {
     }
 
     @Override
-    public void sendMailEnrollmentEnding(UserEnrollment userEnrollment) {
+    public void scheduleMailEnrollmentEnding(UserEnrollment userEnrollment) {
         String subject = "Lidmaatschap eindigt in 1 maand";
         User user = userEnrollment.getOrdr().getUser();
-        String content = mailContentBuilder.buildMailEnrollmentEnding(user ,userEnrollment.getEnrollment().getMembershipType());
+        String content = mailContentBuilder.buildMailEnrollmentEnding(user, userEnrollment.getEnrollment().getMembershipType());
         LocalDate reminderDate = userEnrollment.getEnrollment().getEndDate().minusMonths(1);
-        LocalDateTime reminderDateAndTime = reminderDate.atTime(18,0);
-        storeAndScheduleMail(user,subject,content,reminderDateAndTime);
+        LocalDateTime reminderDateAndTime = reminderDate.atTime(18, 0);
+        storeAndScheduleMail(user, subject, content, reminderDateAndTime);
+    }
+
+    @Override
+    public void sendMailPaymentEnrollmentReceived(UserEnrollment userEnrollment) {
+        String subject = "Betaling ontvangen - " + userEnrollment.getEnrollment().getMembershipType().getName();
+        User user = userEnrollment.getOrdr().getUser();
+        String content = mailContentBuilder.buildMailPaymentForEnrollmentReceived(user,userEnrollment.getEnrollment());
+        storeAndSendMail(user,subject,content);
+    }
+
+    @Override
+    public void sendMailPaymentEventReceived(User user, Event event) {
+
+        String subject = "Betaling ontvangen - " + event.getName();
+        String content = mailContentBuilder.buildMailPaymentForEventReceived(user,event);
+        storeAndSendMail(user,subject,content);
     }
 
     private void storeAndScheduleMail(User user, String subject, String content, LocalDateTime dueDate) {
@@ -104,6 +118,7 @@ public class MailSenderServiceImpl implements MailSenderService {
 
 
     }
+
 
     @Override
     public void sendReminderMails(Event event){
