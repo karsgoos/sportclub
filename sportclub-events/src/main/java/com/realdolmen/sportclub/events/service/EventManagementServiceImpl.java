@@ -7,6 +7,7 @@ import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.events.repository.EventRepository;
 import com.realdolmen.sportclub.events.repository.RecurringEventInfoRepository;
 import com.realdolmen.sportclub.events.service.export.EventExcelExporter;
+import com.realdolmen.sportclub.events.service.mail.MailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
@@ -37,6 +38,8 @@ public class EventManagementServiceImpl implements EventManagementService {
     private AttendanceRepository attendanceRepository;
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    MailSenderService mailService;
 
     @Override
     @Transactional
@@ -251,6 +254,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     @Override
     public Event delete(Long id) throws EventNotFoundException {
         Event event = find(id);
+        mailService.sendMailEventDeleted(event);
         for(Attendance attendance : event.getAttendancies()) {
             attendanceRepository.delete(attendance);
             orderRepository.delete(attendance.getOrdr());
