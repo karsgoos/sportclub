@@ -65,6 +65,11 @@ public class EventManagementServiceImpl implements EventManagementService {
 
     private List<Event> calculateRecurrentEvents(Event event, boolean isUpdate) throws CouldNotCreateEventException {
         List<Event> eventsToCreate = new ArrayList<>();
+        // Also copy all attendancies to the new event from the repository.
+        if(isUpdate) {
+            Event fromRepository = repository.findOne(event.getId());
+            fromRepository.getAttendancies().forEach(event::addAttendance);
+        }
         if (event.getRecurringEventInfo() != null) {
             event.setRecurringEventInfo(recurringEventInfoRepository.save(event.getRecurringEventInfo()));
 
@@ -112,7 +117,7 @@ public class EventManagementServiceImpl implements EventManagementService {
                     // When updating, the user doesn't have to reupload the
                     // same attachment or image again.
                     // For this reason, we want to load the current event
-                    // from the repository and obtain its attachment and image
+                    // from the repository and obtain its attachment and image.
                     if (isUpdate) {
                         Event fromRepository = repository.findOne(event.getId());
                         newEvent.setAttachement(fromRepository.getAttachement());
@@ -162,6 +167,8 @@ public class EventManagementServiceImpl implements EventManagementService {
         }
 
         repository.save(eventsToCreate);
+
+        mailService.sendMailUpdatedEvent(event);
 
         return event;
     }

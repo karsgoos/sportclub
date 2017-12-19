@@ -19,4 +19,6 @@ public interface MailSenderService {
     void sendReminderMails(Event event);
 
     void sendMailEventDeleted(Event event);
+
+    void sendMailUpdatedEvent(Event event);
 }

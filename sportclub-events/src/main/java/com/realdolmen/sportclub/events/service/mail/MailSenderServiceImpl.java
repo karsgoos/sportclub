@@ -129,4 +129,16 @@ public class MailSenderServiceImpl implements MailSenderService {
         }
     }
 
+    @Override
+    public void sendMailUpdatedEvent(Event event) {
+        List<User> users = event.getAttendancies().parallelStream()
+                .map((a) -> a.getOrdr().getUser())
+                .distinct()
+                .collect(Collectors.toList());
+        for(User receiver : users){
+            String content = mailContentBuilder.buildEventUpdate(receiver, event);
+            this.storeAndSendMail(receiver, "Evenement aangepast: " + event.getName(), content);
+        }
+    }
+
 }
