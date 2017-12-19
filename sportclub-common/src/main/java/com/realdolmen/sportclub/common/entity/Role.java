@@ -18,7 +18,7 @@ public class Role {
     @NotNull
     private String name;
 
-    @ElementCollection(targetClass = Privilege.class)
+    @ElementCollection(targetClass = Privilege.class, fetch = FetchType.EAGER)
     @NotNull
     @Enumerated(EnumType.STRING)
     private Set<Privilege> privileges = new TreeSet<>();
