@@ -98,32 +98,32 @@ public class EventManagementController {
     public @ResponseBody
     ResponseEntity<?> uploadAttachement(@PathVariable("id") Long id, @RequestParam("file") MultipartFile attachment) {
         if (attachment.isEmpty()) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new MessageDto(null), HttpStatus.BAD_REQUEST);
         }
 
         try {
             service.saveAttachment(id, attachment);
         } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new MessageDto(null), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity(new MessageDto(null), HttpStatus.CREATED);
     }
 
     @PostMapping("events/{id}/image")
     public @ResponseBody
     ResponseEntity<?> uploadImage(@PathVariable("id") Long id, @RequestParam("file") MultipartFile attachment) {
         if (attachment.isEmpty()) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new MessageDto(null), HttpStatus.BAD_REQUEST);
         }
 
         try {
             service.saveImage(id, attachment);
         } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new MessageDto(null), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity(new MessageDto(null), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "events/{id}/image")
