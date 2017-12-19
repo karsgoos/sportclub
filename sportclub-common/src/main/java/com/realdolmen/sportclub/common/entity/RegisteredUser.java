@@ -1,10 +1,8 @@
 package com.realdolmen.sportclub.common.entity;
 
-import javax.validation.constraints.NotNull;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,9 +39,26 @@ public class RegisteredUser extends User {
     @Column
     private int totalPoints;
 
+    @NotNull
+    private boolean isOnAutomaticMailList;
+
+    @NotNull
+    private boolean isSelfManaged = true;
+
+    @ManyToOne
+    private RegisteredUser parent;
+
+    public boolean isOnAutomaticMailList() {
+        return isOnAutomaticMailList;
+    }
+
+    public void setOnAutomaticMailList(boolean onAutomaticMailList) {
+        isOnAutomaticMailList = onAutomaticMailList;
+    }
+
     private String nonEditableField;
 
-    public RegisteredUser(){
+    public RegisteredUser() {
 
     }
 
@@ -129,5 +144,29 @@ public class RegisteredUser extends User {
 
     public void setNonEditableField(String nonEditableField) {
         this.nonEditableField = nonEditableField;
+    }
+
+    public boolean isSelfManaged() {
+        return isSelfManaged;
+    }
+
+    public void setSelfManaged(boolean selfManaged) {
+        isSelfManaged = selfManaged;
+    }
+
+    public RegisteredUser getParent() {
+        return parent;
+    }
+
+    public void setParent(RegisteredUser parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public String getEmail() {
+        if(!isSelfManaged){
+            return parent.getEmail();
+        }
+        return super.getEmail();
     }
 }

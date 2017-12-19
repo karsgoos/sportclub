@@ -1,23 +1,14 @@
 package com.realdolmen.sportclub.events.service.mail;
 
-import com.realdolmen.sportclub.common.entity.Event;
-import com.realdolmen.sportclub.common.entity.Guest;
-import com.realdolmen.sportclub.common.entity.Sportclub;
+import com.realdolmen.sportclub.common.entity.*;
+import com.realdolmen.sportclub.common.repository.SportclubRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.context.IWebContext;
-import org.thymeleaf.context.VariablesMap;
-import org.thymeleaf.context.WebContext;
-import org.thymeleaf.spring4.context.SpringWebContext;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.persistence.PrePersist;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 
 /**
@@ -27,32 +18,25 @@ import java.util.Locale;
 public class MailContentBuilder {
     private TemplateEngine templateEngine;
 
+    private Sportclub sportclub;
 
     @Autowired
-    public MailContentBuilder(TemplateEngine templateEngine){
+    SportclubRepository sportclubRepository;
+
+
+    @Autowired
+    public MailContentBuilder(TemplateEngine templateEngine) {
         super();
         this.templateEngine = templateEngine;
     }
 
-    public String buildTest() {
-        String name = "Frederik";
-        String message = "My message";
-        Event event = new Event();
-        event.setName("Sporty event");
-
-        Context context = new Context();
-        context.setVariable("name", name);
-        context.setVariable("message", message);
-        context.setVariable("event", event);
-
-        return templateEngine.process("mailTemplate", context);
-    }
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
 
-    public String buildMailGuestAttendPublicEvent(Guest guest, Event event, Sportclub sportclub,  String unsubscribeLink) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    public String buildMailGuestAttendPublicEvent(Guest guest, Event event, String unsubscribeLink) {
+        sportclub = sportclubRepository.findOne(1L);
 
         Context context = new Context();
 
@@ -66,5 +50,44 @@ public class MailContentBuilder {
         context.setVariable("unsubscribeLink", unsubscribeLink);
 
         return templateEngine.process("guestAttendPublicEventTemplate", context);
+    }
+
+    public String buildMailEnrollmentEnding(User user, MembershipType membershipType) {
+        sportclub = sportclubRepository.findOne(1L);
+        Context context = new Context();
+
+        context.setVariable("user", user);
+        context.setVariable("membershipType", membershipType);
+        context.setVariable("sportclub", sportclub);
+        return templateEngine.process("enrollmentEnding", context);
+    }
+
+    public String buildMailPaymentForEventReceived(User user, Event event) {
+        sportclub = sportclubRepository.findOne(1L);
+        Context context = new Context();
+
+        context.setVariable("user", user);
+        context.setVariable("eventName", event.getName());
+        context.setVariable("sportclub", sportclub);
+        if (event.getRecurringEventInfo() == null) {
+            context.setVariable("date", event.getStartDate().format(formatter));
+            context.setVariable("time", event.getStartDate().format(timeFormatter));
+            return templateEngine.process("paymentForSingleEventReceived", context);
+        }
+        context.setVariable("startDate", event.getStartDate().format(formatter));
+        context.setVariable("endDate", event.getEndDate().format(formatter));
+        return templateEngine.process("paymentForRecurringEventReceived", context);
+    }
+
+    public String buildMailPaymentForEnrollmentReceived(User user, Enrollment enrollment) {
+        sportclub = sportclubRepository.findOne(1L);
+        Context context = new Context();
+
+        context.setVariable("user", user);
+        context.setVariable("enrollment", enrollment);
+        context.setVariable("sportclub", sportclub);
+        context.setVariable("startDate", enrollment.getStartDate().format(formatter));
+        context.setVariable("endDate", enrollment.getEndDate().format(formatter));
+        return templateEngine.process("paymentForEnrollmentReceived", context);
     }
 }
