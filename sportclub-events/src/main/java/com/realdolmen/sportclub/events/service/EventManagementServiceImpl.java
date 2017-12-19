@@ -2,10 +2,10 @@ package com.realdolmen.sportclub.events.service;
 
 import com.realdolmen.sportclub.common.entity.*;
 import com.realdolmen.sportclub.common.repository.AttendanceRepository;
+import com.realdolmen.sportclub.common.repository.EventRepository;
 import com.realdolmen.sportclub.common.repository.OrderRepository;
+import com.realdolmen.sportclub.common.repository.RecurringEventInfoRepository;
 import com.realdolmen.sportclub.events.exceptions.*;
-import com.realdolmen.sportclub.events.repository.EventRepository;
-import com.realdolmen.sportclub.events.repository.RecurringEventInfoRepository;
 import com.realdolmen.sportclub.events.service.export.EventExcelExporter;
 import com.realdolmen.sportclub.events.service.mail.MailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +25,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 public class EventManagementServiceImpl implements EventManagementService {
@@ -66,7 +64,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     private List<Event> calculateRecurrentEvents(Event event, boolean isUpdate) throws CouldNotCreateEventException {
         List<Event> eventsToCreate = new ArrayList<>();
         // Also copy all attendancies to the new event from the repository.
-        if(isUpdate) {
+        if (isUpdate) {
             Event fromRepository = repository.findOne(event.getId());
             fromRepository.getAttendancies().forEach(event::addAttendance);
         }
@@ -85,7 +83,7 @@ public class EventManagementServiceImpl implements EventManagementService {
             // To do this, we loop over all the days and add events when a recurring weekday occurs
             Collection<DayOfWeek> weekDays = event.getRecurringEventInfo().getWeekdays();
             LocalDate currentDate = startDateTime.toLocalDate();
-            while(currentDate.isBefore(endDateTime.toLocalDate())) {
+            while (currentDate.isBefore(endDateTime.toLocalDate())) {
                 if (weekDays.contains(currentDate.getDayOfWeek())) {
                     // Create a new event
                     // Each new event should have the same start time as the event passed to this method
@@ -214,7 +212,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     @Override
     @Transactional
     public void saveAttachment(Long id, MultipartFile mpf) throws IOException {
-        if(!mpf.getContentType().toLowerCase().equals("application/pdf")){
+        if (!mpf.getContentType().toLowerCase().equals("application/pdf")) {
             throw new IllegalArgumentException("Ongeldig bestandstype. Enkel PDF is toegelaten.");
         }
         Event event = repository.findOne(id);
@@ -227,15 +225,16 @@ public class EventManagementServiceImpl implements EventManagementService {
     public byte[] findAttachment(Long id) throws AttachmentNotFoundException {
         Event event = repository.findOne(id);
         byte[] attachment = event.getAttachement();
-        if(attachment==null){
+        if (attachment == null) {
             throw new AttachmentNotFoundException();
         }
         return attachment;
     }
 
     @Override
+    @Transactional
     public void saveImage(Long id, MultipartFile image) throws IOException {
-        if(isImage(image)) {
+        if (isImage(image)) {
             Event event = repository.findOne(id);
             event.setImage(image.getBytes());
             event.setImageMimeType(image.getContentType().toLowerCase());
@@ -250,16 +249,18 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
+    @Transactional
     public byte[] findImage(Long id) throws AttachmentNotFoundException {
         Event event = repository.findOne(id);
         byte[] image = event.getImage();
-        if(image==null){
+        if (image == null) {
             throw new AttachmentNotFoundException();
         }
         return image;
     }
 
     @Override
+    @Transactional
     public MediaType getImageMimeTypeForEvent(Long id) throws EventNotFoundException {
         Event event = find(id);
         String[] mediaType = event.getImageMimeType().split("/");
@@ -267,15 +268,15 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
-    public Event delete(Long id) throws EventNotFoundException {
+    @Transactional
+    public void delete(Long id) throws EventNotFoundException {
         Event event = find(id);
         mailService.sendMailEventDeleted(event);
-        for(Attendance attendance : event.getAttendancies()) {
+        for (Attendance attendance : event.getAttendancies()) {
             attendanceRepository.delete(attendance);
             orderRepository.delete(attendance.getOrdr());
         }
         repository.delete(event);
-        return event;
     }
 
     @Override
@@ -382,7 +383,8 @@ public class EventManagementServiceImpl implements EventManagementService {
     }
 
     @Override
-    public List<Event> getAllEventsWithReminderDateInLastHour(){
+    @Transactional
+    public List<Event> getAllEventsWithReminderDateInLastHour() {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime oneHourAgo = now.minusHours(1);
 
@@ -392,16 +394,14 @@ public class EventManagementServiceImpl implements EventManagementService {
         List<Long> recEventIds = new ArrayList<>();
         List<Event> allEventsToMail = new ArrayList<>();
 
-        for(Event event: allEvents){
+        for (Event event : allEvents) {
             RecurringEventInfo recEvInfo = event.getRecurringEventInfo();
-            if(recEvInfo==null){
+            if (recEvInfo == null) {
                 allEventsToMail.add(event);
-            }
-            else{
-                if(recEventIds.contains(recEvInfo.getId())){
+            } else {
+                if (recEventIds.contains(recEvInfo.getId())) {
                     //don't add this one, already happened
-                }
-                else{
+                } else {
                     recEventIds.add(recEvInfo.getId());
                     allEventsToMail.add(event);
                 }

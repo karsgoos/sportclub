@@ -31,9 +31,9 @@ public class EventManagementController {
     MessageDto create(@RequestBody Event event) {
         try {
             Event result = service.create(event);
-            return new MessageDto(result);
+            return new MessageDto("", result);
         } catch (CouldNotCreateEventException e) {
-            return new MessageDto(e.getMessage());
+            return new MessageDto(e.getMessage(), null);
         }
     }
 
@@ -42,9 +42,9 @@ public class EventManagementController {
     MessageDto update(@PathVariable("id") Long id, @RequestBody Event event) {
         try {
             Event result = service.update(event);
-            return new MessageDto(result);
+            return new MessageDto("", result);
         } catch (CouldNotUpdateEventException e) {
-            return new MessageDto(e.getMessage());
+            return new MessageDto(e.getMessage(), null);
         }
     }
 
@@ -52,10 +52,10 @@ public class EventManagementController {
     public @ResponseBody
     MessageDto delete(@PathVariable("id") Long id) {
         try {
-            Event deleted = service.delete(id);
-            return new MessageDto(deleted);
+            service.delete(id);
+            return new MessageDto("", null);
         } catch (EventNotFoundException e) {
-            return new MessageDto(e.getMessage());
+            return new MessageDto(e.getMessage(), null);
         }
     }
 
@@ -64,9 +64,9 @@ public class EventManagementController {
     MessageDto findEvent(@PathVariable("id") Long id) {
         try {
             Event result = service.find(id);
-            return new MessageDto(result);
+            return new MessageDto("", result);
         } catch (EventNotFoundException e) {
-            return new MessageDto("Het gevraagde evenement werd niet gevonden.");
+            return new MessageDto("Het gevraagde evenement werd niet gevonden.", null);
         }
     }
 
@@ -74,7 +74,7 @@ public class EventManagementController {
     public @ResponseBody
     MessageDto findAll(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
         List<Event> result = service.findAll(page, pageSize);
-        return new MessageDto(result);
+        return new MessageDto("", result);
     }
 
     @RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "events/{id}/cancellations")
@@ -82,9 +82,9 @@ public class EventManagementController {
     MessageDto findCancellations(@PathVariable("id") Long id) {
         try {
             List<User> result = service.findCancellations(id);
-            return new MessageDto(result);
+            return new MessageDto("", result);
         } catch (EventNotFoundException e) {
-            return new MessageDto("Het gevraagde evenement werd niet gevonden.");
+            return new MessageDto("Het gevraagde evenement werd niet gevonden.", null);
         }
     }
 
@@ -98,36 +98,36 @@ public class EventManagementController {
     public @ResponseBody
     ResponseEntity<?> uploadAttachement(@PathVariable("id") Long id, @RequestParam("file") MultipartFile attachment) {
         if (attachment.isEmpty()) {
-            return new ResponseEntity(new MessageDto(null), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new MessageDto("Er werd geen bijlage meegegeven.", null), HttpStatus.BAD_REQUEST);
         }
 
         try {
             service.saveAttachment(id, attachment);
         } catch (IOException e) {
-            return new ResponseEntity<>(new MessageDto(null), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new MessageDto("Er liep iets fout bij het wegschrijven van de bijlage.", null), HttpStatus.BAD_REQUEST);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(new MessageDto("Het opgegeven bestand moet in PDF formaat zijn."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new MessageDto("Het opgegeven bestand moet in PDF formaat zijn.", null), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity(new MessageDto(null), HttpStatus.CREATED);
+        return new ResponseEntity(new MessageDto("", null), HttpStatus.CREATED);
     }
 
     @PostMapping("events/{id}/image")
     public @ResponseBody
     ResponseEntity<?> uploadImage(@PathVariable("id") Long id, @RequestParam("file") MultipartFile attachment) {
         if (attachment.isEmpty()) {
-            return new ResponseEntity(new MessageDto(null), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new MessageDto("Er werd geen afbeelding meegegeven.", null), HttpStatus.BAD_REQUEST);
         }
 
         try {
             service.saveImage(id, attachment);
         } catch (IOException e) {
-            return new ResponseEntity<>(new MessageDto(null), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new MessageDto("Er liep iets fout bij het wegschrijven van de afbeelding.", null), HttpStatus.BAD_REQUEST);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(new MessageDto("Het opgegeven bestand moet een afbeelding zijn (GIF/JPG/PNG)."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new MessageDto("Het opgegeven bestand moet een afbeelding zijn (GIF/JPG/PNG).", null), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity(new MessageDto(null), HttpStatus.CREATED);
+        return new ResponseEntity(new MessageDto("", null), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "events/{id}/image")

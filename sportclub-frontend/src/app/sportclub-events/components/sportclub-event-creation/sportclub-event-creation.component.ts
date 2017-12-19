@@ -217,6 +217,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       this.event = fromFormToEvent(this.eventForm, this.responsibles, this.enrollments, this.recurringEventId);
       // if we are updating
       if (this.eventId) {
+        this.event.id = this.eventId;
         this.eventService.updateEvent(this.event).subscribe(message => {
           let event = message.value;
           this.router.navigate(['/event', this.eventId]);
@@ -225,12 +226,11 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       // if we are creating
       else {
         this.eventService.saveEvent(this.event).subscribe(message => {
-          console.log(message);
           if (message.error) {
             console.error(message.error);
             return;
           }
-          let event = JSON.parse(message.value);
+          let event = message.value;
           let id = event.id;
           if(this.fileIsAttached){
             this.eventService.saveAttachment(this.attachedFile, id).subscribe(

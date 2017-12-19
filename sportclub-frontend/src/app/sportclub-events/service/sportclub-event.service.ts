@@ -22,7 +22,7 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
     return this.http.get<SportClubEvent[]>(environment.eventApiUrl);
   }
 
-  getEventsTimeline(page, pageSize): Observable<Message<string>> {
+  getEventsTimeline(page, pageSize): Observable<Message<SportClubEvent[]>> {
     return this.http.get<SportClubEvent[]>(environment.eventApiUrl + '/timeline',
       {params: new HttpParams().set('page', page).set('pageSize', pageSize)});
   }
@@ -52,7 +52,7 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
 	}*/
 
 
-  saveEvent(event: SportClubCreationEvent): Observable<Message<string>> {
+  saveEvent(event: SportClubCreationEvent): Observable<Message<SportClubCreationEvent>> {
     return super.save(event);
   }
 

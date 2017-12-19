@@ -4,7 +4,6 @@ import com.realdolmen.sportclub.common.entity.*;
 import com.realdolmen.sportclub.common.repository.AttendanceRepository;
 import com.realdolmen.sportclub.common.repository.OrderRepository;
 import com.realdolmen.sportclub.common.repository.UserRepository;
-import com.realdolmen.sportclub.events.repository.EventRepository;
 import com.realdolmen.sportclub.common.repository.*;
 import com.realdolmen.sportclub.events.service.mail.MailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
