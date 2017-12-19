@@ -29,19 +29,11 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         RegisteredUser registeredUser = registeredUserRepository.findByEmail(email);
 
-        System.out.println("ok");
-
         if (registeredUser != null) {
             List<GrantedAuthority> authorities = new ArrayList<>();
 
-            System.out.println("kek");
-
             for (Privilege privilege : registeredUser.getRole().getPrivileges()) {
                 authorities.add(new SimpleGrantedAuthority(privilege.name()));
-            }
-
-            for(GrantedAuthority authority : authorities) {
-                System.out.println(authority.getAuthority());
             }
 
             return new User(registeredUser.getEmail(), registeredUser.getPassword(), authorities);
