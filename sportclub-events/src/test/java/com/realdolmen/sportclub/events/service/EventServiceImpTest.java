@@ -2,6 +2,7 @@ package com.realdolmen.sportclub.events.service;
 
 import com.realdolmen.sportclub.common.entity.*;
 import com.realdolmen.sportclub.common.repository.*;
+import com.realdolmen.sportclub.events.config.TestConfig;
 import com.realdolmen.sportclub.events.repository.EventRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +10,8 @@ import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
@@ -21,6 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {TestConfig.class})
 public class EventServiceImpTest {
 	@InjectMocks
 	EventService eventService = new EventServiceImpl();
@@ -94,8 +98,7 @@ public class EventServiceImpTest {
 		ArgumentCaptor<Event> event = ArgumentCaptor.forClass(Event.class);
 		
 		//execute method
-// compilation problem
-//		eventService.attendOpenEvent("1","1",2,3);
+		eventService.attendOpenEvent("1","1",2,3);
 		
 		//capture arguments
 		Mockito.verify(orderRepository).save(order.capture());
@@ -135,8 +138,7 @@ public class EventServiceImpTest {
 		});
 		
 		//execute method
-// compilation problem
-//		eventService.attendOpenEvent("bert", "beton","bert@beton.be","1",2,3);
+		eventService.attendOpenEvent("bert", "beton","bert@beton.be","1",2,3);
 		
 		//capture arguments
 		Mockito.verify(orderRepository).save(order.capture());
@@ -176,8 +178,7 @@ public class EventServiceImpTest {
 		ArgumentCaptor<Event> event = ArgumentCaptor.forClass(Event.class);
 		
 		//execute method
-//compilation problem
-//		eventService.attendClosedEvent("1","1");
+		eventService.attendClosedEvent("1","1");
 		
 		//capture arguments
 		Mockito.verify(orderRepository).save(order.capture());

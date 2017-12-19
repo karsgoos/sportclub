@@ -31,7 +31,7 @@
         </div>
       </div>
 
-      <div class="row" *ngIf="(eventForm.value.customMinMaxParticipantsBoolean)">
+      <div class="row" [hidden]="(!eventForm.value.customMinMaxParticipantsBoolean)">
         <div class="col s4 input-field">
           <label for="minParticipantsField">Minimum aantal deelnemers</label>
           <input formControlName="minParticipants" id="minParticipantsField" type="number">
@@ -148,7 +148,7 @@
         </div>
       </div>
 
-      <div *ngIf="(eventForm.value.customAddressBoolean)">
+      <div [hidden]="(!eventForm.value.customAddressBoolean)">
         <div class="row">
           <div class="col s8 input-field">
             <label for="addrStreet">Straat</label>
@@ -187,7 +187,7 @@
         </div>
       </div>
 
-      <div class="row" *ngIf="(eventForm.value.differentPricesBoolean)">
+      <div class="row" [hidden]="(!eventForm.value.differentPricesBoolean)">
         <div class="col s2 input-field">
           <label for="priceChild">Prijs kinderen</label>
           <input formControlName="pricePerChild" id="priceChild" type="number">
@@ -198,7 +198,7 @@
         </div>
       </div>
 
-      <div class="row" *ngIf="(!eventForm.value.differentPricesBoolean)">
+      <div class="row" [hidden]="(eventForm.value.differentPricesBoolean)">
         <div class="col s2 input-field">
           <label for="priceGeneral">Prijs</label>
           <input formControlName="priceGeneral" id="priceGeneral" type="number">
@@ -216,7 +216,4 @@
     </div>
 
   </form>
-
-  <p>{{event | json}}</p>
-
 </div>

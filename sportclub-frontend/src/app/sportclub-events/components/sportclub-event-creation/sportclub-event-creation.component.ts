@@ -4,6 +4,7 @@ import {SportClubEventService} from "../../service/sportclub-event.service";
 import {FormGroup, FormBuilder} from "@angular/forms";
 import {Address} from "../../model/address";
 import {Weekday} from "../../model/sportclub-recuring-event-info"
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-sportclub-event-creation',
@@ -48,7 +49,7 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
   addr: Address = {};
   eventForm: FormGroup;
 
-  constructor(private eventService: SportClubEventService, private fb: FormBuilder) {
+  constructor(private eventService: SportClubEventService, private fb: FormBuilder, private router: Router) {
   }
 
   ngOnInit() {
@@ -179,7 +180,9 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
 
   saveSingleEvent() {
     this.prepareEventToSave();
-    this.eventService.saveEvent(this.event);
+    this.eventService.saveEvent(this.event).subscribe(event => {
+      this.router.navigate(['/event', event.id]);
+    });
   }
 
 

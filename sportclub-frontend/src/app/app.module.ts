@@ -9,18 +9,20 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { EventDetailComponent } from './sportclub-events/event-detail/event-detail.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
+import {RoleManagementPanelComponent} from './role-management-panel/role-management-panel.component';
+
 import {AttendingModalComponent} from "./sportclub-events/attending-modal/attending-modal.component";
 import {EventListParticipantsComponent} from "./sportclub-events/event-list-participants/event-list-participants.component";
 import {EventListParticipantsService} from "./sportclub-events/service/event-list-participants.service";
 import {SportClubEventService} from "./sportclub-events/service/sportclub-event.service";
-
-
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuBarComponent,
     EventDetailComponent,
+    AttendingModalComponent,
+    RoleManagementPanelComponent,
     AttendingModalComponent,
     EventListParticipantsComponent
   ],
