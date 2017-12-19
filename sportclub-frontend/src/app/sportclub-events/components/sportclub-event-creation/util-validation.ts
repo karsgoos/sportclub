@@ -183,8 +183,10 @@ export function checkGlobalValidation(form:FormGroup): string[]{
     let remindNr = form.value.numberParticipantsToRemind;
     let min = form.value.minParticipants;
     let max = form.value.maxParticipants;
-    if(remindNr < min || remindNr>max){
-      globalErrorMessages.push("Het aantal deelnemers ingesteld voor een herinnering moet tussen het minimum en het maximum aantal deelnemers liggen");
+    if(form.value.customMinMaxParticipantsBoolean) {
+      if (remindNr < min || remindNr > max) {
+        globalErrorMessages.push("Het aantal deelnemers ingesteld voor een herinnering moet tussen het minimum en het maximum aantal deelnemers liggen");
+      }
     }
   }
 

@@ -141,4 +141,13 @@ public class MailSenderServiceImpl implements MailSenderService {
         }
     }
 
+    @Override
+    public void sendMailNrParticipantsReached(Event event){
+        List<RegisteredUser> receivers = event.getResponsibles();
+        for(User receiver : receivers){
+            String content = mailContentBuilder.buildNrParticipantsReachedMail(receiver, event);
+            this.storeAndSendMail(receiver, event.getName(), content);
+        }
+    }
+
 }

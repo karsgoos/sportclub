@@ -80,6 +80,16 @@ public class MailContentBuilder {
         return templateEngine.process("eventReminder", context);
     }
 
+    public String buildNrParticipantsReachedMail(User user, Event event){
+        Context context = new Context();
+
+        context.setVariable("user", user);
+        context.setVariable("sportclub", sportclub);
+        context.setVariable("event", event);
+
+        return templateEngine.process("participantsReached", context);
+    }
+
     public String buildEventDeletion(User user, Event event) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");

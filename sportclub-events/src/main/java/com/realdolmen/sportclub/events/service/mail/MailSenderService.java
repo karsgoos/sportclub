@@ -21,4 +21,6 @@ public interface MailSenderService {
     void sendMailEventDeleted(Event event);
 
     void sendMailUpdatedEvent(Event event);
+
+    void sendMailNrParticipantsReached(Event event);
 }
