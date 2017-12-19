@@ -1,4 +1,4 @@
-import {Component, OnInit, Injectable} from '@angular/core';
+import {Component, Injectable} from '@angular/core';
 import {AuthenticationService} from '../login/services/authentication.service';
 
 @Component({

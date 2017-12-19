@@ -1,5 +1,8 @@
-INSERT INTO PUBLIC.ROLE(ID, NAME) VALUES (1, 'USER');
-INSERT INTO PUBLIC.ROLE_PRIVILEGES(ROLE_ID, PRIVILEGES) VALUES (1, 'CAN_CHANGE_PRIVILEGES');
+INSERT INTO PUBLIC.ROLE(ID, NAME) VALUES (1, 'REGISTERED_USER');
+INSERT INTO PUBLIC.ROLE(ID, NAME) VALUES (2, 'ENROLLED_USER');
+INSERT INTO PUBLIC.ROLE(ID, NAME) VALUES (3, 'MODERATOR');
+INSERT INTO PUBLIC.ROLE(ID, NAME) VALUES (4, 'ADMINISTRATOR ');
+
 insert into PUBLIC.USER (dtype, id, email, first_name, last_name, country, home_number, postal_code, street, date_of_birth, gender, mobile_number, password, phone_number, total_points, role_id) values ('RegisteredUser', 1000, 'srydzynski0@cpanel.net', 'Stephine', 'Rydzynski', 'Albania', '5167', 4342, 'Fremont', '1988-09-12', 'WOMAN', '(131) 5302157', '0GSQSZ2y', '(397) 3058816', 230, 1);
 insert into PUBLIC.USER (dtype, id, email, first_name, last_name, country, home_number, postal_code, street, date_of_birth, gender, mobile_number, password, phone_number, total_points, role_id) values ('RegisteredUser', 2000, 'tosmon1@domainmarket.com', 'Thibaut', 'Osmon', 'China', '86', 9364, 'Hoffman', '1980-01-19', 'MAN', '(536) 7359370', 'gXdqVemn1EV', '(668) 8859148', 12, 1);
 insert into PUBLIC.USER (dtype, id, email, first_name, last_name, country, home_number, postal_code, street, date_of_birth, gender, mobile_number, password, phone_number, total_points, role_id) values ('RegisteredUser', 3000, 'dkopp2@4shared.com', 'Dell', 'Kopp', 'Indonesia', '7253', 8248, 'Mosinee', '1970-12-26', 'MAN', '(250) 4718712', '29zIPqC2', '(194) 4690521', 101, 1);
@@ -51,4 +54,15 @@ insert into PUBLIC.USER (dtype, id, email, first_name, last_name, country, home_
 insert into PUBLIC.USER (dtype, id, email, first_name, last_name, country, home_number, postal_code, street, date_of_birth, gender, mobile_number, password, phone_number, total_points, role_id) values ('RegisteredUser', 49000, 'kberrane1c@behance.net', 'Koenraad', 'Berrane', 'Guadeloupe', '6184', 1178, 'Beilfuss', '1990-06-14', 'MAN', '(639) 4154511', '5y3Bm6MAg', '(240) 7685503', 566, 1);
 insert into PUBLIC.USER (dtype, id, email, first_name, last_name, country, home_number, postal_code, street, date_of_birth, gender, mobile_number, password, phone_number, total_points, role_id) values ('RegisteredUser', 50000, 'skermit1d@flickr.com', 'Sondra', 'Kermit', 'South Africa', '1682', 4178, 'Grayhawk', '2004-09-05', 'WOMAN', '(600) 4157804', 'uyQ4A2Ho3G', '(473) 3246176', 578, 1);
 insert into PUBLIC.USER (dtype, id, email, first_name, last_name, country, home_number, postal_code, street, date_of_birth, gender, mobile_number, password, phone_number, total_points, role_id) values ('RegisteredUser', 10, 'user@user.user', 'User', 'User', 'UserLand', '12', 1234, 'UserStreet', '1988-09-12', 'MAN', '(123) 4567890', 'user', '(234) 5678901', 123, 1);
+
+INSERT INTO ROLE_PRIVILEGES (role_id, privileges) VALUES (1, 'REGISTERED_USER_PRIVILEGES');
+INSERT INTO ROLE_PRIVILEGES (role_id, privileges) VALUES (2, 'REGISTERED_USER_PRIVILEGES');
+INSERT INTO ROLE_PRIVILEGES (role_id, privileges) VALUES (2, 'ENROLLED_USER_PRIVILEGES');
+INSERT INTO ROLE_PRIVILEGES (role_id, privileges) VALUES (3, 'REGISTERED_USER_PRIVILEGES');
+INSERT INTO ROLE_PRIVILEGES (role_id, privileges) VALUES (3, 'ENROLLED_USER_PRIVILEGES');
+INSERT INTO ROLE_PRIVILEGES (role_id, privileges) VALUES (3, 'MODERATOR_PRIVILEGES');
+INSERT INTO ROLE_PRIVILEGES (role_id, privileges) VALUES (4, 'REGISTERED_USER_PRIVILEGES');
+INSERT INTO ROLE_PRIVILEGES (role_id, privileges) VALUES (4, 'ENROLLED_USER_PRIVILEGES');
+INSERT INTO ROLE_PRIVILEGES (role_id, privileges) VALUES (4, 'MODERATOR_PRIVILEGES');
+INSERT INTO ROLE_PRIVILEGES (role_id, privileges) VALUES (4, 'ADMINISTRATOR_PRIVILEGES');
 	

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {AuthenticationService} from './services';
 
@@ -8,7 +8,7 @@ import {AuthenticationService} from './services';
   styleUrls: ['./login.component.css'],
   providers:  [AuthenticationService]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   model: any = {};
   loading = false;
   returnUrl: string;
@@ -18,19 +18,15 @@ export class LoginComponent implements OnInit {
               private authService: AuthenticationService) {
   }
 
-  ngOnInit() {
-  }
-
   login() {
     this.loading = true;
     this.authService.login(this.model.email, this.model.password)
-      .then(
+      .subscribe(
         data => {
-          this.router.navigate(['/points']);
-        },
-        error => {
-          this.loading = false;
-        });
+          this.authService.fetchUser().subscribe(() => {
+            this.router.navigate(['/points']);
+          }, () => this.loading = false);
+        }, () => this.loading = false);
   }
 
 }

@@ -2,7 +2,6 @@ package com.realdolmen.sportclub.backend.controller;
 
 import com.realdolmen.sportclub.backend.dao.UserPointsDao;
 import com.realdolmen.sportclub.common.entity.RegisteredUser;
-import com.realdolmen.sportclub.common.entity.User;
 import com.realdolmen.sportclub.common.entity.authentication.AuthenticatedUser;
 import com.realdolmen.sportclub.common.repository.RegisteredUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/user")
+    @PreAuthorize("hasAuthority('REGISTERED_USER_PRIVILEGES')")
     public AuthenticatedUser getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
