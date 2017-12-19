@@ -12,9 +12,11 @@
 
     <span th:text="${user.getLastName()}"></span>
     <br/>
-    <br />
+    <br/>
 
-    Uw betaling voor ${enrollment.getMembershipType.getName()} voor de periode ${enrollment.getStartDate} - ${enrollment.getEndDate} werd succesvol ontvangen. Welkom!
+    Uw betaling voor lidmaatschap van <span th:text="${enrollment.getMembershipType().getName()}"></span> voor de periode <span
+        th:text="${startDate}"></span> - <span
+        th:text="${endDate}"></span> werd succesvol ontvangen. Welkom!
 </div>
 
 

@@ -43,7 +43,7 @@ public class RegisteredUser extends User {
     private boolean isOnAutomaticMailList;
 
     @NotNull
-    private boolean isSelfManaged;
+    private boolean isSelfManaged = true;
 
     @ManyToOne
     private RegisteredUser parent;

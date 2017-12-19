@@ -14,7 +14,7 @@ public interface MailSenderService {
 
     void sendMailPaymentEnrollmentReceived(UserEnrollment userEnrollment);
 
-    void sendMailEnrollmentEnding(UserEnrollment userEnrollment);
+    void scheduleMailEnrollmentEnding(UserEnrollment userEnrollment);
 
     void sendMail(Email email);
 }

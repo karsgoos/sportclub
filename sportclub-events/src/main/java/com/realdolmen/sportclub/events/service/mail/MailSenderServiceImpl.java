@@ -47,7 +47,7 @@ public class MailSenderServiceImpl implements MailSenderService {
     }
 
     @Override
-    public void sendMailEnrollmentEnding(UserEnrollment userEnrollment) {
+    public void scheduleMailEnrollmentEnding(UserEnrollment userEnrollment) {
         String subject = "Lidmaatschap eindigt in 1 maand";
         User user = userEnrollment.getOrdr().getUser();
         String content = mailContentBuilder.buildMailEnrollmentEnding(user, userEnrollment.getEnrollment().getMembershipType());
