@@ -89,7 +89,9 @@ public class EventManagementController {
         }
     }
 
-    @RequestMapping(produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", method = RequestMethod.GET, value = "events/{id}/cancellations")
+    // The endpoint determines the file name in most popular browsers,
+    // so this has to be a Dutch endpoint
+    @RequestMapping(produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", method = RequestMethod.GET, value = "events/{id}/cancellations/annulaties")
     public @ResponseBody
     byte[] exportCancellations(@PathVariable("id") Long id) throws EventExportException, EventNotFoundException {
         return service.exportCancellations(id);
@@ -161,7 +163,9 @@ public class EventManagementController {
         return service.findParticipantsOfEvent(id);
     }
 
-    @RequestMapping(produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", method = RequestMethod.GET, value = "events/{id}/attendees")
+    // The endpoint determines the file name in most popular browsers,
+    // so this has to be a Dutch endpoint
+    @RequestMapping(produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", method = RequestMethod.GET, value = "events/{id}/deelnemers")
     public @ResponseBody
     byte[] exportAttendees(@PathVariable("id") Long id) throws EventExportException, EventNotFoundException {
         return service.exportAttendanceList(id);

@@ -8,6 +8,7 @@ import {DeleteModalComponent} from "../delete-modal/delete-modal.component";
 import {EventListParticipantsComponent} from "../event-list-participants/event-list-participants.component";
 
 import {isNullOrUndefined} from "util";
+import {CancellationsModalComponent} from "../cancellations-modal/cancellations-modal.component";
 
 declare var $: any;
 
@@ -23,6 +24,7 @@ export class EventDetailComponent implements OnInit {
   @ViewChild(AttendingModalComponent) modal: AttendingModalComponent;
   @ViewChild(DeleteModalComponent) deleteModal: DeleteModalComponent;
   @ViewChild(EventListParticipantsComponent) participants: EventListParticipantsComponent;
+  @ViewChild(CancellationsModalComponent) cancellations: CancellationsModalComponent;
 
   constructor(private route: ActivatedRoute, private router: Router, private sportClubEventService: SportClubEventService) {
   }
@@ -81,6 +83,10 @@ export class EventDetailComponent implements OnInit {
 
   showParticipantsModal() {
     this.participants.show();
+  }
+
+  showCancellationsModal() {
+    this.cancellations.show();
   }
 
 

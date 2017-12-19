@@ -17,6 +17,7 @@ import {DeleteModalComponent} from "./sportclub-events/delete-modal/delete-modal
 import {EventListParticipantsComponent} from "./sportclub-events/event-list-participants/event-list-participants.component";
 import {EventListParticipantsService} from "./sportclub-events/service/event-list-participants.service";
 import {SportClubEventService} from "./sportclub-events/service/sportclub-event.service";
+import { CancellationsModalComponent } from './sportclub-events/cancellations-modal/cancellations-modal.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {SportClubEventService} from "./sportclub-events/service/sportclub-event.
     RoleManagementPanelComponent,
     DeleteModalComponent,
     AttendingModalComponent,
-    EventListParticipantsComponent
+    EventListParticipantsComponent,
+    CancellationsModalComponent
   ],
   imports: [
     BrowserModule,
