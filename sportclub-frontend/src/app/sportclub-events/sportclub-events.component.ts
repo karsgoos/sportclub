@@ -27,7 +27,7 @@ export class SportClubEventsComponent implements OnInit {
   }
 
   goToEventCreation() {
-    this.router.navigate(['/events/creation'])
+    this.router.navigate(['/evenementen/aanmaken'])
   }
 
 }

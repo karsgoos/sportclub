@@ -7,6 +7,7 @@ import com.realdolmen.sportclub.events.exceptions.*;
 import com.realdolmen.sportclub.events.repository.EventRepository;
 import com.realdolmen.sportclub.events.repository.RecurringEventInfoRepository;
 import com.realdolmen.sportclub.events.service.export.EventExcelExporter;
+import com.realdolmen.sportclub.events.service.mail.MailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
@@ -37,6 +38,8 @@ public class EventManagementServiceImpl implements EventManagementService {
     private AttendanceRepository attendanceRepository;
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    MailSenderService mailService;
 
     @Override
     @Transactional
@@ -62,6 +65,11 @@ public class EventManagementServiceImpl implements EventManagementService {
 
     private List<Event> calculateRecurrentEvents(Event event, boolean isUpdate) throws CouldNotCreateEventException {
         List<Event> eventsToCreate = new ArrayList<>();
+        // Also copy all attendancies to the new event from the repository.
+        if(isUpdate) {
+            Event fromRepository = repository.findOne(event.getId());
+            fromRepository.getAttendancies().forEach(event::addAttendance);
+        }
         if (event.getRecurringEventInfo() != null) {
             event.setRecurringEventInfo(recurringEventInfoRepository.save(event.getRecurringEventInfo()));
 
@@ -109,7 +117,7 @@ public class EventManagementServiceImpl implements EventManagementService {
                     // When updating, the user doesn't have to reupload the
                     // same attachment or image again.
                     // For this reason, we want to load the current event
-                    // from the repository and obtain its attachment and image
+                    // from the repository and obtain its attachment and image.
                     if (isUpdate) {
                         Event fromRepository = repository.findOne(event.getId());
                         newEvent.setAttachement(fromRepository.getAttachement());
@@ -159,6 +167,8 @@ public class EventManagementServiceImpl implements EventManagementService {
         }
 
         repository.save(eventsToCreate);
+
+        mailService.sendMailUpdatedEvent(event);
 
         return event;
     }
@@ -225,10 +235,18 @@ public class EventManagementServiceImpl implements EventManagementService {
 
     @Override
     public void saveImage(Long id, MultipartFile image) throws IOException {
-        Event event = repository.findOne(id);
-        event.setImage(image.getBytes());
-        event.setImageMimeType(image.getContentType().toLowerCase());
-        repository.save(event);
+        if(isImage(image)) {
+            Event event = repository.findOne(id);
+            event.setImage(image.getBytes());
+            event.setImageMimeType(image.getContentType().toLowerCase());
+            repository.save(event);
+        } else {
+            throw new IllegalArgumentException("Het bestand moet een geldige afbeelding zijn.");
+        }
+    }
+
+    private boolean isImage(MultipartFile image) {
+        return image.getContentType().toLowerCase().startsWith("image");
     }
 
     @Override
@@ -251,6 +269,7 @@ public class EventManagementServiceImpl implements EventManagementService {
     @Override
     public Event delete(Long id) throws EventNotFoundException {
         Event event = find(id);
+        mailService.sendMailEventDeleted(event);
         for(Attendance attendance : event.getAttendancies()) {
             attendanceRepository.delete(attendance);
             orderRepository.delete(attendance.getOrdr());

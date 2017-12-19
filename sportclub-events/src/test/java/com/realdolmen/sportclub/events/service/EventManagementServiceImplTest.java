@@ -6,6 +6,7 @@ import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
 import com.realdolmen.sportclub.events.exceptions.EventNotFoundException;
 import com.realdolmen.sportclub.events.repository.EventRepository;
 import com.realdolmen.sportclub.events.repository.RecurringEventInfoRepository;
+import com.realdolmen.sportclub.events.service.mail.MailSenderService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,9 +35,10 @@ public class EventManagementServiceImplTest {
 
     @Mock
     private EventRepository repository;
-
     @Mock
     private RecurringEventInfoRepository recurringEventInfoRepository;
+    @Mock
+    private MailSenderService mailService;
 
     @Before
     public void setUp() {
@@ -360,6 +362,7 @@ public class EventManagementServiceImplTest {
 
     @Test
     public void canDeleteEvent() throws CouldNotCreateEventException, EventNotFoundException {
+        Mockito.doNothing().when(mailService).sendMailEventDeleted(Mockito.any());
         Event event = createValidEvent();
         event = service.create(event);
         service.delete(event.getId());

@@ -74,8 +74,10 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
 
   }
 
-  updateEvent(event: SportClubCreationEvent) {
-    super.update(event).subscribe();
+  updateEvent(event: SportClubCreationEvent): Observable<Message<SportClubCreationEvent>> {
+    return this.http.put(environment.eventApiUrl + '/' + event.id, event, {
+      headers: new HttpHeaders().set("Content-Type", "application/json")
+    });
   }
 
   deleteEvent(eventId: number) {

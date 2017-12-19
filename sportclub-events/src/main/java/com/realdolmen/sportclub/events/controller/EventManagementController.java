@@ -37,9 +37,9 @@ public class EventManagementController {
         }
     }
 
-    @RequestMapping(consumes = "application/json", produces = "application/json", method = RequestMethod.PUT, value = "events")
+    @RequestMapping(consumes = "application/json", produces = "application/json", method = RequestMethod.PUT, value = "events/{id}")
     public @ResponseBody
-    MessageDto update(@RequestBody Event event) {
+    MessageDto update(@PathVariable("id") Long id, @RequestBody Event event) {
         try {
             Event result = service.update(event);
             return new MessageDto(result);
@@ -98,32 +98,36 @@ public class EventManagementController {
     public @ResponseBody
     ResponseEntity<?> uploadAttachement(@PathVariable("id") Long id, @RequestParam("file") MultipartFile attachment) {
         if (attachment.isEmpty()) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new MessageDto(null), HttpStatus.BAD_REQUEST);
         }
 
         try {
             service.saveAttachment(id, attachment);
         } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new MessageDto(null), HttpStatus.BAD_REQUEST);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(new MessageDto("Het opgegeven bestand moet in PDF formaat zijn."), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity(new MessageDto(null), HttpStatus.CREATED);
     }
 
     @PostMapping("events/{id}/image")
     public @ResponseBody
     ResponseEntity<?> uploadImage(@PathVariable("id") Long id, @RequestParam("file") MultipartFile attachment) {
         if (attachment.isEmpty()) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new MessageDto(null), HttpStatus.BAD_REQUEST);
         }
 
         try {
             service.saveImage(id, attachment);
         } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new MessageDto(null), HttpStatus.BAD_REQUEST);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(new MessageDto("Het opgegeven bestand moet een afbeelding zijn (GIF/JPG/PNG)."), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity(new MessageDto(null), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "events/{id}/image")
@@ -149,4 +153,6 @@ public class EventManagementController {
     byte[] exportAttendees(@PathVariable("id") Long id) throws EventExportException, EventNotFoundException {
         return service.exportAttendanceList(id);
     }
+
+
 }
