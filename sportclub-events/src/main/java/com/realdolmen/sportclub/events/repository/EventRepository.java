@@ -1,0 +1,15 @@
+package com.realdolmen.sportclub.events.repository;
+
+import com.realdolmen.sportclub.common.entity.Event;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Repository
+public interface EventRepository extends JpaRepository<Event, Long>, EventAttendeeRepository {
+    List<Event> findByStartDateBeforeOrderByStartDateDesc(LocalDateTime localDateTime, Pageable pageable);
+    List<Event> findByStartDateAfterOrderByStartDateAsc(LocalDateTime localDateTime, Pageable pageable);
+}

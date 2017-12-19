@@ -5,13 +5,20 @@ import {SportClubEventsComponent} from './sportclub-events.component';
 import { FullCalendarModule } from 'ng-fullcalendar';
 import { EventCalendarComponent } from './event-calendar/event-calendar.component';
 
+import {SportclubEventCreationComponent} from "./components/sportclub-event-creation/sportclub-event-creation.component";
+import {ReactiveFormsModule,FormsModule} from '@angular/forms';
+import {AngularDateTimePickerModule} from "angular2-datetimepicker";
+
 
 @NgModule({
   imports: [
     CommonModule,
-    FullCalendarModule
+    FullCalendarModule,
+    ReactiveFormsModule,
+    AngularDateTimePickerModule,
   ],
-  declarations: [SportClubEventsComponent, EventCalendarComponent],
+  declarations: [SportClubEventsComponent,
+        SportclubEventCreationComponent, EventCalendarComponent],
   providers: [SportClubEventService]
 })
 export class SportClubEventsModule {

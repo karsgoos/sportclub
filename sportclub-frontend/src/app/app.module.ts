@@ -14,6 +14,8 @@ import {EventListParticipantsComponent} from "./sportclub-events/event-list-part
 import {EventListParticipantsService} from "./sportclub-events/service/event-list-participants.service";
 import {SportClubEventService} from "./sportclub-events/service/sportclub-event.service";
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +29,9 @@ import {SportClubEventService} from "./sportclub-events/service/sportclub-event.
     HttpClientModule,
     AppRoutingModule,
     SportClubUserManagementModule,
-    SportClubEventsModule,FormsModule,ReactiveFormsModule
+    SportClubEventsModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   bootstrap: [AppComponent],
   providers: [

@@ -5,9 +5,15 @@ import {SportClubEventsComponent} from './sportclub-events/sportclub-events.comp
 import {EventDetailComponent} from "./sportclub-events/event-detail/event-detail.component";
 import {AttendingModalComponent} from "./sportclub-events/attending-modal/attending-modal.component";
 
+import {AppComponent} from "./app.component";
+import {SportclubEventCreationComponent} from "./sportclub-events/components/sportclub-event-creation/sportclub-event-creation.component";
+
 
 const routes: Routes = [
   {
+    path: 'events/creation',
+    component: SportclubEventCreationComponent
+  },{
     path: 'user-management',  pathMatch: 'full',
     component: SportClubUserManagementComponent
   },
