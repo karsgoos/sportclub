@@ -175,6 +175,22 @@ public class FakeDataGenerator {
 
             registeredUserRepository.save(moderatorBuilder.build());
         }
+
+        Address address = new AddressBuilder().build();
+        RegisteredUserBuilder parentBuilder = new RegisteredUserBuilder()
+                .firstName("Bert")
+                .lastName("Vermeulen")
+                .email("bv@gmail.com")
+                .address(address)
+                .gender(Gender.MAN)
+                .role(registeredUser)
+                .addEnrollment(enrollment)
+                .phoneNumber("0000000" + ABC[1])
+                .password("test")
+                .totalPoints(2000)
+                .isSelfManaged(true);
+
+        registeredUserRepository.save(parentBuilder.build());
     }
 
     private void addMembershipTypes() {
