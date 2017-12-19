@@ -1,8 +1,8 @@
 import {RegisteredUser} from "./registered-user-model";
 import {Enrollment} from "./enrollment-model";
 import {Address} from "./address-model";
-import {PriceModel} from "./price-model";
 import {RecurringEventInfo} from "./recurring-event-info";
+import {AttendanceModel} from "./attendance-model";
 export interface SportClubEvent {
 
   id: number;
@@ -22,4 +22,5 @@ export interface SportClubEvent {
   recurringEventInfo: RecurringEventInfo;
   closed: boolean;
   points: number;
+  attendancies: Array<AttendanceModel>;
 }

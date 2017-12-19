@@ -5,6 +5,10 @@ import {SportClubEventService} from "../service/sportclub-event.service";
 import {AttendingModalComponent} from "../attending-modal/attending-modal.component";
 import {environment} from "../../../environments/environment";
 import {DeleteModalComponent} from "../delete-modal/delete-modal.component";
+import {EventListParticipantsComponent} from "../event-list-participants/event-list-participants.component";
+
+import {isNullOrUndefined} from "util";
+import {CancellationsModalComponent} from "../cancellations-modal/cancellations-modal.component";
 
 declare var $: any;
 
@@ -19,6 +23,8 @@ export class EventDetailComponent implements OnInit {
 
   @ViewChild(AttendingModalComponent) modal: AttendingModalComponent;
   @ViewChild(DeleteModalComponent) deleteModal: DeleteModalComponent;
+  @ViewChild(EventListParticipantsComponent) participants: EventListParticipantsComponent;
+  @ViewChild(CancellationsModalComponent) cancellations: CancellationsModalComponent;
 
   constructor(private route: ActivatedRoute, private router: Router, private sportClubEventService: SportClubEventService) {
   }
@@ -31,6 +37,28 @@ export class EventDetailComponent implements OnInit {
     $('.materialboxed').materialbox();
   }
 
+  calculateAvailableSpace() {
+    var currentTotal = 0;
+    var countAttendancies = 0;
+
+    if (!isNullOrUndefined(this.eventModel.attendancies)) {
+
+      //Only calculate the attendacies that are not cancelled
+      for (var i = 0; i < this.eventModel.attendancies.length; i++) {
+
+        if (!this.eventModel.attendancies[i].cancelled) {
+          countAttendancies += 1;
+        }
+      }
+    }
+
+    currentTotal = this.eventModel.maxParticipants - countAttendancies;
+
+    if (currentTotal < 0) {
+      return 0;
+    }
+    return currentTotal;
+  }
 
   subscribe() {
     this.router.navigate(['/event/' + this.eventModel.id + '/subscribe']);
@@ -51,6 +79,14 @@ export class EventDetailComponent implements OnInit {
 
   getImageUrl() {
     return environment.eventApiUrl + "/" + this.eventModel.id + "/image";
+  }
+
+  showParticipantsModal() {
+    this.participants.show();
+  }
+
+  showCancellationsModal() {
+    this.cancellations.show();
   }
 
 
