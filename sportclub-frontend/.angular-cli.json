@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "../sportclub-backend/target/classes/static",
+      "outDir": "dist",
       "assets": [
         "assets",
         "favicon.ico"
