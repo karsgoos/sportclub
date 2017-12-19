@@ -1,7 +1,7 @@
 export interface Orderable {
 
   id: number;
-  prica: number;
+  price: number;
   description: String;
 
 }

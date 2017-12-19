@@ -10,13 +10,17 @@ import { EventDetailComponent } from './sportclub-events/event-detail/event-deta
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import {AttendingModalComponent} from "./sportclub-events/attending-modal/attending-modal.component";
+import {EventListParticipantsComponent} from "./sportclub-events/event-list-participants/event-list-participants.component";
+import {EventListParticipantsService} from "./sportclub-events/service/event-list-participants.service";
+import {SportClubEventService} from "./sportclub-events/service/sportclub-event.service";
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuBarComponent,
     EventDetailComponent,
-    AttendingModalComponent
+    AttendingModalComponent,
+    EventListParticipantsComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +29,11 @@ import {AttendingModalComponent} from "./sportclub-events/attending-modal/attend
     SportClubUserManagementModule,
     SportClubEventsModule,FormsModule,ReactiveFormsModule
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [
+    SportClubEventService,
+    EventListParticipantsService
+  ]
 })
 export class AppModule {
 }

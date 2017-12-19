@@ -3,6 +3,7 @@ import {Enrollment} from "./enrollment-model";
 import {Address} from "./address-model";
 import {PriceModel} from "./price-model";
 import {RecurringEventInfo} from "./recurring-event-info";
+import {AttendingModalComponent} from "../../sportclub-events/attending-modal/attending-modal.component";
 export interface SportClubEvent {
 
   id: number;
@@ -21,4 +22,5 @@ export interface SportClubEvent {
   name: String;
   recurringEventInfo: RecurringEventInfo;
   closed: boolean;
+  attendencies: Array<AttendingModalComponent>;
 }
