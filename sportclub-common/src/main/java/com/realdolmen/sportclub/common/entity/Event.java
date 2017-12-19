@@ -117,6 +117,9 @@ public class Event implements Serializable {
 
     private int points;
 
+    // when reached this number of participants the moderators of this event want to get a mail
+    private int numberParticipantsToSendMail;
+
     public Long getId() {
         return id;
     }
@@ -281,4 +284,8 @@ public class Event implements Serializable {
     public void setId(long id) {
         this.id = id;
     }
+
+    public int getNumberParticipantsToSendMail() { return numberParticipantsToSendMail; }
+
+    public void setNumberParticipantsToSendMail(int numberParticipantsToSendMail) { this.numberParticipantsToSendMail = numberParticipantsToSendMail; }
 }

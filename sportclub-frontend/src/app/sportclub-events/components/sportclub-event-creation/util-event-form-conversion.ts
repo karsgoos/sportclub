@@ -108,6 +108,9 @@ export function fromFormToEvent(form:FormGroup, responsibles:Moderator[], enroll
   if(form.value.automaticReminderMailBoolean){
     event.reminderDate = form.value.reminderMailDate + " " + form.value.reminderMailTime;
   }
+  if(form.value.automaticModeratorMailBoolean){
+    event.numberParticipantsToRemind = form.value.numberParticipantsToRemind;
+  }
 
   return event;
 }

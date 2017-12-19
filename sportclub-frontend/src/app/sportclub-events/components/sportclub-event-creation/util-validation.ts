@@ -21,6 +21,10 @@ export function setLocalValidators(form: FormGroup){
     'customMinMaxParticipantsBoolean',
     [Validators.required,Validators.pattern('[1-9][0-9]*')],
     true);
+  addConditionalValidatorsShortcut(form,'numberParticipantsToRemind',
+    'automaticModeratorMailBoolean',
+    [Validators.required,Validators.pattern('[1-9][0-9]*')],
+    true);
 
   addConditionalValidatorsShortcut(form,'startday',
     'eventIsRecurring',
@@ -174,7 +178,15 @@ export function checkGlobalValidation(form:FormGroup): string[]{
     }
   }
 
-
+  // if a number of participants to mail is set, check wether it is between the min and max
+  if(form.value.automaticModeratorMailBoolean){
+    let remindNr = form.value.numberParticipantsToRemind;
+    let min = form.value.minParticipants;
+    let max = form.value.maxParticipants;
+    if(remindNr < min || remindNr>max){
+      globalErrorMessages.push("Het aantal deelnemers ingesteld voor een herinnering moet tussen het minimum en het maximum aantal deelnemers liggen");
+    }
+  }
 
   return globalErrorMessages;
 
