@@ -5,10 +5,7 @@ import {FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl} from "
 import {Address} from "../../model/address";
 import {Moderator} from "../../model/moderator";
 import {EnrollmentTemp} from "../../model/enrollment-temp";
-import {ActivatedRoute} from "@angular/router";
-import {Router} from "@angular/router";
-import {RequestOptions} from "@angular/http";
-import {HttpHeaders, HttpParams} from "@angular/common/http";
+import {ActivatedRoute, Router} from "@angular/router";
 declare var $: any;
 
 @Component({

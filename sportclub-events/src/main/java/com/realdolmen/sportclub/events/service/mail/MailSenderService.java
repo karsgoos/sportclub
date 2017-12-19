@@ -13,4 +13,6 @@ public interface MailSenderService {
     void sendMailEnrollmentEnding(UserEnrollment userEnrollment);
 
     void sendMail(Email email);
+
+    void sendReminderMails(Event event);
 }

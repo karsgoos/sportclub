@@ -14,4 +14,5 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findByStartDateBeforeOrderByStartDateDesc(LocalDateTime localDateTime, Pageable pageable);
     List<Event> findByStartDateAfterOrderByStartDateAsc(LocalDateTime localDateTime, Pageable pageable);
     void deleteByStartDateAfterAndRecurringEventInfoEquals(LocalDateTime localDateTime, RecurringEventInfo info);
+    List<Event> findByReminderDateBetween(LocalDateTime time1, LocalDateTime time2);
 }

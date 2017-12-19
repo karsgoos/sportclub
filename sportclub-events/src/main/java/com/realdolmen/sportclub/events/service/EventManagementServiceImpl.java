@@ -361,4 +361,34 @@ public class EventManagementServiceImpl implements EventManagementService {
             throw new InvalidEventException("Het huisnummer mag niet ontbreken in een adres.");
         }
     }
+
+    @Override
+    public List<Event> getAllEventsWithReminderDateInLastHour(){
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime oneHourAgo = now.minusHours(1);
+
+        List<Event> allEvents = repository.findByReminderDateBetween(now, oneHourAgo);
+
+        //only send back those that belong to a unique recurringevent
+        List<Long> recEventIds = new ArrayList<>();
+        List<Event> allEventsToMail = new ArrayList<>();
+
+        for(Event event: allEvents){
+            RecurringEventInfo recEvInfo = event.getRecurringEventInfo();
+            if(recEvInfo==null){
+                allEventsToMail.add(event);
+            }
+            else{
+                if(recEventIds.contains(recEvInfo.getId())){
+                    //don't add this one, already happened
+                }
+                else{
+                    recEventIds.add(recEvInfo.getId());
+                    allEventsToMail.add(event);
+                }
+            }
+        }
+
+        return allEventsToMail;
+    }
 }
