@@ -111,7 +111,6 @@ public class MailContentBuilder {
         Context context = new Context();
 
         context.setVariable("user", user);
-        context.setVariable("sportclub", sportclub);
         context.setVariable("event", event);
 
         return templateEngine.process("participantsReached", context);
