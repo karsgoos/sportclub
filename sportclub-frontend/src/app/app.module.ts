@@ -22,7 +22,6 @@ import {LoginModule} from './login/login.module';
 import {PointsComponent} from './points/points.component';
 import {AuthInterceptor} from './login/services/auth.interceptor';
 import {AuthenticationService} from './login/services';
-import {NavMenuComponent} from './nav-menu/nav-menu.component';
 import {RegistrationComponent} from './registration/registration.component';
 import {RegisteredUserGuard} from './guard/registered-user.guard';
 
