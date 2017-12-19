@@ -19,6 +19,8 @@ public class FakeDataGenerator {
 
     static final int REGISTEREDPARENTSAMOUNT = 5;
     static final int CHILDSPERPARENT = 2;
+    static final int MODERATORS = 2;
+    static final char[] ABC = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
 
     @Autowired
     private RoleRepository roleRepository;
@@ -138,33 +140,33 @@ public class FakeDataGenerator {
     }
 
     private void addRegisteredUsers() {
-
+        //add regular users and children
         for(int i=0; i<=REGISTEREDPARENTSAMOUNT; i++ ){
-            String firstName = "ParentFirstName " + i;
-            String lastName = "ParentLastName " + i;
+            String firstName = "ParentFirstName " + ABC[i];
+            String lastName = "ParentLastName " + ABC[i];
             Address address = new AddressBuilder().build();
             RegisteredUserBuilder parentBuilder = new RegisteredUserBuilder()
                     .firstName(firstName)
                     .lastName(lastName)
-                    .email(firstName+"."+lastName+"@email.com")
+                    .email((firstName+"."+lastName+"@email.com").replaceAll(" ", ""))
                     .address(address)
                     .gender(Gender.MAN)
                     .role(registeredUser)
                     .addEnrollment(enrollment)
-                    .phoneNumber("0000000" + i)
+                    .phoneNumber("0000000" + ABC[i])
                     .password(firstName + 123);
             for(int j=0; j<=CHILDSPERPARENT; j++){
-                String childFirstName = "Child " + j;
+                String childFirstName = "Child " + ABC[j];
 
                 RegisteredUserBuilder childBuilder = new RegisteredUserBuilder()
                         .firstName(childFirstName)
                         .lastName(lastName)
-                        .email(childFirstName+"."+lastName+"@email.com")
+                        .email((childFirstName+"."+lastName+"@email.com").replaceAll(" ", ""))
                         .address(address) //make this general
                         .gender(Gender.MAN)
                         .role(registeredUser)
                         //add enrollment
-                        .phoneNumber("0000000" + i + j)
+                        .phoneNumber("0000000" + ABC[i] + ABC[j])
                         .password(childFirstName + 123);
                 parentBuilder.addChildAccount(registeredUserRepository.save(childBuilder.build()));
             }
@@ -172,9 +174,24 @@ public class FakeDataGenerator {
             registeredUserRepository.save(parentBuilder.build());
 
         }
+        //add moderators
+        for(int i=0; i<=REGISTEREDPARENTSAMOUNT; i++ ) {
+            String firstName = "moderatorFirstName" + ABC[i];
+            String lastName = "moderatorLastName" + ABC[i];
+            Address address = new AddressBuilder().build();
+            RegisteredUserBuilder moderatorBuilder = new RegisteredUserBuilder()
+                    .firstName(firstName)
+                    .lastName(lastName)
+                    .email(firstName + "." + lastName + "@email.com")
+                    .address(address)
+                    .gender(Gender.MAN)
+                    .role(registeredUser)
+                    .addEnrollment(enrollment)
+                    .phoneNumber("0000000" + ABC[i])
+                    .password(firstName + 123);
 
-
-
+            registeredUserRepository.save(moderatorBuilder.build());
+        }
     }
 
     private void addMembershipTypes() {
