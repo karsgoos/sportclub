@@ -37,9 +37,9 @@ public class EventManagementController {
         }
     }
 
-    @RequestMapping(consumes = "application/json", produces = "application/json", method = RequestMethod.PUT, value = "events")
+    @RequestMapping(consumes = "application/json", produces = "application/json", method = RequestMethod.PUT, value = "events/{id}")
     public @ResponseBody
-    MessageDto update(@RequestBody Event event) {
+    MessageDto update(@PathVariable("id") Long id, @RequestBody Event event) {
         try {
             Event result = service.update(event);
             return new MessageDto(result);

@@ -562,7 +562,10 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
       this.prepareEventToSave();
       // if we are updating
       if (this.eventId) {
-        this.eventService.updateEvent(this.event);
+        this.eventService.updateEvent(this.event).subscribe(message => {
+          let event = message.value;
+          this.router.navigate(['/event', this.eventId]);
+        });
       }
       // if we are creating
       else {
