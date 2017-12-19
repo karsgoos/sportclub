@@ -2,10 +2,7 @@ package com.realdolmen.sportclub.fakedata;
 
 import com.realdolmen.sportclub.common.builder.*;
 import com.realdolmen.sportclub.common.entity.*;
-import com.realdolmen.sportclub.common.repository.EnrollmentRepository;
-import com.realdolmen.sportclub.common.repository.MembershipTypeRepository;
-import com.realdolmen.sportclub.common.repository.RegisteredUserRepository;
-import com.realdolmen.sportclub.common.repository.RoleRepository;
+import com.realdolmen.sportclub.common.repository.*;
 import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,7 +30,19 @@ public class FakeDataGenerator {
     private RegisteredUserRepository registeredUserRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private EnrollmentRepository enrollmentRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private OrderableRepository orderableRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     /*
     *
@@ -56,11 +65,65 @@ public class FakeDataGenerator {
 
     private Enrollment enrollment;
 
+    private Event publicEvent1;
+
     public void generate() {
         addRoles();
         addMembershipTypes();
         addEnrollments();
+        addEvents();
         addRegisteredUsers();
+        addEnrollmentOrders();
+        addAttendanceOrders();
+    }
+
+    private void addEvents() {
+        publicEvent1 = eventRepository.save(
+                new EventBuilder().withName("Opendeurdag")
+                        .build()
+        );
+    }
+
+    private void addAttendanceOrders() {
+        User guest1 = userRepository.save(
+                new GuestBuilder().withEmail("gaston@pelican.com")
+                .withFirstName("Gaston")
+                .withLastName("Rouge")
+                .withRole(guest)
+                .build()
+        );
+
+        Order order1 = orderRepository.save(
+                new OrderBuilder().orderDate(LocalDate.now().minusDays(1)).user(guest1).build()
+        );
+
+
+        Attendance attendance1 = orderableRepository.save(
+                new AttendanceBuilder().ageCategory(AgeCategory.ADULT)
+                .description("A cool event for Gaston and his friends")
+                .event(publicEvent1).ordr(order1).price(new BigDecimal(5))
+
+                .build()
+        );
+
+
+
+    }
+
+    private void addEnrollmentOrders() {
+        List<RegisteredUser> registeredUsers = registeredUserRepository.findAll();
+        Order order = orderRepository.save(
+                new OrderBuilder().orderDate(LocalDate.now().minusDays(25)).user(registeredUsers.get(0)).build()
+        );
+        Orderable orderable = new UserEnrollmentBuilder().description("Description of the enrollment")
+                .enrollment(enrollment)
+                .ordr(order)
+                .price(enrollment.getPrice())
+                .build();
+        orderable = orderableRepository.save(orderable);
+        order.getOrderables().add(orderable);
+        orderRepository.save(order);
+
     }
 
     private void addEnrollments() {
