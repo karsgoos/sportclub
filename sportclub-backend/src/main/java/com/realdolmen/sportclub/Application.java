@@ -27,7 +27,6 @@ public class Application {
     public void initData() {
         sportclubRepository.save(new Sportclub("Sportclub A"));
         fakeDataGenerator.generate();
-
     }
 
 }

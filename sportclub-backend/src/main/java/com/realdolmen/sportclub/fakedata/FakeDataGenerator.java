@@ -4,6 +4,7 @@ import com.realdolmen.sportclub.common.builder.*;
 import com.realdolmen.sportclub.common.entity.*;
 import com.realdolmen.sportclub.common.repository.*;
 import org.apache.tomcat.jni.Local;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -87,10 +88,10 @@ public class FakeDataGenerator {
     private void addAttendanceOrders() {
         User guest1 = userRepository.save(
                 new GuestBuilder().withEmail("gaston@pelican.com")
-                .withFirstName("Gaston")
-                .withLastName("Rouge")
-                .withRole(guest)
-                .build()
+                        .withFirstName("Gaston")
+                        .withLastName("Rouge")
+                        .withRole(guest)
+                        .build()
         );
 
         Order order1 = orderRepository.save(
@@ -99,10 +100,10 @@ public class FakeDataGenerator {
 
         Attendance attendance1 = orderableRepository.save(
                 new AttendanceBuilder().ageCategory(AgeCategory.ADULT)
-                .description("A cool event for Gaston and his friends")
-                .event(publicEvent1).ordr(order1).price(new BigDecimal(5))
+                        .description("A cool event for Gaston and his friends")
+                        .event(publicEvent1).ordr(order1).price(new BigDecimal(5))
 
-                .build()
+                        .build()
         );
     }
 
@@ -134,39 +135,45 @@ public class FakeDataGenerator {
     }
 
     private void addRegisteredUsers() {
-
-        for(int i=0; i<=REGISTEREDPARENTSAMOUNT; i++ ){
-            String firstName = "ParentFirstName " + i;
-            String lastName = "ParentLastName " + i;
+        for (int i = 0; i <= REGISTEREDPARENTSAMOUNT; i++) {
+            String firstName = "ParentFirstName" + i;
+            String lastName = "ParentLastName" + i;
             Address address = new AddressBuilder().build();
             RegisteredUserBuilder parentBuilder = new RegisteredUserBuilder()
                     .firstName(firstName)
                     .lastName(lastName)
-                    .email(firstName+"."+lastName+"@email.com")
+                    .email(firstName + "." + lastName + "@email.com")
                     .address(address)
                     .gender(Gender.MAN)
                     .role(registeredUser)
                     .addEnrollment(enrollment)
                     .phoneNumber("0000000" + i)
-                    .password(firstName + 123);
-            for(int j=0; j<=CHILDSPERPARENT; j++){
-                String childFirstName = "Child " + j;
-
-                RegisteredUserBuilder childBuilder = new RegisteredUserBuilder()
-                        .firstName(childFirstName)
-                        .lastName(lastName)
-                        .email(childFirstName+"."+lastName+"@email.com")
-                        .address(address) //make this general
-                        .gender(Gender.MAN)
-                        .role(registeredUser)
-                        //add enrollment
-                        .phoneNumber("0000000" + i + j)
-                        .password(childFirstName + 123);
-                parentBuilder.addChildAccount(registeredUserRepository.save(childBuilder.build()));
-            }
+                    .password(firstName + 123)
+                    .isSelfManaged(true);
 
             registeredUserRepository.save(parentBuilder.build());
         }
+
+        // TODO: Fix proper way of adding parents to childs and vice versa
+        /*for (int j = 0; j <= CHILDSPERPARENT; j++) {
+            String childFirstName = "Child" + j;
+
+            RegisteredUserBuilder childBuilder = new RegisteredUserBuilder()
+                    .firstName(childFirstName)
+                    .lastName(lastName)
+                    .email(childFirstName + "." + lastName + "@email.com")
+                    .address(address) //make this general
+                    .gender(Gender.MAN)
+                    .role(registeredUser)
+                    //add enrollment
+                    .phoneNumber("0000000" + i + j)
+                    .password(childFirstName + 123);
+
+            Hibernate.initialize(parent.getChildAccounts());
+            parent.getChildAccounts().add(childBuilder.build(parent));
+
+            parentBuilder.addChildAccount(childBuilder.build(parent));
+        }*/
     }
 
     private void addMembershipTypes() {
@@ -175,9 +182,12 @@ public class FakeDataGenerator {
     }
 
     private void addRoles() {
-        administrator = roleRepository.save(new RoleBuilder().name("ADMINISTRATOR")
-                .addPrivilege(Privilege.ADMINISTRATOR_PRIVILEGES)
-                .addPrivilege(Privilege.MODERATOR_PRIVILEGES)
+        guest = roleRepository.save(new RoleBuilder().name("GUEST")
+                .addPrivilege(Privilege.GUEST_PRIVILEGES).build());
+        registeredUser = roleRepository.save(new RoleBuilder().name("REGISTERED_USER")
+                .addPrivilege(Privilege.REGISTERED_USER_PRIVILEGES)
+                .addPrivilege(Privilege.GUEST_PRIVILEGES).build());
+        enrolledUser = roleRepository.save(new RoleBuilder().name("ENROLLED_USER")
                 .addPrivilege(Privilege.ENROLLED_USER_PRIVILEGES)
                 .addPrivilege(Privilege.REGISTERED_USER_PRIVILEGES)
                 .addPrivilege(Privilege.GUEST_PRIVILEGES).build());
@@ -186,14 +196,11 @@ public class FakeDataGenerator {
                 .addPrivilege(Privilege.ENROLLED_USER_PRIVILEGES)
                 .addPrivilege(Privilege.REGISTERED_USER_PRIVILEGES)
                 .addPrivilege(Privilege.GUEST_PRIVILEGES).build());
-        enrolledUser = roleRepository.save(new RoleBuilder().name("ENROLLED_USER")
+        administrator = roleRepository.save(new RoleBuilder().name("ADMINISTRATOR")
+                .addPrivilege(Privilege.ADMINISTRATOR_PRIVILEGES)
+                .addPrivilege(Privilege.MODERATOR_PRIVILEGES)
                 .addPrivilege(Privilege.ENROLLED_USER_PRIVILEGES)
                 .addPrivilege(Privilege.REGISTERED_USER_PRIVILEGES)
-                .addPrivilege(Privilege.GUEST_PRIVILEGES).build());
-        registeredUser = roleRepository.save(new RoleBuilder().name("REGISTERED_USER")
-                .addPrivilege(Privilege.REGISTERED_USER_PRIVILEGES)
-                .addPrivilege(Privilege.GUEST_PRIVILEGES).build());
-        guest = roleRepository.save(new RoleBuilder().name("GUEST")
                 .addPrivilege(Privilege.GUEST_PRIVILEGES).build());
     }
 }
