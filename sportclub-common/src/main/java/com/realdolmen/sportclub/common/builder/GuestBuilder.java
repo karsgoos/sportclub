@@ -9,7 +9,7 @@ public final class GuestBuilder {
     private String lastName = "Holman";
     private Role role = new RoleBuilder().build();
 
-    private GuestBuilder() {
+    public GuestBuilder() {
     }
 
     public static GuestBuilder aGuest() {
