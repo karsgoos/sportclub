@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
  * Created by FVDBF69 on 13/12/2017.
  */
 @Component("javasampleapproachMailSender")
-@EnableAsync
 public class MailSenderServiceImpl implements MailSenderService {
 
 
@@ -89,7 +88,6 @@ public class MailSenderServiceImpl implements MailSenderService {
         sendMail(email);
     }
 
-    @Async
     public void sendMail(Email email) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
@@ -107,20 +105,23 @@ public class MailSenderServiceImpl implements MailSenderService {
             logger.error("There went someting wrong while generating the email ...");
         }
 
-        try {
-            javaMailSender.send(mimeMessage);
-            email.setSendStatus(SendStatus.SUCCES);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    javaMailSender.send(mimeMessage);
+                    email.setSendStatus(SendStatus.SUCCES);
 
-        } catch (MailException e) {
-            logger.error("Failed to send email to " + email.getUser().getEmail() + " with subject " + email.getSubject());
-            email.setSendStatus(SendStatus.FAILED);
+                } catch (MailException e) {
+                    logger.error("Failed to send email to " + email.getUser().getEmail() + " with subject " + email.getSubject());
+                    email.setSendStatus(SendStatus.FAILED);
 
-        } finally {
-            emailService.save(email);
+                } finally {
+                    emailService.save(email);
 
-        }
-
-
+                }
+            }
+        });
     }
 
 
