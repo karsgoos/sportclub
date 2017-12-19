@@ -1,5 +1,6 @@
 package com.realdolmen.sportclub.events.controller;
 
+import com.realdolmen.sportclub.common.dto.MessageDto;
 import com.realdolmen.sportclub.common.entity.Event;
 import com.realdolmen.sportclub.common.entity.User;
 import com.realdolmen.sportclub.events.DTO.AttendEventDTO;
@@ -28,37 +29,71 @@ public class EventManagementController {
 
     @RequestMapping(consumes = "application/json", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.POST, value = "events")
     public @ResponseBody
-    Event create(@RequestBody Event event) throws CouldNotCreateEventException {
-        return service.create(event);
+    MessageDto create(@RequestBody Event event) {
+        try {
+            Event result = service.create(event);
+            return new MessageDto("", result);
+        } catch (CouldNotCreateEventException e) {
+            return new MessageDto(e.getMessage(), null);
+        }
     }
 
-    @RequestMapping(consumes = "application/json", produces = "application/json", method = RequestMethod.PUT, value = "events")
+    @RequestMapping(consumes = "application/json", produces = "application/json", method = RequestMethod.PUT, value = "events/{id}")
     public @ResponseBody
-    Event update(@RequestBody Event event) throws CouldNotUpdateEventException {
-        return service.update(event);
+    MessageDto update(@PathVariable("id") Long id, @RequestBody Event event) {
+        try {
+            Event result = service.update(event);
+            return new MessageDto("", result);
+        } catch (CouldNotUpdateEventException e) {
+            return new MessageDto(e.getMessage(), null);
+        }
     }
 
-    @RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "events/{id}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "events/{id}")
     public @ResponseBody
-    Event findEvent(@PathVariable("id") Long id) throws EventNotFoundException {
-        return service.find(id);
+    MessageDto delete(@PathVariable("id") Long id) {
+        try {
+            service.delete(id);
+            return new MessageDto("", null);
+        } catch (EventNotFoundException e) {
+            return new MessageDto(e.getMessage(), null);
+        }
     }
 
-    @RequestMapping(produces = "application/json", params = {"page", "pageSize"}, method = RequestMethod.GET, value = "events")
+    @RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "events/detail/{id}")
     public @ResponseBody
-    List<Event> findAll(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
-        return service.findAll(page, pageSize);
+    MessageDto findEvent(@PathVariable("id") Long id) {
+        try {
+            Event result = service.find(id);
+            return new MessageDto("", result);
+        } catch (EventNotFoundException e) {
+            return new MessageDto("Het gevraagde evenement werd niet gevonden.", null);
+        }
+    }
+
+    @RequestMapping(produces = "application/json", params = {"page", "pageSize"}, method = RequestMethod.GET, value = "events/timeline")
+    public @ResponseBody
+    MessageDto findAll(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
+        List<Event> result = service.findAll(page, pageSize);
+        return new MessageDto("", result);
     }
 
     @RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "events/{id}/cancellations")
     public @ResponseBody
-    List<User> findCancellations(@PathVariable("id") Long id) throws EventNotFoundException {
-        return service.findCancellations(id);
+    MessageDto findCancellations(@PathVariable("id") Long id) {
+        try {
+            List<User> result = service.findCancellations(id);
+            return new MessageDto("", result);
+        } catch (EventNotFoundException e) {
+            return new MessageDto("Het gevraagde evenement werd niet gevonden.", null);
+        }
     }
 
-    @RequestMapping(produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", method = RequestMethod.GET, value = "events/{id}/cancellations")
+    // The endpoint determines the file name in most popular browsers,
+    // so this has to be a Dutch endpoint
+    @RequestMapping(produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", method = RequestMethod.GET, value = "events/{id}/cancellations/annulaties")
     public @ResponseBody
-    byte[] exportCancellations(@PathVariable("id") Long id) throws EventNotFoundException, EventExportException {
+    byte[] exportCancellations(@PathVariable("id") Long id) throws EventExportException, EventNotFoundException {
         return service.exportCancellations(id);
     }
 
@@ -66,18 +101,48 @@ public class EventManagementController {
     public @ResponseBody
     ResponseEntity<?> uploadAttachement(@PathVariable("id") Long id, @RequestParam("file") MultipartFile attachment) {
         if (attachment.isEmpty()) {
-            return new ResponseEntity("please select a file!", HttpStatus.OK);
+            return new ResponseEntity(new MessageDto("Er werd geen bijlage meegegeven.", null), HttpStatus.BAD_REQUEST);
         }
 
         try {
             service.saveAttachment(id, attachment);
-
         } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new MessageDto("Er liep iets fout bij het wegschrijven van de bijlage.", null), HttpStatus.BAD_REQUEST);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(new MessageDto("Het opgegeven bestand moet in PDF formaat zijn.", null), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity("Successfully uploaded - " +
-                attachment.getOriginalFilename(), new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity(new MessageDto("", null), HttpStatus.CREATED);
+    }
+
+    @PostMapping("events/{id}/image")
+    public @ResponseBody
+    ResponseEntity<?> uploadImage(@PathVariable("id") Long id, @RequestParam("file") MultipartFile attachment) {
+        if (attachment.isEmpty()) {
+            return new ResponseEntity(new MessageDto("Er werd geen afbeelding meegegeven.", null), HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            service.saveImage(id, attachment);
+        } catch (IOException e) {
+            return new ResponseEntity<>(new MessageDto("Er liep iets fout bij het wegschrijven van de afbeelding.", null), HttpStatus.BAD_REQUEST);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(new MessageDto("Het opgegeven bestand moet een afbeelding zijn (GIF/JPG/PNG).", null), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity(new MessageDto("", null), HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "events/{id}/image")
+    public ResponseEntity<byte[]> downloadImage(@PathVariable("id") Long id) throws AttachmentNotFoundException {
+        HttpHeaders headers = new HttpHeaders();
+        try {
+            headers.setContentType(service.getImageMimeTypeForEvent(id));
+        } catch (EventNotFoundException e) {
+            throw new AttachmentNotFoundException(e);
+        }
+        ResponseEntity<byte[]> entity = new ResponseEntity<>(service.findImage(id), headers, HttpStatus.OK);
+        return entity;
     }
 
     @GetMapping(value = "events/{id}/attachment", produces = MediaType.APPLICATION_PDF_VALUE)
@@ -98,24 +163,13 @@ public class EventManagementController {
         return service.findParticipantsOfEvent(id);
     }
 
-    @RequestMapping(produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", method = RequestMethod.GET, value = "events/{id}/attendees")
+    // The endpoint determines the file name in most popular browsers,
+    // so this has to be a Dutch endpoint
+    @RequestMapping(produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", method = RequestMethod.GET, value = "events/{id}/deelnemers")
     public @ResponseBody
     byte[] exportAttendees(@PathVariable("id") Long id) throws EventExportException, EventNotFoundException {
         return service.exportAttendanceList(id);
     }
 
-    @ExceptionHandler(CouldNotCreateEventException.class)
-    public ResponseEntity handleCouldNotCreateEventException() {
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
-    }
 
-    @ExceptionHandler(EventNotFoundException.class)
-    public ResponseEntity handleEventNotFoundException() {
-        return new ResponseEntity(HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(EventExportException.class)
-    public ResponseEntity handleEventExportException() {
-        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
 }

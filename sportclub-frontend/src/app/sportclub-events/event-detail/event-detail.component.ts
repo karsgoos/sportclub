@@ -3,8 +3,12 @@ import {SportClubEvent} from "../../common/model/sportclub-event-model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SportClubEventService} from "../service/sportclub-event.service";
 import {AttendingModalComponent} from "../attending-modal/attending-modal.component";
-import { EventListParticipantsComponent } from "../event-list-participants/event-list-participants.component";
+import {environment} from "../../../environments/environment";
+import {DeleteModalComponent} from "../delete-modal/delete-modal.component";
+import {EventListParticipantsComponent} from "../event-list-participants/event-list-participants.component";
+
 import {isNullOrUndefined} from "util";
+import {CancellationsModalComponent} from "../cancellations-modal/cancellations-modal.component";
 
 declare var $: any;
 
@@ -18,7 +22,9 @@ export class EventDetailComponent implements OnInit {
   eventModel: SportClubEvent;
 
   @ViewChild(AttendingModalComponent) modal: AttendingModalComponent;
+  @ViewChild(DeleteModalComponent) deleteModal: DeleteModalComponent;
   @ViewChild(EventListParticipantsComponent) participants: EventListParticipantsComponent;
+  @ViewChild(CancellationsModalComponent) cancellations: CancellationsModalComponent;
 
   constructor(private route: ActivatedRoute, private router: Router, private sportClubEventService: SportClubEventService) {
   }
@@ -26,6 +32,7 @@ export class EventDetailComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.sportClubEventService.getEvent(params['id']).subscribe(eventModel => this.eventModel = eventModel);
+      this.deleteModal.setId(params['id']);
     });
     $('.materialboxed').materialbox();
   }
@@ -62,8 +69,24 @@ export class EventDetailComponent implements OnInit {
     this.modal.show();
   }
 
+  editEvent() {
+    this.router.navigate(['/evenementen/aanpassen', this.eventModel.id]);
+  }
+
+  deleteEvent() {
+    this.deleteModal.show();
+  }
+
+  getImageUrl() {
+    return environment.eventApiUrl + "/" + this.eventModel.id + "/image";
+  }
+
   showParticipantsModal() {
     this.participants.show();
+  }
+
+  showCancellationsModal() {
+    this.cancellations.show();
   }
 
 

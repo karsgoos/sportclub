@@ -9,12 +9,16 @@ import {SportclubEventCreationComponent} from "./sportclub-events/components/spo
 import {EventDetailComponent} from "./sportclub-events/event-detail/event-detail.component";
 import {AttendingModalComponent} from "./sportclub-events/attending-modal/attending-modal.component";
 
-
 const routes: Routes = [
   {
-    path: 'events/creation',
+    path: 'evenementen/aanmaken',
     component: SportclubEventCreationComponent
-  },{
+  },
+  {
+    path: 'evenementen/aanpassen/:id', pathMatch: 'full',
+    component: SportclubEventCreationComponent
+  },
+  {
     path: 'user-management',  pathMatch: 'full',
     component: SportClubUserManagementComponent
   },

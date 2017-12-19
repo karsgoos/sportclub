@@ -1,11 +1,12 @@
 package com.realdolmen.sportclub.events.service;
 
 import com.realdolmen.sportclub.common.entity.*;
+import com.realdolmen.sportclub.common.repository.EventRepository;
+import com.realdolmen.sportclub.common.repository.RecurringEventInfoRepository;
 import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
 import com.realdolmen.sportclub.events.exceptions.CouldNotUpdateEventException;
 import com.realdolmen.sportclub.events.exceptions.EventNotFoundException;
-import com.realdolmen.sportclub.events.repository.EventRepository;
-import com.realdolmen.sportclub.events.repository.RecurringEventInfoRepository;
+import com.realdolmen.sportclub.events.service.mail.MailSenderService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +18,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
@@ -34,24 +34,29 @@ public class EventManagementServiceImplTest {
 
     @Mock
     private EventRepository repository;
-
     @Mock
     private RecurringEventInfoRepository recurringEventInfoRepository;
+    @Mock
+    private MailSenderService mailService;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
+        // Find one returns an empty event
+        Mockito.when(repository.findOne(Mockito.anyLong())).thenReturn(new Event());
+
         // Repository.save returns its argument
-        Mockito.when(repository.save((Event) Mockito.any())).thenAnswer(new Answer<Event>() {
+        Mockito.when(repository.save((Iterable<Event>) Mockito.any())).thenAnswer(new Answer<Iterable<Event>>() {
             @Override
-            public Event answer(InvocationOnMock invocation) throws Throwable {
+            public Iterable<Event> answer(InvocationOnMock invocation) throws Throwable {
+                long id = 1L;
+                for (Event event : (Iterable<Event>) invocation.getArgument(0)) {
+                    event.setId(id++);
+                }
                 return invocation.getArgument(0);
             }
         });
-
-        // Find one returns an empty event
-        Mockito.when(repository.findOne(Mockito.anyLong())).thenReturn(new Event());
 
         // Repository.save returns its argument
         Mockito.when(recurringEventInfoRepository.save((RecurringEventInfo) Mockito.any())).thenAnswer(new Answer<RecurringEventInfo>() {
@@ -284,16 +289,93 @@ public class EventManagementServiceImplTest {
     @Test
     public void canObtainCancellationsForEvent() throws EventNotFoundException {
         List<User> users = new ArrayList<>();
+        Event event = createValidEvent();
         for (int i = 0; i < 10; i++) {
-            users.add(new RegisteredUser());
+            Attendance attendance = new Attendance();
+            User user = new RegisteredUser();
+            Order order = new Order();
+
+            order.setUser(user);
+            attendance.setOrdr(order);
+            attendance.setCancelled(true);
+            order.addOrderable(attendance);
+            event.addAttendance(attendance);
+
+            users.add(user);
         }
         for (int i = 0; i < 5; i++) {
-            users.add(new Guest());
+            Attendance attendance = new Attendance();
+            User user = new Guest();
+            Order order = new Order();
+
+            order.setUser(user);
+            attendance.setOrdr(order);
+            attendance.setCancelled(true);
+            order.addOrderable(attendance);
+            event.addAttendance(attendance);
+
+            users.add(user);
         }
-        Mockito.when(repository.findCancellationsForEvent(Mockito.any())).thenReturn(users);
+        Mockito.when(repository.findOne(1L)).thenReturn(event);
         List<User> result = service.findCancellations(1L);
         Assert.assertNotNull(result);
         Assert.assertEquals(users, result);
+    }
+
+    @Test
+    public void canObtainCancellationsForEventAndReturnsCorrectCount() throws EventNotFoundException {
+        List<User> users = new ArrayList<>();
+        Event event = createValidEvent();
+        // Cancellations
+        for (int i = 0; i < 10; i++) {
+            Attendance attendance = new Attendance();
+            User user = new RegisteredUser();
+            Order order = new Order();
+
+            order.setUser(user);
+            attendance.setOrdr(order);
+            attendance.setCancelled(true);
+            order.addOrderable(attendance);
+            event.addAttendance(attendance);
+
+            users.add(user);
+        }
+        // Non cancellations
+        for (int i = 0; i < 5; i++) {
+            Attendance attendance = new Attendance();
+            User user = new Guest();
+            Order order = new Order();
+
+            order.setUser(user);
+            attendance.setOrdr(order);
+            attendance.setCancelled(false);
+            order.addOrderable(attendance);
+            event.addAttendance(attendance);
+        }
+        Mockito.when(repository.findOne(1L)).thenReturn(event);
+        List<User> result = service.findCancellations(1L);
+        Assert.assertNotNull(result);
+        // Only the cancellations were added to users, so we should only get those
+        Assert.assertEquals(users, result);
+    }
+
+    @Test
+    public void canDeleteEvent() throws CouldNotCreateEventException, EventNotFoundException {
+        Mockito.doNothing().when(mailService).sendMailEventDeleted(Mockito.any());
+        Event event = createValidEvent();
+        event = service.create(event);
+        service.delete(event.getId());
+        try {
+            service.find(event.getId());
+        } catch (EventNotFoundException e) {
+            // OKAY!
+        }
+    }
+
+    @Test(expected = EventNotFoundException.class)
+    public void cannotDeleteNonExistingEvent() throws EventNotFoundException {
+        Mockito.when(repository.findOne(1L)).thenReturn(null);
+        service.delete(1L);
     }
 
     private Event createValidEvent() {
@@ -305,6 +387,7 @@ public class EventManagementServiceImplTest {
         address.setCountry("BE");
         address.setPostalCode("9000");
         address.setStreet("Sportstraat");
+        address.setCity("Gent");
         address.setHomeNumber("1");
         event.setAddress(address);
         event.setName("Test Event");

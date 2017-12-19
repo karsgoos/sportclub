@@ -8,7 +8,7 @@ export interface SportClubEvent {
   id: number;
   responsibles: Array<RegisteredUser>;
   enrollments: Array<Enrollment>;
-  imageUrl: String;
+  imageMimeType: string;
   startDate: Date;
   endDate: Date;
   address: Address;
@@ -21,5 +21,6 @@ export interface SportClubEvent {
   name: String;
   recurringEventInfo: RecurringEventInfo;
   closed: boolean;
+  points: number;
   attendancies: Array<AttendanceModel>;
 }

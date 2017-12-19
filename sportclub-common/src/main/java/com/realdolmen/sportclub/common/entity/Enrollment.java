@@ -41,7 +41,6 @@ public class Enrollment {
     @ManyToOne
     private MembershipType membershipType;
 
-
     public Long getId() {
         return id;
     }

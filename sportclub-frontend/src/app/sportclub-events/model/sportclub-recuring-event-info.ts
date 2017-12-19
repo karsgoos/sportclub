@@ -11,6 +11,7 @@ export class Weekday {
 
 }
 export interface RecurringEventInfo{
+  id?: number,
   startDate: string,
   endDate: string,
   weekdays: [string]

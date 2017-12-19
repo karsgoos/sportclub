@@ -107,4 +107,60 @@ public class MailContentBuilder {
         return templateEngine.process("guestAttendPublicEventTemplate", context);
     }
 
+
+    public String buildReminderOfEventMail(User user, Event event){
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        Context context = new Context();
+
+        context.setVariable("user", user);
+        context.setVariable("sportclub", sportclub);
+        context.setVariable("event", event);
+        context.setVariable("startDatum", event.getStartDate().format(formatter));
+        context.setVariable("startUur", event.getStartDate().format(timeFormatter));
+
+        return templateEngine.process("eventReminder", context);
+    }
+
+    public String buildNrParticipantsReachedMail(User user, Event event){
+        Context context = new Context();
+
+        context.setVariable("user", user);
+        context.setVariable("sportclub", sportclub);
+        context.setVariable("event", event);
+
+        return templateEngine.process("participantsReached", context);
+    }
+
+    public String buildEventDeletion(User user, Event event) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        Context context = new Context();
+
+        context.setVariable("sportclub", sportclub);
+        context.setVariable("event", event);
+        context.setVariable("user", user);
+        context.setVariable("startDatum", event.getStartDate().format(formatter));
+        context.setVariable("startUur", event.getStartDate().format(timeFormatter));
+
+        return templateEngine.process("eventDeletion", context);
+    }
+
+    public String buildEventUpdate(User user, Event event) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        Context context = new Context();
+
+        context.setVariable("sportclub", sportclub);
+        context.setVariable("event", event);
+        context.setVariable("user", user);
+        context.setVariable("startDatum", event.getStartDate().format(formatter));
+        context.setVariable("startUur", event.getStartDate().format(timeFormatter));
+
+        return templateEngine.process("eventUpdate", context);
+    }
 }

@@ -3,7 +3,6 @@ package com.realdolmen.sportclub.events.service;
 import com.realdolmen.sportclub.common.entity.*;
 import com.realdolmen.sportclub.common.repository.*;
 import com.realdolmen.sportclub.events.config.TestConfig;
-import com.realdolmen.sportclub.events.repository.EventRepository;
 import com.realdolmen.sportclub.events.service.mail.MailSenderService;
 import org.junit.Before;
 import org.junit.Test;

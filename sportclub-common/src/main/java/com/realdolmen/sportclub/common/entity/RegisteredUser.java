@@ -33,7 +33,7 @@ public class RegisteredUser extends User {
     @OneToMany
     private List<User> childAccounts = new ArrayList<>();
 
-    @OneToMany
+    @ManyToMany
     private List<Enrollment> enrollments = new ArrayList<>();
 
     @Column
@@ -133,6 +133,8 @@ public class RegisteredUser extends User {
     public void setTotalPoints(int totalPoints) {
         this.totalPoints = totalPoints;
     }
+    
+    public void addPoints(int points){ this.totalPoints+= totalPoints; }
 
     public Gender getGender() {
         return gender;

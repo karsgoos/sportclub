@@ -4,7 +4,6 @@ import com.realdolmen.sportclub.common.entity.*;
 import com.realdolmen.sportclub.common.repository.AttendanceRepository;
 import com.realdolmen.sportclub.common.repository.OrderRepository;
 import com.realdolmen.sportclub.common.repository.UserRepository;
-import com.realdolmen.sportclub.events.repository.EventRepository;
 import com.realdolmen.sportclub.common.repository.*;
 import com.realdolmen.sportclub.events.service.mail.MailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,11 +126,10 @@ public class EventServiceImpl implements EventService {
 		attendance.setOrdr(order);
 		order.addOrderable(attendance);
 		event.addAttendance(attendance);
+		attendance.setOrdr(order);
 
 		orderRepository.save(order); // <<- saving the transient instance before flushing
 		attendanceRepository.save(attendance);
-
-
 	}
 	
 }

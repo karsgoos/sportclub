@@ -16,6 +16,8 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by FVDBF69 on 13/12/2017.
@@ -121,5 +123,50 @@ public class MailSenderServiceImpl implements MailSenderService {
 
     }
 
+
+    @Override
+    public void sendReminderMails(Event event){
+        List<User> users = event.getAttendancies().parallelStream()
+                .map((a) -> a.getOrdr().getUser())
+                .distinct()
+                .collect(Collectors.toList());
+        for(User receiver : users){
+            String content = mailContentBuilder.buildReminderOfEventMail(receiver, event);
+            this.storeAndSendMail(receiver, event.getName(), content);
+        }
+    }
+
+    @Override
+    public void sendMailEventDeleted(Event event) {
+        List<User> users = event.getAttendancies().parallelStream()
+                .map((a) -> a.getOrdr().getUser())
+                .distinct()
+                .collect(Collectors.toList());
+        for(User receiver : users){
+            String content = mailContentBuilder.buildEventDeletion(receiver, event);
+            this.storeAndSendMail(receiver, "Evenement verwijderd: " + event.getName(), content);
+        }
+    }
+
+    @Override
+    public void sendMailUpdatedEvent(Event event) {
+        List<User> users = event.getAttendancies().parallelStream()
+                .map((a) -> a.getOrdr().getUser())
+                .distinct()
+                .collect(Collectors.toList());
+        for(User receiver : users){
+            String content = mailContentBuilder.buildEventUpdate(receiver, event);
+            this.storeAndSendMail(receiver, "Evenement aangepast: " + event.getName(), content);
+        }
+    }
+
+    @Override
+    public void sendMailNrParticipantsReached(Event event){
+        List<RegisteredUser> receivers = event.getResponsibles();
+        for(User receiver : receivers){
+            String content = mailContentBuilder.buildNrParticipantsReachedMail(receiver, event);
+            this.storeAndSendMail(receiver, event.getName(), content);
+        }
+    }
 
 }

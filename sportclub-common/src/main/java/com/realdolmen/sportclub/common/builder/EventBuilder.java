@@ -12,7 +12,8 @@ public final class EventBuilder {
     private List<RegisteredUser> responsibles = new ArrayList<>();
 
     private List<Enrollment> enrollments = new ArrayList<>();
-    private String imageUrl;
+    private byte[] image;
+    private String imageType;
     private LocalDateTime startDate = LocalDateTime.now().plusWeeks(5);
     private LocalDateTime endDate = startDate.plusHours(2);
     private Address address = new AddressBuilder().build();
@@ -44,8 +45,9 @@ public final class EventBuilder {
         return this;
     }
 
-    public EventBuilder withImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public EventBuilder withImage(byte[] image, String imageType) {
+        this.image = image;
+        this.imageType = imageType;
         return this;
     }
 
@@ -118,7 +120,6 @@ public final class EventBuilder {
         Event event = new Event();
         event.setResponsibles(responsibles);
         event.setEnrollments(enrollments);
-        event.setImageUrl(imageUrl);
         event.setStartDate(startDate);
         event.setEndDate(endDate);
         event.setAddress(address);
@@ -132,6 +133,8 @@ public final class EventBuilder {
         event.setRecurringEventInfo(recurringEventInfo);
         event.setAttachement(attachement);
         event.setReminderDate(reminderDate);
+        event.setImage(image);
+        event.setImageMimeType(imageType);
         return event;
     }
 }

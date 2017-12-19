@@ -10,6 +10,7 @@ import com.realdolmen.sportclub.common.entity.MembershipType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class EnrollmentBuilder {
@@ -21,6 +22,8 @@ public class EnrollmentBuilder {
     private LocalDate startDate = LocalDate.now().plusWeeks(1);
 
     private LocalDate endDate = startDate.plusMonths(6);
+
+    private BigDecimal price = new BigDecimal(100);
 
     private MembershipType membershipType = new MembershipTypeBuilder().build();
 
@@ -44,12 +47,19 @@ public class EnrollmentBuilder {
         return this;
     }
 
+    public EnrollmentBuilder price(BigDecimal price){
+        this.price = price;
+        return this;
+    }
+
+
     public Enrollment build(){
         Enrollment enrollment = new Enrollment();
         enrollment.setName(this.name);
         enrollment.setStartDate(this.startDate);
         enrollment.setEndDate(this.endDate);
         enrollment.setMembershipType(this.membershipType);
+        enrollment.setPrice(this.price);
         return enrollment;
     }
 
