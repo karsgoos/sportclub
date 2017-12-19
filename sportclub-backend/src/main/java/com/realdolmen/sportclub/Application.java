@@ -2,12 +2,11 @@ package com.realdolmen.sportclub;
 
 import com.realdolmen.sportclub.common.entity.Sportclub;
 import com.realdolmen.sportclub.common.repository.SportclubRepository;
+import com.realdolmen.sportclub.fakedata.FakeDataGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
+
 
 import javax.annotation.PostConstruct;
 
@@ -17,6 +16,9 @@ public class Application {
     @Autowired
     private SportclubRepository sportclubRepository;
 
+    @Autowired
+    private FakeDataGenerator fakeDataGenerator;
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -24,10 +26,8 @@ public class Application {
     @PostConstruct
     public void initData() {
         sportclubRepository.save(new Sportclub("Sportclub A"));
-        sportclubRepository.save(new Sportclub("Sportclub B"));
-        sportclubRepository.save(new Sportclub("Sportclub C"));
-        sportclubRepository.save(new Sportclub("Sportclub D"));
-        sportclubRepository.save(new Sportclub("Sportclub E"));
+        fakeDataGenerator.generate();
+
     }
 
 }

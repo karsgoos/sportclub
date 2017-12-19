@@ -34,7 +34,7 @@ public class RegisteredUser extends User {
     @OneToMany
     private List<User> childAccounts = new ArrayList<>();
 
-    @OneToMany
+    @ManyToMany
     private List<Enrollment> enrollments = new ArrayList<>();
 
     @Column
