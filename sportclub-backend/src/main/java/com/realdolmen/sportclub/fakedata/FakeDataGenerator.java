@@ -3,15 +3,12 @@ package com.realdolmen.sportclub.fakedata;
 import com.realdolmen.sportclub.common.builder.*;
 import com.realdolmen.sportclub.common.entity.*;
 import com.realdolmen.sportclub.common.repository.*;
-import org.apache.tomcat.jni.Local;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -137,40 +134,25 @@ public class FakeDataGenerator {
     }
 
     private void addRegisteredUsers() {
-        //add regular users and children
-        for(int i=0; i<=REGISTEREDPARENTSAMOUNT; i++ ){
-            String firstName = "ParentFirstName " + ABC[i];
-            String lastName = "ParentLastName " + ABC[i];
+        for (int i = 0; i <= REGISTEREDPARENTSAMOUNT; i++) {
+            String firstName = "FirstName" + ABC[i];
+            String lastName = "LastName" + ABC[i];
             Address address = new AddressBuilder().build();
             RegisteredUserBuilder parentBuilder = new RegisteredUserBuilder()
                     .firstName(firstName)
                     .lastName(lastName)
-                    .email((firstName+"."+lastName+"@email.com").replaceAll(" ", ""))
+                    .email(firstName + "." + lastName + "@email.com")
                     .address(address)
                     .gender(Gender.MAN)
                     .role(registeredUser)
                     .addEnrollment(enrollment)
-                    .phoneNumber("0000000" + ABC[i])
-                    .password(firstName + 123);
-            for(int j=0; j<=CHILDSPERPARENT; j++){
-                String childFirstName = "Child " + ABC[j];
-
-                RegisteredUserBuilder childBuilder = new RegisteredUserBuilder()
-                        .firstName(childFirstName)
-                        .lastName(lastName)
-                        .email((childFirstName+"."+lastName+"@email.com").replaceAll(" ", ""))
-                        .address(address) //make this general
-                        .gender(Gender.MAN)
-                        .role(registeredUser)
-                        //add enrollment
-                        .phoneNumber("0000000" + ABC[i] + ABC[j])
-                        .password(childFirstName + 123);
-                parentBuilder.addChildAccount(registeredUserRepository.save(childBuilder.build()));
-            }
+                    .phoneNumber1("0000000" + ABC[i])
+                    .password(firstName + 123)
+                    .isSelfManaged(true);
 
             registeredUserRepository.save(parentBuilder.build());
-
         }
+
         //add moderators
         for(int i=0; i<=REGISTEREDPARENTSAMOUNT; i++ ) {
             String firstName = "moderatorFirstName" + ABC[i];
@@ -184,11 +166,28 @@ public class FakeDataGenerator {
                     .gender(Gender.MAN)
                     .role(registeredUser)
                     .addEnrollment(enrollment)
-                    .phoneNumber("0000000" + ABC[i])
-                    .password(firstName + 123);
+                    .phoneNumber1("0000000" + ABC[i])
+                    .password(firstName + 123)
+                    .isSelfManaged(true);
 
             registeredUserRepository.save(moderatorBuilder.build());
         }
+
+        Address address = new AddressBuilder().build();
+        RegisteredUserBuilder parentBuilder = new RegisteredUserBuilder()
+                .firstName("Bert")
+                .lastName("Vermeulen")
+                .email("bv@gmail.com")
+                .address(address)
+                .gender(Gender.MAN)
+                .role(registeredUser)
+                .addEnrollment(enrollment)
+                .phoneNumber1("0000000" + ABC[1])
+                .password("test")
+                .totalPoints(2000)
+                .isSelfManaged(true);
+
+        registeredUserRepository.save(parentBuilder.build());
     }
 
     private void addMembershipTypes() {
