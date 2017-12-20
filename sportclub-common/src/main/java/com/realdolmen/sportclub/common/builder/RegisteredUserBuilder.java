@@ -2,11 +2,9 @@ package com.realdolmen.sportclub.common.builder;
 
 import com.realdolmen.sportclub.common.entity.*;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 
 public class RegisteredUserBuilder extends User {
 
@@ -18,8 +16,8 @@ public class RegisteredUserBuilder extends User {
     private LocalDate dateOfBirth = LocalDate.now().minusYears(20);
     private Gender gender = Gender.MAN;
     private Address address = new AddressBuilder().build();
-    private String phoneNumber = "027887272";
-    private String mobileNumber = "0470893956";
+    private String phoneNumber1 = "027887272";
+    private String phoneNumber2 = "0470893956";
     private String password = "oo-la-la";
     private List<User> childAccounts = new ArrayList<>();
     private RegisteredUser parent;
@@ -77,13 +75,13 @@ public class RegisteredUserBuilder extends User {
         return this;
     }
 
-    public RegisteredUserBuilder phoneNumber(String phoneNumber){
-        this.phoneNumber = phoneNumber;
+    public RegisteredUserBuilder phoneNumber1(String phoneNumber1){
+        this.phoneNumber1 = phoneNumber1;
         return this;
     }
 
-    public RegisteredUserBuilder mobileNumber(String mobileNumber){
-        this.mobileNumber = mobileNumber;
+    public RegisteredUserBuilder phoneNumber2(String phoneNumber2){
+        this.phoneNumber2 = phoneNumber2;
         return this;
     }
 
@@ -131,8 +129,8 @@ public class RegisteredUserBuilder extends User {
         user.setDateOfBirth(this.dateOfBirth);
         user.setGender(this.gender);
         user.setAddress(this.address);
-        user.setPhoneNumber(this.phoneNumber);
-        user.setMobileNumber(this.mobileNumber);
+        user.setPhoneNumber1(this.phoneNumber1);
+        user.setPhoneNumber2(this.phoneNumber2);
         user.setPassword(this.password);
         user.setChildAccounts(this.childAccounts);
         user.setEnrollments(this.enrollments);
@@ -153,8 +151,8 @@ public class RegisteredUserBuilder extends User {
         user.setDateOfBirth(this.dateOfBirth);
         user.setGender(this.gender);
         user.setAddress(this.address);
-        user.setPhoneNumber(this.phoneNumber);
-        user.setMobileNumber(this.mobileNumber);
+        user.setPhoneNumber1(this.phoneNumber1);
+        user.setPhoneNumber2(this.phoneNumber2);
         user.setPassword(this.password);
         user.setChildAccounts(this.childAccounts);
         user.setEnrollments(this.enrollments);

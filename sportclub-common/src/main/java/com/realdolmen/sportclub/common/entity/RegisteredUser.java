@@ -22,10 +22,10 @@ public class RegisteredUser extends User {
     private Address address;
 
     @NotNull
-    private String phoneNumber;
+    private String phoneNumber1;
 
     @NotNull
-    private String mobileNumber;
+    private String phoneNumber2;
 
     @NotNull
     private String password;
@@ -86,20 +86,20 @@ public class RegisteredUser extends User {
         this.address = address;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhoneNumber1() {
+        return phoneNumber1;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhoneNumber1(String phoneNumber1) {
+        this.phoneNumber1 = phoneNumber1;
     }
 
-    public String getMobileNumber() {
-        return mobileNumber;
+    public String getPhoneNumber2() {
+        return phoneNumber2;
     }
 
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
+    public void setPhoneNumber2(String phoneNumber2) {
+        this.phoneNumber2 = phoneNumber2;
     }
 
     public String getPassword() {

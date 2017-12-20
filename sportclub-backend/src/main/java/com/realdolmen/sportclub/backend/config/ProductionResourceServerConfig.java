@@ -20,7 +20,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableResourceServer
-@Profile("production")
+@Profile("!local")
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ProductionResourceServerConfig extends ResourceServerConfigurerAdapter {

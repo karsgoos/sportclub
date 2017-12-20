@@ -3,15 +3,12 @@ package com.realdolmen.sportclub.fakedata;
 import com.realdolmen.sportclub.common.builder.*;
 import com.realdolmen.sportclub.common.entity.*;
 import com.realdolmen.sportclub.common.repository.*;
-import org.apache.tomcat.jni.Local;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -149,7 +146,7 @@ public class FakeDataGenerator {
                     .gender(Gender.MAN)
                     .role(registeredUser)
                     .addEnrollment(enrollment)
-                    .phoneNumber("0000000" + ABC[i])
+                    .phoneNumber1("0000000" + ABC[i])
                     .password(firstName + 123)
                     .isSelfManaged(true);
 
@@ -169,7 +166,7 @@ public class FakeDataGenerator {
                     .gender(Gender.MAN)
                     .role(registeredUser)
                     .addEnrollment(enrollment)
-                    .phoneNumber("0000000" + ABC[i])
+                    .phoneNumber1("0000000" + ABC[i])
                     .password(firstName + 123)
                     .isSelfManaged(true);
 
@@ -185,7 +182,7 @@ public class FakeDataGenerator {
                 .gender(Gender.MAN)
                 .role(registeredUser)
                 .addEnrollment(enrollment)
-                .phoneNumber("0000000" + ABC[1])
+                .phoneNumber1("0000000" + ABC[1])
                 .password("test")
                 .totalPoints(2000)
                 .isSelfManaged(true);
