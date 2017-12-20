@@ -25,6 +25,7 @@ import {RegistrationComponent} from './registration/registration.component';
 import {RegisteredUserGuard} from './guard/registered-user.guard';
 import {MenuBarComponent} from './menu-bar/menu-bar.component';
 import {ModeratorGuard} from "./guard/moderator.guard";
+import {Config} from './common/config';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,9 @@ import {ModeratorGuard} from "./guard/moderator.guard";
     ModeratorGuard,
     AuthenticationService,
     SportClubEventService,
-    EventListParticipantsService],
+    EventListParticipantsService,
+    AuthenticationService,
+    Config],
   imports: [
     BrowserModule,
     LoginModule,

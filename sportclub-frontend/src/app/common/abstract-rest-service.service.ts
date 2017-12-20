@@ -7,7 +7,7 @@ export abstract class AbstractRestService<T> {
   }
 
   mockTest(): Observable<T> {
-    return this.http.get<T>(Config.SERVER_URL + this.endPoint);
+    return this.http.get<T>(Config.API_URL + this.endPoint);
   }
 
   // Add here all the CRUD operations ( create, read, update, delete )
