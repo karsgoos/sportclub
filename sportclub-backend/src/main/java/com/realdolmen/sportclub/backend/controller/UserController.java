@@ -72,4 +72,7 @@ public class UserController {
         }
         return points;
     }
+/*
+    @GetMapping("/user/all")
+    public List<AuthenticatedUser> users;*/
 }

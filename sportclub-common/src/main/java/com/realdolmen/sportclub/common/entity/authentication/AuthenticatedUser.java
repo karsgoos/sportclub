@@ -4,12 +4,21 @@ public class AuthenticatedUser {
     private String email;
     private String firstName, lastName;
     private int totalPoints;
+    private String role;
 
     public AuthenticatedUser(String email, String firstName, String lastName, int totalPoints) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.totalPoints = totalPoints;
+    }
+
+    public AuthenticatedUser(String email, String firstName, String lastName, int totalPoints, String role) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.totalPoints = totalPoints;
+        this.role = role;
     }
 
     public String getEmail() {
@@ -42,5 +51,13 @@ public class AuthenticatedUser {
 
     public void setTotalPoints(int totalPoints) {
         this.totalPoints = totalPoints;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
