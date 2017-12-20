@@ -54,22 +54,13 @@ public class BackendUserService {
     }
 
     private AuthenticatedUser convertToAuthenticatedUser(final RegisteredUser registeredUser) {
-        final AuthenticatedUser authenticatedUser = new AuthenticatedUser();
-
-        authenticatedUser.setId(registeredUser.getId());
-        authenticatedUser.setEmail(registeredUser.getEmail());
-        authenticatedUser.setFirstName(registeredUser.getFirstName());
-        authenticatedUser.setLastName(registeredUser.getLastName());
-        authenticatedUser.setTotalPoints(registeredUser.getTotalPoints());
-        authenticatedUser.setRole(registeredUser.getRole().getName());
-
         List<String> enrollmentStrings = new ArrayList<>();
         for (Enrollment enrollment : registeredUser.getEnrollments()) {
             enrollmentStrings.add(enrollment.getName());
         }
 
-        authenticatedUser.setEnrollments(enrollmentStrings);
-
-        return authenticatedUser;
+        return new AuthenticatedUser(registeredUser.getId(), registeredUser.getEmail(), registeredUser.getFirstName(),
+                registeredUser.getLastName(), registeredUser.getTotalPoints(), registeredUser.getRole().getName(),
+                enrollmentStrings);
     }
 }
