@@ -204,7 +204,6 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
       reminderMailDate:'',
       reminderMailTime:'',
       automaticModeratorMailBoolean:false,
-      numberParticipantsToRemind:'',
 
     });
 

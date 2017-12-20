@@ -109,7 +109,9 @@ export function fromFormToEvent(form:FormGroup, responsibles:Moderator[], enroll
     event.reminderDate = convertDateStringNew(form.value.reminderMailDate.toLocaleString()) + " " + form.value.reminderMailTime;
   }
   if(form.value.automaticModeratorMailBoolean){
-    event.numberParticipantsToSendMail= form.value.numberParticipantsToRemind;
+    if(form.value.customMinMaxParticipantsBoolean) {
+      event.numberParticipantsToSendMail = form.value.minParticipants;
+    }
   }
 
   return event;

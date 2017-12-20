@@ -366,7 +366,7 @@
               {{moderator.firstName}} {{moderator.lastName}}
             </option>
           </select>
-          <label>Add a moderator</label>
+          <label>Voeg moderator toe</label>
         </div>
         <div class="col s2">
           <button class="btn red" (click)="addResponsibleModerator()"><i class="material-icons">add</i></button>
@@ -475,17 +475,6 @@
         </div>
       </div>
 
-      <div class="row" [hidden]="!(eventForm.value.automaticModeratorMailBoolean)">
-        <div class="col s2">
-          <label for="reminderAmount" class="active">Aantal inschrijvingen voor mail</label>
-          <input id="reminderAmount" type="number" formControlName="numberParticipantsToRemind">
-          <div *ngIf="eventForm.get('numberParticipantsToRemind').invalid && (eventForm.get('numberParticipantsToRemind').dirty || eventForm.get('numberParticipantsToRemind').touched)"
-               class="alert alert-danger">
-            <span *ngIf= "eventForm.get('numberParticipantsToRemind').errors.required" style="color: red">Dit is een verplicht veld</span>
-            <span *ngIf= "eventForm.get('numberParticipantsToRemind').errors.pattern" style="color: red">Dit is geen geheel getal</span>
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="section">
