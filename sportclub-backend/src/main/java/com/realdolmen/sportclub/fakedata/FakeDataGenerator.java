@@ -199,7 +199,7 @@ public class FakeDataGenerator {
                 .email("mv@gmail.com")
                 .address(address)
                 .gender(Gender.MAN)
-                .role(moderator)
+                .role(administrator)
                 .addEnrollment(enrollment)
                 .phoneNumber("0000000" + ABC[2])
                 .password("test")
