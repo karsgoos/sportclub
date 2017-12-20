@@ -134,12 +134,14 @@ public class MailContentBuilder {
     }
 
     public String buildEventDeletion(User user, Event event) {
+        sportclub = sportclubRepository.findOne(1L);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
         Context context = new Context();
 
-        context.setVariable("sportclub", sportclub);
+        context.setVariable("sportclubName", sportclub.getName());
         context.setVariable("event", event);
         context.setVariable("user", user);
         context.setVariable("startDatum", event.getStartDate().format(formatter));
@@ -149,6 +151,8 @@ public class MailContentBuilder {
     }
 
     public String buildEventUpdate(User user, Event event) {
+        sportclub = sportclubRepository.findOne(1L);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
