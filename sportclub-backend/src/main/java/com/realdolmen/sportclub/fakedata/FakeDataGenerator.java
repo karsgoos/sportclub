@@ -4,6 +4,7 @@ import com.realdolmen.sportclub.common.builder.*;
 import com.realdolmen.sportclub.common.entity.*;
 import com.realdolmen.sportclub.common.repository.*;
 import org.apache.tomcat.jni.Local;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,8 @@ public class FakeDataGenerator {
 
     static final int REGISTEREDPARENTSAMOUNT = 5;
     static final int CHILDSPERPARENT = 2;
+    static final int MODERATORS = 2;
+    static final char[] ABC = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
 
     @Autowired
     private RoleRepository roleRepository;
@@ -87,27 +90,23 @@ public class FakeDataGenerator {
     private void addAttendanceOrders() {
         User guest1 = userRepository.save(
                 new GuestBuilder().withEmail("gaston@pelican.com")
-                .withFirstName("Gaston")
-                .withLastName("Rouge")
-                .withRole(guest)
-                .build()
+                        .withFirstName("Gaston")
+                        .withLastName("Rouge")
+                        .withRole(guest)
+                        .build()
         );
 
         Order order1 = orderRepository.save(
                 new OrderBuilder().orderDate(LocalDate.now().minusDays(1)).user(guest1).build()
         );
 
-
         Attendance attendance1 = orderableRepository.save(
                 new AttendanceBuilder().ageCategory(AgeCategory.ADULT)
-                .description("A cool event for Gaston and his friends")
-                .event(publicEvent1).ordr(order1).price(new BigDecimal(5))
+                        .description("A cool event for Gaston and his friends")
+                        .event(publicEvent1).ordr(order1).price(new BigDecimal(5))
 
-                .build()
+                        .build()
         );
-
-
-
     }
 
     private void addEnrollmentOrders() {
@@ -138,43 +137,76 @@ public class FakeDataGenerator {
     }
 
     private void addRegisteredUsers() {
-
-        for(int i=0; i<=REGISTEREDPARENTSAMOUNT; i++ ){
-            String firstName = "ParentFirstName " + i;
-            String lastName = "ParentLastName " + i;
+        for (int i = 0; i <= REGISTEREDPARENTSAMOUNT; i++) {
+            String firstName = "FirstName" + ABC[i];
+            String lastName = "LastName" + ABC[i];
             Address address = new AddressBuilder().build();
             RegisteredUserBuilder parentBuilder = new RegisteredUserBuilder()
                     .firstName(firstName)
                     .lastName(lastName)
-                    .email(firstName+"."+lastName+"@email.com")
+                    .email(firstName + "." + lastName + "@email.com")
                     .address(address)
                     .gender(Gender.MAN)
                     .role(registeredUser)
                     .addEnrollment(enrollment)
-                    .phoneNumber("0000000" + i)
-                    .password(firstName + 123);
-            for(int j=0; j<=CHILDSPERPARENT; j++){
-                String childFirstName = "Child " + j;
-
-                RegisteredUserBuilder childBuilder = new RegisteredUserBuilder()
-                        .firstName(childFirstName)
-                        .lastName(lastName)
-                        .email(childFirstName+"."+lastName+"@email.com")
-                        .address(address) //make this general
-                        .gender(Gender.MAN)
-                        .role(registeredUser)
-                        //add enrollment
-                        .phoneNumber("0000000" + i + j)
-                        .password(childFirstName + 123);
-                parentBuilder.addChildAccount(registeredUserRepository.save(childBuilder.build()));
-            }
+                    .phoneNumber("0000000" + ABC[i])
+                    .password(firstName + 123)
+                    .isSelfManaged(true);
 
             registeredUserRepository.save(parentBuilder.build());
-
         }
 
+        //add moderators
+        for(int i=0; i<=REGISTEREDPARENTSAMOUNT; i++ ) {
+            String firstName = "moderatorFirstName" + ABC[i];
+            String lastName = "moderatorLastName" + ABC[i];
+            Address address = new AddressBuilder().build();
+            RegisteredUserBuilder moderatorBuilder = new RegisteredUserBuilder()
+                    .firstName(firstName)
+                    .lastName(lastName)
+                    .email(firstName + "." + lastName + "@email.com")
+                    .address(address)
+                    .gender(Gender.MAN)
+                    .role(registeredUser)
+                    .addEnrollment(enrollment)
+                    .phoneNumber("0000000" + ABC[i])
+                    .password(firstName + 123)
+                    .isSelfManaged(true);
 
+            registeredUserRepository.save(moderatorBuilder.build());
+        }
 
+        Address address = new AddressBuilder().build();
+        RegisteredUserBuilder parentBuilder = new RegisteredUserBuilder()
+                .firstName("Bert")
+                .lastName("Vermeulen")
+                .email("bv@gmail.com")
+                .address(address)
+                .gender(Gender.MAN)
+                .role(registeredUser)
+                .addEnrollment(enrollment)
+                .phoneNumber("0000000" + ABC[1])
+                .password("test")
+                .totalPoints(2000)
+                .isSelfManaged(true);
+
+        registeredUserRepository.save(parentBuilder.build());
+
+        // Bert's brother Matthias is a moderator
+        parentBuilder = new RegisteredUserBuilder()
+                .firstName("Matthias")
+                .lastName("Vermeulen")
+                .email("mv@gmail.com")
+                .address(address)
+                .gender(Gender.MAN)
+                .role(moderator)
+                .addEnrollment(enrollment)
+                .phoneNumber("0000000" + ABC[2])
+                .password("test")
+                .totalPoints(2000)
+                .isSelfManaged(true);
+
+        registeredUserRepository.save(parentBuilder.build());
     }
 
     private void addMembershipTypes() {
@@ -184,10 +216,25 @@ public class FakeDataGenerator {
     }
 
     private void addRoles() {
-        administrator = roleRepository.save( new RoleBuilder().name("ADMINISTRATOR").addPrivilege(Privilege.CAN_CHANGE_PRIVILEGES).build());
-        registeredUser = roleRepository.save( new RoleBuilder().name("REGISTERED_USER").addPrivilege(Privilege.CAN_CHANGE_PRIVILEGES).build());
-        enrolledUser = roleRepository.save( new RoleBuilder().name("ENROLLED_USER").addPrivilege(Privilege.CAN_CHANGE_PRIVILEGES).build());
-        moderator = roleRepository.save( new RoleBuilder().name("MODERATOR").addPrivilege(Privilege.CAN_CHANGE_PRIVILEGES).build());
-        guest = roleRepository.save( new RoleBuilder().name("GUEST").addPrivilege(Privilege.CAN_CHANGE_PRIVILEGES).build());
+        guest = roleRepository.save(new RoleBuilder().name("GUEST")
+                .addPrivilege(Privilege.GUEST_PRIVILEGES).build());
+        registeredUser = roleRepository.save(new RoleBuilder().name("REGISTERED_USER")
+                .addPrivilege(Privilege.REGISTERED_USER_PRIVILEGES)
+                .addPrivilege(Privilege.GUEST_PRIVILEGES).build());
+        enrolledUser = roleRepository.save(new RoleBuilder().name("ENROLLED_USER")
+                .addPrivilege(Privilege.ENROLLED_USER_PRIVILEGES)
+                .addPrivilege(Privilege.REGISTERED_USER_PRIVILEGES)
+                .addPrivilege(Privilege.GUEST_PRIVILEGES).build());
+        moderator = roleRepository.save(new RoleBuilder().name("MODERATOR")
+                .addPrivilege(Privilege.MODERATOR_PRIVILEGES)
+                .addPrivilege(Privilege.ENROLLED_USER_PRIVILEGES)
+                .addPrivilege(Privilege.REGISTERED_USER_PRIVILEGES)
+                .addPrivilege(Privilege.GUEST_PRIVILEGES).build());
+        administrator = roleRepository.save(new RoleBuilder().name("ADMINISTRATOR")
+                .addPrivilege(Privilege.ADMINISTRATOR_PRIVILEGES)
+                .addPrivilege(Privilege.MODERATOR_PRIVILEGES)
+                .addPrivilege(Privilege.ENROLLED_USER_PRIVILEGES)
+                .addPrivilege(Privilege.REGISTERED_USER_PRIVILEGES)
+                .addPrivilege(Privilege.GUEST_PRIVILEGES).build());
     }
 }

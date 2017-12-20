@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {EventListParticipantsService} from "../service/event-list-participants.service";
 import {Participant} from "../../common/model/participant-model";
+import {AuthenticationService} from "../../login/services/authentication.service";
 
 declare var $ :any;
 
@@ -15,16 +16,16 @@ export class CancellationsModalComponent implements OnInit {
   paramId: number;
   cancellations: Participant[];
 
-  constructor(private route: ActivatedRoute, private eventListParticipantsService: EventListParticipantsService) { }
+  constructor(private route: ActivatedRoute, private eventListParticipantsService: EventListParticipantsService, private authService: AuthenticationService) { }
 
   ngOnInit() {
     this.paramId = +this.route.snapshot.paramMap.get('id');
-    console.log("The id that I am looking for = " + this.paramId);
-    //this.participants = this.eventListParticipantsService.getParticipantsByEventId(this.paramId);
-    this.eventListParticipantsService.getCancellationsByEventId(this.paramId)
-      .subscribe(cancellations => {
-        this.cancellations = cancellations.value;
-      });
+    if (this.isAdministrator()) {
+      this.eventListParticipantsService.getCancellationsByEventId(this.paramId)
+        .subscribe(cancellations => {
+          this.cancellations = cancellations.value;
+        });
+    }
   }
 
   show() {
@@ -33,6 +34,10 @@ export class CancellationsModalComponent implements OnInit {
 
   exportList() {
     this.eventListParticipantsService.exportCancellationsList(this.paramId);
+  }
+
+  isAdministrator(): boolean {
+    return this.authService.getCurrentAuthorities().includes('ADMINISTRATOR_PRIVILEGES');
   }
 
 }

@@ -9,6 +9,7 @@ import {EventListParticipantsComponent} from "../event-list-participants/event-l
 
 import {isNullOrUndefined} from "util";
 import {CancellationsModalComponent} from "../cancellations-modal/cancellations-modal.component";
+import {AuthenticationService} from "../../login/services/authentication.service";
 
 declare var $: any;
 
@@ -26,7 +27,7 @@ export class EventDetailComponent implements OnInit {
   @ViewChild(EventListParticipantsComponent) participants: EventListParticipantsComponent;
   @ViewChild(CancellationsModalComponent) cancellations: CancellationsModalComponent;
 
-  constructor(private route: ActivatedRoute, private router: Router, private sportClubEventService: SportClubEventService) {
+  constructor(private route: ActivatedRoute, private router: Router, private sportClubEventService: SportClubEventService, private authService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -89,5 +90,12 @@ export class EventDetailComponent implements OnInit {
     this.cancellations.show();
   }
 
+  isModerator(): boolean {
+    return this.authService.getCurrentAuthorities().includes('MODERATOR_PRIVILEGES');
+  }
+
+  isAdministrator(): boolean {
+    return this.authService.getCurrentAuthorities().includes('ADMINISTRATOR_PRIVILEGES');
+  }
 
 }

@@ -1,0 +1,25 @@
+.panel panel-primary{
+  display: flex;
+  border: 1px solid black;
+}
+.table-responsive{
+  border: 2px solid black;
+}
+.bordered1{
+  background-color: royalblue;
+}
+
+.panel-body1{
+  text-align: center;
+  background-color: royalblue;
+}
+#id1 {
+  border: 2px solid black;
+  text-align: center;
+  padding: 10px;
+}
+#id2{
+  border: 2px solid black;
+  text-align: center;
+  padding: 10px;
+}

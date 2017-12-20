@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +29,7 @@ public class EventManagementController {
     }
 
     @RequestMapping(consumes = "application/json", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.POST, value = "events")
+    @PreAuthorize("hasAuthority('MODERATOR_PRIVILEGES')")
     public @ResponseBody
     MessageDto create(@RequestBody Event event) {
         try {
@@ -39,6 +41,7 @@ public class EventManagementController {
     }
 
     @RequestMapping(consumes = "application/json", produces = "application/json", method = RequestMethod.PUT, value = "events/{id}")
+    @PreAuthorize("hasAuthority('MODERATOR_PRIVILEGES')")
     public @ResponseBody
     MessageDto update(@PathVariable("id") Long id, @RequestBody Event event) {
         try {
@@ -50,6 +53,7 @@ public class EventManagementController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "events/{id}")
+    @PreAuthorize("hasAuthority('MODERATOR_PRIVILEGES')")
     public @ResponseBody
     MessageDto delete(@PathVariable("id") Long id) {
         try {
@@ -61,6 +65,7 @@ public class EventManagementController {
     }
 
     @RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "events/detail/{id}")
+    @PreAuthorize("hasAuthority('GUEST_PRIVILEGES')")
     public @ResponseBody
     MessageDto findEvent(@PathVariable("id") Long id) {
         try {
@@ -72,6 +77,7 @@ public class EventManagementController {
     }
 
     @RequestMapping(produces = "application/json", params = {"page", "pageSize"}, method = RequestMethod.GET, value = "events/timeline")
+    @PreAuthorize("hasAuthority('MODERATOR_PRIVILEGES')")
     public @ResponseBody
     MessageDto findAll(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
         List<Event> result = service.findAll(page, pageSize);
@@ -79,6 +85,7 @@ public class EventManagementController {
     }
 
     @RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "events/{id}/cancellations")
+    @PreAuthorize("hasAuthority('ADMINISTRATOR_PRIVILEGES')")
     public @ResponseBody
     MessageDto findCancellations(@PathVariable("id") Long id) {
         try {
@@ -92,12 +99,14 @@ public class EventManagementController {
     // The endpoint determines the file name in most popular browsers,
     // so this has to be a Dutch endpoint
     @RequestMapping(produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", method = RequestMethod.GET, value = "events/{id}/cancellations/annulaties")
+    @PreAuthorize("hasAuthority('ADMINISTRATOR_PRIVILEGES')")
     public @ResponseBody
     byte[] exportCancellations(@PathVariable("id") Long id) throws EventExportException, EventNotFoundException {
         return service.exportCancellations(id);
     }
 
     @PostMapping("events/{id}/attachment")
+    @PreAuthorize("hasAuthority('MODERATOR_PRIVILEGES')")
     public @ResponseBody
     ResponseEntity<?> uploadAttachement(@PathVariable("id") Long id, @RequestParam("file") MultipartFile attachment) {
         if (attachment.isEmpty()) {
@@ -116,6 +125,7 @@ public class EventManagementController {
     }
 
     @PostMapping("events/{id}/image")
+    @PreAuthorize("hasAuthority('MODERATOR_PRIVILEGES')")
     public @ResponseBody
     ResponseEntity<?> uploadImage(@PathVariable("id") Long id, @RequestParam("file") MultipartFile attachment) {
         if (attachment.isEmpty()) {
@@ -134,6 +144,7 @@ public class EventManagementController {
     }
 
     @GetMapping(value = "events/{id}/image")
+    @PreAuthorize("hasAuthority('GUEST_PRIVILEGES')")
     public ResponseEntity<byte[]> downloadImage(@PathVariable("id") Long id) throws AttachmentNotFoundException {
         HttpHeaders headers = new HttpHeaders();
         try {
@@ -146,6 +157,7 @@ public class EventManagementController {
     }
 
     @GetMapping(value = "events/{id}/attachment", produces = MediaType.APPLICATION_PDF_VALUE)
+    @PreAuthorize("hasAuthority('GUEST_PRIVILEGES')")
     public byte[] downloadAttachment(@PathVariable("id") Long id) throws AttachmentNotFoundException {
         return service.findAttachment(id);
     }
@@ -158,6 +170,7 @@ public class EventManagementController {
      * @throws EventNotFoundException
      */
     @RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "events/{id}/participants")
+    @PreAuthorize("hasAuthority('MODERATOR_PRIVILEGES')")
     public @ResponseBody
     List<AttendEventDTO> findParticipantsOnEvent(@PathVariable("id") Long id) throws EventNotFoundException {
         return service.findParticipantsOfEvent(id);
@@ -166,6 +179,7 @@ public class EventManagementController {
     // The endpoint determines the file name in most popular browsers,
     // so this has to be a Dutch endpoint
     @RequestMapping(produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", method = RequestMethod.GET, value = "events/{id}/deelnemers")
+    @PreAuthorize("hasAuthority('MODERATOR_PRIVILEGES')")
     public @ResponseBody
     byte[] exportAttendees(@PathVariable("id") Long id) throws EventExportException, EventNotFoundException {
         return service.exportAttendanceList(id);

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Participant } from '../../common/model/participant-model';
 import { EventListParticipantsService } from "../service/event-list-participants.service";
 import { ActivatedRoute } from "@angular/router";
+import {AuthenticationService} from "../../login/services/authentication.service";
 
 declare var $ :any;
 
@@ -14,14 +15,14 @@ export class EventListParticipantsComponent implements OnInit {
   participants: Participant[];
   paramId: number;
 
-  constructor(private eventListParticipantsService : EventListParticipantsService, private route: ActivatedRoute) {
+  constructor(private eventListParticipantsService : EventListParticipantsService, private route: ActivatedRoute, private authService: AuthenticationService) {
     this.paramId = +this.route.snapshot.paramMap.get('id');
-    console.log("The id that I am looking for = " + this.paramId);
-    //this.participants = this.eventListParticipantsService.getParticipantsByEventId(this.paramId);
-     this.eventListParticipantsService.getParticipantsByEventId(this.paramId)
-       .subscribe(participants => {
-         this.participants = participants;
-       });
+    if(this.isModerator()) {
+      this.eventListParticipantsService.getParticipantsByEventId(this.paramId)
+        .subscribe(participants => {
+          this.participants = participants;
+        });
+    }
    }
 
   ngOnInit() {
@@ -35,6 +36,10 @@ export class EventListParticipantsComponent implements OnInit {
 
   exportList() {
     this.eventListParticipantsService.exportList(this.paramId);
+  }
+
+  isModerator(): boolean {
+    return this.authService.getCurrentAuthorities().includes('MODERATOR_PRIVILEGES');
   }
 
 

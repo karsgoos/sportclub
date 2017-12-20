@@ -3,6 +3,7 @@ import {SportClubEventService} from './service/sportclub-event.service';
 import {SportClubEvent} from '../common/model/sportclub-event-model';
 import {EventOverviewModalComponent} from "./event-overview-modal/event-overview-modal.component";
 import {Router} from "@angular/router";
+import {AuthenticationService} from "../login/services/authentication.service";
 
 @Component({
   selector: 'app-sportclub-events',
@@ -15,7 +16,7 @@ export class SportClubEventsComponent implements OnInit {
 
   @ViewChild(EventOverviewModalComponent) overviewModal: EventOverviewModalComponent;
 
-  constructor(private router: Router, private eventService: SportClubEventService) {
+  constructor(private router: Router, private eventService: SportClubEventService, private authService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -28,6 +29,10 @@ export class SportClubEventsComponent implements OnInit {
 
   goToEventCreation() {
     this.router.navigate(['/evenementen/aanmaken'])
+  }
+
+  isModerator(): boolean {
+    return this.authService.getCurrentAuthorities().includes('MODERATOR_PRIVILEGES');
   }
 
 }
