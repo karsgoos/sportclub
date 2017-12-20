@@ -1,3 +1,21 @@
-<p *ngIf="sportClubEvent">
-  Response from mocky.io : {{sportClubEvent.name}}
-</p>
+<div class="container">
+  <div class="section" id="moderatorButtons" *ngIf="isModerator()">
+    <div class="row">
+      <div class="col">
+        <a class="waves-effect waves-light btn" (click)="goToEventCreation()" class="btn">Evenement aanmaken</a>
+      </div>
+      <div class="col">
+        <a class="waves-effect waves-light btn" (click)="eventOverviewModal()" class="btn modal-trigger"
+           data-target="modal1">Overzicht evenementen</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="row">
+      <app-event-calendar></app-event-calendar>
+    </div>
+  </div>
+
+  <app-event-overview-modal></app-event-overview-modal>
+</div>

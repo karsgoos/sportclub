@@ -1,0 +1,454 @@
+<div class="container">
+  <form [formGroup]="eventForm">
+
+    <div class="section">
+      <h5>Algemeen</h5>
+
+      <div class="row">
+        <div class="input-field col s6">
+          <label for="eventName">Naam evenement</label>
+          <input class="input-field" formControlName="name" type="text" id="eventName">
+          <div *ngIf="eventForm.get('name').invalid && (eventForm.get('name').dirty || eventForm.get('name').touched)"
+            class="alert alert-danger">
+            <span *ngIf= "eventForm.get('name').errors.required" style="color: red">Vul een naam in voor dit evenement</span>
+            <span *ngIf= "eventForm.get('name').errors.minlength" style="color: red">Een naam moet minstens 2 karakters tellen</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <label for="eventDescription">Extra informatie</label>
+          <textarea formControlName="description" id="eventDescription" class="materialize-textarea"></textarea>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="file-field input-field col s6">
+          <div class="btn red">
+            <i class="material-icons">insert_photo</i>
+            <input type="file" id="eventImage">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" value="Voeg een afbeelding toe">
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+
+
+    <div class="section">
+      <h5>Deelnemers</h5>
+
+      <div class="row">
+        <div class="col">
+          <input type="checkbox" id="customMinMaxParticipantsCheckbox" formControlName="customMinMaxParticipantsBoolean"/>
+          <label for="customMinMaxParticipantsCheckbox">Bepaal een minimum en maximum aantal deelnemers</label>
+        </div>
+      </div>
+
+      <div class="row" [hidden]="(!eventForm.value.customMinMaxParticipantsBoolean)">
+        <div class="col s4 input-field">
+          <label for="minParticipantsField">Minimum aantal deelnemers</label>
+          <input formControlName="minParticipants" id="minParticipantsField" type="number">
+          <div *ngIf="eventForm.get('minParticipants').invalid && (eventForm.get('minParticipants').dirty || eventForm.get('minParticipants').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('minParticipants').errors.required" style="color: red">Verplicht veld</span>
+            <span *ngIf= "eventForm.get('minParticipants').errors.pattern" style="color: red">Positief geheel getal verwacht</span>
+
+          </div>
+        </div>
+        <div class="col s4 input-field">
+          <label for="maxParticipantsField">Maximum aantal deelnemers</label>
+          <input formControlName="maxParticipants" id="maxParticipantsField" type="number">
+          <div *ngIf="eventForm.get('maxParticipants').invalid && (eventForm.get('maxParticipants').dirty || eventForm.get('maxParticipants').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('maxParticipants').errors.required" style="color: red">Verplicht veld</span>
+            <span *ngIf= "eventForm.get('maxParticipants').errors.pattern" style="color: red">Positief geheel getal verwacht</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="section">
+      <h5>Data evenement</h5>
+
+      <div class="row">
+        <div class="col s12">
+          <input type="checkbox" id="eventIsRecurringCheckbox" formControlName="eventIsRecurring"/>
+          <label for="eventIsRecurringCheckbox">Maak een wekelijks evenement</label>
+        </div>
+      </div>
+
+      <div class="row" [hidden]="!(eventForm.value.eventIsRecurring)">
+        <div formGroupName="nrOfWeekdays">
+          <div class="col s3">
+            <input type="checkbox" id="maandagCheckbox" formControlName="MONDAY"/>
+            <label for="maandagCheckbox">Maandag</label>
+          </div>
+          <div class="col s3">
+            <input type="checkbox" id="dinsdagCheckbox" formControlName="TUESDAY"/>
+            <label for="dinsdagCheckbox">Dinsdag</label>
+          </div>
+          <div class="col s3">
+            <input type="checkbox" id="woensdagCheckbox" formControlName="WEDNESDAY"/>
+            <label for="woensdagCheckbox">Woensdag</label>
+          </div>
+          <div class="col s3">
+            <input type="checkbox" id="donderdagCheckbox" formControlName="THURSDAY"/>
+            <label for="donderdagCheckbox">Donderdag</label>
+          </div>
+          <div class="col s3">
+            <input type="checkbox" id="vrijdagCheckbox" formControlName="FRIDAY"/>
+            <label for="vrijdagCheckbox">Vrijdag</label>
+          </div>
+          <div class="col s3">
+            <input type="checkbox" id="zaterdagCheckbox" formControlName="SATURDAY"/>
+            <label for="zaterdagCheckbox">Zaterdag</label>
+          </div>
+          <div class="col s3">
+            <input type="checkbox" id="zondagCheckbox" formControlName="SUNDAY"/>
+            <label for="zondagCheckbox">Zondag</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s4" [hidden]="(eventForm.value.eventIsRecurring)">
+          <label for="eventStartDate">Startdatum evenement</label>
+          <input id="eventStartDate" type="text" class="eventDatepicker">
+        </div>
+        <div class="col s2">
+          <label for="eventStartTime">Startuur evenement</label>
+          <input id="eventStartTime" type="text" class="timepicker">
+        </div>
+        <div class="col s4" [hidden]="(eventForm.value.eventIsRecurring)">
+          <label for="eventEndDate">Einddatum evenement</label>
+          <input id="eventEndDate" type="text" class="eventDatepicker">
+        </div>
+        <div class="col s2">
+          <label for="eventEndTime">Einduur evenement</label>
+          <input id="eventEndTime" type="text" class="timepicker">
+        </div>
+        <div [hidden]="!(eventForm.value.eventIsRecurring)">
+          <div class="col s4">
+            <label for="eventFirstDate">Start periode</label>
+            <input  formControlName="firstEventDate" id="eventFirstDate" type="text" class="eventDatepicker">
+          </div>
+          <div class="col s4">
+            <label for="eventLastDate">Einde periode</label>
+            <input formControlName="lastEventDate" id="eventLastDate" type="text" class="eventDatepicker">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s12">
+          <input type="checkbox" id="customDeadlineCheckbox" formControlName="customDeadlineBoolean"/>
+          <label for="customDeadlineCheckbox">Bepaal een inschrijvingsdeadline</label>
+        </div>
+      </div>
+
+      <div class="row" [hidden]="!(eventForm.value.customDeadlineBoolean)">
+        <div class="col s4">
+          <label for="eventDeadlineDate">Deadline datum</label>
+          <input id="eventDeadlineDate" type="text" class="eventDatepicker">
+        </div>
+        <div class="col s2">
+          <label for="eventDeadlineTime">Deadline uur</label>
+          <input id="eventDeadlineTime" type="text" class="timepicker">
+        </div>
+      </div>
+    </div>
+
+
+    <div class="section">
+      <h5>Locatie</h5>
+
+      <div class="row">
+        <div class="col">
+          <input type="checkbox" id="customAddressCheckbox" formControlName="customAddressBoolean"/>
+          <label for="customAddressCheckbox">Evenement vindt buitenhuis plaats</label>
+        </div>
+      </div>
+
+      <div [hidden]="(!eventForm.value.customAddressBoolean)">
+        <div class="row">
+          <div class="col s8 input-field">
+            <label for="addrStreet">Straat</label>
+            <input formControlName="street" id="addrStreet" type="text">
+            <div *ngIf="eventForm.get('street').invalid && (eventForm.get('street').dirty || eventForm.get('street').touched)"
+                 class="alert alert-danger">
+              <span *ngIf= "eventForm.get('street').errors.required" style="color: red">Dit is een verplicht veld</span>
+              <span *ngIf= "eventForm.get('street').errors.pattern" style="color: red">Geen geldige invoer</span>
+            </div>
+          </div>
+          <div class="col s2 input-field">
+            <label for="addrStreet">Nummer</label>
+            <input formControlName="homeNumber" id="addrHomeNumber" type="text">
+            <div *ngIf="eventForm.get('homeNumber').invalid && (eventForm.get('homeNumber').dirty || eventForm.get('homeNumber').touched)"
+                 class="alert alert-danger">
+              <span *ngIf= "eventForm.get('homeNumber').errors.required" style="color: red">Dit is een verplicht veld</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s2 input-field">
+            <label for="addrStreet">Postcode</label>
+            <input formControlName="postalCode" id="addrPostalCode" type="number">
+            <div *ngIf="eventForm.get('postalCode').invalid && (eventForm.get('postalCode').dirty || eventForm.get('postalCode').touched)"
+                 class="alert alert-danger">
+              <span *ngIf= "eventForm.get('postalCode').errors.required" style="color: red">Dit is een verplicht veld</span>
+              <span *ngIf= "eventForm.get('postalCode').errors.pattern" style="color: red">Geen geldige invoer</span>
+            </div>
+          </div>
+          <div class="col s4 input-field">
+            <label for="addrStreet">Stad</label>
+            <input formControlName="city" id="addrCity" type="text">
+            <div *ngIf="eventForm.get('city').invalid && (eventForm.get('city').dirty || eventForm.get('city').touched)"
+                 class="alert alert-danger">
+              <span *ngIf= "eventForm.get('city').errors.required" style="color: red">Dit is een verplicht veld</span>
+              <span *ngIf= "eventForm.get('city').errors.pattern" style="color: red">Geen geldige invoer</span>
+            </div>
+          </div>
+          <div class="col s4 input-field">
+            <label for="addrStreet">Land</label>
+            <input formControlName="country" id="addrCountry" type="text">
+            <div *ngIf="eventForm.get('country').invalid && (eventForm.get('country').dirty || eventForm.get('country').touched)"
+                 class="alert alert-danger">
+              <span *ngIf= "eventForm.get('country').errors.required" style="color: red">Dit is een verplicht veld</span>
+              <span *ngIf= "eventForm.get('country').errors.pattern" style="color: red">Geen geldige invoer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h5>Punten</h5>
+      <div class="row">
+        <div class="col s2 input-field">
+          <label for="points">Punten</label>
+          <input formControlName="points" id="points" type="number" min="0" value="0">
+          <div *ngIf="eventForm.get('points').invalid && (eventForm.get('points').dirty || eventForm.get('points').touched)"
+               class="alert alert-danger">
+            <span style="color: red">Het aantal punten moet groter zijn dan 0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="section">
+      <h5>Prijs</h5>
+
+      <div class="row">
+        <div class="col">
+          <input type="checkbox" id="customPriceCheckbox" formControlName="differentPricesBoolean"/>
+          <label for="customPriceCheckbox">Verschillende prijs voor volwassenen en kinderen</label>
+        </div>
+      </div>
+
+      <div class="row" [hidden]="(!eventForm.value.differentPricesBoolean)">
+        <div class="col s2 input-field">
+          <label for="priceChild">Prijs kinderen</label>
+          <input formControlName="pricePerChild" id="priceChild" type="number">
+          <div *ngIf="eventForm.get('pricePerChild').invalid && (eventForm.get('pricePerChild').dirty || eventForm.get('pricePerChild').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('pricePerChild').errors.required" style="color: red">Dit is een verplicht veld</span>
+          </div>
+        </div>
+        <div class="col s2 input-field">
+          <label for="priceAdult">Prijs volwassenen</label>
+          <input formControlName="pricePerAdult" id="priceAdult" type="number">
+          <div *ngIf="eventForm.get('pricePerAdult').invalid && (eventForm.get('pricePerAdult').dirty || eventForm.get('pricePerAdult').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('pricePerAdult').errors.required" style="color: red">Dit is een verplicht veld</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" [hidden]="(eventForm.value.differentPricesBoolean)">
+        <div class="col s2 input-field">
+          <label for="priceGeneral">Prijs</label>
+          <input formControlName="priceGeneral" id="priceGeneral" type="number">
+          <div *ngIf="eventForm.get('priceGeneral').invalid && (eventForm.get('priceGeneral').dirty || eventForm.get('priceGeneral').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('priceGeneral').errors.required" style="color: red">Dit is een verplicht veld</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="section">
+      <h5>Voeg extra verantwoordelijken toe</h5>
+
+      <div class="row">
+        <div class="col">
+          <input type="checkbox" id="extraModeratorsCheckbox" formControlName="extraModeratorsBoolean"/>
+          <label for="extraModeratorsCheckbox">Do you want to set extra moderators?</label>
+        </div>
+      </div>
+
+      <div class="row" [hidden]="!(eventForm.value.extraModeratorsBoolean)">
+        <div class="input-field col s4">
+          <select id="selectModeratorBox">
+            <option disabled selected>Choose your moderator</option>
+            <option *ngFor="let moderator of getAllModerators()" value="{{moderator.id}}">
+              {{moderator.firstName}} {{moderator.lastName}}
+            </option>
+          </select>
+          <label>Add a moderator</label>
+        </div>
+        <div class="col s2">
+          <button class="btn red" (click)="addResponsibleModerator()"><i class="material-icons">add</i></button>
+        </div>
+        <div class="col s4">
+          <label for="responsibleModeratorsTextArea">Responsible Moderators</label>
+          <div class="card white darken-1" id="responsibleModeratorsTextArea">
+            <div class="card-content black-text">
+              <ul>
+                <li *ngFor="let moderator of responsibles">
+                  {{moderator.firstName}} {{moderator.lastName}}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col s2">
+          <button class="btn red" (click)="clearResponsibleModerators()"><i class="material-icons">clear</i></button>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="section">
+      <h5>Beperk de toegankelijkheid voor dit evenement</h5>
+
+      <div class="row">
+        <div class="col">
+          <input type="checkbox" id="openClosedCheckbox" formControlName="closed"/>
+          <label for="openClosedCheckbox">Maak dit evenement gesloten</label>
+        </div>
+      </div>
+
+      <div class="row" [hidden]="!(eventForm.value.closed)">
+        <div class="input-field col s4">
+          <select id="selectEnrollmentBox">
+            <option disabled selected>Kies een groep om toe te voegen</option>
+            <option *ngFor="let enrollment of getAllEnrollments()" value="{{enrollment.id}}">
+              {{enrollment.name}}
+            </option>
+          </select>
+          <label>Add an enrollment</label>
+        </div>
+        <div class="col s2">
+          <button class="btn red" (click)="addEnrollment()"><i class="material-icons">add</i></button>
+        </div>
+        <div class="col s4">
+          <label for="enrollmentsTextArea">Dit evenement is voor de volgende groepen</label>
+          <div class="card white darken-1" id="enrollmentsTextArea">
+            <div class="card-content black-text">
+              <ul>
+                <li *ngFor="let enrollment of enrollments">
+                  {{enrollment.name}}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col s2">
+          <button class="btn red" (click)="clearEnrollments()"><i class="material-icons">clear</i></button>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="section">
+      <h5>Automatische emails</h5>
+
+      <div class="row">
+        <div class="col">
+          <input type="checkbox" id="automaticReminderMailCheckbox" formControlName="automaticReminderMailBoolean"/>
+          <label for="automaticReminderMailCheckbox">Stuur automatisch een herinneringsmail naar de deelnemers</label>
+        </div>
+      </div>
+
+      <div class="row" [hidden]="!(eventForm.value.automaticReminderMailBoolean)">
+        <div class="col s4" id="reminderDateTime">
+          <label for="reminderMailDate">Datum verzending</label>
+          <input id="reminderMailDate" type="text" class="eventDatepicker">
+        </div>
+        <div class="col s2">
+          <label for="reminderMailTime">Tijdstip verzending</label>
+          <input id="reminderMailTime" type="text" class="timepicker">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <input type="checkbox" id="automaticModeratorMailCheckbox" formControlName="automaticModeratorMailBoolean"/>
+          <label for="automaticModeratorMailCheckbox">Stuur verantwoordelijken een mail wanneer aantal inschrijvingen is bereikt</label>
+        </div>
+      </div>
+
+      <div class="row" [hidden]="!(eventForm.value.automaticModeratorMailBoolean)">
+        <div class="col s2">
+          <label for="reminderAmount">Aantal inschrijvingen voor mail</label>
+          <input id="reminderAmount" type="number" formControlName="numberParticipantsToRemind">
+          <div *ngIf="eventForm.get('numberParticipantsToRemind').invalid && (eventForm.get('numberParticipantsToRemind').dirty || eventForm.get('numberParticipantsToRemind').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('numberParticipantsToRemind').errors.required" style="color: red">Dit is een verplicht veld</span>
+            <span *ngIf= "eventForm.get('numberParticipantsToRemind').errors.pattern" style="color: red">Dit is geen geheel getal</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="row">
+        <div class="file-field input-field col s6">
+          <div class="btn red">
+            <i class="tiny material-icons">attach_file</i>
+            <input type="file" id="attachmentFile">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" value="Voeg een bijlage toe">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="section">
+      <div *ngIf="globalErrorMessages.length>0" class="alert alert-danger">
+        <ul>
+          <li *ngFor="let errorMessage of globalErrorMessages" style="color:red">
+            {{errorMessage}}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <div class="section">
+      <div class="row">
+        <div class="col s12">
+          <button class="btn" (click)="saveEvent()">Save</button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+
+</div>

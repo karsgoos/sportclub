@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Config} from './config';
 
 export abstract class AbstractRestService<T> {
-  constructor(private http: HttpClient, private endPoint: string) {
+  constructor(protected http: HttpClient, private endPoint: string) {
   }
 
   mockTest(): Observable<T> {
@@ -11,4 +11,13 @@ export abstract class AbstractRestService<T> {
   }
 
   // Add here all the CRUD operations ( create, read, update, delete )
+
+  save(toSave:T):Observable<T>{
+    return this.http.post(Config.API_URL + this.endPoint,toSave);
+  }
+
+  update(toUpdate: T): Observable<T> {
+    return this.http.put(Config.API_URL + this.endPoint, toUpdate);
+  }
+
 }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body style="text-align: center;">
+<div style="background-color: #ee6e73; height: 3em;">
+    <h3><span th:text="${sportclubName}"></span></h3>
+</div>
+<div>
+    <p>Geachte
+    <span th:text="${user.getFirstName()} "></span>
+        <span th:text="${user.getLastName()}"></span>,</p>
+
+    <p>U hebt zich ingeschreven voor een evenement van onze club: <span th:text="${event.getName()}"></span>
+        op <span th:text="${startDatum}"></span> om <span th:text="${startUur}"></span>.</p>
+    <p>Bij deze willen we u laten weten dat dit evenement geannuleerd is.</p>
+    <p>Bedankt voor het begrip.</p>
+
+</div>
+
+
+</body>
+</html>

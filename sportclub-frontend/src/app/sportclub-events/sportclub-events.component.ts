@@ -1,6 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {SportClubEventService} from './service/sportclub-event.service';
-import {SportClubEvent} from './model/sportclub-event';
+import {SportClubEvent} from '../common/model/sportclub-event-model';
+import {EventOverviewModalComponent} from "./event-overview-modal/event-overview-modal.component";
+import {Router} from "@angular/router";
+import {AuthenticationService} from "../login/services/authentication.service";
 
 @Component({
   selector: 'app-sportclub-events',
@@ -9,17 +12,27 @@ import {SportClubEvent} from './model/sportclub-event';
 })
 export class SportClubEventsComponent implements OnInit {
 
-  sportClubEvent: SportClubEvent;
+  events: SportClubEvent[];
 
-  constructor(public sportClubEventService: SportClubEventService) {
+  @ViewChild(EventOverviewModalComponent) overviewModal: EventOverviewModalComponent;
+
+  constructor(private router: Router, private eventService: SportClubEventService, private authService: AuthenticationService) {
   }
 
   ngOnInit() {
-    this.sportClubEventService.mockTest()
-      .subscribe((data) => {
-          this.sportClubEvent = data;
-        }
-      );
+    this.eventService.getEvents().subscribe(events => this.events = events);
+  }
+
+  eventOverviewModal() {
+    this.overviewModal.show();
+  }
+
+  goToEventCreation() {
+    this.router.navigate(['/evenementen/aanmaken'])
+  }
+
+  isModerator(): boolean {
+    return this.authService.getCurrentAuthorities().includes('MODERATOR_PRIVILEGES');
   }
 
 }

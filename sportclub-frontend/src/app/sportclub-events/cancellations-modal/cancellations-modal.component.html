@@ -1,0 +1,25 @@
+<div id="cancellationsModal" class="modal">
+  <div class="modal-content">
+    <table class="striped highlight">
+      <tr>
+        <th>Deelnemers</th>
+        <th>Aantal volwassenen</th>
+        <th>Aantal kinderen</th>
+      </tr>
+      <tr *ngFor="let cancellation of cancellations">
+        <td>
+          {{cancellation.firstName}} {{cancellation.lastName}}
+        </td>
+        <td>
+          {{cancellation.nrOfAdults}}
+        </td>
+        <td>
+          {{cancellation.nrOfChildren}}
+        </td>
+      </tr>
+    </table>
+    <div>
+      <a class="waves-effect waves-light" (click)="exportList()" class="btn">Lijst Exporteren</a>
+    </div>
+  </div>
+</div>

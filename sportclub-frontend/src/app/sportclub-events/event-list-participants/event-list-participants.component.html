@@ -1,0 +1,25 @@
+<div id="participantsModal" class="modal">
+  <div class="modal-content">
+    <table class="striped highlight">
+      <tr>
+        <th>Deelnemers</th>
+        <th>Aantal volwassenen</th>
+        <th>Aantal kinderen</th>
+      </tr>
+      <tr *ngFor="let participant of participants">
+        <td>
+          {{participant.firstName}} {{participant.lastName}}
+        </td>
+        <td>
+          {{participant.nrOfAdults}}
+        </td>
+        <td>
+          {{participant.nrOfChildren}}
+        </td>
+      </tr>
+    </table>
+    <div>
+      <a class="weves-effect waves-light" (click)="exportList()" class="btn modal-trigger" data-target="participantsModal">Lijst Exporteren</a>
+    </div>
+  </div>
+</div>
