@@ -61,8 +61,7 @@ import {ModeratorGuard} from "./guard/moderator.guard";
     ReactiveFormsModule,
     FormsModule
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
-
 export class AppModule {
 }

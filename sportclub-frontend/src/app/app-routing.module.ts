@@ -7,8 +7,6 @@ import {LoginComponent} from './login/login.component';
 import {PointsComponent} from './points/points.component';
 import {RegistrationComponent} from "./registration/registration.component";
 import {RegisteredUserGuard} from './guard/registered-user.guard';
-
-import {AppComponent} from "./app.component";
 import {SportclubEventCreationComponent} from "./sportclub-events/components/sportclub-event-creation/sportclub-event-creation.component";
 import {EventDetailComponent} from "./sportclub-events/event-detail/event-detail.component";
 import {AttendingModalComponent} from "./sportclub-events/attending-modal/attending-modal.component";
@@ -57,6 +55,14 @@ const routes: Routes = [
   {
     path: 'registration',
     component: RegistrationComponent
+  },
+  {
+    path: 'role-management',
+    component: RoleManagementPanelComponent
+  },
+  {
+    path: 'event/:id',pathMatch: 'full',
+    component : EventDetailComponent
   }
 ];
 

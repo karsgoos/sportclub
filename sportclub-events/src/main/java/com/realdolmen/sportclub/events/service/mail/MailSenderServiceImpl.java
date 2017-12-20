@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
@@ -103,20 +105,23 @@ public class MailSenderServiceImpl implements MailSenderService {
             logger.error("There went someting wrong while generating the email ...");
         }
 
-        try {
-            javaMailSender.send(mimeMessage);
-            email.setSendStatus(SendStatus.SUCCES);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    javaMailSender.send(mimeMessage);
+                    email.setSendStatus(SendStatus.SUCCES);
 
-        } catch (MailException e) {
-            logger.error("Failed to send email to " + email.getUser().getEmail() + " with subject " + email.getSubject());
-            email.setSendStatus(SendStatus.FAILED);
+                } catch (MailException e) {
+                    logger.error("Failed to send email to " + email.getUser().getEmail() + " with subject " + email.getSubject());
+                    email.setSendStatus(SendStatus.FAILED);
 
-        } finally {
-            emailService.save(email);
+                } finally {
+                    emailService.save(email);
 
-        }
-
-
+                }
+            }
+        });
     }
 
 

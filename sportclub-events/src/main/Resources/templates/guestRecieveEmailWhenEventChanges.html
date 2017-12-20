@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body style="text-align: center;">
+<div style="background-color: #ee6e73; height: 3em;">
+    <h3><span th:text="${sportclub.getName()}"></span></h3>
+</div>
+<div>
+    Geachte,
+    <span th:text="${guest.getFirstName()} "></span>
+
+    <span th:text="${guest.getLastName()}"></span>
+    <br/>
+    <br />
+
+    We wensen u te informeren dat er wijzigingen werden aangebracht in het event
+    <span th:text="${event.name}"></span>.
+</div>
+
+<div>
+    <div th:text="${event.getDescription()}"></div>
+    <br />
+    <div>
+        Start op:
+        <span th:text="${startDatum}"></span>
+        om
+        <span th:text="${startUur}"></span>
+    </div>
+    <div>
+        Einde op:
+        <span th:text="${eindDatum}"></span>
+        om
+        <span th:text="${eindUur}"></span>
+    </div>
+    <div style="border: 1px solid black; ">
+        <h2>
+            Locatie:
+        </h2>
+        <div style="color: blue;">
+            <span th:text="${event.getAddress().getStreet()}"></span> <span th:text="${event.getAddress().getHomeNumber()}"></span>
+            <br />
+            <span th:text="${event.getAddress().getPostalCode()}"></span> <span th:text="${event.getAddress().getCity()}"></span>
+            <br />
+            <span th:text="${event.getAddress().getCountry()}"></span>
+            <br />
+        </div>
+    </div>
+    <div>
+        <br />
+        <div th:with="fixSlashesInUnsubscribeLink=${unsubscribeLink}">
+            Maak uw inschrijving ongedaan door deze
+
+            <a th:href="${fixSlashesInUnsubscribeLink}">link</a>
+            te volgen.
+        </div>
+        <br />
+    </div>
+    <br/>
+    <div>
+
+    </div>
+    <div th:if="${event.getPriceAdult() > 0}">
+        <h3>
+            prijs per volwassene:
+            <span th:text="${event.getPriceAdult()}"></span>
+            <br />
+            prijs per kind:
+            <span th:text="${event.getPriceChild()}"></span>
+
+        </h3>
+    </div>
+
+</div>
+
+
+</body>
+</html>
