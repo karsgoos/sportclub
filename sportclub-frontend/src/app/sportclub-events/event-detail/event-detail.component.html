@@ -11,10 +11,12 @@
   <div class="row">
     <div class="col s12 m4 l9">
       <div class="card-panel hoverable large">
-        <a class="right btn-floating btn-large waves-effect waves-light red modal-trigger" (click)="deleteEvent()"
-           data-target="deleteModal"><i class="material-icons">delete</i></a>
-        <a class="right btn-floating btn-large waves-effect waves-light" style="margin-right: 1ex"
-           (click)="editEvent()"><i class="material-icons">edit</i></a>
+        <div id="moderator-buttons" *ngIf="isModerator()">
+          <a class="right btn-floating btn-large waves-effect waves-light red modal-trigger" (click)="deleteEvent()"
+             data-target="deleteModal"><i class="material-icons">delete</i></a>
+          <a class="right btn-floating btn-large waves-effect waves-light" style="margin-right: 1ex"
+             (click)="editEvent()"><i class="material-icons">edit</i></a>
+        </div>
 
 
         <div class="row">
@@ -108,9 +110,9 @@
     </div>
     <div class="col s12 m4 l3">
       <div>
-        <a style="margin-bottom: 5px" class="waves-effect waves-light btn modal-trigger" (click)="showParticipantsModal()"
+        <a *ngIf="isModerator()" style="margin-bottom: 5px" class="waves-effect waves-light btn modal-trigger" (click)="showParticipantsModal()"
            class="btn modal-trigger" data-target="participantsModal">Deelnemers zien</a>
-        <a style="margin-bottom: 5px" class="waves-effect waves-light btn modal-trigger" (click)="showCancellationsModal()"
+        <a *ngIf="isAdministrator()" style="margin-bottom: 5px" class="waves-effect waves-light btn modal-trigger" (click)="showCancellationsModal()"
            class="btn modal-trigger" data-target="cancellationsModal">Uitgeschreven leden zien</a>
       </div>
     </div>

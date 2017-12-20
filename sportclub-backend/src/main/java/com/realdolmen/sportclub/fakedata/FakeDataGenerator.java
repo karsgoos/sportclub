@@ -191,6 +191,22 @@ public class FakeDataGenerator {
                 .isSelfManaged(true);
 
         registeredUserRepository.save(parentBuilder.build());
+
+        // Bert's brother Matthias is a moderator
+        parentBuilder = new RegisteredUserBuilder()
+                .firstName("Matthias")
+                .lastName("Vermeulen")
+                .email("mv@gmail.com")
+                .address(address)
+                .gender(Gender.MAN)
+                .role(moderator)
+                .addEnrollment(enrollment)
+                .phoneNumber("0000000" + ABC[2])
+                .password("test")
+                .totalPoints(2000)
+                .isSelfManaged(true);
+
+        registeredUserRepository.save(parentBuilder.build());
     }
 
     private void addMembershipTypes() {
