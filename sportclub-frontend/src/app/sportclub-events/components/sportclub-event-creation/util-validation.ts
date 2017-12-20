@@ -205,3 +205,11 @@ function weekdaysSelected(form:FormGroup){
   }
   return false;
 }
+
+export function markElementsAsDirty(form:FormGroup){
+  for(let control in form.controls){
+    if(form.controls[control].status == "INVALID"){
+      form.controls[control].markAsDirty();
+    }
+  }
+}

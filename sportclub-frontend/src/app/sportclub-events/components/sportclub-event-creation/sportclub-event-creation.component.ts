@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, OnInit} from '@angular/core';
 import {SportClubCreationEvent} from "../../model/sportclub-event";
 import {SportClubEventService} from "../../service/sportclub-event.service";
 import {FormGroup, FormBuilder} from "@angular/forms";
@@ -10,7 +10,7 @@ import {
   initImageUploader
 } from "./util-materialize-components";
 import {dateToPickerString, timeToPickerString} from "./util-dateconverter";
-import {checkGlobalValidation, setLocalValidators} from "./util-validation";
+import {checkGlobalValidation, markElementsAsDirty, setLocalValidators} from "./util-validation";
 import {fromFormToEvent} from "./util-event-form-conversion";
 
 declare var $: any;
@@ -20,7 +20,7 @@ declare var $: any;
   templateUrl: './sportclub-event-creation.component.html',
   styleUrls: ['./sportclub-event-creation.component.css']
 })
-export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
+export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
 
   // variables
   private recurringEventId: number;
@@ -211,7 +211,8 @@ export class SportclubEventCreationComponent implements OnInit, AfterViewInit {
   saveEvent() {
     this.globalErrorMessages = checkGlobalValidation(this.eventForm);
     if(this.globalErrorMessages.length>0){
-      //do nothing, cause the information is not yet valid
+      // mark the required fields as dirty to show where the errors are
+      markElementsAsDirty(this.eventForm);
     }
     else {
       //save the event
