@@ -42,9 +42,9 @@ public class ProductionResourceServerConfig extends ResourceServerConfigurerAdap
         http
                 .authorizeRequests()
                 .antMatchers("/api/register/**").permitAll()
-                .antMatchers("/api/**").authenticated()
                 .antMatchers("/api/**/image").permitAll()
                 .antMatchers("/api/**/attachment").permitAll()
+                .antMatchers("/api/**").authenticated()
                 .antMatchers(HttpMethod.OPTIONS, "/oauth/token").permitAll()
                 .anyRequest().permitAll()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
