@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { environment} from '../../../environments/environment';
-import { Observable } from "rxjs/observable";
 import { Participant } from "../../common/model/participant-model";
 import {Message} from "../../common/model/message-model";
 import {AuthenticationService} from "../../login/services/authentication.service";
+import {Observable} from "rxjs/Observable";
 
 
 @Injectable()
