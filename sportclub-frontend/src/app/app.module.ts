@@ -11,10 +11,10 @@ import {FormsModule} from '@angular/forms';
 import {PointsComponent} from './points/points.component';
 import {AuthInterceptor} from './login/services/auth.interceptor';
 import {AuthenticationService} from './login/services';
-import {NavMenuComponent} from './nav-menu/nav-menu.component';
 import {RegistrationComponent} from './registration/registration.component';
 import {RegisteredUserGuard} from './guard/registered-user.guard';
 import {MenuBarComponent} from './menu-bar/menu-bar.component';
+import {Config} from './common/config';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,8 @@ import {MenuBarComponent} from './menu-bar/menu-bar.component';
     multi: true
   },
     RegisteredUserGuard,
-    AuthenticationService],
+    AuthenticationService,
+    Config],
   imports: [
     BrowserModule,
     LoginModule,
