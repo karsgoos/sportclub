@@ -113,13 +113,11 @@
 
       </div>
     </div>
-    <div class="col s12 m4 l3">
-      <div>
+    <div class="col s12">
         <a *ngIf="isModerator()" style="margin-bottom: 5px" class="waves-effect waves-light btn modal-trigger" (click)="showParticipantsModal()"
            class="btn modal-trigger" data-target="participantsModal">Deelnemers zien</a>
         <a *ngIf="isAdministrator()" style="margin-bottom: 5px" class="waves-effect waves-light btn modal-trigger" (click)="showCancellationsModal()"
            class="btn modal-trigger" data-target="cancellationsModal">Uitgeschreven leden zien</a>
-      </div>
     </div>
   </div>
 </div>
