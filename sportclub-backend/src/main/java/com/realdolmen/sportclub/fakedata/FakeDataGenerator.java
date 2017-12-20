@@ -198,7 +198,7 @@ public class FakeDataGenerator {
                 .gender(Gender.MAN)
                 .role(administrator)
                 .addEnrollment(enrollment)
-                .phoneNumber("0000000" + ABC[2])
+                .phoneNumber1("0000000" + ABC[2])
                 .password("test")
                 .totalPoints(2000)
                 .isSelfManaged(true);

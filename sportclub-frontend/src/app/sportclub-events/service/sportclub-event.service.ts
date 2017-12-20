@@ -11,7 +11,7 @@ import {Message} from "../../common/model/message-model";
 export class SportClubEventService extends AbstractRestService<SportClubCreationEvent> {
 
   constructor(http: HttpClient) {
-    super(http, 'events');
+    super(http, '/api/events');
   }
 
   // replace 5185415ba171ea3a00704eed with endpoint of the appropriate rest controller.
