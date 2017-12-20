@@ -144,7 +144,6 @@ public class EventManagementController {
     }
 
     @GetMapping(value = "events/{id}/image")
-    @PreAuthorize("hasAuthority('GUEST_PRIVILEGES')")
     public ResponseEntity<byte[]> downloadImage(@PathVariable("id") Long id) throws AttachmentNotFoundException {
         HttpHeaders headers = new HttpHeaders();
         try {
@@ -157,7 +156,6 @@ public class EventManagementController {
     }
 
     @GetMapping(value = "events/{id}/attachment", produces = MediaType.APPLICATION_PDF_VALUE)
-    @PreAuthorize("hasAuthority('GUEST_PRIVILEGES')")
     public byte[] downloadAttachment(@PathVariable("id") Long id) throws AttachmentNotFoundException {
         return service.findAttachment(id);
     }
