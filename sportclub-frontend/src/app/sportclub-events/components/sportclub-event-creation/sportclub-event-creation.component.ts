@@ -187,9 +187,9 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
       points:'0',
 
       differentPricesBoolean:false,
-      pricePerChild:'',
-      pricePerAdult:'',
-      priceGeneral:'',
+      pricePerChild:'0',
+      pricePerAdult:'0',
+      priceGeneral:'0',
 
       closed:false,
 
@@ -200,8 +200,6 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
       reminderMailTime:'',
       automaticModeratorMailBoolean:false,
       numberParticipantsToRemind:'',
-
-      addedFile:'',
     });
 
     //Add the local validators

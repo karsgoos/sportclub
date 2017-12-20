@@ -60,8 +60,13 @@
           </p>
           </div>
           <!-- TODO replace static price with dynamic after big decimal issue has been resolved-->
-          <div class="col s12 m6 l3"><p>Prijs volwassenen: &euro; {{eventModel?.priceAdult}}<br/>Prijs kinderen: &euro;
-            {{eventModel?.priceChild}}</p></div>
+          <div class="col s12 m6 l3"><p>Prijs volwassenen:
+            <span *ngIf="!eventModel?.priceAdult==0">&euro; {{eventModel?.priceAdult}}</span>
+            <span *ngIf="eventModel?.priceAdult==0">GRATIS</span>
+            <br/>
+            Prijs kinderen:
+            <span *ngIf="!eventModel?.priceChild==0">&euro; {{eventModel?.priceChild}}</span>
+            <span *ngIf="eventModel?.priceChild==0">GRATIS</span>
           <div class="col s12 m6 l3"><p></p></div>
         </div>
 
@@ -72,7 +77,7 @@
             <span>Beschrijving: {{eventModel?.description}}</span>
           </div>
 
-          <div class="col s12 m6 l3">
+          <div class="col s12 m6 l3" *ngIf="!(eventModel?.maxParticipants==999999)">
             <span
               *ngIf="eventModel?.attendancies != undefined">Beschikbare plaatsen: {{calculateAvailableSpace()}}</span>
             <span
