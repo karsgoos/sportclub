@@ -6,8 +6,7 @@ import {Config} from '../common/config';
 @Component({
   selector: 'app-points',
   templateUrl: './points.component.html',
-  styleUrls: ['./points.component.css'],
-  providers: [AuthenticationService]
+  styleUrls: ['./points.component.css']
 })
 
 export class PointsComponent implements OnInit {

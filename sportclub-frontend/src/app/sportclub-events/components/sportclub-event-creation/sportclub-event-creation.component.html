@@ -6,7 +6,7 @@
 
       <div class="row">
         <div class="input-field col s6">
-          <label for="eventName">Naam evenement</label>
+          <label for="eventName" class="active">Naam evenement</label>
           <input class="input-field" formControlName="name" type="text" id="eventName">
           <div *ngIf="eventForm.get('name').invalid && (eventForm.get('name').dirty || eventForm.get('name').touched)"
             class="alert alert-danger">
@@ -18,7 +18,7 @@
 
       <div class="row">
         <div class="input-field col s12">
-          <label for="eventDescription">Extra informatie</label>
+          <label for="eventDescription" class="active">Extra informatie</label>
           <textarea formControlName="description" id="eventDescription" class="materialize-textarea"></textarea>
         </div>
       </div>
@@ -46,13 +46,13 @@
       <div class="row">
         <div class="col">
           <input type="checkbox" id="customMinMaxParticipantsCheckbox" formControlName="customMinMaxParticipantsBoolean"/>
-          <label for="customMinMaxParticipantsCheckbox">Bepaal een minimum en maximum aantal deelnemers</label>
+          <label for="customMinMaxParticipantsCheckbox" class="active">Bepaal een minimum en maximum aantal deelnemers</label>
         </div>
       </div>
 
       <div class="row" [hidden]="(!eventForm.value.customMinMaxParticipantsBoolean)">
         <div class="col s4 input-field">
-          <label for="minParticipantsField">Minimum aantal deelnemers</label>
+          <label for="minParticipantsField" class="active">Minimum aantal deelnemers</label>
           <input formControlName="minParticipants" id="minParticipantsField" type="number">
           <div *ngIf="eventForm.get('minParticipants').invalid && (eventForm.get('minParticipants').dirty || eventForm.get('minParticipants').touched)"
                class="alert alert-danger">
@@ -62,7 +62,7 @@
           </div>
         </div>
         <div class="col s4 input-field">
-          <label for="maxParticipantsField">Maximum aantal deelnemers</label>
+          <label for="maxParticipantsField" class="active">Maximum aantal deelnemers</label>
           <input formControlName="maxParticipants" id="maxParticipantsField" type="number">
           <div *ngIf="eventForm.get('maxParticipants').invalid && (eventForm.get('maxParticipants').dirty || eventForm.get('maxParticipants').touched)"
                class="alert alert-danger">
@@ -81,7 +81,7 @@
       <div class="row">
         <div class="col s12">
           <input type="checkbox" id="eventIsRecurringCheckbox" formControlName="eventIsRecurring"/>
-          <label for="eventIsRecurringCheckbox">Maak een wekelijks evenement</label>
+          <label for="eventIsRecurringCheckbox" class="active">Maak een wekelijks evenement</label>
         </div>
       </div>
 
@@ -89,31 +89,31 @@
         <div formGroupName="nrOfWeekdays">
           <div class="col s3">
             <input type="checkbox" id="maandagCheckbox" formControlName="MONDAY"/>
-            <label for="maandagCheckbox">Maandag</label>
+            <label for="maandagCheckbox" class="active">Maandag</label>
           </div>
           <div class="col s3">
             <input type="checkbox" id="dinsdagCheckbox" formControlName="TUESDAY"/>
-            <label for="dinsdagCheckbox">Dinsdag</label>
+            <label for="dinsdagCheckbox" class="active">Dinsdag</label>
           </div>
           <div class="col s3">
             <input type="checkbox" id="woensdagCheckbox" formControlName="WEDNESDAY"/>
-            <label for="woensdagCheckbox">Woensdag</label>
+            <label for="woensdagCheckbox" class="active">Woensdag</label>
           </div>
           <div class="col s3">
             <input type="checkbox" id="donderdagCheckbox" formControlName="THURSDAY"/>
-            <label for="donderdagCheckbox">Donderdag</label>
+            <label for="donderdagCheckbox" class="active">Donderdag</label>
           </div>
           <div class="col s3">
             <input type="checkbox" id="vrijdagCheckbox" formControlName="FRIDAY"/>
-            <label for="vrijdagCheckbox">Vrijdag</label>
+            <label for="vrijdagCheckbox" class="active">Vrijdag</label>
           </div>
           <div class="col s3">
             <input type="checkbox" id="zaterdagCheckbox" formControlName="SATURDAY"/>
-            <label for="zaterdagCheckbox">Zaterdag</label>
+            <label for="zaterdagCheckbox" class="active">Zaterdag</label>
           </div>
           <div class="col s3">
             <input type="checkbox" id="zondagCheckbox" formControlName="SUNDAY"/>
-            <label for="zondagCheckbox">Zondag</label>
+            <label for="zondagCheckbox" class="active">Zondag</label>
           </div>
         </div>
       </div>
@@ -148,7 +148,7 @@
 
       <div class="row">
         <div class="col s3 input-field">
-          <label for="eventStartTime">Startuur (hh:mm)</label>
+          <label for="eventStartTime" class="active">Startuur (hh:mm)</label>
           <input class="input-field" id="eventStartTime" type="text" formControlName="starttime">
           <div *ngIf="eventForm.get('starttime').invalid && (eventForm.get('starttime').dirty || eventForm.get('starttime').touched)"
                class="alert alert-danger">
@@ -157,7 +157,7 @@
           </div>
         </div>
         <div class="col s3 input-field">
-          <label for="eventEndTime">Einduur (hh:mm)</label>
+          <label for="eventEndTime" class="active">Einduur (hh:mm)</label>
           <input class="input-field" id="eventEndTime" type="text" formControlName="endtime">
           <div *ngIf="eventForm.get('endtime').invalid && (eventForm.get('endtime').dirty || eventForm.get('endtime').touched)"
                class="alert alert-danger">
@@ -197,7 +197,7 @@
       <div class="row">
         <div class="col s12">
           <input type="checkbox" id="customDeadlineCheckbox" formControlName="customDeadlineBoolean"/>
-          <label for="customDeadlineCheckbox">Bepaal een inschrijvingsdeadline</label>
+          <label for="customDeadlineCheckbox" class="active">Bepaal een inschrijvingsdeadline</label>
         </div>
       </div>
 
@@ -215,13 +215,14 @@
           <mat-datepicker-toggle matSuffix [for]="deadlineDatePicker" disabled="false" ></mat-datepicker-toggle >
         </div>
         <div class="col s2">
-          <label for="eventDeadlineTime">Deadline uur (hh:mm)</label>
+          <label for="eventDeadlineTime" class="active">Deadline uur (hh:mm)</label>
           <input id="eventDeadlineTime" type="text" formControlName="deadlinetime">
           <div *ngIf="eventForm.get('deadlinetime').invalid && (eventForm.get('deadlinetime').dirty || eventForm.get('deadlinetime').touched)"
                class="alert alert-danger">
             <span *ngIf= "eventForm.get('deadlinetime').errors.required" style="color: red">Verplicht veld</span>
             <span *ngIf= "eventForm.get('deadlinetime').errors.pattern" style="color: red">Geef een correct uur door met het format hh:mm</span>
           </div>
+
         </div>
       </div>
     </div>
@@ -233,14 +234,14 @@
       <div class="row">
         <div class="col">
           <input type="checkbox" id="customAddressCheckbox" formControlName="customAddressBoolean"/>
-          <label for="customAddressCheckbox">Evenement vindt buitenhuis plaats</label>
+          <label for="customAddressCheckbox" class="active">Evenement vindt buitenshuis plaats</label>
         </div>
       </div>
 
       <div [hidden]="(!eventForm.value.customAddressBoolean)">
         <div class="row">
           <div class="col s8 input-field">
-            <label for="addrStreet">Straat</label>
+            <label for="addrStreet" class="active">Straat</label>
             <input formControlName="street" id="addrStreet" type="text">
             <div *ngIf="eventForm.get('street').invalid && (eventForm.get('street').dirty || eventForm.get('street').touched)"
                  class="alert alert-danger">
@@ -249,7 +250,7 @@
             </div>
           </div>
           <div class="col s2 input-field">
-            <label for="addrStreet">Nummer</label>
+            <label for="addrStreet" class="active">Nummer</label>
             <input formControlName="homeNumber" id="addrHomeNumber" type="text">
             <div *ngIf="eventForm.get('homeNumber').invalid && (eventForm.get('homeNumber').dirty || eventForm.get('homeNumber').touched)"
                  class="alert alert-danger">
@@ -259,7 +260,7 @@
         </div>
         <div class="row">
           <div class="col s2 input-field">
-            <label for="addrStreet">Postcode</label>
+            <label for="addrStreet" class="active">Postcode</label>
             <input formControlName="postalCode" id="addrPostalCode" type="number">
             <div *ngIf="eventForm.get('postalCode').invalid && (eventForm.get('postalCode').dirty || eventForm.get('postalCode').touched)"
                  class="alert alert-danger">
@@ -268,7 +269,7 @@
             </div>
           </div>
           <div class="col s4 input-field">
-            <label for="addrStreet">Stad</label>
+            <label for="addrStreet" class="active">Stad</label>
             <input formControlName="city" id="addrCity" type="text">
             <div *ngIf="eventForm.get('city').invalid && (eventForm.get('city').dirty || eventForm.get('city').touched)"
                  class="alert alert-danger">
@@ -277,7 +278,7 @@
             </div>
           </div>
           <div class="col s4 input-field">
-            <label for="addrStreet">Land</label>
+            <label for="addrStreet" class="active">Land</label>
             <input formControlName="country" id="addrCountry" type="text">
             <div *ngIf="eventForm.get('country').invalid && (eventForm.get('country').dirty || eventForm.get('country').touched)"
                  class="alert alert-danger">
@@ -293,7 +294,7 @@
       <h5>Punten</h5>
       <div class="row">
         <div class="col s2 input-field">
-          <label for="points">Punten</label>
+          <label for="points" class="active">Punten</label>
           <input formControlName="points" id="points" type="number" min="0" value="0">
           <div *ngIf="eventForm.get('points').invalid && (eventForm.get('points').dirty || eventForm.get('points').touched)"
                class="alert alert-danger">
@@ -310,13 +311,13 @@
       <div class="row">
         <div class="col">
           <input type="checkbox" id="customPriceCheckbox" formControlName="differentPricesBoolean"/>
-          <label for="customPriceCheckbox">Verschillende prijs voor volwassenen en kinderen</label>
+          <label for="customPriceCheckbox" class="active">Verschillende prijs voor volwassenen en kinderen</label>
         </div>
       </div>
 
       <div class="row" [hidden]="(!eventForm.value.differentPricesBoolean)">
         <div class="col s2 input-field">
-          <label for="priceChild">Prijs kinderen</label>
+          <label for="priceChild" class="active">Prijs kinderen</label>
           <input formControlName="pricePerChild" id="priceChild" type="number">
           <div *ngIf="eventForm.get('pricePerChild').invalid && (eventForm.get('pricePerChild').dirty || eventForm.get('pricePerChild').touched)"
                class="alert alert-danger">
@@ -324,7 +325,7 @@
           </div>
         </div>
         <div class="col s2 input-field">
-          <label for="priceAdult">Prijs volwassenen</label>
+          <label for="priceAdult" class="active">Prijs volwassenen</label>
           <input formControlName="pricePerAdult" id="priceAdult" type="number">
           <div *ngIf="eventForm.get('pricePerAdult').invalid && (eventForm.get('pricePerAdult').dirty || eventForm.get('pricePerAdult').touched)"
                class="alert alert-danger">
@@ -335,7 +336,7 @@
 
       <div class="row" [hidden]="(eventForm.value.differentPricesBoolean)">
         <div class="col s2 input-field">
-          <label for="priceGeneral">Prijs</label>
+          <label for="priceGeneral" class="active">Prijs</label>
           <input formControlName="priceGeneral" id="priceGeneral" type="number">
           <div *ngIf="eventForm.get('priceGeneral').invalid && (eventForm.get('priceGeneral').dirty || eventForm.get('priceGeneral').touched)"
                class="alert alert-danger">
@@ -353,7 +354,7 @@
       <div class="row">
         <div class="col">
           <input type="checkbox" id="extraModeratorsCheckbox" formControlName="extraModeratorsBoolean"/>
-          <label for="extraModeratorsCheckbox">Do you want to set extra moderators?</label>
+          <label for="extraModeratorsCheckbox" class="active">Wil je extra moderatoren toevoegen?</label>
         </div>
       </div>
 
@@ -371,7 +372,7 @@
           <button class="btn red" (click)="addResponsibleModerator()"><i class="material-icons">add</i></button>
         </div>
         <div class="col s4">
-          <label for="responsibleModeratorsTextArea">Responsible Moderators</label>
+          <label for="responsibleModeratorsTextArea" class="active">Responsible Moderators</label>
           <div class="card white darken-1" id="responsibleModeratorsTextArea">
             <div class="card-content black-text">
               <ul>
@@ -396,7 +397,7 @@
       <div class="row">
         <div class="col">
           <input type="checkbox" id="openClosedCheckbox" formControlName="closed"/>
-          <label for="openClosedCheckbox">Maak dit evenement gesloten</label>
+          <label for="openClosedCheckbox" class="active">Maak dit evenement gesloten</label>
         </div>
       </div>
 
@@ -414,7 +415,7 @@
           <button class="btn red" (click)="addEnrollment()"><i class="material-icons">add</i></button>
         </div>
         <div class="col s4">
-          <label for="enrollmentsTextArea">Dit evenement is voor de volgende groepen</label>
+          <label for="enrollmentsTextArea" class="active">Dit evenement is voor de volgende groepen</label>
           <div class="card white darken-1" id="enrollmentsTextArea">
             <div class="card-content black-text">
               <ul>
@@ -439,7 +440,7 @@
       <div class="row">
         <div class="col">
           <input type="checkbox" id="automaticReminderMailCheckbox" formControlName="automaticReminderMailBoolean"/>
-          <label for="automaticReminderMailCheckbox">Stuur automatisch een herinneringsmail naar de deelnemers</label>
+          <label for="automaticReminderMailCheckbox" class="active">Stuur automatisch een herinneringsmail naar de deelnemers</label>
         </div>
       </div>
 
@@ -457,7 +458,7 @@
           <mat-datepicker-toggle matSuffix [for]="mailDatePicker" disabled="false" ></mat-datepicker-toggle >
         </div>
         <div class="col s2">
-          <label for="reminderMailTime">Tijdstip verzending (hh:mm)</label>
+          <label for="reminderMailTime" class="active">Tijdstip verzending (hh:mm)</label>
           <input id="reminderMailTime" type="text" formControlName="reminderMailTime">
           <div *ngIf="eventForm.get('reminderMailTime').invalid && (eventForm.get('reminderMailTime').dirty || eventForm.get('reminderMailTime').touched)"
                class="alert alert-danger">
@@ -470,13 +471,13 @@
       <div class="row">
         <div class="col">
           <input type="checkbox" id="automaticModeratorMailCheckbox" formControlName="automaticModeratorMailBoolean"/>
-          <label for="automaticModeratorMailCheckbox">Stuur verantwoordelijken een mail wanneer aantal inschrijvingen is bereikt</label>
+          <label for="automaticModeratorMailCheckbox" class="active">Stuur verantwoordelijken een mail wanneer minimum aantal inschrijvingen is bereikt</label>
         </div>
       </div>
 
       <div class="row" [hidden]="!(eventForm.value.automaticModeratorMailBoolean)">
         <div class="col s2">
-          <label for="reminderAmount">Aantal inschrijvingen voor mail</label>
+          <label for="reminderAmount" class="active">Aantal inschrijvingen voor mail</label>
           <input id="reminderAmount" type="number" formControlName="numberParticipantsToRemind">
           <div *ngIf="eventForm.get('numberParticipantsToRemind').invalid && (eventForm.get('numberParticipantsToRemind').dirty || eventForm.get('numberParticipantsToRemind').touched)"
                class="alert alert-danger">
