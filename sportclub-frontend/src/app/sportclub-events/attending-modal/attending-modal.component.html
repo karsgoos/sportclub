@@ -41,7 +41,7 @@
         </div>
 
         <label>
-          Aantal volwassenen <input type="number" formControlName="numberOfAdults">
+          Aantal volwassenen <input type="number" min="0" step="1" formControlName="numberOfAdults">
 
         </label>
         <div class="alert" *ngIf="rForm.get('numberOfAdults').errors?.required && rForm.get('numberOfAdults').dirty">
@@ -50,19 +50,27 @@
         <div class="alert" *ngIf="rForm.get('numberOfAdults').errors?.pattern && rForm.get('numberOfAdults').dirty">
           Vul een aantal in
         </div>
+        <div class="alert" *ngIf="rForm.get('numberOfAdults').errors?.min">
+          Vul een getal in dat groter dan nul is
+        </div>
         <label>
-          Aantal kinderen <input type="number" formControlName="numberOfChildren">
+          Aantal kinderen <input type="number" min="0" formControlName="numberOfChildren">
 
         </label>
 
         <div class="alert" *ngIf="rForm.get('numberOfChildren').errors?.required && rForm.get('numberOfChildren').dirty">
           Dit is een verplicht veld
         </div>
-        <div class="alert" *ngIf="rForm.get('numberOfChildren').errors?.pattern && rForm.get('numberOfChildren').dirty">
+        <div class="alert" *ngIf="rForm.get('numberOfChildren').errors?.pattern
+        && rForm.get('numberOfChildren').dirty">
           Vul een aantal in
         </div>
+        <div class="alert" *ngIf="rForm.get('numberOfChildren').errors?.min">
+          Vul een getal in dat groter dan nul is
+        </div>
 
-            <div *ngIf="!rForm.valid">
+
+        <div *ngIf="!rForm.valid">
               <a class="btn disabled waves-effect waves-light btn" (click)="addEvent(rForm.value)">Inschrijven</a>
             </div>
 

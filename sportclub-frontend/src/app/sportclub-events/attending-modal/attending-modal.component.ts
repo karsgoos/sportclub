@@ -32,8 +32,8 @@ export class AttendingModalComponent implements OnInit {
       'naam': ['' ,[Validators.required,Validators.pattern(/[a-zA-Z\s]+$/)]],
       'voornaam': ['' ,[Validators.required,Validators.pattern(/[a-zA-Z\s]+$/)]],
       'email':[null,[Validators.required,Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]],
-      'numberOfAdults':[null,Validators.required],
-      'numberOfChildren':[null,Validators.required]
+      'numberOfAdults':[null, Validators.compose([Validators.required, Validators.min(0)])],
+      'numberOfChildren':[null,Validators.compose([Validators.required, Validators.min(0)])]
     })
 
 
@@ -61,7 +61,7 @@ export class AttendingModalComponent implements OnInit {
       this.numberOfChildren = post.numberOfChildren;
 
       this.sportServ.subscribeEvent(this.eventModel.id, this.naam, this.voornaam, this.email, this.numberOfAdults, this.numberOfChildren);
-      
+
       this.router.navigate(['/events']);
 
     });
