@@ -94,7 +94,7 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
         params: params,
       };
 
-      return this.http.post('http://localhost:8080/api/events/'+eventId+'/attachment', formData, options);
+      return this.http.post(environment.eventApiUrl + '/' + eventId +'/attachment', formData, options);
   }
 
   saveImage(image: File, eventId: number){
@@ -107,7 +107,7 @@ export class SportClubEventService extends AbstractRestService<SportClubCreation
       params: params,
     }
 
-    return this.http.post('http://localhost:8080/api/events/'+eventId+'/image', formData, options);
+    return this.http.post(environment.eventApiUrl + '/' + eventId+'/image', formData, options);
 
   }
 
