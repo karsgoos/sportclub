@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {Pipe} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AuthenticationService} from '../login/services/authentication.service';
+import {Config} from '../common/config';
 
-// @Pipe({ name: 'totalPoints' })
 @Component({
   selector: 'app-points',
   templateUrl: './points.component.html',
   styleUrls: ['./points.component.css'],
   providers: [AuthenticationService]
 })
+
 export class PointsComponent implements OnInit {
   searchTerm: string;
   pageTitle: string = 'Punten';
@@ -20,7 +20,7 @@ export class PointsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._http.get('http://localhost:8080/api/points').subscribe((points: any[]) => this.updatePoints(points));
+    this._http.get(Config.API_URL + '/api/points').subscribe((points: any[]) => this.updatePoints(points));
   }
 
   sortedPoints: any[] = [];

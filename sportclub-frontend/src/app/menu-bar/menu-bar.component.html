@@ -20,12 +20,12 @@
     </ul>
 
     <ul class="right" *ngIf="!isLoggedIn()" >
-      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
-      <li><a routerLink="/registration" routerLinkActive="active">Register</a></li>
+      <li><a routerLink="/login" routerLinkActive="active">Inloggen</a></li>
+      <li><a routerLink="/registration" routerLinkActive="active">Registreren</a></li>
     </ul>
     <ul class="right" *ngIf="isLoggedIn()">
-      <li><a routerLink="/points" routerLinkActive="active">Hello {{getUser().firstName}}</a></li>
-      <li><a (click)="logout()" routerLinkActive="active">Log out</a></li>
+      <li><a routerLink="/points" routerLinkActive="active">Hallo {{getUser().firstName}}</a></li>
+      <li><a (click)="logout()" routerLinkActive="active">Uitloggen</a></li>
     </ul>
   </div>
 </nav>

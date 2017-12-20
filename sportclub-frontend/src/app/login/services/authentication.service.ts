@@ -1,12 +1,14 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpRequest} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/observable/throw';
 
+
 import {User} from '../../common/user';
 import {Router} from "@angular/router";
+import {Config} from '../../common/config';
 
 @Injectable()
 export class AuthenticationService {
@@ -22,7 +24,7 @@ export class AuthenticationService {
     const data = 'grant_type=password&username=' + username + '&password=' + password;
 
     //centrale pad instellen (basepath + api url)
-    return this.http.post<any>('http://localhost:8080/oauth/token', data, {
+    return this.http.post<any>(Config.API_URL + '/oauth/token', data, {
       headers: new HttpHeaders(),
       withCredentials: true
     }).map(authorization => {
@@ -42,7 +44,7 @@ export class AuthenticationService {
 
     /*USER api method voorzien waarbij je de usergegevens zonder pwd krijgt*/
   fetchUser() {
-    return this.http.get('http://localhost:8080/api/user')
+    return this.http.get(Config.API_URL + '/api/user')
       .map(user => localStorage.setItem('user', JSON.stringify(user)));
   }
 
@@ -55,7 +57,7 @@ export class AuthenticationService {
 
     const data = 'grant_type=refresh_token&refresh_token=' + localStorage.getItem('refresh_token');
 
-    return this.http.post<any>('http://localhost:8080/oauth/token', data, {
+    return this.http.post<any>(Config.API_URL + '/oauth/token', data, {
       headers: headers,
       withCredentials: true
     }).do(authorization => {
