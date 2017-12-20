@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  eventApiUrl: "http://localhost:8080/api/events"
+  eventApiUrl: "http://localhost:8080/api/events",
+  serverUrl: "http://localhost:8080"
 };
