@@ -9,8 +9,7 @@ import {CommonModule} from '@angular/common';
     CommonModule
   ],
   declarations: [LoginComponent],
-  exports: [LoginComponent],
-  providers: []
+  exports: [LoginComponent]
 })
 export class LoginModule {
 }

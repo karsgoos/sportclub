@@ -2,6 +2,8 @@ package com.realdolmen.sportclub.common.repository;
 
 import com.realdolmen.sportclub.common.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface RoleRepository extends JpaRepository<Role,Long> {
+@Repository
+public interface RoleRepository extends JpaRepository<Role, Long> {
 }
