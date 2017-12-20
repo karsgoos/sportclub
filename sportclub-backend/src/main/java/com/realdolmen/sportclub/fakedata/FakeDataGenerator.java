@@ -20,6 +20,8 @@ public class FakeDataGenerator {
 
     static final int REGISTEREDPARENTSAMOUNT = 5;
     static final int CHILDSPERPARENT = 2;
+    static final int MODERATORS = 2;
+    static final char[] ABC = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
 
     @Autowired
     private RoleRepository roleRepository;
@@ -136,8 +138,8 @@ public class FakeDataGenerator {
 
     private void addRegisteredUsers() {
         for (int i = 0; i <= REGISTEREDPARENTSAMOUNT; i++) {
-            String firstName = "ParentFirstName" + i;
-            String lastName = "ParentLastName" + i;
+            String firstName = "FirstName" + ABC[i];
+            String lastName = "LastName" + ABC[i];
             Address address = new AddressBuilder().build();
             RegisteredUserBuilder parentBuilder = new RegisteredUserBuilder()
                     .firstName(firstName)
@@ -147,13 +149,32 @@ public class FakeDataGenerator {
                     .gender(Gender.MAN)
                     .role(registeredUser)
                     .addEnrollment(enrollment)
-                    .phoneNumber("0000000" + i)
+                    .phoneNumber("0000000" + ABC[i])
                     .password(firstName + 123)
                     .isSelfManaged(true);
 
             registeredUserRepository.save(parentBuilder.build());
         }
 
+        //add moderators
+        for(int i=0; i<=REGISTEREDPARENTSAMOUNT; i++ ) {
+            String firstName = "moderatorFirstName" + ABC[i];
+            String lastName = "moderatorLastName" + ABC[i];
+            Address address = new AddressBuilder().build();
+            RegisteredUserBuilder moderatorBuilder = new RegisteredUserBuilder()
+                    .firstName(firstName)
+                    .lastName(lastName)
+                    .email(firstName + "." + lastName + "@email.com")
+                    .address(address)
+                    .gender(Gender.MAN)
+                    .role(registeredUser)
+                    .addEnrollment(enrollment)
+                    .phoneNumber("0000000" + ABC[i])
+                    .password(firstName + 123)
+                    .isSelfManaged(true);
+
+            registeredUserRepository.save(moderatorBuilder.build());
+        }
 
         Address address = new AddressBuilder().build();
         RegisteredUserBuilder parentBuilder = new RegisteredUserBuilder()
@@ -164,38 +185,18 @@ public class FakeDataGenerator {
                 .gender(Gender.MAN)
                 .role(registeredUser)
                 .addEnrollment(enrollment)
-                .phoneNumber("0494daziedevanhier")
+                .phoneNumber("0000000" + ABC[1])
                 .password("test")
-                .totalPoints(100)
+                .totalPoints(2000)
                 .isSelfManaged(true);
 
         registeredUserRepository.save(parentBuilder.build());
-
-        // TODO: Fix proper way of adding parents to childs and vice versa
-        /*for (int j = 0; j <= CHILDSPERPARENT; j++) {
-            String childFirstName = "Child" + j;
-
-            RegisteredUserBuilder childBuilder = new RegisteredUserBuilder()
-                    .firstName(childFirstName)
-                    .lastName(lastName)
-                    .email(childFirstName + "." + lastName + "@email.com")
-                    .address(address) //make this general
-                    .gender(Gender.MAN)
-                    .role(registeredUser)
-                    //add enrollment
-                    .phoneNumber("0000000" + i + j)
-                    .password(childFirstName + 123);
-
-            Hibernate.initialize(parent.getChildAccounts());
-            parent.getChildAccounts().add(childBuilder.build(parent));
-
-            parentBuilder.addChildAccount(childBuilder.build(parent));
-        }*/
     }
 
     private void addMembershipTypes() {
         adults = membershipTypeRepository.save(new MembershipTypeBuilder().name("Achtien Plus").description("Membership voor volwassenen").build());
         membershipTypeRepository.save(new MembershipTypeBuilder().name("Kids").description("Membership voor kinderen").build());
+
     }
 
     private void addRoles() {

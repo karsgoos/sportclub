@@ -5,7 +5,7 @@ import com.realdolmen.sportclub.common.entity.Address;
 public class AddressBuilder {
     private String street = "Meir";
 
-    private String homeNumber = "1";
+    private String homeNumber = "1A";
 
     private String postalCode = "2000";
 
