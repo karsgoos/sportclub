@@ -118,32 +118,79 @@
         </div>
       </div>
 
+
+      <div class="row" [hidden]="(eventForm.value.eventIsRecurring)">
+        <div class="col s2">
+          <label for="startDatePickerId">Startdatum</label>
+          <input class="form-control" id="startDatePickerId" matInput [matDatepicker]="startDatePicker" [min]="todayVariable" disabled formControlName="startday">
+          <mat-datepicker #startDatePicker [startAt]="startDate" disabled="false"></mat-datepicker>
+          <div *ngIf="eventForm.get('startday').invalid && (eventForm.get('startday').dirty || eventForm.get('startday').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('startday').errors.required" style="color: red">Verplicht veld</span>
+          </div>
+        </div>
+        <div class="col s1">
+          <mat-datepicker-toggle matSuffix [for]="startDatePicker" disabled="false" ></mat-datepicker-toggle >
+        </div>
+        <div class="col s2">
+          <label for="endDatePickerId">Einddatum</label>
+          <input class="form-control" id="endDatePickerId" matInput [matDatepicker]="endDatePicker" [min]="todayVariable" disabled formControlName="endday">
+          <mat-datepicker #endDatePicker [startAt]="startDate" disabled="false"></mat-datepicker>
+          <div *ngIf="eventForm.get('endday').invalid && (eventForm.get('endday').dirty || eventForm.get('endday').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('endday').errors.required" style="color: red">Verplicht veld</span>
+          </div>
+        </div>
+        <div class="col s1">
+          <mat-datepicker-toggle matSuffix [for]="endDatePicker" disabled="false" ></mat-datepicker-toggle >
+        </div>
+      </div>
+
       <div class="row">
-        <div class="col s4" [hidden]="(eventForm.value.eventIsRecurring)">
-          <label for="eventStartDate">Startdatum evenement</label>
-          <input id="eventStartDate" type="text" class="eventDatepicker">
+        <div class="col s3 input-field">
+          <label for="eventStartTime">Startuur (hh:mm)</label>
+          <input class="input-field" id="eventStartTime" type="text" formControlName="starttime">
+          <div *ngIf="eventForm.get('starttime').invalid && (eventForm.get('starttime').dirty || eventForm.get('starttime').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('starttime').errors.required" style="color: red">Verplicht veld</span>
+            <span *ngIf= "eventForm.get('starttime').errors.pattern" style="color: red">Geef een correct uur door met het format hh:mm</span>
+          </div>
+        </div>
+        <div class="col s3 input-field">
+          <label for="eventEndTime">Einduur (hh:mm)</label>
+          <input class="input-field" id="eventEndTime" type="text" formControlName="endtime">
+          <div *ngIf="eventForm.get('endtime').invalid && (eventForm.get('endtime').dirty || eventForm.get('endtime').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('endtime').errors.required" style="color: red">Verplicht veld</span>
+            <span *ngIf= "eventForm.get('endtime').errors.pattern" style="color: red">Geef een correct uur door met het format hh:mm</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" [hidden]="!(eventForm.value.eventIsRecurring)">
+        <div class="col s2">
+          <label for="startPeriodDatePickerId">Begin periode</label>
+          <input class="form-control" id="startPeriodDatePickerId" matInput [matDatepicker]="startPeriodDatePicker" [min]="todayVariable" disabled formControlName="firstEventDate">
+          <mat-datepicker #startPeriodDatePicker [startAt]="startDate" disabled="false"></mat-datepicker>
+          <div *ngIf="eventForm.get('firstEventDate').invalid && (eventForm.get('firstEventDate').dirty || eventForm.get('firstEventDate').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('firstEventDate').errors.required" style="color: red">Verplicht veld</span>
+          </div>
+        </div>
+        <div class="col s1">
+          <mat-datepicker-toggle matSuffix [for]="startPeriodDatePicker" disabled="false" ></mat-datepicker-toggle >
         </div>
         <div class="col s2">
-          <label for="eventStartTime">Startuur evenement</label>
-          <input id="eventStartTime" type="text" class="timepicker">
-        </div>
-        <div class="col s4" [hidden]="(eventForm.value.eventIsRecurring)">
-          <label for="eventEndDate">Einddatum evenement</label>
-          <input id="eventEndDate" type="text" class="eventDatepicker">
-        </div>
-        <div class="col s2">
-          <label for="eventEndTime">Einduur evenement</label>
-          <input id="eventEndTime" type="text" class="timepicker">
-        </div>
-        <div [hidden]="!(eventForm.value.eventIsRecurring)">
-          <div class="col s4">
-            <label for="eventFirstDate">Start periode</label>
-            <input  formControlName="firstEventDate" id="eventFirstDate" type="text" class="eventDatepicker">
+          <label for="endPeriodDatePickerId">Einde periode</label>
+          <input class="form-control" id="endPeriodDatePickerId" matInput [matDatepicker]="endPeriodDatePicker" [min]="todayVariable" disabled formControlName="lastEventDate">
+          <mat-datepicker #endPeriodDatePicker [startAt]="startDate" disabled="false"></mat-datepicker>
+          <div *ngIf="eventForm.get('lastEventDate').invalid && (eventForm.get('lastEventDate').dirty || eventForm.get('lastEventDate').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('lastEventDate').errors.required" style="color: red">Verplicht veld</span>
           </div>
-          <div class="col s4">
-            <label for="eventLastDate">Einde periode</label>
-            <input formControlName="lastEventDate" id="eventLastDate" type="text" class="eventDatepicker">
-          </div>
+        </div>
+        <div class="col s1">
+          <mat-datepicker-toggle matSuffix [for]="endPeriodDatePicker" disabled="false" ></mat-datepicker-toggle >
         </div>
       </div>
 
@@ -155,13 +202,26 @@
       </div>
 
       <div class="row" [hidden]="!(eventForm.value.customDeadlineBoolean)">
-        <div class="col s4">
-          <label for="eventDeadlineDate">Deadline datum</label>
-          <input id="eventDeadlineDate" type="text" class="eventDatepicker">
+        <div class="col s2">
+          <label for="deadlineDatePicker">Datum deadline</label>
+          <input class="form-control" id="deadlineDatePicker" matInput [matDatepicker]="deadlineDatePicker" [min]="todayVariable" disabled formControlName="deadlineday">
+          <mat-datepicker #deadlineDatePicker [startAt]="startDate" disabled="false"></mat-datepicker>
+          <div *ngIf="eventForm.get('deadlineday').invalid && (eventForm.get('deadlineday').dirty || eventForm.get('deadlineday').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('deadlineday').errors.required" style="color: red">Verplicht veld</span>
+          </div>
         </div>
         <div class="col s2">
-          <label for="eventDeadlineTime">Deadline uur</label>
-          <input id="eventDeadlineTime" type="text" class="timepicker">
+          <mat-datepicker-toggle matSuffix [for]="deadlineDatePicker" disabled="false" ></mat-datepicker-toggle >
+        </div>
+        <div class="col s2">
+          <label for="eventDeadlineTime">Deadline uur (hh:mm)</label>
+          <input id="eventDeadlineTime" type="text" formControlName="deadlinetime">
+          <div *ngIf="eventForm.get('deadlinetime').invalid && (eventForm.get('deadlinetime').dirty || eventForm.get('deadlinetime').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('deadlinetime').errors.required" style="color: red">Verplicht veld</span>
+            <span *ngIf= "eventForm.get('deadlinetime').errors.pattern" style="color: red">Geef een correct uur door met het format hh:mm</span>
+          </div>
         </div>
       </div>
     </div>
@@ -384,13 +444,26 @@
       </div>
 
       <div class="row" [hidden]="!(eventForm.value.automaticReminderMailBoolean)">
-        <div class="col s4" id="reminderDateTime">
-          <label for="reminderMailDate">Datum verzending</label>
-          <input id="reminderMailDate" type="text" class="eventDatepicker">
+        <div class="col s2">
+          <label for="mailDatePicker">Datum mail</label>
+          <input class="form-control" id="mailDatePicker" matInput [min]="todayVariable" [matDatepicker]="mailDatePicker" disabled formControlName="reminderMailDate">
+          <mat-datepicker #mailDatePicker [startAt]="startDate" disabled="false"></mat-datepicker>
+          <div *ngIf="eventForm.get('reminderMailDate').invalid && (eventForm.get('reminderMailDate').dirty || eventForm.get('reminderMailDate').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('reminderMailDate').errors.required" style="color: red">Verplicht veld</span>
+          </div>
         </div>
         <div class="col s2">
-          <label for="reminderMailTime">Tijdstip verzending</label>
-          <input id="reminderMailTime" type="text" class="timepicker">
+          <mat-datepicker-toggle matSuffix [for]="mailDatePicker" disabled="false" ></mat-datepicker-toggle >
+        </div>
+        <div class="col s2">
+          <label for="reminderMailTime">Tijdstip verzending (hh:mm)</label>
+          <input id="reminderMailTime" type="text" formControlName="reminderMailTime">
+          <div *ngIf="eventForm.get('reminderMailTime').invalid && (eventForm.get('reminderMailTime').dirty || eventForm.get('reminderMailTime').touched)"
+               class="alert alert-danger">
+            <span *ngIf= "eventForm.get('reminderMailTime').errors.required" style="color: red">Verplicht veld</span>
+            <span *ngIf= "eventForm.get('reminderMailTime').errors.pattern" style="color: red">Geef een correct uur door met het format hh:mm</span>
+          </div>
         </div>
       </div>
 
@@ -448,7 +521,8 @@
       </div>
     </div>
 
-  </form>
+
+    </form>
 
 
 </div>

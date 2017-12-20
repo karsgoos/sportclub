@@ -12,6 +12,7 @@ import {
 import {dateToPickerString, timeToPickerString} from "./util-dateconverter";
 import {checkGlobalValidation, markElementsAsDirty, setLocalValidators} from "./util-validation";
 import {fromFormToEvent} from "./util-event-form-conversion";
+import {DateAdapter} from "@angular/material/core"
 
 declare var $: any;
 
@@ -42,16 +43,19 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
   attachedImage: File;
   imageIsAttached:boolean = false;
 
+  todayVariable = new Date();
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private eventService: SportClubEventService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private adapter: DateAdapter<any>) {
   }
 
   ngAfterViewInit(): void {
-    let self = this;
     // manually adding change event listeners to adapt the FormGroup for date and time pickers
-    initDateTimeComponents(this.eventForm);
+    // this isn't necessary anymore thnks to new datepickers
+    // initDateTimeComponents(this.eventForm);
     // do some essential hacking for dropdown menus
     initDropDownMenus(this);
     // add change event for the file uploader
@@ -61,6 +65,7 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
   }
 
   ngOnInit() {
+    this.adapter.setLocale('nl');
     this.route.paramMap.subscribe(params => {
       if (params.get('id')) { // Edit page
         this.eventId = Number(params.get('id'));
@@ -200,6 +205,7 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
       reminderMailTime:'',
       automaticModeratorMailBoolean:false,
       numberParticipantsToRemind:'',
+
     });
 
     //Add the local validators
@@ -211,6 +217,7 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
     if(this.globalErrorMessages.length>0){
       // mark the required fields as dirty to show where the errors are
       markElementsAsDirty(this.eventForm);
+
     }
     else {
       //save the event

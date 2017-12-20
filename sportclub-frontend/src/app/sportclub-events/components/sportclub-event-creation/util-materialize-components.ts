@@ -6,36 +6,6 @@ import {SportclubEventCreationComponent} from "./sportclub-event-creation.compon
 declare var $: any;
 
 export function initDateTimeComponents(form: FormGroup){
-  document.getElementById('eventEndTime').onchange = function (event: any) {
-    form.patchValue({"endtime": event.target.value});
-  };
-  document.getElementById('eventStartTime').onchange = function (event: any) {
-    form.patchValue({"starttime": event.target.value});
-  };
-  document.getElementById('eventStartDate').onchange = function (event: any) {
-    form.patchValue({"startday": convertDateString(event.target.value)});
-  };
-  document.getElementById('eventEndDate').onchange = function (event: any) {
-    form.patchValue({"endday": convertDateString(event.target.value)});
-  };
-  document.getElementById('eventDeadlineTime').onchange = function (event: any) {
-    form.patchValue({"deadlinetime": event.target.value});
-  };
-  document.getElementById('eventDeadlineDate').onchange = function (event: any) {
-    form.patchValue({"deadlineday": convertDateString(event.target.value)});
-  };
-  document.getElementById('eventFirstDate').onchange = function (event: any) {
-    form.patchValue({"firstEventDate": convertDateString(event.target.value)});
-  };
-  document.getElementById('eventLastDate').onchange = function (event: any) {
-    form.patchValue({"lastEventDate": convertDateString(event.target.value)});
-  };
-  document.getElementById('reminderMailDate').onchange = function(event:any) {
-    form.patchValue({"reminderMailDate": convertDateString(event.target.value)});
-  };
-  document.getElementById('reminderMailTime').onchange = function(event:any){
-    form.patchValue({'reminderMailTime': event.target.value});
-  };
 }
 
 export function initDropDownMenus(comp: SportclubEventCreationComponent){

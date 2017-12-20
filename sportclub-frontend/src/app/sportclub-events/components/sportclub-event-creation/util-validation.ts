@@ -1,14 +1,15 @@
 
 
 import {FormGroup, Validators} from "@angular/forms";
+import {composeDate} from "./util-dateconverter";
 
 export function setLocalValidators(form: FormGroup){
   // set init validators
   form.get('name').setValidators([Validators.required, Validators.minLength(2)]);
   form.get('startday').setValidators([Validators.required]);
-  form.get('starttime').setValidators([Validators.required]);
+  form.get('starttime').setValidators([Validators.required, Validators.pattern('([01]?[0-9]|2[0-3]):[0-5][0-9]')]);
   form.get('endday').setValidators([Validators.required]);
-  form.get('endtime').setValidators([Validators.required]);
+  form.get('endtime').setValidators([Validators.required, Validators.pattern('([01]?[0-9]|2[0-3]):[0-5][0-9]')]);
   form.get('points').setValidators([Validators.min(0)]);
   form.get('priceGeneral').setValidators([Validators.required]);
 
@@ -40,7 +41,7 @@ export function setLocalValidators(form: FormGroup){
     true);
   addConditionalValidatorsShortcut(form,'deadlinetime',
     'customDeadlineBoolean',
-    [Validators.required],
+    [Validators.required, Validators.pattern('([01]?[0-9]|2[0-3]):[0-5][0-9]')],
     true);
   addConditionalValidatorsShortcut(form,'firstEventDate',
     'eventIsRecurring',
@@ -88,6 +89,10 @@ export function setLocalValidators(form: FormGroup){
     "automaticReminderMailBoolean",
     [Validators.required],
     true);
+  addConditionalValidatorsShortcut(form,'reminderMailTime',
+    "automaticReminderMailBoolean",
+    [Validators.required, Validators.pattern('([01]?[0-9]|2[0-3]):[0-5][0-9]')],
+    true);
 }
 
 function addConditionalValidatorsShortcut(form, validatingElementName, conditionElementName, validators, obligedWhenChecked){
@@ -129,8 +134,8 @@ export function checkGlobalValidation(form:FormGroup): string[]{
     globalErrorMessages.push('Het minimum aantal deelnemers moet lager liggen dan het maximum aantal deelnemers');
   }
   // check if start date of the event isn't after the end date if single event
-  let startDate = new Date(form.value.startday + " " + form.value.starttime);
-  let endDate = new Date(form.value.endday + " " + form.value.endtime);
+  let startDate = composeDate(form.value.startday, form.value.starttime);
+  let endDate = composeDate(form.value.endday, form.value.endtime);
   if(!form.value.eventIsRecurring) {
     if (endDate < startDate) {
       globalErrorMessages.push("Een evenement kan niet eindigen voor het gestart is");
@@ -165,7 +170,7 @@ export function checkGlobalValidation(form:FormGroup): string[]{
   }
 
   // if there is a deadline, check if it is before the startdate of the event
-  let deadlineDate = new Date(form.value.deadlineday + " " + form.value.deadlinetime);
+  let deadlineDate = composeDate(form.value.deadlineday, form.value.deadlinetime);
   if(deadlineDate > startDate){
     globalErrorMessages.push("De deadline moet voor de start van het evenement liggen");
   }

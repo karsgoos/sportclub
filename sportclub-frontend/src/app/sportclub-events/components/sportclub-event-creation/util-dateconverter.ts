@@ -54,6 +54,22 @@ export function convertDateString(input:string):string{
   return year + '/' + month + '/' + day;
 }
 
+export function convertDateStringNew(input:string):string{
+  let temp = input.split(",");
+  let temp2 = temp[0].split("/");
+  let day = temp2[1];
+  let month = temp2[0];
+  let year = temp2[2];
+  if(day.length===1){
+    day = "0" + day;
+  }
+  if(month.length===1){
+    month = "0" + month;
+  }
+
+  return year + '/' + month + '/' + day;
+}
+
 export function dateToPickerString(date: Date): string {
   const monthNames = ["Januari", "Februari", "Maart", "April", "Mei", "Juni",
     "Juli", "Augustus", "September", "Oktober", "November", "December"
@@ -68,4 +84,12 @@ export function timeToPickerString(date: Date): string {
   let minutesString = date.getMinutes() < 10 ? '0' + date.getMinutes() : String(date.getMinutes());
   let value = String(hoursString + ':' + minutesString);
   return value.trim();
+}
+
+export function composeDate(day:Date, time:string): Date{
+  let result = new Date(day);
+  let parsedTime = time.split(":");
+  result.setHours(Number(parsedTime[0]));
+  result.setMinutes(Number(parsedTime[1]));
+  return result;
 }
