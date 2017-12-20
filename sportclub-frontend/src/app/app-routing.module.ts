@@ -12,15 +12,18 @@ import {AppComponent} from "./app.component";
 import {SportclubEventCreationComponent} from "./sportclub-events/components/sportclub-event-creation/sportclub-event-creation.component";
 import {EventDetailComponent} from "./sportclub-events/event-detail/event-detail.component";
 import {AttendingModalComponent} from "./sportclub-events/attending-modal/attending-modal.component";
+import {ModeratorGuard} from "./guard/moderator.guard";
 
 const routes: Routes = [
   {
     path: 'evenementen/aanmaken',
-    component: SportclubEventCreationComponent
+    component: SportclubEventCreationComponent,
+    canActivate: [ModeratorGuard]
   },
   {
     path: 'evenementen/aanpassen/:id', pathMatch: 'full',
-    component: SportclubEventCreationComponent
+    component: SportclubEventCreationComponent,
+    canActivate: [ModeratorGuard]
   },
   {
     path: 'user-management',  pathMatch: 'full',

@@ -24,6 +24,7 @@ import {AuthenticationService} from './login/services';
 import {RegistrationComponent} from './registration/registration.component';
 import {RegisteredUserGuard} from './guard/registered-user.guard';
 import {MenuBarComponent} from './menu-bar/menu-bar.component';
+import {ModeratorGuard} from "./guard/moderator.guard";
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import {MenuBarComponent} from './menu-bar/menu-bar.component';
     multi: true
   },
     RegisteredUserGuard,
+    ModeratorGuard,
     AuthenticationService,
     SportClubEventService,
     EventListParticipantsService],
