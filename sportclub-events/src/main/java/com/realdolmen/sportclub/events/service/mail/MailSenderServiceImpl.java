@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class MailSenderServiceImpl implements MailSenderService {
 
 
-    @Value("${spring.mail.username}")
+    /*@Value("${spring.mail.username}")
     String emailAddress;
 
     @Autowired
@@ -36,59 +36,72 @@ public class MailSenderServiceImpl implements MailSenderService {
     MailContentBuilder mailContentBuilder;
 
     @Autowired
-    EmailService emailService;
+    EmailService emailService;*/
 
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     public void sendMailGuestAttendPublicEvent(Guest guest, Event event, String unsubscribeLink) {
+/*
 
         String subject = "Bevestiging; ingeschreven voor: " + event.getName();
         String content = mailContentBuilder.buildMailGuestAttendPublicEvent(guest, event, unsubscribeLink);
         storeAndSendMail(guest, subject, content);
+*/
 
     }
 
     @Override
     public void scheduleMailEnrollmentEnding(UserEnrollment userEnrollment) {
+/*
         String subject = "Lidmaatschap eindigt in 1 maand";
         User user = userEnrollment.getOrdr().getUser();
         String content = mailContentBuilder.buildMailEnrollmentEnding(user, userEnrollment.getEnrollment().getMembershipType());
         LocalDate reminderDate = userEnrollment.getEnrollment().getEndDate().minusMonths(1);
         LocalDateTime reminderDateAndTime = reminderDate.atTime(18, 0);
         storeAndScheduleMail(user, subject, content, reminderDateAndTime);
+*/
     }
 
     @Override
     public void sendMailPaymentEnrollmentReceived(UserEnrollment userEnrollment) {
+/*
         String subject = "Betaling ontvangen - " + userEnrollment.getEnrollment().getMembershipType().getName();
         User user = userEnrollment.getOrdr().getUser();
         String content = mailContentBuilder.buildMailPaymentForEnrollmentReceived(user,userEnrollment.getEnrollment());
         storeAndSendMail(user,subject,content);
+*/
     }
 
     @Override
     public void sendMailPaymentEventReceived(User user, Event event) {
+/*
 
         String subject = "Betaling ontvangen - " + event.getName();
         String content = mailContentBuilder.buildMailPaymentForEventReceived(user,event);
         storeAndSendMail(user,subject,content);
+*/
     }
 
     private void storeAndScheduleMail(User user, String subject, String content, LocalDateTime dueDate) {
 
+/*
         Email email = new Email(user, subject, content, dueDate, SendStatus.SCHEDULED);
         emailService.save(email);
+*/
     }
 
     private void storeAndSendMail(User user, String subject, String content) {
+/*
         Email email = new Email(user, subject, content, LocalDateTime.now(), SendStatus.SCHEDULED);
         email = emailService.save(email);
         sendMail(email);
+*/
     }
 
     public void sendMail(Email email) {
+/*
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 
@@ -122,11 +135,13 @@ public class MailSenderServiceImpl implements MailSenderService {
                 }
             }
         });
+*/
     }
 
 
     @Override
     public void sendReminderMails(Event event){
+/*
         List<User> users = event.getAttendancies().parallelStream()
                 .map((a) -> a.getOrdr().getUser())
                 .distinct()
@@ -135,10 +150,12 @@ public class MailSenderServiceImpl implements MailSenderService {
             String content = mailContentBuilder.buildReminderOfEventMail(receiver, event);
             this.storeAndSendMail(receiver, event.getName(), content);
         }
+*/
     }
 
     @Override
     public void sendMailEventDeleted(Event event) {
+/*
         List<User> users = event.getAttendancies().parallelStream()
                 .map((a) -> a.getOrdr().getUser())
                 .distinct()
@@ -147,10 +164,12 @@ public class MailSenderServiceImpl implements MailSenderService {
             String content = mailContentBuilder.buildEventDeletion(receiver, event);
             this.storeAndSendMail(receiver, "Evenement verwijderd: " + event.getName(), content);
         }
+*/
     }
 
     @Override
     public void sendMailUpdatedEvent(Event event) {
+/*
         List<User> users = event.getAttendancies().parallelStream()
                 .map((a) -> a.getOrdr().getUser())
                 .distinct()
@@ -159,15 +178,16 @@ public class MailSenderServiceImpl implements MailSenderService {
             String content = mailContentBuilder.buildEventUpdate(receiver, event);
             this.storeAndSendMail(receiver, "Evenement aangepast: " + event.getName(), content);
         }
+*/
     }
 
     @Override
     public void sendMailNrParticipantsReached(Event event){
-        List<RegisteredUser> receivers = event.getResponsibles();
+/*        List<RegisteredUser> receivers = event.getResponsibles();
         for(User receiver : receivers){
             String content = mailContentBuilder.buildNrParticipantsReachedMail(receiver, event);
             this.storeAndSendMail(receiver, event.getName(), content);
         }
-    }
+ */   }
 
 }
