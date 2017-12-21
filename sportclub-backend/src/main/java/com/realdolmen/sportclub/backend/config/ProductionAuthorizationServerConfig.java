@@ -17,6 +17,8 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 @EnableAuthorizationServer
 @Profile("!local")
 public class ProductionAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+    private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 3600;
+    public static final int REFRESH_TOKEN_VALIDITY_SECONDS = 3600;
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -26,8 +28,8 @@ public class ProductionAuthorizationServerConfig extends AuthorizationServerConf
                 .authorizedGrantTypes("password", "refresh_token")
                 .authorities("ROLE_CLIENT")
                 .scopes("read", "write", "trust")
-                .accessTokenValiditySeconds(100)
-                .secret("secret").refreshTokenValiditySeconds(3600);
+                .accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
+                .secret("secret").refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS);
     }
 
     @Bean
