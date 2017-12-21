@@ -166,8 +166,8 @@ public class EventManagementController {
 //        return service.findParticipantsOfEvent(id);
 //    }
 
-    // The endpoint determines the file name in most popular browsers,
-    // so this has to be a Dutch endpoint
+//     The endpoint determines the file name in most popular browsers,
+//     so this has to be a Dutch endpoint
 //    @RequestMapping(produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", method = RequestMethod.GET, value = "events/{id}/deelnemers")
 ////    @PreAuthorize("hasAuthority('MODERATOR_PRIVILEGES')")
 //    public @ResponseBody

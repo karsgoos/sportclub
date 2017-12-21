@@ -43,7 +43,7 @@ public class EventController {
 
 //    @CrossOrigin(origins = "http://localhost:4200")
 //    @RequestMapping(method = RequestMethod.POST, value = "/attend")
-    public ResponseEntity attendEvent(@RequestBody AttendEventDTO dto) {
+    public ResponseEntity attendEvent(AttendEventDTO dto) {
         Event e = eventRepository.findOne(Long.parseLong(dto.getEventId()));
         if (e == null)
             return ResponseEntity.badRequest().body("evenement werd niet gevonden");
