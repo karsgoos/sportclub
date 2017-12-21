@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
+    "build": "ng build --env=prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -36,7 +36,7 @@
     "ts-stream": "^1.0.1",
     "typescript": "~2.3.3",
     "webpack": "^3.10.0",
-    "zone.js": "^0.8.14"
+    "zone.js": "0.8.14"
   },
   "devDependencies": {
     "@angular/language-service": "^4.4.6",
