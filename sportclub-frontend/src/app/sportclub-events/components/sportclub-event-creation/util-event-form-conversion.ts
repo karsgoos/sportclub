@@ -40,7 +40,7 @@ export function fromFormToEvent(form:FormGroup, responsibles:Moderator[], enroll
   }
   // is this a default that makes sense??
   else {
-    event.deadline = convertDateStringNew(form.value.startday.toLocaleString()) + " 00:00";
+      event.deadline = event.startDate;
 
   }
   event.points = form.value.points;

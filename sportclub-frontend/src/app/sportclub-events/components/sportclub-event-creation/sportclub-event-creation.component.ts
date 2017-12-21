@@ -9,7 +9,7 @@ import {
   initDateTimeComponents, initDropDownMenus, initFileUploader,
   initImageUploader
 } from "./util-materialize-components";
-import {dateToPickerString, timeToPickerString} from "./util-dateconverter";
+import {backendDateToDay, backendDateToTime, dateToPickerString, timeToPickerString} from "./util-dateconverter";
 import {checkGlobalValidation, markElementsAsDirty, setLocalValidators} from "./util-validation";
 import {fromFormToEvent} from "./util-event-form-conversion";
 import {DateAdapter} from "@angular/material/core"
@@ -96,11 +96,15 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
       if (event.recurringEventInfo) {
         this.recurringEventId = event.recurringEventInfo.id;
         this.eventForm.controls['eventIsRecurring'].setValue(true);
-        for(let i = 0; i < event.recurringEventInfo.weekdays.length; i++) {
+        for (let i = 0; i < event.recurringEventInfo.weekdays.length; i++) {
           let weekday = event.recurringEventInfo.weekdays[i];
           nrOfWeekdays[weekday] = true;
         }
+        this.eventForm.controls['firstEventDate'].setValue(backendDateToDay(event.recurringEventInfo.startDate));
+        this.eventForm.controls['lastEventDate'].setValue(backendDateToDay(event.recurringEventInfo.endDate));
       }
+
+
       this.eventForm.patchValue({
         name: event.name,
         description: event.description,
@@ -112,34 +116,43 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
         pricePerChild: event.priceChild,
         pricePerAdult: event.priceAdult,
         priceGeneral: event.priceAdult,
+        customMinMaxParticipantsBoolean: (!(event.minParticipants == 1 && event.maxParticipants == 999999)),
+        customDeadlineBoolean: !(event.deadline == event.startDate),
         nrOfWeekdays: nrOfWeekdays,
         closed: event.closed,
         extraModeratorsBoolean: event.responsibles.length > 1,
         points: event.points,
+        startday: backendDateToDay(event.startDate),
+        starttime: backendDateToTime(event.startDate),
+        endday: backendDateToDay(event.endDate),
+        endtime: backendDateToTime(event.endDate),
+        customAddressBoolean:false,
+        differentPricesBoolean: (!(event.priceAdult==event.priceChild)),
+        automaticReminderMailBoolean: !(event.reminderDate==undefined),
+        automaticModeratorMailBoolean: !(event.numberParticipantsToSendMail==0)
       });
-      // Dates and times need to be set manually
-      // Additionally, so that angular picks up the date and time values, we need to trigger an onchange event
-      $('#eventStartDate')[0].value = dateToPickerString(new Date(event.startDate));
-      $('#eventStartDate')[0].dispatchEvent(new Event('change'));
-      $('#eventStartTime')[0].value = timeToPickerString(new Date(event.startDate));
-      $('#eventStartTime')[0].dispatchEvent(new Event('change'));
 
-      $('#eventEndDate')[0].value = dateToPickerString(new Date(event.endDate));
-      $('#eventEndDate')[0].dispatchEvent(new Event('change'));
-      $('#eventEndTime')[0].value = timeToPickerString(new Date(event.endDate));
-      $('#eventEndTime')[0].dispatchEvent(new Event('change'));
-
-      $('#eventDeadlineDate')[0].value = dateToPickerString(new Date(event.deadline));
-      $('#eventDeadlineDate')[0].dispatchEvent(new Event('change'));
-      $('#eventDeadlineTime')[0].value = timeToPickerString(new Date(event.deadline));
-      $('#eventDeadlineTime')[0].dispatchEvent(new Event('change'));
-
-      if (event.recurringEventInfo) {
-        $('#eventFirstDate')[0].value = dateToPickerString(new Date(event.recurringEventInfo.startDate));
-        $('#eventFirstDate')[0].dispatchEvent(new Event('change'));
-        $('#eventLastDate')[0].value = dateToPickerString(new Date(event.recurringEventInfo.endDate));
-        $('#eventLastDate')[0].dispatchEvent(new Event('change'));
+      if (this.eventForm.value.customMinMaxParticipantsBoolean){
+        this.eventForm.patchValue({
+          minParticipants: event.minParticipants,
+          maxParticipants: event.maxParticipants
+        });
       }
+      if (this.eventForm.value.customDeadlineBoolean) {
+        this.eventForm.patchValue({
+          deadlineday: backendDateToDay(event.deadline),
+          deadlinetime: backendDateToTime(event.deadline)
+        });
+      }
+      if (this.eventForm.value.automaticReminderMailBoolean) {
+        this.eventForm.patchValue({
+          reminderMailDate: backendDateToDay(event.reminderDate),
+          reminderMailTime: backendDateToTime(event.reminderDate)
+        });
+      }
+
+
+
       // Enrollments need to be set manually
       // TODO: make sure this works when actual enrollments are added
       for(let i = 0; i < this.enrollments.length; i++) {

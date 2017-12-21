@@ -468,7 +468,7 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row" *ngIf="eventForm.value.customMinMaxParticipantsBoolean">
         <div class="col">
           <input type="checkbox" id="automaticModeratorMailCheckbox" formControlName="automaticModeratorMailBoolean"/>
           <label for="automaticModeratorMailCheckbox" class="active">Stuur verantwoordelijken een mail wanneer minimum aantal inschrijvingen is bereikt</label>

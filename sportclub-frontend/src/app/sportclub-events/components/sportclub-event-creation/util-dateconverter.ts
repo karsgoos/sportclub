@@ -93,3 +93,14 @@ export function composeDate(day:Date, time:string): Date{
   result.setMinutes(Number(parsedTime[1]));
   return result;
 }
+
+export function backendDateToDay(dateString:string):Date{
+  let parsed = dateString.split(" ");
+  let newDate = new Date(parsed[0]);
+  return newDate;
+}
+
+export function backendDateToTime(dateString:string):string{
+  let parsed = dateString.split(" ");
+  return parsed[1];
+}
