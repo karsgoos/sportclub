@@ -40,8 +40,20 @@ public class EventApiController {
 
     @RequestMapping(value = "/event/{eventId}", method = RequestMethod.GET)
     public ResponseEntity<EventDetails> eventEventIdGet(@PathVariable("eventId") UUID eventId) {
-        // do some magic!
-        return new ResponseEntity<EventDetails>(HttpStatus.OK);
+        EventDetails details = new EventDetails();
+        Event event = service.getEvent(eventId);
+        return new ResponseEntity<EventDetails>(details
+                    .name(event.getName())
+                    .description(event.getDescription())
+                    .startDate(event.getStartDate().toString())
+                    .endDate(event.getEndDate().toString())
+                    .deadline(event.getDeadline().toString())
+                    .priceAdult(event.getPriceAdult())
+                    .priceChild(event.getPriceChild())
+                    .minParticipants(event.getMinParticipants())
+                    .maxParticipants(event.getMaxParticipants())
+                    .points(event.getPoints()),
+                HttpStatus.OK);
     }
 
     @RequestMapping(value = "/event/{eventId}", method = RequestMethod.POST)
