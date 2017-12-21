@@ -11,6 +11,7 @@ import java.util.UUID;
 import com.realdolmen.sportclub.common.builder.AddressBuilder;
 import com.realdolmen.sportclub.common.builder.EventBuilder;
 import com.realdolmen.sportclub.common.entity.*;
+import com.realdolmen.sportclub.events.DTO.AttendEventDTO;
 import com.realdolmen.sportclub.events.controller.DTO.*;
 import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class EventApiController {
 
     @RequestMapping(value = "/event/{eventId}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> eventEventIdDelete(@PathVariable("eventId") UUID eventId) {
-        // do some magic!
+        managementService.delete(service.getEvent(eventId).getId());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
@@ -59,14 +60,42 @@ public class EventApiController {
 
     @RequestMapping(value = "/event/{eventId}", method = RequestMethod.POST)
     public ResponseEntity<Void> eventEventIdPost(@PathVariable("eventId") UUID eventId, @Valid @RequestBody EnrollData enrollData) {
-        // do some magic!
+        AttendEventDTO input = new AttendEventDTO();
+        input.setEventId(service.getEvent(eventId).getId().toString());
+        input.setNrOfAdults(enrollData.getAmountAdults());
+        input.setNrOfChildren(enrollData.getAmountChildren());
+        service.attendEvent(input);
+        
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/event/{eventId}", method = RequestMethod.PUT)
     public ResponseEntity<EventDetails> eventEventIdPut(@PathVariable("eventId") UUID eventId, @Valid @RequestBody EventData eventData) {
-        // do some magic!
-        return new ResponseEntity<EventDetails>(HttpStatus.OK);
+        Event event = service.getEvent(eventId);
+        event.setPoints(eventData.getPoints());
+        event.setMaxParticipants(eventData.getMaxParticipants());
+        event.setMinParticipants(eventData.getMinParticipants());
+        event.setDescription(eventData.getDescription());
+        event.setName(eventData.getName());
+        event.setPriceAdult(eventData.getPriceAdult());
+        event.setPriceChild(event.getPriceChild());
+
+        managementService.update(event.getId(), event);
+
+        EventDetails details = new EventDetails().description(event.getDescription())
+                .endDate(event.getEndDate().toLocalDate().toString())
+                .startDate(event.getStartDate().toLocalDate().toString())
+                .deadline(event.getDeadline().toString())
+                .links(new EventListInnerLinks().self("http://sportclub-events-staging.herokuapp.com/event/" + event.getUuid()))
+                .maxParticipants(event.getMaxParticipants())
+                .minParticipants(event.getMinParticipants())
+                .name(event.getName())
+                .points(event.getPoints())
+                .priceAdult(event.getPriceAdult())
+                .priceChild(event.getPriceChild());
+
+
+        return new ResponseEntity<EventDetails>(details, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/event", method = RequestMethod.GET)
