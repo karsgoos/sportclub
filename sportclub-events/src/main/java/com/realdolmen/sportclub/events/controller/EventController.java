@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
 import java.util.Collection;
+import java.util.UUID;
 
 @Component
 public class EventController {
@@ -34,6 +35,10 @@ public class EventController {
         if (event == null)
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok(event);
+    }
+
+    public Event getEvent(UUID uuid) {
+        return eventRepository.findOneByUuid(uuid.toString());
     }
 
 //    @CrossOrigin(origins = "http://localhost:4200")
