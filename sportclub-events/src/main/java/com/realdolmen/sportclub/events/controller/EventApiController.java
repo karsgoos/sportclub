@@ -155,7 +155,7 @@ public class EventApiController {
                 .endDate(event.getEndDate().toLocalDate().toString())
                 .startDate(event.getStartDate().toLocalDate().toString())
                 .deadline(event.getDeadline().toString())
-                .links(new EventListInnerLinks().self("http://sportclub-events-staging.herokuapp.com/event/" + event.getId()))
+                .links(new EventListInnerLinks().self("http://sportclub-events-staging.herokuapp.com/event/" + event.getUuid()))
                 .maxParticipants(event.getMaxParticipants())
                 .minParticipants(event.getMinParticipants())
                 .name(event.getName())

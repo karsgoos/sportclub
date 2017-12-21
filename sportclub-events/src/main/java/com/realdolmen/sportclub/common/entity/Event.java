@@ -28,6 +28,14 @@ public class Event implements Serializable {
 
     private String uuid = UUID.randomUUID().toString();
 
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
     @OneToMany
     @NotNull
     private List<RegisteredUser> responsibles = new ArrayList<>();
