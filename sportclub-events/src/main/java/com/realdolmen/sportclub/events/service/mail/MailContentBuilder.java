@@ -109,7 +109,7 @@ public class MailContentBuilder {
 
 
     public String buildReminderOfEventMail(User user, Event event){
-
+        sportclub = sportclubRepository.findOne(1L);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -125,6 +125,7 @@ public class MailContentBuilder {
     }
 
     public String buildNrParticipantsReachedMail(User user, Event event){
+        sportclub = sportclubRepository.findOne(1L);
         Context context = new Context();
 
         context.setVariable("user", user);

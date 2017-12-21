@@ -54,7 +54,8 @@ public class EventApiController {
                     .priceChild(event.getPriceChild())
                     .minParticipants(event.getMinParticipants())
                     .maxParticipants(event.getMaxParticipants())
-                    .points(event.getPoints()),
+                    .points(event.getPoints())
+                    .links(new EventListInnerLinks().self("http://sportclub-events-staging.herokuapp.com/event/" + event.getId())),
                 HttpStatus.OK);
     }
 

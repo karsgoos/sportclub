@@ -10,6 +10,10 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {AngularDateTimePickerModule} from "angular2-datetimepicker";
 import {EventOverviewModalComponent} from "./event-overview-modal/event-overview-modal.component";
 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 
 @NgModule({
   imports: [
@@ -17,6 +21,9 @@ import {EventOverviewModalComponent} from "./event-overview-modal/event-overview
     FullCalendarModule,
     ReactiveFormsModule,
     AngularDateTimePickerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule
   ],
   declarations: [
     SportClubEventsComponent,

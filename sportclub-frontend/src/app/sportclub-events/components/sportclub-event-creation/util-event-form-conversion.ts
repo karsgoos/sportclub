@@ -3,11 +3,13 @@ import {FormGroup} from "@angular/forms";
 import {Address} from "../../model/address";
 import {Moderator} from "../../model/moderator";
 import {EnrollmentTemp} from "../../model/enrollment-temp";
+import {convertDateStringNew} from "./util-dateconverter";
+import {AuthenticationService} from "../../../login/services/authentication.service";
 
 /*
  A function to create an event that can be send to the api, by the values that were retrieved in the form
   */
-export function fromFormToEvent(form:FormGroup, responsibles:Moderator[], enrollments: EnrollmentTemp[], recurringEventId:number):SportClubCreationEvent{
+export function fromFormToEvent(form:FormGroup, responsibles:Moderator[], enrollments: EnrollmentTemp[], recurringEventId:number, authService:AuthenticationService):SportClubCreationEvent{
 
   let event:SportClubCreationEvent = {};
   let addr: Address = {};
@@ -20,27 +22,26 @@ export function fromFormToEvent(form:FormGroup, responsibles:Moderator[], enroll
     event.maxParticipants = form.value.maxParticipants;
   }
   else{
-    //TODO: are these default values that are okay? How to show this on detail pages?
     event.minParticipants = 1;
     event.maxParticipants = 999999;
   }
 
   if(form.value.eventIsRecurring){
     // these values actually don't really matter anymore when facing recurring events, so we just take dates of the period
-    event.startDate = form.value.firstEventDate + " " + form.value.starttime;
-    event.endDate = form.value.lastEventDate + " " + form.value.endtime;
+    event.startDate = convertDateStringNew(form.value.firstEventDate.toLocaleString()) + " " + form.value.starttime;
+    event.endDate = convertDateStringNew(form.value.lastEventDate.toLocaleString()) + " " + form.value.endtime;
   }
   else{
-    event.startDate = form.value.startday + " " + form.value.starttime;
-    event.endDate = form.value.endday + " " + form.value.endtime;
+    event.startDate = convertDateStringNew(form.value.startday.toLocaleString()) + " " + form.value.starttime;
+    event.endDate = convertDateStringNew(form.value.endday.toLocaleString()) + " " + form.value.endtime;
   }
   // if we want a custom deadline take the values of the form, else set some default
   if(form.value.customDeadlineBoolean){
-    event.deadline = form.value.deadlineday + " " + form.value.deadlinetime;
+    event.deadline = convertDateStringNew(form.value.deadlineday.toLocaleString()) + " " + form.value.deadlinetime;
   }
   // is this a default that makes sense??
   else {
-    event.deadline = form.value.startday + " 00:00";
+      event.deadline = event.startDate;
 
   }
   event.points = form.value.points;
@@ -56,8 +57,8 @@ export function fromFormToEvent(form:FormGroup, responsibles:Moderator[], enroll
     event.recurringEventInfo = {
       // this one important if we are updating a recurring event
       id: recurringEventId,
-      startDate: form.value.firstEventDate+" 00:00",
-      endDate: form.value.lastEventDate+ " 00:00",
+      startDate: convertDateStringNew(form.value.firstEventDate.toLocaleString())+" 00:00",
+      endDate: convertDateStringNew(form.value.lastEventDate.toLocaleString())+ " 00:00",
       weekdays: weekdays as [string]
     }
   }
@@ -106,10 +107,12 @@ export function fromFormToEvent(form:FormGroup, responsibles:Moderator[], enroll
 
   // if a reminder email should be send, add the info for it in the object
   if(form.value.automaticReminderMailBoolean){
-    event.reminderDate = form.value.reminderMailDate + " " + form.value.reminderMailTime;
+    event.reminderDate = convertDateStringNew(form.value.reminderMailDate.toLocaleString()) + " " + form.value.reminderMailTime;
   }
   if(form.value.automaticModeratorMailBoolean){
-    event.numberParticipantsToSendMail= form.value.numberParticipantsToRemind;
+    if(form.value.customMinMaxParticipantsBoolean) {
+      event.numberParticipantsToSendMail = form.value.minParticipants;
+    }
   }
 
   return event;
