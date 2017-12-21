@@ -9,9 +9,12 @@ import {
   initDateTimeComponents, initDropDownMenus, initFileUploader,
   initImageUploader
 } from "./util-materialize-components";
-import {dateToPickerString, timeToPickerString} from "./util-dateconverter";
+import {backendDateToDay, backendDateToTime, dateToPickerString, timeToPickerString} from "./util-dateconverter";
 import {checkGlobalValidation, markElementsAsDirty, setLocalValidators} from "./util-validation";
 import {fromFormToEvent} from "./util-event-form-conversion";
+import {DateAdapter} from "@angular/material/core"
+import {AuthenticationService} from "../../../login/services/authentication.service";
+import {User} from "../../../common/user";
 
 declare var $: any;
 
@@ -42,18 +45,22 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
   attachedImage: File;
   imageIsAttached:boolean = false;
 
+  todayVariable = new Date();
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private eventService: SportClubEventService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private adapter: DateAdapter<any>,
+              private authService: AuthenticationService) {
   }
 
   ngAfterViewInit(): void {
-    let self = this;
     // manually adding change event listeners to adapt the FormGroup for date and time pickers
-    initDateTimeComponents(this.eventForm);
+    // this isn't necessary anymore thnks to new datepickers
+    // initDateTimeComponents(this.eventForm);
     // do some essential hacking for dropdown menus
-    initDropDownMenus(this);
+    //initDropDownMenus(this);
     // add change event for the file uploader
     initFileUploader(this);
     // add change event for the image uploader
@@ -61,6 +68,7 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
   }
 
   ngOnInit() {
+    this.adapter.setLocale('nl');
     this.route.paramMap.subscribe(params => {
       if (params.get('id')) { // Edit page
         this.eventId = Number(params.get('id'));
@@ -74,7 +82,6 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
   loadForm() {
     // create the formgroup
     this.createForm();
-
     // if we are updating an event, we want the form to contain the previous values as a default.
     this.eventService.getCreationEvent(this.eventId).subscribe(event => {
       this.event.id = event.id;
@@ -91,11 +98,15 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
       if (event.recurringEventInfo) {
         this.recurringEventId = event.recurringEventInfo.id;
         this.eventForm.controls['eventIsRecurring'].setValue(true);
-        for(let i = 0; i < event.recurringEventInfo.weekdays.length; i++) {
+        for (let i = 0; i < event.recurringEventInfo.weekdays.length; i++) {
           let weekday = event.recurringEventInfo.weekdays[i];
           nrOfWeekdays[weekday] = true;
         }
+        this.eventForm.controls['firstEventDate'].setValue(backendDateToDay(event.recurringEventInfo.startDate));
+        this.eventForm.controls['lastEventDate'].setValue(backendDateToDay(event.recurringEventInfo.endDate));
       }
+
+
       this.eventForm.patchValue({
         name: event.name,
         description: event.description,
@@ -107,34 +118,43 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
         pricePerChild: event.priceChild,
         pricePerAdult: event.priceAdult,
         priceGeneral: event.priceAdult,
+        customMinMaxParticipantsBoolean: (!(event.minParticipants == 1 && event.maxParticipants == 999999)),
+        customDeadlineBoolean: !(event.deadline == event.startDate),
         nrOfWeekdays: nrOfWeekdays,
         closed: event.closed,
         extraModeratorsBoolean: event.responsibles.length > 1,
         points: event.points,
+        startday: backendDateToDay(event.startDate),
+        starttime: backendDateToTime(event.startDate),
+        endday: backendDateToDay(event.endDate),
+        endtime: backendDateToTime(event.endDate),
+        customAddressBoolean:false,
+        differentPricesBoolean: (!(event.priceAdult==event.priceChild)),
+        automaticReminderMailBoolean: !(event.reminderDate==undefined),
+        automaticModeratorMailBoolean: !(event.numberParticipantsToSendMail==0)
       });
-      // Dates and times need to be set manually
-      // Additionally, so that angular picks up the date and time values, we need to trigger an onchange event
-      $('#eventStartDate')[0].value = dateToPickerString(new Date(event.startDate));
-      $('#eventStartDate')[0].dispatchEvent(new Event('change'));
-      $('#eventStartTime')[0].value = timeToPickerString(new Date(event.startDate));
-      $('#eventStartTime')[0].dispatchEvent(new Event('change'));
 
-      $('#eventEndDate')[0].value = dateToPickerString(new Date(event.endDate));
-      $('#eventEndDate')[0].dispatchEvent(new Event('change'));
-      $('#eventEndTime')[0].value = timeToPickerString(new Date(event.endDate));
-      $('#eventEndTime')[0].dispatchEvent(new Event('change'));
-
-      $('#eventDeadlineDate')[0].value = dateToPickerString(new Date(event.deadline));
-      $('#eventDeadlineDate')[0].dispatchEvent(new Event('change'));
-      $('#eventDeadlineTime')[0].value = timeToPickerString(new Date(event.deadline));
-      $('#eventDeadlineTime')[0].dispatchEvent(new Event('change'));
-
-      if (event.recurringEventInfo) {
-        $('#eventFirstDate')[0].value = dateToPickerString(new Date(event.recurringEventInfo.startDate));
-        $('#eventFirstDate')[0].dispatchEvent(new Event('change'));
-        $('#eventLastDate')[0].value = dateToPickerString(new Date(event.recurringEventInfo.endDate));
-        $('#eventLastDate')[0].dispatchEvent(new Event('change'));
+      if (this.eventForm.value.customMinMaxParticipantsBoolean){
+        this.eventForm.patchValue({
+          minParticipants: event.minParticipants,
+          maxParticipants: event.maxParticipants
+        });
       }
+      if (this.eventForm.value.customDeadlineBoolean) {
+        this.eventForm.patchValue({
+          deadlineday: backendDateToDay(event.deadline),
+          deadlinetime: backendDateToTime(event.deadline)
+        });
+      }
+      if (this.eventForm.value.automaticReminderMailBoolean) {
+        this.eventForm.patchValue({
+          reminderMailDate: backendDateToDay(event.reminderDate),
+          reminderMailTime: backendDateToTime(event.reminderDate)
+        });
+      }
+
+
+
       // Enrollments need to be set manually
       // TODO: make sure this works when actual enrollments are added
       for(let i = 0; i < this.enrollments.length; i++) {
@@ -199,7 +219,7 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
       reminderMailDate:'',
       reminderMailTime:'',
       automaticModeratorMailBoolean:false,
-      numberParticipantsToRemind:'',
+
     });
 
     //Add the local validators
@@ -211,11 +231,12 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
     if(this.globalErrorMessages.length>0){
       // mark the required fields as dirty to show where the errors are
       markElementsAsDirty(this.eventForm);
+
     }
     else {
       //save the event
       // first create the object to be send to the backend
-      this.event = fromFormToEvent(this.eventForm, this.responsibles, this.enrollments, this.recurringEventId);
+      this.event = fromFormToEvent(this.eventForm, this.responsibles, this.enrollments, this.recurringEventId, this.authService);
       // if we are updating
       if (this.eventId) {
         this.event.id = this.eventId;
@@ -278,16 +299,23 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
   /*
   return all of the moderators to show them in a dropdown menu
    */
-  getAllModerators():Moderator[]{
+  //getAllModerators():User[]{
     // TODO: make this call method from some userservice
     // for now this simply generates some mock data to show something in the form.
-    let mockedModerators=[{"firstName":"John", "lastName":"Doe", "id":1},{"firstName":"Robb", "lastName":"Stark", "id":2}];
-    return mockedModerators;
-  }
+/*
+    let user:User = {"_firstName":"John", "_lastName":"Doe", "_id":1, "_email":"joh_doe@hotmail.com", "_totalPoints":"0", "_role":"moderator", "_enrollments":[]}
+
+    let mockedModerators=[{"_firstName":"John", "_lastName":"Doe", "_id":1, "_email":"joh_doe@hotmail.com", "_total_points":"0", "_role":"moderator", "_enrollments":[]},
+              {"_firstName":"Robb", "_lastName":"Stark", "_id":2, "_email":"joh_doe@hotmail.com", "_total_points":"0", "_role":"moderator", "_enrollments":[]}];
+
+
+
+    return mockedModerators;*/
+  //}
 
   /*
   get one of the moderators by its id
-   */
+   *//*
   getModeratorById(id:number):Moderator{
     // TODO: make this call method from some userservice
     // for now this simply generates some mock data to show something in the form.
@@ -298,14 +326,15 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
       }
     }
   }
-
+*/
   /*
   add the moderator that is currently clicked to a list of responsibles
    */
+  /*
   addResponsibleModerator(){
     this.responsibles.push(this.getModeratorById(this.responsible_id));
   }
-
+*/
   /*
   clear the temporarily saved list of moderators
    */
