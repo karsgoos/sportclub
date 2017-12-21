@@ -1,17 +1,18 @@
 package com.realdolmen.sportclub.events.controller;
 
-import java.time.LocalDate;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.realdolmen.sportclub.common.builder.AddressBuilder;
 import com.realdolmen.sportclub.common.builder.EventBuilder;
-import com.realdolmen.sportclub.common.entity.Event;
+import com.realdolmen.sportclub.common.entity.*;
 import com.realdolmen.sportclub.events.controller.DTO.*;
-import org.apache.poi.ss.formula.functions.Even;
+import com.realdolmen.sportclub.events.exceptions.CouldNotCreateEventException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,23 +75,67 @@ public class EventApiController {
                     )
             );
         }
-        return new ResponseEntity<EventList>(HttpStatus.OK);
+        return new ResponseEntity<EventList>(returnEvents, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/event", method = RequestMethod.POST)
     public ResponseEntity<EventDetails> eventPost(@Valid @RequestBody EventData eventData) {
-        Event createEvent = EventBuilder.anEvent().withDescription(eventData.getDescription())
-                .withName(eventData.getName())
-//                .withEndDate(LocalDateTime.of(eventData.getEndDate(), LocalTime.now()))
-//                .withStartDate(LocalDateTime.of(eventData.getStartDate(), LocalTime.now()))
-                .withMaxParticipants(eventData.getMaxParticipants())
-                .withMinParticipants(eventData.getMinParticipants())
-                .withPriceAdult(eventData.getPriceAdult())
-                .withPriceChild(eventData.getPriceChild())
-                .build();
-        createEvent.setPoints(eventData.getPoints());
 
-        ResponseEntity<Event> tmp = service.getEvent(managementService.create(createEvent).getId());
+//        Event test = new EventBuilder().build();
+//        test = EventBuilder.anEvent().withDescription(eventData.getDescription())
+//                .withName(eventData.getName())
+////                .withEndDate(LocalDateTime.of(eventData.getEndDate(), LocalTime.now()))
+////                .withStartDate(LocalDateTime.of(eventData.getStartDate(), LocalTime.now()))
+//                .withMaxParticipants(eventData.getMaxParticipants())
+//                .withMinParticipants(eventData.getMinParticipants())
+//                .withPriceAdult(eventData.getPriceAdult())
+//                .withPriceChild(eventData.getPriceChild())
+//                .build();
+//        test.setPoints(eventData.getPoints());
+
+         List<RegisteredUser> responsibles = new ArrayList<>();
+         List<Enrollment> enrollments = new ArrayList<>();
+         LocalDateTime startDate = LocalDateTime.now().plusWeeks(5);
+         LocalDateTime endDate = startDate.plusHours(2);
+         Address address = new AddressBuilder().build();
+         LocalDateTime deadline = startDate.minusDays(5);
+         BigDecimal priceAdult = eventData.getPriceAdult();
+         BigDecimal priceChild = eventData.getPriceChild();
+         int minParticipants = eventData.getMinParticipants();
+         int maxParticipants = eventData.getMaxParticipants();
+         String description = eventData.getDescription();
+         String name = eventData.getName();
+         LocalDateTime reminderDate = startDate.minusDays(3);
+
+
+        Event test = new Event();
+        test.setResponsibles(responsibles);
+        test.setEnrollments(enrollments);
+        test.setStartDate(startDate);
+        test.setEndDate(endDate);
+        test.setAddress(address);
+        test.setDeadline(deadline);
+        test.setPriceAdult(priceAdult);
+        test.setPriceChild(priceChild);
+        test.setMinParticipants(minParticipants);
+        test.setMaxParticipants(maxParticipants);
+        test.setDescription(description);
+        test.setName(name);
+        test.setReminderDate(reminderDate);
+        test.setPoints(eventData.getPoints());
+
+
+
+
+        Event test2 = managementService.create(test);
+        if (test2 == null) {
+            return new ResponseEntity<EventDetails>(HttpStatus.BAD_REQUEST);
+        }
+
+        Long id = test2.getId();
+
+
+        ResponseEntity<Event> tmp = service.getEvent(id);
         Event event = tmp.getBody();
 
 
@@ -106,7 +151,7 @@ public class EventApiController {
                 .priceAdult(event.getPriceAdult())
                 .priceChild(event.getPriceChild());
 
-        return new ResponseEntity<EventDetails>(HttpStatus.OK);
+        return new ResponseEntity<EventDetails>(details, HttpStatus.OK);
     }
 
 }
