@@ -60,7 +60,7 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
     // this isn't necessary anymore thnks to new datepickers
     // initDateTimeComponents(this.eventForm);
     // do some essential hacking for dropdown menus
-    initDropDownMenus(this);
+    //initDropDownMenus(this);
     // add change event for the file uploader
     initFileUploader(this);
     // add change event for the image uploader

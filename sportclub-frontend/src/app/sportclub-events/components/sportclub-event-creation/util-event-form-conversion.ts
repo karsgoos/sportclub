@@ -104,9 +104,6 @@ export function fromFormToEvent(form:FormGroup, responsibles:Moderator[], enroll
   else{
     event.enrollments = [];
   }
-  // also add current user
-  let user = this.authService.getCurrentUser();
-  event.enrollments.push(user);
 
   // if a reminder email should be send, add the info for it in the object
   if(form.value.automaticReminderMailBoolean){
