@@ -55,7 +55,7 @@ public class EventApiController {
                     .minParticipants(event.getMinParticipants())
                     .maxParticipants(event.getMaxParticipants())
                     .points(event.getPoints())
-                    .links(new EventListInnerLinks().self("http://sportclub-events-staging.herokuapp.com/event/" + event.getId())),
+                    .links(new EventListInnerLinks().self("http://sportclub-events-staging.herokuapp.com/event/" + event.getUuid())),
                 HttpStatus.OK);
     }
 
@@ -67,6 +67,8 @@ public class EventApiController {
         input.setNrOfChildren(enrollData.getAmountChildren());
         service.attendEvent(input);
 
+
+        System.out.println("<--------------- Enrolled!!! --------------->");
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
@@ -113,7 +115,7 @@ public class EventApiController {
                     .name(event.getName())
                     .startDate(event.getStartDate().format(DateTimeFormatter.ISO_DATE).toString())
                     .links(
-                            new EventListInnerLinks().self("http://sportclub-events-staging.herokuapp.com/event/" + event.getId())
+                            new EventListInnerLinks().self("http://sportclub-events-staging.herokuapp.com/event/" + event.getUuid())
                     )
             );
         }

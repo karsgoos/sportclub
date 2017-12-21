@@ -217,7 +217,7 @@
             "type": "string",
             "format": "date"
           },
-          "isOpen": {
+          "deadline": {
             "type": "boolean"
           },
           "_links": {
@@ -249,8 +249,8 @@
           "type": "string",
           "format": "date"
         },
-        "is-open": {
-          "type": "boolean"
+        "deadline": {
+          "type": "string"
         },
         "price-adult": {
           "type": "number"
@@ -295,8 +295,8 @@
           "type": "string",
           "format": "date"
         },
-        "is-open": {
-          "type": "boolean"
+        "deadline": {
+          "type": "string"
         },
         "price-adult": {
           "type": "number"
@@ -318,10 +318,6 @@
     "enrollData": {
       "type": "object",
       "properties": {
-        "user-uuid": {
-          "type": "string",
-          "format": "uuid"
-        },
         "amountChildren": {
           "type": "integer"
         },

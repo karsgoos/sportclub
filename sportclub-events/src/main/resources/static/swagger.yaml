@@ -167,8 +167,8 @@ definitions:
       end-date:
         type: string
         format: date
-      is-open:
-        type: boolean
+      deadline:
+        type: string
       price-adult:
         type: number
       price-child:
@@ -198,8 +198,8 @@ definitions:
       end-date:
         type: string
         format: date
-      is-open:
-        type: boolean
+      deadline:
+        type: string
       price-adult:
         type: number
       price-child:
@@ -213,9 +213,6 @@ definitions:
   enrollData:
     type: object
     properties:
-      user-uuid:
-        type: string
-        format: uuid
       amountChildren:
         type: integer
       amountAdults:

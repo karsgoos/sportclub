@@ -15,35 +15,12 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-12-20T13:53:37.870Z")
 
 public class EnrollData   {
-  @JsonProperty("user-uuid")
-  private UUID userUuid = null;
 
   @JsonProperty("amountChildren")
   private Integer amountChildren = null;
 
   @JsonProperty("amountAdults")
   private Integer amountAdults = null;
-
-  public EnrollData userUuid(UUID userUuid) {
-    this.userUuid = userUuid;
-    return this;
-  }
-
-   /**
-   * Get userUuid
-   * @return userUuid
-  **/
-  @ApiModelProperty(value = "")
-
-  @Valid
-
-  public UUID getUserUuid() {
-    return userUuid;
-  }
-
-  public void setUserUuid(UUID userUuid) {
-    this.userUuid = userUuid;
-  }
 
   public EnrollData amountChildren(Integer amountChildren) {
     this.amountChildren = amountChildren;
@@ -95,22 +72,20 @@ public class EnrollData   {
       return false;
     }
     EnrollData enrollData = (EnrollData) o;
-    return Objects.equals(this.userUuid, enrollData.userUuid) &&
-        Objects.equals(this.amountChildren, enrollData.amountChildren) &&
+    return Objects.equals(this.amountChildren, enrollData.amountChildren) &&
         Objects.equals(this.amountAdults, enrollData.amountAdults);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(userUuid, amountChildren, amountAdults);
+    return Objects.hash(amountChildren, amountAdults);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class EnrollData {\n");
-    
-    sb.append("    userUuid: ").append(toIndentedString(userUuid)).append("\n");
+
     sb.append("    amountChildren: ").append(toIndentedString(amountChildren)).append("\n");
     sb.append("    amountAdults: ").append(toIndentedString(amountAdults)).append("\n");
     sb.append("}");
