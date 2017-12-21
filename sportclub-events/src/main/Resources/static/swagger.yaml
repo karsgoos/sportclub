@@ -1,0 +1,222 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: EventsApi
+paths:
+  /event:
+    get:
+      summary: returns a list of events
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Succesful operation
+          schema:
+            $ref: '#/definitions/eventList'
+    post:
+      summary: adds an event
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: eventData
+          in: body
+          description: event data
+          required: true
+          schema:
+            $ref: '#/definitions/eventData'
+      responses:
+        '200':
+          description: Succesfully added an event
+          schema:
+            $ref: '#/definitions/eventDetails'
+        '400':
+          description: Incorrect input
+        '403':
+          description: Not allowed to add an event
+        '500':
+          description: Internal server error
+  '/event/{eventId}':
+    get:
+      summary: evet info
+      description: Get the event description
+      produces:
+        - application/json
+      parameters:
+        - name: eventId
+          in: path
+          description: The event id
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Get event info
+          schema:
+            $ref: '#/definitions/eventDetails'
+        '500':
+          description: Internal server error
+    post:
+      summary: enroll event
+      description: Enroll to an event
+      consumes:
+        - application/json
+      parameters:
+        - name: eventId
+          in: path
+          description: The event id
+          required: true
+          type: string
+          format: uuid
+        - name: enrollData
+          in: body
+          description: event data
+          required: true
+          schema:
+            $ref: '#/definitions/enrollData'
+      responses:
+        '200':
+          description: Enrolled to event
+        '400':
+          description: Incorrect input
+        '403':
+          description: Not allowed to enroll to this event
+        '500':
+          description: Internal server error
+    put:
+      summary: change event
+      description: change the corresponding event
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: eventId
+          in: path
+          description: The event id
+          required: true
+          type: string
+          format: uuid
+        - name: eventData
+          in: body
+          description: event data
+          required: true
+          schema:
+            $ref: '#/definitions/eventData'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/eventDetails'
+        '400':
+          description: Incorrect input
+        '403':
+          description: Not allowed to change this event
+        '500':
+          description: Internal server error
+    delete:
+      summary: delete event
+      description: deletes the corresponding event
+      parameters:
+        - name: eventId
+          in: path
+          description: The event id
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+        '403':
+          description: Not allowed to delete this event
+        '500':
+          description: Internal server error
+definitions:
+  eventList:
+    type: array
+    items:
+      type: object
+      properties:
+        name:
+          type: string
+        start-date:
+          type: string
+          format: date
+        end-date:
+          type: string
+          format: date
+        deadline:
+          type: boolean
+        _links:
+          type: object
+          properties:
+            self:
+              type: string
+              format: uri
+  eventDetails:
+    type: object
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      start-date:
+        type: string
+        format: date
+      end-date:
+        type: string
+        format: date
+      is-open:
+        type: boolean
+      price-adult:
+        type: number
+      price-child:
+        type: number
+      min-participants:
+        type: integer
+      max-participants:
+        type: integer
+      points:
+        type: integer
+      _links:
+        type: object
+        properties:
+          self:
+            type: string
+            format: uri
+  eventData:
+    type: object
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      start-date:
+        type: string
+        format: date
+      end-date:
+        type: string
+        format: date
+      is-open:
+        type: boolean
+      price-adult:
+        type: number
+      price-child:
+        type: number
+      min-participants:
+        type: integer
+      max-participants:
+        type: integer
+      points:
+        type: integer
+  enrollData:
+    type: object
+    properties:
+      user-uuid:
+        type: string
+        format: uuid
+      amountChildren:
+        type: integer
+      amountAdults:
+        type: integer

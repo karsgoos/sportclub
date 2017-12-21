@@ -1,4 +1,4 @@
-package com.realdolmen.sportclub.events;
+package com.realdolmen.sportclub;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

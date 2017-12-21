@@ -6,13 +6,13 @@ import com.realdolmen.sportclub.events.DTO.AttendEventDTO;
 import com.realdolmen.sportclub.events.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
 import java.util.Collection;
 
-@RestController
-@RequestMapping(value = "api/events")
+@Component
 public class EventController {
 
     @Autowired
@@ -21,14 +21,14 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(method = RequestMethod.GET)
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    @RequestMapping(method = RequestMethod.GET)
     public Collection<Event> getEvents() {
         return eventRepository.findAll();
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public ResponseEntity<Event> getEvent(@PathVariable Long id) {
         Event event = eventRepository.findOne(id);
         if (event == null)
@@ -36,8 +36,8 @@ public class EventController {
         return ResponseEntity.ok(event);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(method = RequestMethod.POST, value = "/attend")
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    @RequestMapping(method = RequestMethod.POST, value = "/attend")
     public ResponseEntity attendEvent(@RequestBody AttendEventDTO dto) {
         Event e = eventRepository.findOne(Long.parseLong(dto.getEventId()));
         if (e == null)
