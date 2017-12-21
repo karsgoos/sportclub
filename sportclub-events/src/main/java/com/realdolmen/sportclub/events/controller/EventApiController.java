@@ -65,7 +65,7 @@ public class EventApiController {
         input.setNrOfAdults(enrollData.getAmountAdults());
         input.setNrOfChildren(enrollData.getAmountChildren());
         service.attendEvent(input);
-        
+
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
