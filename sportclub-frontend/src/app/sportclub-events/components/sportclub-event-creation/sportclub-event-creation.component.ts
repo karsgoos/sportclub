@@ -13,6 +13,8 @@ import {backendDateToDay, backendDateToTime, dateToPickerString, timeToPickerStr
 import {checkGlobalValidation, markElementsAsDirty, setLocalValidators} from "./util-validation";
 import {fromFormToEvent} from "./util-event-form-conversion";
 import {DateAdapter} from "@angular/material/core"
+import {AuthenticationService} from "../../../login/services/authentication.service";
+import {User} from "../../../common/user";
 
 declare var $: any;
 
@@ -49,7 +51,8 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
               private router: Router,
               private eventService: SportClubEventService,
               private fb: FormBuilder,
-              private adapter: DateAdapter<any>) {
+              private adapter: DateAdapter<any>,
+              private authService: AuthenticationService) {
   }
 
   ngAfterViewInit(): void {
@@ -79,7 +82,6 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
   loadForm() {
     // create the formgroup
     this.createForm();
-
     // if we are updating an event, we want the form to contain the previous values as a default.
     this.eventService.getCreationEvent(this.eventId).subscribe(event => {
       this.event.id = event.id;
@@ -234,7 +236,7 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
     else {
       //save the event
       // first create the object to be send to the backend
-      this.event = fromFormToEvent(this.eventForm, this.responsibles, this.enrollments, this.recurringEventId);
+      this.event = fromFormToEvent(this.eventForm, this.responsibles, this.enrollments, this.recurringEventId, this.authService);
       // if we are updating
       if (this.eventId) {
         this.event.id = this.eventId;
@@ -297,16 +299,23 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
   /*
   return all of the moderators to show them in a dropdown menu
    */
-  getAllModerators():Moderator[]{
+  //getAllModerators():User[]{
     // TODO: make this call method from some userservice
     // for now this simply generates some mock data to show something in the form.
-    let mockedModerators=[{"firstName":"John", "lastName":"Doe", "id":1},{"firstName":"Robb", "lastName":"Stark", "id":2}];
-    return mockedModerators;
-  }
+/*
+    let user:User = {"_firstName":"John", "_lastName":"Doe", "_id":1, "_email":"joh_doe@hotmail.com", "_totalPoints":"0", "_role":"moderator", "_enrollments":[]}
+
+    let mockedModerators=[{"_firstName":"John", "_lastName":"Doe", "_id":1, "_email":"joh_doe@hotmail.com", "_total_points":"0", "_role":"moderator", "_enrollments":[]},
+              {"_firstName":"Robb", "_lastName":"Stark", "_id":2, "_email":"joh_doe@hotmail.com", "_total_points":"0", "_role":"moderator", "_enrollments":[]}];
+
+
+
+    return mockedModerators;*/
+  //}
 
   /*
   get one of the moderators by its id
-   */
+   *//*
   getModeratorById(id:number):Moderator{
     // TODO: make this call method from some userservice
     // for now this simply generates some mock data to show something in the form.
@@ -317,14 +326,15 @@ export class SportclubEventCreationComponent implements OnInit,  AfterViewInit{
       }
     }
   }
-
+*/
   /*
   add the moderator that is currently clicked to a list of responsibles
    */
+  /*
   addResponsibleModerator(){
     this.responsibles.push(this.getModeratorById(this.responsible_id));
   }
-
+*/
   /*
   clear the temporarily saved list of moderators
    */

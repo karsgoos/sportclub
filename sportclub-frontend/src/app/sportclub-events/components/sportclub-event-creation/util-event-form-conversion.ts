@@ -4,11 +4,12 @@ import {Address} from "../../model/address";
 import {Moderator} from "../../model/moderator";
 import {EnrollmentTemp} from "../../model/enrollment-temp";
 import {convertDateStringNew} from "./util-dateconverter";
+import {AuthenticationService} from "../../../login/services/authentication.service";
 
 /*
  A function to create an event that can be send to the api, by the values that were retrieved in the form
   */
-export function fromFormToEvent(form:FormGroup, responsibles:Moderator[], enrollments: EnrollmentTemp[], recurringEventId:number):SportClubCreationEvent{
+export function fromFormToEvent(form:FormGroup, responsibles:Moderator[], enrollments: EnrollmentTemp[], recurringEventId:number, authService:AuthenticationService):SportClubCreationEvent{
 
   let event:SportClubCreationEvent = {};
   let addr: Address = {};
@@ -103,6 +104,9 @@ export function fromFormToEvent(form:FormGroup, responsibles:Moderator[], enroll
   else{
     event.enrollments = [];
   }
+  // also add current user
+  let user = this.authService.getCurrentUser();
+  event.enrollments.push(user);
 
   // if a reminder email should be send, add the info for it in the object
   if(form.value.automaticReminderMailBoolean){
